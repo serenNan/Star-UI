@@ -1,0 +1,384 @@
+/* ===================================
+   Star-UI 宇宙主题样式
+   =================================== */
+
+/* ===== 全局变量 ===== */
+:root {
+  /* 宇宙主题配色 */
+  --space-black: #0a0e27;
+  --space-dark: #1a1d3a;
+  --space-blue: #2d3561;
+  --cosmic-purple: #6366f1;
+  --cosmic-pink: #ec4899;
+  --star-white: #ffffff;
+  --star-gray: #94a3b8;
+
+  /* 渐变 */
+  --gradient-space: linear-gradient(135deg, var(--space-black) 0%, var(--space-blue) 100%);
+  --gradient-cosmic: linear-gradient(135deg, var(--cosmic-purple) 0%, var(--cosmic-pink) 100%);
+
+  /* 间距 */
+  --section-padding: 6rem 0;
+  --container-max-width: 1200px;
+
+  /* 动画时长 */
+  --transition-speed: 0.3s;
+}
+
+/* ===== 全局样式 ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--space-black);
+  color: var(--star-white);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* ===== 导航栏样式 ===== */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: rgba(10, 14, 39, 0.8);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all var(--transition-speed);
+}
+
+.navbar-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+}
+
+.navbar-logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: var(--gradient-cosmic);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.navbar-menu {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.navbar-menu a {
+  color: var(--star-gray);
+  text-decoration: none;
+  transition: color var(--transition-speed);
+  position: relative;
+}
+
+.navbar-menu a:hover {
+  color: var(--star-white);
+}
+
+.navbar-menu a::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--gradient-cosmic);
+  transition: width var(--transition-speed);
+}
+
+.navbar-menu a:hover::after {
+  width: 100%;
+}
+
+.navbar-actions {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+/* ===== 按钮样式 ===== */
+.btn {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all var(--transition-speed);
+  cursor: pointer;
+  border: none;
+  display: inline-block;
+}
+
+.btn-primary {
+  background: var(--gradient-cosmic);
+  color: var(--star-white);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
+}
+
+.btn-outline {
+  background: transparent;
+  border: 1px solid var(--star-gray);
+  color: var(--star-white);
+}
+
+.btn-outline:hover {
+  border-color: var(--star-white);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+/* ===== Hero Banner ===== */
+.hero {
+  height: 100vh;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.3;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, transparent 0%, var(--space-black) 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  max-width: 800px;
+  padding: 0 2rem;
+}
+
+.hero-title {
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  background: linear-gradient(135deg, var(--star-white) 0%, var(--cosmic-purple) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  color: var(--star-gray);
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.hero-cta {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-10px);
+  }
+}
+
+.scroll-indicator svg {
+  width: 30px;
+  height: 30px;
+  stroke: var(--star-gray);
+}
+
+/* ===== 通用区块样式 ===== */
+.section {
+  padding: var(--section-padding);
+  position: relative;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.section-title {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.section-subtitle {
+  font-size: 1.125rem;
+  color: var(--star-gray);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ===== 星空背景效果 ===== */
+.stars-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.stars-bg::before,
+.stars-bg::after {
+  content: '';
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: white;
+  border-radius: 50%;
+  animation: twinkle 3s infinite;
+}
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* ===== 响应式设计 ===== */
+@media (max-width: 991px) {
+  :root {
+    --section-padding: 4rem 0;
+  }
+
+  .navbar-menu {
+    display: none;
+  }
+
+  .section-title {
+    font-size: 2.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  :root {
+    --section-padding: 3rem 0;
+  }
+
+  .container {
+    padding: 0 1.5rem;
+  }
+
+  .hero-cta {
+    flex-direction: column;
+  }
+
+  .btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .section-title {
+    font-size: 2rem;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 479px) {
+  :root {
+    --section-padding: 2.5rem 0;
+  }
+
+  .navbar-content {
+    padding: 1rem;
+  }
+
+  .container {
+    padding: 0 1rem;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+  }
+}
+
+/* ===== 移动端触摸优化 ===== */
+@media (hover: none) and (pointer: coarse) {
+  /* 移动设备上增大可点击区域 */
+  .btn {
+    min-height: 48px;
+    padding: 1rem 1.5rem;
+  }
+
+  .navbar-menu a {
+    padding: 1rem 0;
+  }
+
+  .faq-question {
+    padding: 1.25rem;
+  }
+
+  /* 移动端禁用某些悬浮效果 */
+  .feature-card:hover {
+    transform: none;
+  }
+
+  .gallery-item:hover {
+    transform: none;
+  }
+
+  /* 移动端视频默认显示缩略图 */
+  .gallery-item .gallery-overlay {
+    transform: translateY(0);
+  }
+}
