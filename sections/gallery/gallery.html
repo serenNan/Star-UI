@@ -1,0 +1,230 @@
+<!-- ===== Product Gallery Module ===== -->
+<style>
+/* Gallery Section Styles */
+.gallery-section {
+  padding: var(--spacing-3xl) 0;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: var(--spacing-2xl);
+}
+
+.section-title {
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+.product-gallery {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-md);
+}
+
+.gallery-item {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform var(--transition);
+}
+
+.gallery-item:hover {
+  transform: scale(1.02);
+}
+
+.gallery-large {
+  grid-row: span 2;
+  aspect-ratio: 1/2;
+}
+
+.gallery-wide {
+  grid-column: span 2;
+  aspect-ratio: 2/1;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity var(--transition);
+}
+
+.gallery-item video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.gallery-item:hover video {
+  opacity: 1;
+}
+
+.gallery-item:hover img {
+  opacity: 0;
+}
+
+.gallery-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--spacing-lg);
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.gallery-item:hover .gallery-overlay {
+  opacity: 1;
+}
+
+.gallery-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+.gallery-subtitle {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 991px) {
+  .product-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .product-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-large,
+  .gallery-wide {
+    grid-column: auto;
+    grid-row: auto;
+    aspect-ratio: 1;
+  }
+}
+</style>
+
+<section class="gallery-section">
+  <div class="section-header">
+    <h2 class="section-title">Explore Creative Possibilities</h2>
+  </div>
+
+  <div class="product-gallery">
+    <div class="gallery-item" data-hover-video>
+      <img src="sections/gallery/gallery-1.svg" alt="AI Generated Video 1">
+      <video loop muted playsinline>
+        <source src="sections/gallery/gallery-1.mp4" type="video/mp4">
+      </video>
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Space Journey</h3>
+        <p class="gallery-subtitle">AI Animation</p>
+      </div>
+    </div>
+
+    <div class="gallery-item gallery-large" data-hover-video>
+      <img src="sections/gallery/gallery-2.svg" alt="AI Generated Video 2">
+      <video loop muted playsinline>
+        <source src="sections/gallery/gallery-2.mp4" type="video/mp4">
+      </video>
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Cosmic Dreams</h3>
+        <p class="gallery-subtitle">Visual Effects</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-hover-video>
+      <img src="sections/gallery/gallery-3.svg" alt="AI Generated Video 3">
+      <video loop muted playsinline>
+        <source src="sections/gallery/gallery-3.mp4" type="video/mp4">
+      </video>
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Stellar View</h3>
+        <p class="gallery-subtitle">AI Creation</p>
+      </div>
+    </div>
+
+    <div class="gallery-item gallery-wide" data-hover-video>
+      <img src="sections/gallery/gallery-4.svg" alt="AI Generated Video 4">
+      <video loop muted playsinline>
+        <source src="sections/gallery/gallery-4.mp4" type="video/mp4">
+      </video>
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Lunar Eclipse</h3>
+        <p class="gallery-subtitle">Time-lapse</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-hover-video>
+      <img src="sections/gallery/gallery-5.svg" alt="AI Generated Video 5">
+      <video loop muted playsinline>
+        <source src="sections/gallery/gallery-5.mp4" type="video/mp4">
+      </video>
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Astronaut's View</h3>
+        <p class="gallery-subtitle">POV Camera</p>
+      </div>
+    </div>
+
+    <div class="gallery-item" data-hover-video>
+      <img src="sections/gallery/gallery-6.svg" alt="AI Generated Video 6">
+      <video loop muted playsinline>
+        <source src="sections/gallery/gallery-6.mp4" type="video/mp4">
+      </video>
+      <div class="gallery-overlay">
+        <h3 class="gallery-title">Nebula Colors</h3>
+        <p class="gallery-subtitle">Digital Art</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Gallery Section Script - Video Hover Effect
+(function() {
+  'use strict';
+
+  const initGalleryVideoHover = () => {
+    // Only target videos within gallery section
+    const galleryVideoItems = document.querySelectorAll('.gallery-section [data-hover-video]');
+
+    galleryVideoItems.forEach(item => {
+      const video = item.querySelector('video');
+      if (!video) return;
+
+      item.addEventListener('mouseenter', () => {
+        video.play().catch(err => console.log('Video play failed:', err));
+      });
+
+      item.addEventListener('mouseleave', () => {
+        video.pause();
+        video.currentTime = 0;
+      });
+    });
+  };
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initGalleryVideoHover);
+  } else {
+    initGalleryVideoHover();
+  }
+})();
+</script>

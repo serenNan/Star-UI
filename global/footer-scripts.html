@@ -1,0 +1,53 @@
+  <!-- Global Scripts -->
+  <script src="js/webflow.js"></script>
+
+  <!-- Global Initialization -->
+  <script>
+    // Utility: Throttle function
+    function throttle(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    // Initialize Lenis Smooth Scroll
+    if (typeof Lenis !== 'undefined') {
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smooth: true,
+      });
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+
+      requestAnimationFrame(raf);
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const targetId = this.getAttribute('href');
+          if (targetId !== '#') {
+            e.preventDefault();
+            const target = document.querySelector(targetId);
+            if (target) {
+              lenis.scrollTo(target, { offset: -80 });
+            }
+          }
+        });
+      });
+    }
+
+    console.log('✅ Star-UI Initialized');
+  </script>
+
+</body>
+</html>

@@ -21,27 +21,44 @@ Star-UI 是一个现代化的 AI 视频创作平台落地页（TreClip），采�
 
 ```
 Star-UI/
-├── index.html               # 主落地页
+├── index.html               # ✨ 自动生成的完整页面（不要手动编辑！）
+├── index.old.html           # 旧版备份文件
+├── sections/                # 📦 模块化组件
+│   ├── navigation.html      # 导航栏（HTML + CSS + JS）
+│   ├── hero.html            # 主横幅（HTML + CSS + JS）
+│   ├── gallery.html         # 产品画廊（HTML + CSS + JS）
+│   ├── stats.html           # 数据统计（HTML + CSS）
+│   ├── features.html        # 功能特性（HTML + CSS + JS）
+│   ├── cta.html             # 行动号召（HTML + CSS）
+│   └── footer.html          # 页脚（HTML + CSS）
+├── global/                  # 🌍 全局资源
+│   ├── head.html            # 全局头部（meta、CSS 引用）
+│   ├── footer-scripts.html  # 全局脚本（Lenis、工具函数）
+│   └── global.css           # 全局样式（变量、重置、工具类）
 ├── css/
 │   ├── normalize.css        # CSS 重置
 │   ├── webflow.css          # Webflow 基础样式
-│   ├── treclip.css          # TreClip 原始样式（参考）
-│   └── star-ui.css          # ⭐ 主要样式文件（宇宙主题）
+│   ├── treclip.css          # ✅ 主要样式文件
+│   └── star-ui.css.backup   # 已废弃（旧版样式）
 ├── js/
 │   ├── webflow.js           # Webflow 交互库
-│   └── star-ui.js           # ⭐ 主要交互逻辑
+│   └── star-ui.js.backup    # 已废弃（逻辑已拆分到各模块）
 ├── assets/
-│   ├── images/              # 图片资源（logo、缩略图等）
-│   ├── videos/              # 视频资源（悬浮播放）
-│   └── fonts/               # 字体文件（如需自定义）
-├── 要求/
-│   └── 要求.md              # 原始需求文档
-├── README.md                # 项目说明和资源清单
-├── ASSETS-CHECKLIST.md      # 资源准备检查清单
-└── start-server.sh          # 本地服务器启动脚本
+│   ├── images/              # 图片资源
+│   ├── videos/              # 视频资源
+│   └── fonts/               # 字体文件
+├── build.py                 # 🔨 构建脚本
+├── build.config.json        # ⚙️ 构建配置
+├── start-dev.sh             # 🚀 开发启动脚本
+├── 要求/                    # 原始需求文档
+├── README.md                # 项目说明
+└── ASSETS-CHECKLIST.md      # 资源清单
 ```
 
-**注意**：`要求/TreClip/` 目录包含旧版代码（含 Supabase 集成），当前实际使用的是根目录文件。
+**重要说明**：
+- ✨ `index.html` 是自动生成的，修改它没有意义！
+- 📦 开发时编辑 `sections/` 目录下的模块文件
+- 🔨 修改后运行 `python3 build.py` 重新生成 `index.html`
 
 ## 核心技术栈
 
@@ -53,47 +70,171 @@ Star-UI/
 
 ## 开发工作流
 
+### 模块化开发（⭐ 重要）
+
+**项目采用模块化架构**：每个展示区的 HTML、CSS、JavaScript 都在同一个文件中。
+
+#### 快速开发流程
+
+```bash
+# 1. 启动开发服务器（自动构建 + 启动服务器）
+./start-dev.sh
+
+# 2. 编辑某个模块（例如修改 Hero 区域）
+vim sections/hero.html
+
+# 3. 重新构建
+python3 build.py
+
+# 4. 刷新浏览器查看效果
+# 访问 http://localhost:8000
+```
+
+#### 构建系统说明
+
+**build.py** - 自动将模块文件合并成完整的 `index.html`
+
+```bash
+# 运行构建
+python3 build.py
+
+# 构建输出示例：
+# 🔨 Building Star-UI...
+#   ✅ navigation
+#   ✅ hero
+#   ✅ gallery
+#   ... (其他模块)
+# ✅ Build complete!
+```
+
+**build.config.json** - 定义模块加载顺序
+
+```json
+{
+  "sections": [
+    "navigation",  // 导航栏
+    "hero",        // 主横幅
+    "gallery",     // 产品画廊
+    "stats",       // 统计数据
+    "features",    // 功能特性
+    "cta",         // 行动号召
+    "footer"       // 页脚
+  ]
+}
+```
+
+### 修改现有模块
+
+每个模块文件包含 3 部分：
+
+```html
+<!-- sections/hero.html 示例 -->
+
+<!-- 1. CSS 样式 -->
+<style>
+.hero { ... }
+.hero-container { ... }
+</style>
+
+<!-- 2. HTML 结构 -->
+<section class="hero">
+  ...
+</section>
+
+<!-- 3. JavaScript 逻辑（如需要）-->
+<script>
+(function() {
+  // 模块独立的 JS 代码
+})();
+</script>
+```
+
+**修改步骤**：
+1. 编辑 `sections/模块名.html`
+2. 运行 `python3 build.py`
+3. 刷新浏览器
+
+### 添加新模块
+
+```bash
+# 1. 创建新模块文件
+cat > sections/new-section.html << 'EOF'
+<style>
+.new-section { ... }
+</style>
+
+<section class="new-section">
+  <!-- HTML 结构 -->
+</section>
+
+<script>
+// JavaScript（如需要）
+</script>
+EOF
+
+# 2. 添加到构建配置
+# 编辑 build.config.json，在 sections 数组中添加 "new-section"
+
+# 3. 重新构建
+python3 build.py
+```
+
+### 调整模块顺序
+
+只需编辑 `build.config.json`，调整 `sections` 数组的顺序：
+
+```json
+{
+  "sections": [
+    "navigation",
+    "stats",      // 移到前面
+    "hero",
+    "gallery",
+    "features",
+    "cta",
+    "footer"
+  ]
+}
+```
+
+### 修改全局样式
+
+**全局 CSS 变量**：编辑 `global/global.css`
+
+```css
+:root {
+  --color-bg: #0D0D0D;           /* 主背景色 */
+  --color-text: #FFFFFF;         /* 文字颜色 */
+  --color-accent: #FF3366;       /* 强调色 */
+  --container-width: 1400px;     /* 容器宽度 */
+  --nav-height: 80px;            /* 导航栏高度 */
+}
+```
+
+**通用工具类**：也在 `global/global.css` 中添加
+
+```css
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+```
+
 ### 本地开发服务器
 
 ```bash
-# 方式 1：使用启动脚本（推荐）
-./start-server.sh
+# 方式 1：使用开发脚本（推荐，自动构建）
+./start-dev.sh
 
-# 方式 2：Python HTTP 服务器
-python3 -m http.server 8000
-
-# 方式 3：npx serve
-npx serve
+# 方式 2：手动构建 + 启动服务器
+python3 build.py && python3 -m http.server 8000
 
 # 访问地址
 http://localhost:8000
 ```
 
-**重要**：必须使用 HTTP 服务器，不要直接用 `file://` 打开 HTML，否则视频自动播放会失效。
-
-### 修改样式
-
-主要样式文件：`css/star-ui.css`
-
-```css
-/* 修改配色 */
-:root {
-  --space-black: #0a0e27;      /* 主背景色 */
-  --cosmic-purple: #6366f1;    /* 主题紫色 */
-  --cosmic-pink: #ec4899;      /* 强调粉色 */
-  --star-white: #ffffff;       /* 白色文字 */
-}
-```
-
-### 修改交互逻辑
-
-主要脚本文件：`js/star-ui.js`
-
-核心功能：
-- `initSmoothScroll()` - Lenis 平滑滚动
-- `initScrollAnimations()` - 滚动触发动画
-- `initVideoHoverEffects()` - 视频悬浮播放
-- `initMobileMenu()` - 移动端菜单
+**重要**：必须使用 HTTP 服务器，不要直接用 `file://` 打开 HTML。
 
 ### 测试响应式
 
@@ -102,42 +243,58 @@ http://localhost:8000
 F12 → Toggle Device Toolbar (Ctrl+Shift+M)
 
 # 测试断点
-- Desktop: 1200px+
-- Tablet: 992px - 1199px
+- Desktop: ≥ 992px
+- Tablet: 768px - 991px
 - Mobile: < 768px
 ```
 
 ## 代码组织原则
 
-### 模块化开发（严格遵守）
+### 模块化架构（✅ 已实现）
 
-**每个功能模块的 HTML、CSS、JavaScript 必须就近放置**，便于后续移动和维护。
+**每个展示区的 HTML、CSS、JavaScript 都放在同一个文件中**，实现了真正的模块化。
 
-**推荐结构示例**：
+**实际结构**：
+
+```
+sections/
+├── navigation.html    # 导航栏（所有代码在此）
+├── hero.html          # Hero 区（所有代码在此）
+├── gallery.html       # 画廊区（所有代码在此）
+...
+```
+
+**模块文件格式**：
 
 ```html
-<!-- ===== 导航栏模块 ===== -->
-<nav class="navbar">
-  <!-- HTML 结构 -->
-  <div class="navbar-content">...</div>
-</nav>
-
+<!-- sections/hero.html -->
 <style>
-  /* 导航栏专用样式 */
-  .navbar { ... }
-  .navbar-content { ... }
+/* 仅包含 Hero 区的样式 */
+.hero { ... }
+.hero-container { ... }
+/* 响应式样式 */
+@media (max-width: 991px) { ... }
 </style>
 
+<section class="hero">
+  <!-- Hero 区的 HTML 结构 -->
+  <div class="hero-container">...</div>
+</section>
+
 <script>
-  // 导航栏交互逻辑
-  document.querySelector('.navbar')...
+// Hero 区的交互逻辑（用 IIFE 包裹）
+(function() {
+  'use strict';
+  // 视频悬浮播放等逻辑
+})();
 </script>
 ```
 
-**当前实现**：
-- HTML 结构：`index.html` 中按模块注释分隔
-- CSS 样式：统一在 `css/star-ui.css`（可考虑模块化拆分）
-- JavaScript：统一在 `js/star-ui.js`（已按功能函数分离）
+**优势**：
+- ✅ **完全独立**：每个模块包含所有相关代码
+- ✅ **易于移动**：调整 `build.config.json` 即可改变顺序
+- ✅ **便于维护**：修改某个区块不影响其他部分
+- ✅ **无需工具**：使用简单的 Python 脚本即可构建
 
 ### 视频处理规范
 
@@ -176,24 +333,69 @@ F12 → Toggle Device Toolbar (Ctrl+Shift+M)
 - 禁用某些悬浮效果（使用 `@media (hover: none)`）
 - 触摸友好的交互设计
 
-## 页面结构说明
+## 模块列表
 
-### 当前页面
+### 7 个核心模块
 
-| 文件名 | 用途 | 状态 |
-|--------|------|------|
-| `index.html` | 主落地页 | ✅ 活跃 |
+| 模块 | 文件 | 功能说明 | 交互 |
+|------|------|---------|------|
+| **Navigation** | `sections/navigation.html` | 固定顶部导航栏，包含 Logo、菜单、登录/注册按钮 | ✅ 移动菜单、滚动效果 |
+| **Hero** | `sections/hero.html` | 主横幅区，包含大标题、画廊、右侧特色面板 | ✅ 视频悬浮播放 |
+| **Gallery** | `sections/gallery.html` | 产品展示画廊（6 个视频卡片，网格布局） | ✅ 视频悬浮播放 |
+| **Stats** | `sections/stats.html` | 数据统计展示（4 个统计项：300K 用户等） | 无 |
+| **Features** | `sections/features.html` | 功能特性介绍（6 个功能卡片） | ✅ 滚动动画 |
+| **CTA** | `sections/cta.html` | 行动号召区（标题 + 按钮） | 无 |
+| **Footer** | `sections/footer.html` | 页脚（品牌信息 + 5 列链接 + 版权） | 无 |
 
-### 页面组成部分（index.html）
+### 模块详细说明
 
-1. **Navigation** - 固定顶部导航栏
-2. **Hero Section** - 主横幅区（标题 + 图片画廊）
-3. **Hero Right Panel** - 右侧信息面板（特色视频）
-4. **Product Gallery** - 产品展示画廊（6 个视频卡片）
-5. **Stats Section** - 数据统计区（300K 用户等）
-6. **Features Section** - 功能特性区（6 个功能卡片）
-7. **CTA Section** - 行动号召区
-8. **Footer** - 页脚（品牌/链接/社交媒体）
+#### 1. Navigation（导航栏）
+- **位置**：固定在页面顶部
+- **内容**：Logo、5 个菜单项、Sign in/Sign up 按钮
+- **交互**：
+  - 移动端显示汉堡菜单
+  - 滚动超过 100px 后背景加深
+- **响应式**：991px 以下隐藏菜单，显示汉堡按钮
+
+#### 2. Hero（主横幅）
+- **布局**：三栏（左侧内容 + 中间画廊 + 右侧面板）
+- **内容**：
+  - 左侧：标题"AI SHORT-FORM VIDEOS, DESIGNED LIKE ART"、副标题、CTA 按钮
+  - 中间：3 个视频卡片（垂直排列）
+  - 右侧：特色视频、创作工具标签
+- **交互**：所有视频支持悬浮播放
+- **响应式**：991px 以下单列布局
+
+#### 3. Gallery（产品画廊）
+- **布局**：CSS Grid 3 列，支持跨行/跨列
+- **内容**：6 个视频卡片，包含标题和副标题叠加层
+- **交互**：悬浮显示叠加层，视频自动播放
+- **响应式**：991px 以下 2 列，767px 以下 1 列
+
+#### 4. Stats（统计数据）
+- **布局**：4 列网格
+- **内容**：4 个统计项（用户数、视频数、满意度、国家数）
+- **样式**：大号数字 + 灰色标签
+- **响应式**：991px 以下 2 列，767px 以下 1 列
+
+#### 5. Features（功能特性）
+- **布局**：2 列网格
+- **内容**：6 个功能卡片，每个包含图片、标题、描述、链接
+- **交互**：滚动进入视口时触发淡入动画
+- **响应式**：767px 以下 1 列
+
+#### 6. CTA（行动号召）
+- **内容**：标题、副标题、2 个按钮（主按钮 + 次按钮）
+- **样式**：居中对齐，渐变边框背景
+- **响应式**：按钮在移动端堆叠
+
+#### 7. Footer（页脚）
+- **布局**：5 列（品牌 + 4 个链接列）
+- **内容**：
+  - 品牌信息、社交链接
+  - Product、Resources、Company、Legal 链接列
+  - 底部版权和法律链接
+- **响应式**：991px 以下 2 列，767px 以下 1 列
 
 ## 资源管理
 
@@ -396,5 +598,5 @@ git push origin main
 4. **国际化**：支持多语言切换（中文/英文）
 5. **深色/浅色模式切换**：添加主题切换器
 6. **分析追踪**：集成 Google Analytics 或 Plausible
-- 本项目的界面语言要全英
-- 本项目的界面语言要全英
+- 本项目的界面语言要全英，注释可中文
+- 回答我请使用中文回答，只是网站展示界面是英文，注释也使用中文

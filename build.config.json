@@ -1,0 +1,13 @@
+{
+  "sections": [
+    "navigation",
+    "hero",
+    "gallery",
+    "stats",
+    "features",
+    "cta",
+    "footer"
+  ],
+  "output": "index.html",
+  "description": "Star-UI Build Configuration - Define section loading order"
+}
