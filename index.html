@@ -287,7 +287,7 @@
 .banner {
   position: relative;
   min-height: 100vh;
-  background-image: url('sections/banner/astronaut-main.jpg');
+  background-image: url('sections/banner/1.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -296,19 +296,19 @@
   overflow: hidden;
 }
 
-/* 深色渐变遮罩层 - 确保文字可读 */
-.banner::after {
+/* 深色渐变遮罩层 - 已移除 */
+/* .banner::after {
   content: '';
   position: absolute;
   inset: 0;
   background: linear-gradient(
     to right,
-    rgba(0, 0, 0, 0.75) 0%,
-    rgba(0, 0, 0, 0.4) 50%,
-    rgba(0, 0, 0, 0.6) 100%
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0.15) 100%
   );
   z-index: 0;
-}
+} */
 
 /* 星空背景效果 */
 .banner::before {
@@ -632,7 +632,7 @@
         <!-- 背景切换卡片 1 -->
         <div class="video-card-wrapper">
           <div class="video-card active" data-bg-index="0">
-            <img src="sections/gallery/gallery-1.jpg" alt="AI SCROLL Background">
+            <img src="sections/banner/1.png" alt="AI SCROLL Background">
           </div>
           <div class="card-title">AI SCROLL</div>
         </div>
@@ -640,7 +640,7 @@
         <!-- 背景切换卡片 2 -->
         <div class="video-card-wrapper">
           <div class="video-card" data-bg-index="1">
-            <img src="sections/gallery/gallery-2.jpg" alt="AI SCROLL Background">
+            <img src="sections/banner/2.jpg" alt="AI SCROLL Background">
           </div>
           <div class="card-title">AI SCROLL</div>
         </div>
@@ -648,7 +648,7 @@
         <!-- 背景切换卡片 3 -->
         <div class="video-card-wrapper">
           <div class="video-card" data-bg-index="2">
-            <img src="sections/gallery/gallery-3.jpg" alt="AI SCROLL Background">
+            <img src="sections/banner/3.png" alt="AI SCROLL Background">
           </div>
           <div class="card-title">AI SCROLL</div>
         </div>
@@ -656,7 +656,7 @@
         <!-- 背景切换卡片 4 -->
         <div class="video-card-wrapper">
           <div class="video-card" data-bg-index="3">
-            <img src="sections/gallery/gallery-4.jpg" alt="AI SCROLL Background">
+            <img src="sections/banner/4.png" alt="AI SCROLL Background">
           </div>
           <div class="card-title">AI SCROLL</div>
         </div>
@@ -664,7 +664,7 @@
         <!-- 背景切换卡片 5 -->
         <div class="video-card-wrapper">
           <div class="video-card" data-bg-index="4">
-            <img src="sections/gallery/gallery-5.jpg" alt="AI SCROLL Background">
+            <img src="sections/banner/5.png" alt="AI SCROLL Background">
           </div>
           <div class="card-title">AI SCROLL</div>
         </div>
@@ -680,11 +680,11 @@
 
   // 背景图片数组（对应5个卡片）
   const backgrounds = [
-    'sections/banner/astronaut-main.jpg',  // Features
-    'sections/gallery/gallery-2.jpg',       // Solutions
-    'sections/gallery/gallery-3.jpg',       // Resources
-    'sections/gallery/gallery-4.jpg',       // Pricing
-    'sections/gallery/gallery-5.jpg'        // AI Studio
+    'sections/banner/1.png',  // 卡片 1
+    'sections/banner/2.jpg',  // 卡片 2
+    'sections/banner/3.png',  // 卡片 3
+    'sections/banner/4.png',  // 卡片 4
+    'sections/banner/5.png'   // 卡片 5
   ];
 
   // 获取 Banner 元素和所有背景切换卡片
