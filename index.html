@@ -37,7 +37,7 @@
   width: 100%;
   height: var(--nav-height);
   background: transparent; /* 完全透明，不遮挡背景 */
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* 淡化边框 */
+  border-bottom: none; /* 去除边框线 */
   z-index: 1000;
   transition: all var(--transition);
 }
@@ -55,16 +55,24 @@
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-between; /* Logo+Menu 靠左，Actions 靠右 */
+}
+
+/* 左侧区域：Logo + Menu */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 2rem; /* Logo 和菜单之间的间距 */
 }
 
 .nav-logo .logo-img {
-  height: 32px;
+  height: 96px; /* 原来 32px 的三倍 */
+  /* 使用透明背景 PNG，不需要混合模式 */
 }
 
 .nav-menu {
   display: flex;
-  gap: var(--spacing-xl);
+  gap: 4rem; /* 菜单项之间的间距加大 */
 }
 
 .nav-menu a {
@@ -141,7 +149,7 @@
 
 /* Mobile Responsive */
 @media (max-width: 991px) {
-  .nav-menu,
+  .nav-left .nav-menu,
   .nav-actions {
     display: none;
   }
@@ -170,30 +178,35 @@
   }
 
   .nav-logo .logo-img {
-    height: 28px;
+    height: 64px; /* 移动端也相应调整 */
   }
 }
 </style>
 
 <nav class="navbar">
   <div class="nav-container">
-    <div class="nav-logo">
-      <img src="sections/banner/logo.jpg" alt="TreClip" class="logo-img">
+    <!-- 左侧区域：Logo + 导航菜单 -->
+    <div class="nav-left">
+      <div class="nav-logo">
+        <img src="sections/navigation/logo.png" alt="TreClip" class="logo-img">
+      </div>
+
+      <ul class="nav-menu">
+        <li><a href="#features">Features</a></li>
+        <li><a href="#solutions">Solutions</a></li>
+        <li><a href="#resources">Resources</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#ai-studio">AI Studio</a></li>
+      </ul>
     </div>
 
-    <ul class="nav-menu">
-      <li><a href="#features">Features</a></li>
-      <li><a href="#solutions">Solutions</a></li>
-      <li><a href="#resources">Resources</a></li>
-      <li><a href="#pricing">Pricing</a></li>
-      <li><a href="#ai-studio">AI Studio</a></li>
-    </ul>
-
+    <!-- 右侧区域：登录/注册按钮 -->
     <div class="nav-actions">
       <a href="#" class="btn-text">Sign in</a>
       <a href="#" class="btn-primary">Sign up</a>
     </div>
 
+    <!-- 移动端菜单按钮 -->
     <button type="button" class="mobile-menu-toggle" aria-label="Toggle menu">
       <span></span>
       <span></span>
@@ -423,7 +436,7 @@
 .video-cards-container {
   position: absolute;
   right: 3rem; /* 与容器边距保持一致 */
-  top: calc(var(--nav-height) + 30rem); /* 改为 top 定位，不受内容高度影响 */
+  top: calc(var(--nav-height) + 32rem); /* 改为 top 定位，不受内容高度影响 */
   z-index: 3;
 }
 
@@ -442,14 +455,20 @@
   flex-shrink: 0; /* 防止收缩 */
 }
 
-/* 卡片标题（显示在卡片上方）*/
+/* 卡片标题（显示在卡片下方）*/
 .card-title {
   font-size: 0.75rem;
   font-weight: 600;
   color: var(--color-text);
-  text-align: center;
+  text-align: left; /* 左侧对齐 */
   letter-spacing: 0.05em;
   white-space: nowrap;
+  order: 2; /* 标题排在后面 */
+}
+
+/* 卡片主体 */
+.video-card {
+  order: 1; /* 卡片排在前面 */
 }
 
 /* 背景切换卡片 - 更长的高度 */
@@ -610,44 +629,44 @@
     <!-- 右下角背景切换卡片 - 水平排列不换行 -->
     <div class="video-cards-container">
       <div class="video-cards-grid">
-        <!-- 背景切换卡片 1 - Features -->
+        <!-- 背景切换卡片 1 -->
         <div class="video-card-wrapper">
-          <div class="card-title">Features</div>
           <div class="video-card active" data-bg-index="0">
-            <img src="sections/gallery/gallery-1.jpg" alt="Features Background">
+            <img src="sections/gallery/gallery-1.jpg" alt="AI SCROLL Background">
           </div>
+          <div class="card-title">AI SCROLL</div>
         </div>
 
-        <!-- 背景切换卡片 2 - Solutions -->
+        <!-- 背景切换卡片 2 -->
         <div class="video-card-wrapper">
-          <div class="card-title">Solutions</div>
           <div class="video-card" data-bg-index="1">
-            <img src="sections/gallery/gallery-2.jpg" alt="Solutions Background">
+            <img src="sections/gallery/gallery-2.jpg" alt="AI SCROLL Background">
           </div>
+          <div class="card-title">AI SCROLL</div>
         </div>
 
-        <!-- 背景切换卡片 3 - Resources -->
+        <!-- 背景切换卡片 3 -->
         <div class="video-card-wrapper">
-          <div class="card-title">Resources</div>
           <div class="video-card" data-bg-index="2">
-            <img src="sections/gallery/gallery-3.jpg" alt="Resources Background">
+            <img src="sections/gallery/gallery-3.jpg" alt="AI SCROLL Background">
           </div>
+          <div class="card-title">AI SCROLL</div>
         </div>
 
-        <!-- 背景切换卡片 4 - Pricing -->
+        <!-- 背景切换卡片 4 -->
         <div class="video-card-wrapper">
-          <div class="card-title">Pricing</div>
           <div class="video-card" data-bg-index="3">
-            <img src="sections/gallery/gallery-4.jpg" alt="Pricing Background">
+            <img src="sections/gallery/gallery-4.jpg" alt="AI SCROLL Background">
           </div>
+          <div class="card-title">AI SCROLL</div>
         </div>
 
-        <!-- 背景切换卡片 5 - AI Studio -->
+        <!-- 背景切换卡片 5 -->
         <div class="video-card-wrapper">
-          <div class="card-title">AI Studio</div>
           <div class="video-card" data-bg-index="4">
-            <img src="sections/gallery/gallery-5.jpg" alt="AI Studio Background">
+            <img src="sections/gallery/gallery-5.jpg" alt="AI SCROLL Background">
           </div>
+          <div class="card-title">AI SCROLL</div>
         </div>
       </div>
     </div>
