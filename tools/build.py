@@ -12,9 +12,9 @@ def build():
     print("")
 
     # Read configuration
-    config_file = Path('build.config.json')
+    config_file = Path('tools/build.config.json')
     if not config_file.exists():
-        print("❌ Error: build.config.json not found!")
+        print("❌ Error: tools/build.config.json not found!")
         return False
 
     with open(config_file, 'r', encoding='utf-8') as f:

@@ -7,7 +7,7 @@ echo ""
 
 # Build the project
 echo "🔨 Building index.html..."
-python3 build.py
+python3 tools/build.py
 
 if [ $? -ne 0 ]; then
     echo ""
