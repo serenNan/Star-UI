@@ -260,343 +260,475 @@
 </script>
 
 
-  <!-- ===== HERO SECTION ===== -->
-<!-- ===== Hero Section Module ===== -->
+  <!-- ===== BANNER SECTION ===== -->
+<!-- ================================
+     Banner 区域 - 宇航员全屏背景设计
+     ================================ -->
+
 <style>
-/* Hero Section Styles */
-.hero {
+/* ================================
+   Banner 专属样式
+   ================================ */
+
+/* 1. 基础布局 - 宇航员全屏背景 */
+.banner {
+  position: relative;
   min-height: 100vh;
+  background-image: url('sections/banner/astronaut-main.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
   padding-top: calc(var(--nav-height) + var(--spacing-3xl));
   padding-bottom: var(--spacing-3xl);
+  overflow: hidden;
 }
 
-.hero-container {
+/* 深色渐变遮罩层 - 确保文字可读 */
+.banner::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.4) 50%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+  z-index: 0;
+}
+
+/* 星空背景效果 */
+.banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(2px 2px at 20% 30%, white, transparent),
+    radial-gradient(2px 2px at 60% 70%, white, transparent),
+    radial-gradient(1px 1px at 50% 50%, white, transparent),
+    radial-gradient(2px 2px at 80% 10%, white, transparent),
+    radial-gradient(1px 1px at 30% 80%, white, transparent);
+  background-size: 200px 200px;
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.banner-container {
+  position: relative;
   max-width: var(--container-width);
   margin: 0 auto;
   padding: 0 var(--spacing-lg);
-  display: grid;
-  grid-template-columns: 1fr 300px 400px;
+  height: 100%;
+  z-index: 2;
+}
+
+/* 2. 左侧内容区 */
+.banner-left {
+  position: relative;
+  display: flex;
+  flex-direction: column;
   gap: var(--spacing-xl);
-  align-items: start;
-}
-
-.hero-content {
   max-width: 600px;
+  z-index: 3;
 }
 
-.hero-badge {
+.banner-badge {
   display: inline-flex;
   align-items: center;
-  gap: var(--spacing-xs);
-  padding: 0.5rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--color-border);
-  border-radius: 20px;
-  margin-bottom: var(--spacing-lg);
-  font-size: 14px;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50px;
+  font-size: 0.875rem;
   color: var(--color-text-secondary);
+  width: fit-content;
+  backdrop-filter: blur(10px);
 }
 
-.hero-title {
-  font-size: clamp(3rem, 6vw, 5rem);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  margin-bottom: var(--spacing-md);
-}
-
-.hero-subtitle {
-  font-size: 14px;
-  color: var(--color-text-secondary);
-  letter-spacing: 0.05em;
-  margin-bottom: var(--spacing-xl);
-  line-height: 1.8;
-}
-
-.btn-hero-primary {
-  display: inline-block;
-  padding: 1rem 2rem;
-  background: var(--color-text);
-  color: var(--color-bg);
-  border-radius: 8px;
-  font-weight: 600;
-  transition: all var(--transition);
-}
-
-.btn-hero-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
-}
-
-/* Hero Gallery */
-.hero-gallery {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md);
-}
-
-.hero-image-item {
-  position: relative;
-  aspect-ratio: 3/4;
-  border-radius: 12px;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-.hero-image-item img {
-  width: 100%;
-  height: 100%;
+.banner-badge img {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
   object-fit: cover;
-  transition: opacity var(--transition);
 }
 
-.hero-image-item video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity var(--transition);
-}
-
-.hero-image-item:hover video {
-  opacity: 1;
-}
-
-.hero-image-item:hover img {
-  opacity: 0;
-}
-
-/* Hero Right Panel */
-.hero-right-panel {
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
-  padding: var(--spacing-lg);
-}
-
-.panel-title {
-  font-size: 1.5rem;
+.banner-title {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
   font-weight: 700;
-  margin-bottom: var(--spacing-sm);
+  line-height: 1.1;
+  color: var(--color-text);
+  margin: 0;
+  letter-spacing: -0.02em;
 }
 
-.panel-description {
-  color: var(--color-text-secondary);
-  font-size: 14px;
+.banner-subtitle {
+  font-size: clamp(0.875rem, 1.5vw, 1rem);
   line-height: 1.6;
-  margin-bottom: var(--spacing-md);
+  color: var(--color-text-secondary);
+  margin: 0;
+  max-width: 500px;
 }
 
-.btn-panel {
-  display: block;
-  width: 100%;
-  padding: 0.875rem;
-  background: var(--color-text);
-  color: var(--color-bg);
-  border-radius: 8px;
+/* Start Creating 按钮 - 白色背景 + 黑色文字 */
+.btn-start {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md) var(--spacing-xl);
+  background: white;
+  color: black;
+  font-size: 1rem;
   font-weight: 600;
-  text-align: center;
-  margin-bottom: var(--spacing-lg);
+  border-radius: 50px;
+  text-decoration: none;
+  width: fit-content;
   transition: all var(--transition);
-}
-
-.btn-panel:hover {
-  transform: translateY(-2px);
-}
-
-.panel-featured-video {
-  position: relative;
-  aspect-ratio: 16/9;
-  border-radius: 12px;
-  overflow: hidden;
-  margin-bottom: var(--spacing-lg);
-  cursor: pointer;
-}
-
-.panel-featured-video img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity var(--transition);
-}
-
-.panel-featured-video video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity var(--transition);
-}
-
-.panel-featured-video:hover video {
-  opacity: 1;
-}
-
-.panel-featured-video:hover img {
-  opacity: 0;
-}
-
-.video-play-btn {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: none;
   border: none;
   cursor: pointer;
-  transition: transform var(--transition);
-  pointer-events: none;
 }
 
-.video-play-btn:hover {
-  transform: translate(-50%, -50%) scale(1.1);
+.btn-start:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
 }
 
-.panel-tools {
+/* 3. 右上角描述区 */
+.banner-right {
+  position: absolute;
+  top: calc(var(--nav-height) + var(--spacing-3xl));
+  right: var(--spacing-lg);
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  z-index: 3;
+}
+
+/* 描述文本框 - 灰色半透明背景 */
+.description-text {
+  font-size: 0.875rem;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+  margin: 0;
+  padding: var(--spacing-md);
+  background: rgba(100, 100, 100, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(20px);
+}
+
+.tools-tags {
   display: flex;
   flex-direction: column;
   gap: var(--spacing-sm);
 }
 
-.tool-item {
+.tools-tags span {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  padding-left: var(--spacing-xs);
+}
+
+/* 4. 右下角视频卡片区 - 水平排列不换行 */
+.video-cards-container {
+  position: absolute;
+  right: var(--spacing-lg);
+  bottom: var(--spacing-lg);
+  z-index: 3;
+}
+
+.video-cards-grid {
   display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm);
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 8px;
-  font-size: 12px;
+  gap: 0.5rem;
+  flex-wrap: nowrap; /* 禁止换行 */
+}
+
+.video-card {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--color-bg-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: transform var(--transition);
+  flex-shrink: 0; /* 防止卡片收缩 */
+}
+
+.video-card:hover {
+  transform: translateY(-4px);
+}
+
+.card-tag {
+  position: absolute;
+  top: var(--spacing-sm);
+  left: var(--spacing-sm);
+  padding: 4px 10px;
+  background: rgba(0, 0, 0, 0.8);
+  color: var(--color-text);
+  font-size: 0.625rem;
   font-weight: 600;
   letter-spacing: 0.05em;
+  border-radius: 20px;
+  z-index: 2;
+  backdrop-filter: blur(10px);
 }
 
-/* Responsive */
-@media (max-width: 1200px) {
-  .hero-container {
-    grid-template-columns: 1fr 250px;
-    gap: var(--spacing-lg);
-  }
-
-  .hero-right-panel {
-    grid-column: 1 / -1;
-    max-width: 400px;
-    justify-self: end;
-  }
+.video-card img,
+.video-card video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
 }
 
+.video-card img {
+  opacity: 1;
+  z-index: 1;
+}
+
+.video-card video {
+  opacity: 0;
+  z-index: 0;
+}
+
+.video-card:hover img {
+  opacity: 0;
+}
+
+.video-card:hover video {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* 5. 响应式样式 */
+
+/* 平板端 (768px - 991px) */
 @media (max-width: 991px) {
-  .hero-container {
-    grid-template-columns: 1fr;
+  .banner {
+    padding-top: calc(var(--nav-height) + var(--spacing-2xl));
+    padding-bottom: var(--spacing-2xl);
+    background-position: center right;
   }
 
-  .hero-gallery {
-    flex-direction: row;
-    overflow-x: auto;
+  .banner-left {
+    max-width: 500px;
   }
 
-  .hero-right-panel {
+  .banner-right {
+    position: relative;
+    top: 0;
+    right: 0;
     max-width: 100%;
+    margin-top: var(--spacing-2xl);
+  }
+
+  .video-cards-container {
+    position: relative;
+    right: 0;
+    bottom: 0;
+    margin-top: var(--spacing-2xl);
+  }
+
+  .video-cards-grid {
+    overflow-x: auto;
+    padding-bottom: var(--spacing-sm);
   }
 }
 
+/* 移动端 (< 768px) */
 @media (max-width: 767px) {
-  .hero {
+  .banner {
     padding-top: calc(var(--nav-height) + var(--spacing-xl));
+    min-height: auto;
+  }
+
+  .banner-title {
+    font-size: 2rem;
+  }
+
+  .banner-subtitle {
+    font-size: 0.875rem;
+  }
+
+  .description-text {
+    font-size: 0.8rem;
+    line-height: 1.6;
+  }
+
+  .tools-tags span {
+    font-size: 0.7rem;
+  }
+
+  .video-card {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+/* 小屏手机 (< 480px) */
+@media (max-width: 479px) {
+  .banner-container {
+    padding: 0 var(--spacing-md);
+  }
+
+  .banner-title {
+    font-size: 1.75rem;
+  }
+
+  .btn-start {
+    width: 100%;
+    text-align: center;
+  }
+
+  .video-card {
+    width: 80px;
+    height: 80px;
   }
 }
 </style>
 
-<section class="hero">
-  <div class="hero-container">
-    <div class="hero-content">
-      <div class="hero-badge">
-        <span>✨ AI-Powered Video Creation</span>
+<!-- HTML 结构 -->
+<section class="banner">
+  <div class="banner-container">
+    <!-- 左侧内容区 -->
+    <div class="banner-left">
+      <div class="banner-badge">
+        <img src="images/logo.jpg" alt="TreClip Logo">
+        ✨ AI-Powered Video Creation
       </div>
-      <h1 class="hero-title">Create stunning videos with AI</h1>
-      <p class="hero-subtitle">
-        Transform your ideas into professional short-form videos in minutes.
-        No editing skills required. Just imagination.
+
+      <h1 class="banner-title">
+        AI SCROLL-STOPPING VIDEOS,<br>
+        DESIGNED LIKE ART
+      </h1>
+
+      <p class="banner-subtitle">
+        SCROLL-STOPPING VIDEO CONTENT — REFINED, CONSISTENT, AND BUILT TO AMPLIFY YOUR BRAND IDENTITY.
       </p>
-      <a href="#" class="btn-hero-primary">Get Started Free</a>
+
+      <a href="#" class="btn-start">Start Creating</a>
     </div>
 
-    <div class="hero-gallery">
-      <div class="hero-image-item" data-hover-video>
-        <img src="sections/hero/hero-1.jpg" alt="AI Video Creation">
-        <video loop muted playsinline>
-          <source src="sections/hero/hero-1.mp4" type="video/mp4">
-        </video>
-      </div>
-      <div class="hero-image-item" data-hover-video>
-        <img src="sections/hero/hero-2.jpg" alt="Creative Videos">
-        <video loop muted playsinline>
-          <source src="sections/hero/hero-2.mp4" type="video/mp4">
-        </video>
+    <!-- 右上角描述区 -->
+    <div class="banner-right">
+      <p class="description-text">
+        A cinematic 4K video of a lone astronaut walking slowly across the surface of the moon under deep space darkness. The camera orbits gently, capturing the texture of the dusty lunar ground and the intricate folds of the astronaut's spacesuit, while soft glimmer across the helmet visor. Soft hues from earth lurking the scene, creating a quiet, otherworldly atmosphere. The astronaut pauses and the vast silence of space.
+      </p>
+
+      <div class="tools-tags">
+        <span>▪ Adobe Premiere Pro</span>
+        <span>▪ After Effects</span>
+        <span>▪ DaVinci Resolve</span>
+        <span>▪ Final Cut Pro</span>
       </div>
     </div>
 
-    <div class="hero-right-panel">
-      <h3 class="panel-title">Featured Creation</h3>
-      <p class="panel-description">See what's possible with TreClip AI</p>
-      <a href="#" class="btn-panel">Try Now</a>
-
-      <div class="panel-featured-video" data-hover-video>
-        <img src="sections/hero/featured-video.jpg" alt="Featured Video">
-        <video loop muted playsinline>
-          <source src="sections/hero/featured.mp4" type="video/mp4">
-        </video>
-      </div>
-
-      <div class="panel-tools">
-        <div class="tool-item">
-          <span>🎬 VIDEO EDITOR</span>
+    <!-- 右下角视频卡片 - 水平排列不换行 -->
+    <div class="video-cards-container">
+      <div class="video-cards-grid">
+        <!-- 视频卡片 1 -->
+        <div class="video-card" data-hover-video>
+          <span class="card-tag">AI SCROLL</span>
+          <img src="sections/gallery/gallery-1.jpg" alt="Video Preview 1">
+          <video muted loop playsinline>
+            <source src="sections/gallery/gallery-1.mp4" type="video/mp4">
+          </video>
         </div>
-        <div class="tool-item">
-          <span>🎨 AI EFFECTS</span>
+
+        <!-- 视频卡片 2 -->
+        <div class="video-card" data-hover-video>
+          <span class="card-tag">AI SCROLL</span>
+          <img src="sections/gallery/gallery-2.jpg" alt="Video Preview 2">
+          <video muted loop playsinline>
+            <source src="sections/gallery/gallery-2.mp4" type="video/mp4">
+          </video>
         </div>
-        <div class="tool-item">
-          <span>🚀 INSTANT EXPORT</span>
+
+        <!-- 视频卡片 3 -->
+        <div class="video-card" data-hover-video>
+          <span class="card-tag">AI SCROLL</span>
+          <img src="sections/gallery/gallery-3.jpg" alt="Video Preview 3">
+          <video muted loop playsinline>
+            <source src="sections/gallery/gallery-3.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- 视频卡片 4 -->
+        <div class="video-card" data-hover-video>
+          <span class="card-tag">AI SCROLL</span>
+          <img src="sections/gallery/gallery-4.jpg" alt="Video Preview 4">
+          <video muted loop playsinline>
+            <source src="sections/gallery/gallery-4.mp4" type="video/mp4">
+          </video>
+        </div>
+
+        <!-- 视频卡片 5 -->
+        <div class="video-card" data-hover-video>
+          <span class="card-tag">AI SCROLL</span>
+          <img src="sections/gallery/gallery-5.jpg" alt="Video Preview 5">
+          <video muted loop playsinline>
+            <source src="sections/gallery/gallery-5.mp4" type="video/mp4">
+          </video>
         </div>
       </div>
     </div>
   </div>
 </section>
 
+<!-- JavaScript 交互逻辑 -->
 <script>
-// Hero Section Script - Video Hover Effect
 (function() {
   'use strict';
 
-  const initHeroVideoHover = () => {
-    // Only target videos within hero section
-    const heroVideoItems = document.querySelectorAll('.hero [data-hover-video]');
+  // 视频悬浮播放功能
+  const videoCards = document.querySelectorAll('.banner [data-hover-video]');
 
-    heroVideoItems.forEach(item => {
-      const video = item.querySelector('video');
-      if (!video) return;
+  videoCards.forEach(card => {
+    const video = card.querySelector('video');
+    const thumbnail = card.querySelector('img:not(.card-tag)');
 
-      item.addEventListener('mouseenter', () => {
-        video.play().catch(err => console.log('Video play failed:', err));
-      });
+    if (!video || !thumbnail) return;
 
-      item.addEventListener('mouseleave', () => {
-        video.pause();
-        video.currentTime = 0;
+    // 鼠标悬浮：图片淡出，视频播放
+    card.addEventListener('mouseenter', () => {
+      video.play().catch(err => {
+        console.log('Video play failed:', err);
       });
     });
-  };
 
-  // Initialize on DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initHeroVideoHover);
-  } else {
-    initHeroVideoHover();
+    // 鼠标离开：视频暂停并重置，图片淡入
+    card.addEventListener('mouseleave', () => {
+      video.pause();
+      video.currentTime = 0;
+    });
+  });
+
+  // 移动端触摸支持
+  if ('ontouchstart' in window) {
+    videoCards.forEach(card => {
+      const video = card.querySelector('video');
+
+      card.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+
+        if (video.paused) {
+          video.play().catch(err => console.log('Video play failed:', err));
+        } else {
+          video.pause();
+          video.currentTime = 0;
+        }
+      });
+    });
   }
 })();
 </script>
