@@ -36,22 +36,22 @@
   left: 0;
   width: 100%;
   height: var(--nav-height);
-  background: rgba(13, 13, 13, 0.8);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid var(--color-border);
+  background: transparent; /* 完全透明，不遮挡背景 */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* 淡化边框 */
   z-index: 1000;
   transition: all var(--transition);
 }
 
 .navbar.scrolled {
-  background: rgba(13, 13, 13, 0.95);
+  background: rgba(13, 13, 13, 0.95); /* 滚动后添加背景 */
+  backdrop-filter: blur(10px); /* 滚动后才添加毛玻璃效果 */
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
 .nav-container {
-  max-width: var(--container-width);
+  max-width: 100%; /* 使用全宽 */
   margin: 0 auto;
-  padding: 0 var(--spacing-lg);
+  padding: 0 3rem; /* 与 Banner 容器保持一致 */
   height: 100%;
   display: flex;
   align-items: center;
@@ -178,7 +178,7 @@
 <nav class="navbar">
   <div class="nav-container">
     <div class="nav-logo">
-      <img src="sections/navigation/logo.jpg" alt="TreClip" class="logo-img">
+      <img src="sections/banner/logo.jpg" alt="TreClip" class="logo-img">
     </div>
 
     <ul class="nav-menu">
@@ -270,7 +270,7 @@
    Banner 专属样式
    ================================ */
 
-/* 1. 基础布局 - 宇航员全屏背景 */
+/* 1. 基础布局 - 宇航员全屏背景（延伸到导航栏上方）*/
 .banner {
   position: relative;
   min-height: 100vh;
@@ -278,8 +278,8 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  padding-top: calc(var(--nav-height) + var(--spacing-3xl));
-  padding-bottom: var(--spacing-3xl);
+  padding-top: calc(var(--nav-height) + var(--spacing-lg)); /* 减小顶部内边距 */
+  padding-bottom: var(--spacing-2xl); /* 减小底部内边距 */
   overflow: hidden;
 }
 
@@ -319,9 +319,9 @@
 
 .banner-container {
   position: relative;
-  max-width: var(--container-width);
+  max-width: 100%; /* 使用全宽，不限制容器宽度 */
   margin: 0 auto;
-  padding: 0 var(--spacing-lg);
+  padding: 0 3rem; /* 减小左右内边距 */
   height: 100%;
   z-index: 2;
 }
@@ -331,39 +331,21 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-xl);
-  max-width: 600px;
+  gap: var(--spacing-md); /* 减小内部间距 */
+  max-width: 550px; /* 减小最大宽度 */
+  margin-left: 1rem; /* 增加左边距，距离左边更远 */
   z-index: 3;
 }
 
-.banner-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  padding: var(--spacing-sm) var(--spacing-md);
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 50px;
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  width: fit-content;
-  backdrop-filter: blur(10px);
-}
-
-.banner-badge img {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
 .banner-title {
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-size: clamp(1.75rem, 3.5vw, 3rem); /* 减小字体：从 2.5-4.5rem 改为 2-3.5rem */
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.2; /* 设置行高 */
   color: var(--color-text);
   margin: 0;
+  margin-bottom: var(--spacing-xs); /* 减小与下方元素的间距：从 lg 改为 md */
   letter-spacing: -0.02em;
+  max-width: 700px; /* 限制最大宽度，确保保持两行 */
 }
 
 .banner-subtitle {
@@ -371,6 +353,7 @@
   line-height: 1.6;
   color: var(--color-text-secondary);
   margin: 0;
+  margin-bottom: var(--spacing-xs); /* 减小与按钮之间的间距：从 lg 改为 md */
   max-width: 500px;
 }
 
@@ -379,12 +362,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-md) var(--spacing-xl);
+  padding: var(--spacing-sm) var(--spacing-md);
   background: white;
   color: black;
   font-size: 1rem;
   font-weight: 600;
-  border-radius: 50px;
+  border-radius: 10px;
   text-decoration: none;
   width: fit-content;
   transition: all var(--transition);
@@ -395,31 +378,33 @@
 .btn-start:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.95);
 }
 
 /* 3. 右上角描述区 */
 .banner-right {
   position: absolute;
-  top: calc(var(--nav-height) + var(--spacing-3xl));
-  right: var(--spacing-lg);
-  max-width: 350px;
+  top: calc(var(--nav-height) + 16rem); /* 大幅向下移动 */
+  right: 3rem; /* 与浏览器左边距保持一致 */
   display: flex;
   flex-direction: column;
-  gap: var(--spacing-lg);
+  gap: var(--spacing-md); /* 减小内部间距 */
   z-index: 3;
 }
 
-/* 描述文本框 - 灰色半透明背景 */
+/* 描述文本框 - 灰色背景 + 白色文字，与下方卡片容器等宽 */
 .description-text {
   font-size: 0.875rem;
   line-height: 1.8;
-  color: var(--color-text-secondary);
+  color: white; /* 白色文字 */
   margin: 0;
-  padding: var(--spacing-md);
-  background: rgba(100, 100, 100, 0.3);
+  padding: var(--spacing-lg) var(--spacing-xl); /* 增加左右内边距 */
+  background: rgba(24, 24, 24, 0.3); /* 灰色半透明背景 */
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(1px);
+  width: calc(120px * 5 + 0.75rem * 4); /* 精确匹配5个卡片的总宽度：120px * 5 + 间距 0.75rem * 4 */
+  box-sizing: border-box;
 }
 
 .tools-tags {
@@ -434,80 +419,68 @@
   padding-left: var(--spacing-xs);
 }
 
-/* 4. 右下角视频卡片区 - 水平排列不换行 */
+/* 4. 右下角背景切换卡片区 - 水平排列不换行 */
 .video-cards-container {
   position: absolute;
-  right: var(--spacing-lg);
-  bottom: var(--spacing-lg);
+  right: 3rem; /* 与容器边距保持一致 */
+  top: calc(var(--nav-height) + 30rem); /* 改为 top 定位，不受内容高度影响 */
   z-index: 3;
 }
 
 .video-cards-grid {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.75rem;
   flex-wrap: nowrap; /* 禁止换行 */
+  align-items: flex-end; /* 标题和卡片底部对齐 */
 }
 
+/* 单个卡片包装器（包含标题）*/
+.video-card-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-shrink: 0; /* 防止收缩 */
+}
+
+/* 卡片标题（显示在卡片上方）*/
+.card-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text);
+  text-align: center;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+/* 背景切换卡片 - 更长的高度 */
 .video-card {
   position: relative;
   width: 120px;
-  height: 120px;
+  height: 180px; /* 增加高度，更长 */
   border-radius: 12px;
   overflow: hidden;
   cursor: pointer;
   background: var(--color-bg-secondary);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: transform var(--transition);
-  flex-shrink: 0; /* 防止卡片收缩 */
+  border: 2px solid transparent; /* 默认透明边框 */
+  transition: all var(--transition);
+}
+
+/* 选中状态 - 白色边框 */
+.video-card.active {
+  border-color: white;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
 }
 
 .video-card:hover {
   transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.5);
 }
 
-.card-tag {
-  position: absolute;
-  top: var(--spacing-sm);
-  left: var(--spacing-sm);
-  padding: 4px 10px;
-  background: rgba(0, 0, 0, 0.8);
-  color: var(--color-text);
-  font-size: 0.625rem;
-  font-weight: 600;
-  letter-spacing: 0.05em;
-  border-radius: 20px;
-  z-index: 2;
-  backdrop-filter: blur(10px);
-}
-
-.video-card img,
-.video-card video {
-  position: absolute;
-  top: 0;
-  left: 0;
+/* 卡片图片 */
+.video-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: opacity 0.3s ease;
-}
-
-.video-card img {
-  opacity: 1;
-  z-index: 1;
-}
-
-.video-card video {
-  opacity: 0;
-  z-index: 0;
-}
-
-.video-card:hover img {
-  opacity: 0;
-}
-
-.video-card:hover video {
-  opacity: 1;
-  z-index: 1;
 }
 
 /* 5. 响应式样式 */
@@ -571,7 +544,11 @@
 
   .video-card {
     width: 100px;
-    height: 100px;
+    height: 150px; /* 保持更长的比例 */
+  }
+
+  .card-title {
+    font-size: 0.7rem;
   }
 }
 
@@ -592,7 +569,15 @@
 
   .video-card {
     width: 80px;
-    height: 80px;
+    height: 120px; /* 保持更长的比例 */
+  }
+
+  .card-title {
+    font-size: 0.65rem;
+  }
+
+  .description-text {
+    min-width: auto; /* 移动端取消最小宽度 */
   }
 }
 </style>
@@ -602,11 +587,6 @@
   <div class="banner-container">
     <!-- 左侧内容区 -->
     <div class="banner-left">
-      <div class="banner-badge">
-        <img src="images/logo.jpg" alt="TreClip Logo">
-        ✨ AI-Powered Video Creation
-      </div>
-
       <h1 class="banner-title">
         AI SCROLL-STOPPING VIDEOS,<br>
         DESIGNED LIKE ART
@@ -625,60 +605,49 @@
         A cinematic 4K video of a lone astronaut walking slowly across the surface of the moon under deep space darkness. The camera orbits gently, capturing the texture of the dusty lunar ground and the intricate folds of the astronaut's spacesuit, while soft glimmer across the helmet visor. Soft hues from earth lurking the scene, creating a quiet, otherworldly atmosphere. The astronaut pauses and the vast silence of space.
       </p>
 
-      <div class="tools-tags">
-        <span>▪ Adobe Premiere Pro</span>
-        <span>▪ After Effects</span>
-        <span>▪ DaVinci Resolve</span>
-        <span>▪ Final Cut Pro</span>
-      </div>
     </div>
 
-    <!-- 右下角视频卡片 - 水平排列不换行 -->
+    <!-- 右下角背景切换卡片 - 水平排列不换行 -->
     <div class="video-cards-container">
       <div class="video-cards-grid">
-        <!-- 视频卡片 1 -->
-        <div class="video-card" data-hover-video>
-          <span class="card-tag">AI SCROLL</span>
-          <img src="sections/gallery/gallery-1.jpg" alt="Video Preview 1">
-          <video muted loop playsinline>
-            <source src="sections/gallery/gallery-1.mp4" type="video/mp4">
-          </video>
+        <!-- 背景切换卡片 1 - Features -->
+        <div class="video-card-wrapper">
+          <div class="card-title">Features</div>
+          <div class="video-card active" data-bg-index="0">
+            <img src="sections/gallery/gallery-1.jpg" alt="Features Background">
+          </div>
         </div>
 
-        <!-- 视频卡片 2 -->
-        <div class="video-card" data-hover-video>
-          <span class="card-tag">AI SCROLL</span>
-          <img src="sections/gallery/gallery-2.jpg" alt="Video Preview 2">
-          <video muted loop playsinline>
-            <source src="sections/gallery/gallery-2.mp4" type="video/mp4">
-          </video>
+        <!-- 背景切换卡片 2 - Solutions -->
+        <div class="video-card-wrapper">
+          <div class="card-title">Solutions</div>
+          <div class="video-card" data-bg-index="1">
+            <img src="sections/gallery/gallery-2.jpg" alt="Solutions Background">
+          </div>
         </div>
 
-        <!-- 视频卡片 3 -->
-        <div class="video-card" data-hover-video>
-          <span class="card-tag">AI SCROLL</span>
-          <img src="sections/gallery/gallery-3.jpg" alt="Video Preview 3">
-          <video muted loop playsinline>
-            <source src="sections/gallery/gallery-3.mp4" type="video/mp4">
-          </video>
+        <!-- 背景切换卡片 3 - Resources -->
+        <div class="video-card-wrapper">
+          <div class="card-title">Resources</div>
+          <div class="video-card" data-bg-index="2">
+            <img src="sections/gallery/gallery-3.jpg" alt="Resources Background">
+          </div>
         </div>
 
-        <!-- 视频卡片 4 -->
-        <div class="video-card" data-hover-video>
-          <span class="card-tag">AI SCROLL</span>
-          <img src="sections/gallery/gallery-4.jpg" alt="Video Preview 4">
-          <video muted loop playsinline>
-            <source src="sections/gallery/gallery-4.mp4" type="video/mp4">
-          </video>
+        <!-- 背景切换卡片 4 - Pricing -->
+        <div class="video-card-wrapper">
+          <div class="card-title">Pricing</div>
+          <div class="video-card" data-bg-index="3">
+            <img src="sections/gallery/gallery-4.jpg" alt="Pricing Background">
+          </div>
         </div>
 
-        <!-- 视频卡片 5 -->
-        <div class="video-card" data-hover-video>
-          <span class="card-tag">AI SCROLL</span>
-          <img src="sections/gallery/gallery-5.jpg" alt="Video Preview 5">
-          <video muted loop playsinline>
-            <source src="sections/gallery/gallery-5.mp4" type="video/mp4">
-          </video>
+        <!-- 背景切换卡片 5 - AI Studio -->
+        <div class="video-card-wrapper">
+          <div class="card-title">AI Studio</div>
+          <div class="video-card" data-bg-index="4">
+            <img src="sections/gallery/gallery-5.jpg" alt="AI Studio Background">
+          </div>
         </div>
       </div>
     </div>
@@ -690,43 +659,56 @@
 (function() {
   'use strict';
 
-  // 视频悬浮播放功能
-  const videoCards = document.querySelectorAll('.banner [data-hover-video]');
+  // 背景图片数组（对应5个卡片）
+  const backgrounds = [
+    'sections/banner/astronaut-main.jpg',  // Features
+    'sections/gallery/gallery-2.jpg',       // Solutions
+    'sections/gallery/gallery-3.jpg',       // Resources
+    'sections/gallery/gallery-4.jpg',       // Pricing
+    'sections/gallery/gallery-5.jpg'        // AI Studio
+  ];
 
-  videoCards.forEach(card => {
-    const video = card.querySelector('video');
-    const thumbnail = card.querySelector('img:not(.card-tag)');
+  // 获取 Banner 元素和所有背景切换卡片
+  const banner = document.querySelector('.banner');
+  const bgCards = document.querySelectorAll('.banner .video-card[data-bg-index]');
 
-    if (!video || !thumbnail) return;
+  // 背景切换功能
+  bgCards.forEach((card) => {
+    card.addEventListener('click', function() {
+      const bgIndex = parseInt(this.getAttribute('data-bg-index'));
 
-    // 鼠标悬浮：图片淡出，视频播放
-    card.addEventListener('mouseenter', () => {
-      video.play().catch(err => {
-        console.log('Video play failed:', err);
-      });
+      // 切换背景图片
+      if (banner && backgrounds[bgIndex]) {
+        banner.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
+      }
+
+      // 移除所有卡片的 active 类
+      bgCards.forEach(c => c.classList.remove('active'));
+
+      // 添加 active 类到当前点击的卡片
+      this.classList.add('active');
     });
 
-    // 鼠标离开：视频暂停并重置，图片淡入
-    card.addEventListener('mouseleave', () => {
-      video.pause();
-      video.currentTime = 0;
+    // 悬浮效果（可选）
+    card.addEventListener('mouseenter', function() {
+      if (!this.classList.contains('active')) {
+        this.style.borderColor = 'rgba(255, 255, 255, 0.5)';
+      }
+    });
+
+    card.addEventListener('mouseleave', function() {
+      if (!this.classList.contains('active')) {
+        this.style.borderColor = 'transparent';
+      }
     });
   });
 
   // 移动端触摸支持
   if ('ontouchstart' in window) {
-    videoCards.forEach(card => {
-      const video = card.querySelector('video');
-
+    bgCards.forEach(card => {
       card.addEventListener('touchstart', (e) => {
-        e.preventDefault();
-
-        if (video.paused) {
-          video.play().catch(err => console.log('Video play failed:', err));
-        } else {
-          video.pause();
-          video.currentTime = 0;
-        }
+        // 触摸设备上也触发点击事件
+        card.click();
       });
     });
   }
