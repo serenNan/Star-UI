@@ -120,8 +120,8 @@
 
 /* 3. 右上角描述区 */
 .banner-right {
-  position: fixed; /* 相对于视口定位，保持与浏览器边缘的固定距离 */
-  bottom: calc(2rem + 120px + 4rem); /* 距离底部 = 卡片底部间距 + 卡片高度 + 间距 */
+  position: absolute; /* 相对于视口定位，保持与浏览器边缘的固定距离 */
+  bottom: calc(-22rem + 120px + 4rem); /* 距离底部 = 卡片底部间距 + 卡片高度 + 间距 */
   right: 3rem; /* 距离浏览器右边缘固定距离 */
   display: flex;
   flex-direction: column;
@@ -158,9 +158,9 @@
 
 /* 4. 右下角背景切换卡片区 - 水平排列不换行 */
 .video-cards-container {
-  position: fixed; /* 相对于视口定位，保持与浏览器边缘的固定距离 */
+  position: absolute; /* 相对于视口定位，保持与浏览器边缘的固定距离 */
   right: 3rem; /* 距离浏览器右边缘固定距离 */
-  bottom: 2rem; /* 距离浏览器底部固定距离 */
+  bottom: -22rem; /* 距离浏览器底部固定距离 */
   z-index: 3;
 }
 
