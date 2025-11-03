@@ -120,9 +120,9 @@
 
 /* 3. 右上角描述区 */
 .banner-right {
-  position: absolute;
-  top: calc(var(--nav-height) + 16rem); /* 大幅向下移动 */
-  right: 3rem; /* 与浏览器左边距保持一致 */
+  position: fixed; /* 相对于视口定位，保持与浏览器边缘的固定距离 */
+  bottom: calc(2rem + 120px + 4rem); /* 距离底部 = 卡片底部间距 + 卡片高度 + 间距 */
+  right: 3rem; /* 距离浏览器右边缘固定距离 */
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md); /* 减小内部间距 */
@@ -135,12 +135,12 @@
   line-height: 1.8;
   color: white; /* 白色文字 */
   margin: 0;
-  padding: var(--spacing-lg) var(--spacing-xl); /* 增加左右内边距 */
-  background: rgba(24, 24, 24, 0.3); /* 灰色半透明背景 */
+  padding: var(--spacing-md) var(--spacing-lg); /* 减小内边距 */
+  background: rgba(24, 24, 24, 0.5); /* 灰色半透明背景 */
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   backdrop-filter: blur(1px);
-  width: calc(120px * 5 + 0.75rem * 4); /* 精确匹配5个卡片的总宽度：120px * 5 + 间距 0.75rem * 4 */
+  width: calc(90px * 5 + 0.75rem * 4); /* 精确匹配5个卡片的总宽度：90px * 5 + 间距 0.75rem * 4 */
   box-sizing: border-box;
 }
 
@@ -158,9 +158,9 @@
 
 /* 4. 右下角背景切换卡片区 - 水平排列不换行 */
 .video-cards-container {
-  position: absolute;
-  right: 3rem; /* 与容器边距保持一致 */
-  top: calc(var(--nav-height) + 32rem); /* 改为 top 定位，不受内容高度影响 */
+  position: fixed; /* 相对于视口定位，保持与浏览器边缘的固定距离 */
+  right: 3rem; /* 距离浏览器右边缘固定距离 */
+  bottom: 2rem; /* 距离浏览器底部固定距离 */
   z-index: 3;
 }
 
@@ -198,25 +198,25 @@
 /* 背景切换卡片 - 更长的高度 */
 .video-card {
   position: relative;
-  width: 120px;
-  height: 180px; /* 增加高度，更长 */
-  border-radius: 12px;
+  width: 90px;
+  height: 120px; /* 调整高度，更紧凑 */
+  border-radius: 6px;
   overflow: hidden;
   cursor: pointer;
   background: var(--color-bg-secondary);
-  border: 2px solid transparent; /* 默认透明边框 */
+  border: 1px solid transparent; /* 默认透明边框 */
   transition: all var(--transition);
 }
 
-/* 选中状态 - 白色边框 */
+/* 选中状态 - 外围白色边框 */
 .video-card.active {
-  border-color: white;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  outline: 1px solid white;
+  outline-offset: 1.5px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
 }
 
 .video-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.5);
 }
 
 /* 卡片图片 */
@@ -345,7 +345,7 @@
     <!-- 右上角描述区 -->
     <div class="banner-right">
       <p class="description-text">
-        A cinematic 4K video of a lone astronaut walking slowly across the surface of the moon under deep space darkness. The camera orbits gently, capturing the texture of the dusty lunar ground and the intricate folds of the astronaut's spacesuit, while soft glimmer across the helmet visor. Soft hues from earth lurking the scene, creating a quiet, otherworldly atmosphere. The astronaut pauses and the vast silence of space.
+        A cinematic 4K video of a lone astronaut walking across the lunar surface under deep space darkness. The camera captures the dusty ground and intricate spacesuit details, creating a quiet, otherworldly atmosphere.
       </p>
 
     </div>
@@ -425,24 +425,14 @@
         banner.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
       }
 
-      // 移除所有卡片的 active 类
-      bgCards.forEach(c => c.classList.remove('active'));
+      // 移除所有卡片的 active 类并清除内联样式
+      bgCards.forEach(c => {
+        c.classList.remove('active');
+        c.style.borderColor = '';  // 清除悬浮时设置的内联样式
+      });
 
       // 添加 active 类到当前点击的卡片
       this.classList.add('active');
-    });
-
-    // 悬浮效果（可选）
-    card.addEventListener('mouseenter', function() {
-      if (!this.classList.contains('active')) {
-        this.style.borderColor = 'rgba(255, 255, 255, 0.5)';
-      }
-    });
-
-    card.addEventListener('mouseleave', function() {
-      if (!this.classList.contains('active')) {
-        this.style.borderColor = 'transparent';
-      }
     });
   });
 
