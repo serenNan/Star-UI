@@ -5,11 +5,37 @@ Assembles modular sections into a single index.html file
 """
 import json
 import os
+import subprocess
+import sys
 from pathlib import Path
+
+def generate_dynamic_sections():
+    """在构建前生成动态生成的区块"""
+    print("🔧 Generating dynamic sections...")
+
+    # 生成社交媒体链接
+    try:
+        script_path = Path(__file__).parent / 'generate-social-links.py'
+        result = subprocess.run(
+            [sys.executable, str(script_path)],
+            capture_output=True,
+            text=True,
+            check=True
+        )
+        print(result.stdout)
+    except subprocess.CalledProcessError as e:
+        print(f"⚠️  Warning: Failed to generate social links: {e.stderr}")
+    except Exception as e:
+        print(f"⚠️  Warning: Failed to generate social links: {str(e)}")
+
+    print("")
 
 def build():
     print("🔨 Building Star-UI...")
     print("")
+
+    # 首先生成动态区块
+    generate_dynamic_sections()
 
     # Read configuration
     config_file = Path('tools/build.config.json')

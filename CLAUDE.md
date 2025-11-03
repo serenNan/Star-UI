@@ -24,17 +24,24 @@ Star-UI/
 ├── index.html               # ✨ 自动生成的完整页面（不要手动编辑！）
 ├── index.old.html           # 旧版备份文件
 ├── sections/                # 📦 模块化组件
-│   ├── navigation.html      # 导航栏（HTML + CSS + JS）
-│   ├── hero.html            # 主横幅（HTML + CSS + JS）
-│   ├── gallery.html         # 产品画廊（HTML + CSS + JS）
-│   ├── stats.html           # 数据统计（HTML + CSS）
-│   ├── features.html        # 功能特性（HTML + CSS + JS）
-│   ├── cta.html             # 行动号召（HTML + CSS）
-│   └── footer.html          # 页脚（HTML + CSS）
+│   ├── navigation/          # 导航栏模块
+│   ├── banner/              # 主横幅模块
+│   ├── links/               # 🆕 社交媒体链接（自动生成）
+│   ├── gallery/             # 产品画廊模块
+│   ├── stats/               # 数据统计模块
+│   ├── features/            # 功能特性模块
+│   ├── cta/                 # 行动号召模块
+│   └── footer/              # 页脚模块
 ├── global/                  # 🌍 全局资源
 │   ├── head.html            # 全局头部（meta、CSS 引用）
 │   ├── footer-scripts.html  # 全局脚本（Lenis、工具函数）
 │   └── global.css           # 全局样式（变量、重置、工具类）
+├── tools/                   # 🛠️ 构建工具
+│   ├── build.py             # 构建脚本
+│   ├── build.config.json    # 构建配置
+│   ├── generate-social-links.py  # 社交链接生成器
+│   ├── social-links.config.json  # 🆕 社交链接配置
+│   └── README-SOCIAL-LINKS.md    # 🆕 使用说明
 ├── css/
 │   ├── normalize.css        # CSS 重置
 │   ├── webflow.css          # Webflow 基础样式
@@ -47,8 +54,6 @@ Star-UI/
 │   ├── images/              # 图片资源
 │   ├── videos/              # 视频资源
 │   └── fonts/               # 字体文件
-├── build.py                 # 🔨 构建脚本
-├── build.config.json        # ⚙️ 构建配置
 ├── start-dev.sh             # 🚀 开发启动脚本
 ├── 要求/                    # 原始需求文档
 ├── README.md                # 项目说明
@@ -122,6 +127,37 @@ python3 build.py
   ]
 }
 ```
+
+### 🆕 社交媒体链接配置系统
+
+项目支持通过配置文件管理社交媒体链接,无需手动编辑 HTML。
+
+**快速使用**:
+
+1. 编辑 `tools/social-links.config.json`:
+
+```json
+{
+  "links": [
+    {
+      "name": "LinkedIn",
+      "url": "https://linkedin.com/company/yourcompany",
+      "icon": "linkedin",
+      "enabled": true
+    }
+  ]
+}
+```
+
+2. 运行构建:
+
+```bash
+python3 tools/build.py
+```
+
+**支持的图标**: linkedin, youtube, instagram, tiktok, facebook, twitter, discord, github, reddit, spotify, twitch, pinterest
+
+**详细文档**: 查看 `tools/README-SOCIAL-LINKS.md` 获取完整使用说明。
 
 ### 修改现有模块
 
