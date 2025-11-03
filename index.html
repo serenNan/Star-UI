@@ -36,15 +36,17 @@
   left: 0;
   width: 100%;
   height: var(--nav-height);
-  background: transparent; /* 完全透明，不遮挡背景 */
-  border-bottom: none; /* 去除边框线 */
+  background: transparent; /* 默认完全透明 */
+  border-bottom: none;
   z-index: 1000;
-  transition: all var(--transition);
+  transition: background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
 }
 
-.navbar.scrolled {
-  background: rgba(13, 13, 13, 0.95); /* 滚动后添加背景 */
-  backdrop-filter: blur(10px); /* 滚动后才添加毛玻璃效果 */
+/* 滚动中或鼠标悬浮时显示背景 */
+.navbar.scrolling,
+.navbar.hovered {
+  background: rgba(13, 13, 13, 0.95);
+  backdrop-filter: blur(10px);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -72,18 +74,71 @@
 
 .nav-menu {
   display: flex;
-  gap: 4rem; /* 菜单项之间的间距加大 */
+  gap: 2.5rem; /* 菜单项之间的间距加大 */
 }
 
 .nav-menu a {
   font-size: 14px;
   font-weight: 500;
   color: var(--color-text-secondary);
-  transition: color var(--transition);
+  transition: color var(--transition); /* 只过渡颜色 */
+  position: relative;
+  /* 使用 text-shadow 模拟加粗效果，避免宽度变化 */
 }
 
 .nav-menu a:hover {
   color: var(--color-text);
+}
+
+/* 当前激活的导航项样式 - 使用 text-shadow 模拟加粗 */
+.nav-menu a.active {
+  color: var(--color-text);
+  text-shadow: 0.5px 0 0 currentColor, -0.5px 0 0 currentColor; /* 模拟加粗，不改变宽度 */
+}
+
+/* 特殊按钮样式的菜单项 */
+.nav-menu a.btn-style {
+  padding: 0.5rem 1rem;
+  position: relative;
+  background: rgba(128, 128, 128, 0.15); /* 灰色半透明背景 */
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  border-radius: 6px;
+  color: var(--color-text);
+  font-weight: 500;
+  backdrop-filter: blur(10px); /* 毛玻璃效果 */
+  -webkit-backdrop-filter: blur(10px); /* Safari 兼容 */
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease; /* 只过渡必要属性 */
+  overflow: hidden; /* 确保背景图片不溢出 */
+  isolation: isolate; /* 创建独立的层叠上下文，避免重绘问题 */
+}
+
+/* 月亮背景图片层 */
+.nav-menu a.btn-style::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('sections/navigation/moon.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5; 
+  z-index: -1; 
+  transition: opacity 0.3s ease; /* 明确指定过渡属性 */
+  will-change: opacity; /* 提示浏览器优化此属性 */
+}
+
+.nav-menu a.btn-style:hover::before {
+  opacity: 0.6; /* 悬浮时图片更亮 */
+}
+
+.nav-menu a.btn-style:hover {
+  background: rgba(128, 128, 128, 0.25); /* 悬浮时更亮一些 */
+  border-color: rgba(128, 128, 128, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transform: translateY(-1px);
 }
 
 .nav-actions {
@@ -196,7 +251,7 @@
         <li><a href="#solutions">Solutions</a></li>
         <li><a href="#resources">Resources</a></li>
         <li><a href="#pricing">Pricing</a></li>
-        <li><a href="#ai-studio">AI Studio</a></li>
+        <li><a href="#ai-studio" class="btn-style">Eclipse Engine</a></li>
       </ul>
     </div>
 
@@ -243,20 +298,100 @@
     });
   };
 
-  // Navbar scroll effect
+  // Navbar scroll effect - 滚动时不透明，停止时立即透明
   const initNavbarScroll = () => {
     const navbar = document.querySelector('.navbar');
     if (!navbar) return;
 
-    const handleScroll = throttle(() => {
-      if (window.scrollY > 100) {
-        navbar.classList.add('scrolled');
-      } else {
-        navbar.classList.remove('scrolled');
+    let scrollTimeout;
+    let lastScrollY = window.scrollY;
+    let ticking = false;
+
+    const handleScroll = () => {
+      lastScrollY = window.scrollY;
+
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          // 滚动时添加 scrolling 类
+          navbar.classList.add('scrolling');
+
+          // 清除之前的定时器
+          clearTimeout(scrollTimeout);
+
+          // 滚动停止后立即移除 scrolling 类
+          scrollTimeout = setTimeout(() => {
+            navbar.classList.remove('scrolling');
+          }, 100); // 100ms 后认为停止滚动，避免过于敏感
+
+          ticking = false;
+        });
+
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // 鼠标悬浮导航栏时显示背景
+    navbar.addEventListener('mouseenter', () => {
+      navbar.classList.add('hovered');
+    });
+
+    navbar.addEventListener('mouseleave', () => {
+      navbar.classList.remove('hovered');
+    });
+  };
+
+  // 当前页面高亮功能
+  const initActiveSection = () => {
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    if (navLinks.length === 0) return;
+
+    const updateActiveLink = throttle(() => {
+      let currentSection = null;
+      let minDistance = Infinity;
+      const scrollPosition = window.scrollY + window.innerHeight / 3; // 使用视口的 1/3 位置作为触发点
+
+      // 遍历所有导航链接，找到对应的区块
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href || !href.startsWith('#')) return;
+
+        const sectionId = href.substring(1);
+        const section = document.getElementById(sectionId) ||
+                       document.querySelector(`.${sectionId}`) ||
+                       document.querySelector(`[class*="${sectionId}"]`);
+
+        if (section) {
+          const sectionTop = section.offsetTop;
+          const distance = Math.abs(scrollPosition - sectionTop);
+
+          // 找到距离当前滚动位置最近的区块
+          if (distance < minDistance && scrollPosition >= sectionTop - 100) {
+            minDistance = distance;
+            currentSection = href;
+          }
+        }
+      });
+
+      // 更新导航链接的 active 状态
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentSection) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+
+      // 如果滚动到页面顶部，清除所有高亮
+      if (window.scrollY < 100) {
+        navLinks.forEach(link => link.classList.remove('active'));
       }
     }, 100);
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', updateActiveLink);
+    updateActiveLink(); // 初始化时执行一次
   };
 
   // Initialize on DOM ready
@@ -264,10 +399,12 @@
     document.addEventListener('DOMContentLoaded', () => {
       initMobileMenu();
       initNavbarScroll();
+      initActiveSection();
     });
   } else {
     initMobileMenu();
     initNavbarScroll();
+    initActiveSection();
   }
 })();
 </script>
@@ -396,9 +533,9 @@
 
 /* 3. 右上角描述区 */
 .banner-right {
-  position: absolute;
-  top: calc(var(--nav-height) + 16rem); /* 大幅向下移动 */
-  right: 3rem; /* 与浏览器左边距保持一致 */
+  position: absolute; /* 相对于视口定位，保持与浏览器边缘的固定距离 */
+  bottom: calc(-22rem + 120px + 4rem); /* 距离底部 = 卡片底部间距 + 卡片高度 + 间距 */
+  right: 3rem; /* 距离浏览器右边缘固定距离 */
   display: flex;
   flex-direction: column;
   gap: var(--spacing-md); /* 减小内部间距 */
@@ -411,12 +548,12 @@
   line-height: 1.8;
   color: white; /* 白色文字 */
   margin: 0;
-  padding: var(--spacing-lg) var(--spacing-xl); /* 增加左右内边距 */
-  background: rgba(24, 24, 24, 0.3); /* 灰色半透明背景 */
+  padding: var(--spacing-md) var(--spacing-lg); /* 减小内边距 */
+  background: rgba(24, 24, 24, 0.5); /* 灰色半透明背景 */
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   backdrop-filter: blur(1px);
-  width: calc(120px * 5 + 0.75rem * 4); /* 精确匹配5个卡片的总宽度：120px * 5 + 间距 0.75rem * 4 */
+  width: calc(90px * 5 + 0.75rem * 4); /* 精确匹配5个卡片的总宽度：90px * 5 + 间距 0.75rem * 4 */
   box-sizing: border-box;
 }
 
@@ -434,9 +571,9 @@
 
 /* 4. 右下角背景切换卡片区 - 水平排列不换行 */
 .video-cards-container {
-  position: absolute;
-  right: 3rem; /* 与容器边距保持一致 */
-  top: calc(var(--nav-height) + 32rem); /* 改为 top 定位，不受内容高度影响 */
+  position: absolute; /* 相对于视口定位，保持与浏览器边缘的固定距离 */
+  right: 3rem; /* 距离浏览器右边缘固定距离 */
+  bottom: -22rem; /* 距离浏览器底部固定距离 */
   z-index: 3;
 }
 
@@ -474,25 +611,25 @@
 /* 背景切换卡片 - 更长的高度 */
 .video-card {
   position: relative;
-  width: 120px;
-  height: 180px; /* 增加高度，更长 */
-  border-radius: 12px;
+  width: 90px;
+  height: 120px; /* 调整高度，更紧凑 */
+  border-radius: 6px;
   overflow: hidden;
   cursor: pointer;
   background: var(--color-bg-secondary);
-  border: 2px solid transparent; /* 默认透明边框 */
+  border: 1px solid transparent; /* 默认透明边框 */
   transition: all var(--transition);
 }
 
-/* 选中状态 - 白色边框 */
+/* 选中状态 - 外围白色边框 */
 .video-card.active {
-  border-color: white;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  outline: 1px solid white;
+  outline-offset: 1.5px;
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
 }
 
 .video-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.5);
 }
 
 /* 卡片图片 */
@@ -621,7 +758,7 @@
     <!-- 右上角描述区 -->
     <div class="banner-right">
       <p class="description-text">
-        A cinematic 4K video of a lone astronaut walking slowly across the surface of the moon under deep space darkness. The camera orbits gently, capturing the texture of the dusty lunar ground and the intricate folds of the astronaut's spacesuit, while soft glimmer across the helmet visor. Soft hues from earth lurking the scene, creating a quiet, otherworldly atmosphere. The astronaut pauses and the vast silence of space.
+        A cinematic 4K video of a lone astronaut walking across the lunar surface under deep space darkness. The camera captures the dusty ground and intricate spacesuit details, creating a quiet, otherworldly atmosphere.
       </p>
 
     </div>
@@ -701,24 +838,14 @@
         banner.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
       }
 
-      // 移除所有卡片的 active 类
-      bgCards.forEach(c => c.classList.remove('active'));
+      // 移除所有卡片的 active 类并清除内联样式
+      bgCards.forEach(c => {
+        c.classList.remove('active');
+        c.style.borderColor = '';  // 清除悬浮时设置的内联样式
+      });
 
       // 添加 active 类到当前点击的卡片
       this.classList.add('active');
-    });
-
-    // 悬浮效果（可选）
-    card.addEventListener('mouseenter', function() {
-      if (!this.classList.contains('active')) {
-        this.style.borderColor = 'rgba(255, 255, 255, 0.5)';
-      }
-    });
-
-    card.addEventListener('mouseleave', function() {
-      if (!this.classList.contains('active')) {
-        this.style.borderColor = 'transparent';
-      }
     });
   });
 
@@ -860,7 +987,7 @@
 }
 </style>
 
-<section class="gallery-section">
+<section class="gallery-section" id="solutions">
   <div class="section-header">
     <h2 class="section-title">Explore Creative Possibilities</h2>
   </div>
@@ -1031,7 +1158,7 @@
 }
 </style>
 
-<section class="stats-section">
+<section class="stats-section" id="resources">
   <div class="stats-grid">
     <div class="stat-item">
       <div class="stat-number">10M+</div>
@@ -1166,7 +1293,7 @@
 }
 </style>
 
-<section class="features-section">
+<section class="features-section" id="features">
   <div class="section-header-center">
     <h2 class="section-title-large" data-animate>Powerful Features for Creators</h2>
     <p class="section-subtitle-large" data-animate>
@@ -1354,7 +1481,7 @@
 }
 </style>
 
-<section class="cta-section">
+<section class="cta-section" id="pricing">
   <div class="cta-content">
     <h2 class="cta-title">Ready to create amazing videos?</h2>
     <p class="cta-subtitle">

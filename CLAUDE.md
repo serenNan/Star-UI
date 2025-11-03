@@ -600,3 +600,4 @@ git push origin main
 6. **分析追踪**：集成 Google Analytics 或 Plausible
 - 本项目的界面语言要全英，注释可中文
 - 回答我请使用中文回答，只是网站展示界面是英文，注释也使用中文
+- 构建的脚本文件在tools文件夹下
