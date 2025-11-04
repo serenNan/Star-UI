@@ -11,39 +11,45 @@
 /* 标题区域 */
 .workflow__header {
   text-align: center;
-  max-width: 800px;
-  margin: 0 auto var(--spacing-2xl);
+  max-width: 1120px; /* 增加宽度，减少换行 */
+  margin: 0 auto 45px auto; /* 水平居中，底部45px间距 */
 }
 
+/* 小标题 "WORKFLOW" */
 .workflow__subtitle {
-  font-size: 0.875rem;
+  font-size: 1.2rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-sm);
+  margin-bottom: 0.1rem; /* 减小与主标题的间距 */
 }
 
+/* 主标题 "A Seamless Creative Workflow" */
 .workflow__title {
-  font-size: 2rem;
+  font-size: 2.8rem;
   font-weight: 700;
   line-height: 1.2;
   color: var(--color-text);
-  margin-bottom: var(--spacing-md);
+  margin-bottom: var(--spacing-lg); /* 增加与描述的间距 */
 }
 
+/* 描述文字 */
 .workflow__description {
-  font-size: 1.125rem;
+  font-size: 1.6rem;
   line-height: 1.6;
   color: var(--color-text-secondary);
+  white-space: normal; /* 正常换行 */
+  word-break: keep-all; /* 尽量不在单词中间断行 */
+  word-wrap: break-word; /* 仅在必要时断词 */
 }
 
 /* 卡片网格 */
 .workflow__cards {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: var(--spacing-lg);
-  max-width: var(--container-width);
+  gap:27px; /* 减少卡片间距 */
+  max-width: 1400px; /* 增加最大宽度，让卡片变宽，文字描述能一行显示更多 */
   margin: 0 auto;
   padding: 0 var(--spacing-lg);
 }
