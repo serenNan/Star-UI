@@ -1,0 +1,820 @@
+<!-- ===================================
+     Tools Showcase Module
+     扑克牌堆叠效果 - 真正的居中堆叠交互
+     =================================== -->
+
+<style>
+/* ===== 模块容器样式 ===== */
+.tools-showcase {
+  position: relative;
+  padding: 120px 0;
+  background: var(--color-bg);
+  overflow: hidden;
+}
+
+/* ===== 标题区域 ===== */
+.tools-showcase__header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.tools-showcase__title {
+  font-size: 2.625rem;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 0;
+  color: #FFFFFF;
+}
+
+.tools-showcase__subtitle {
+  font-size: 1.2rem;
+  color: var(--color-text-secondary);
+  max-width: 600px;
+  margin: 0 auto 16px;
+}
+
+/* ===== 工具标签栏 ===== */
+.tools-showcase__tabs {
+  display: flex;
+  justify-content: center;
+  gap: 34px;
+  margin-bottom: 80px;
+  flex-wrap: wrap;
+}
+
+.tools-showcase__tab {
+  padding: 20px 0;
+  width: 230px;
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 50px;
+  color: #FFFFFF;
+  font-size: 1.25rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.tools-showcase__tab:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #FFFFFF;
+}
+
+.tools-showcase__tab--active {
+  background: white;
+  color: black;
+  border-color: transparent;
+}
+
+.tools-showcase__tab--active:hover {
+  background: rgba(255, 255, 255, 0.95);
+  color: black;
+}
+
+/* ===== 扑克牌堆叠容器 ===== */
+.tools-showcase__carousel-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 60px;
+  padding: 0 20px;
+  transition: opacity 0.3s ease;
+}
+
+.tools-showcase__carousel {
+  display: flex;
+  align-items: center; /* 保持整体居中 */
+  justify-content: center;
+  gap: 2rem;
+  min-height: 500px;
+  position: relative;
+}
+
+/* ===== 左右两侧堆叠容器 - 负边距实现重叠 ===== */
+.tools-showcase__side {
+  position: relative;
+  z-index: 1; /* 与中央卡片同层 */
+  /* 移除 transition，改用 JS 直接控制以实现平滑跟随 */
+  will-change: transform;
+}
+
+.tools-showcase__side.left {
+  margin-right: -3rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  align-content: center;
+  position: relative; /* 改为相对定位，让子元素可以独立定位 */
+}
+
+.tools-showcase__side.right {
+  margin-left: 0.625rem; /* 10px = 0.625rem (假设根字体 16px) */
+  display: flex;
+  align-items: flex-start;
+  align-self: flex-start;
+  margin-top: -1.25rem; /* -20px = -1.25rem */
+}
+
+/* ===== 中央容器 ===== */
+.tools-showcase__center {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 1; /* 与左右卡片同层 */
+}
+
+/* ===== 卡片样式 ===== */
+.tools-showcase__card {
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  background: #1a1a1a;
+}
+
+.tools-showcase__card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  user-select: none;
+}
+
+/* 小卡片（左右两侧）*/
+.tools-showcase__card--small {
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+/* 左侧第一个卡片 - 横向长方形（左上角）*/
+.tools-showcase__side.left .tools-showcase__card--small:nth-child(1) {
+  width: 260px;
+  height: 160px;
+  position: relative;
+  top: -8vh; /* 独立控制第一个卡片的垂直位置 */
+  left: -20px; /* 独立控制第一个卡片的水平位置 */
+}
+
+/* 左侧第二个卡片 - 正方形（左下角）*/
+.tools-showcase__side.left .tools-showcase__card--small:nth-child(2) {
+  width: 215px;
+  height: 215px;
+  position: relative;
+  top: 70px; /* 独立控制第二个卡片的垂直位置 */
+  left: 5px; /* 独立控制第二个卡片的水平位置 */
+}
+
+/* 右侧卡片 - 竖向长方形 */
+.tools-showcase__side.right .tools-showcase__card--small {
+  width: 180px;
+  height: 280px;
+  position: relative;
+  top: -1.25rem; /* 独立控制右侧卡片的垂直位置 */
+  left: 10px; /* 独立控制右侧卡片的水平位置 */
+}
+
+/* 主卡片容器 - Apple 式平滑缩放 */
+.tools-showcase__card--main {
+  width: 550px;
+  height: 300px; 
+  border: none; /* 移除边框 */
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7); /* 保留阴影，移除橙色光晕 */
+  z-index: 1; /* 与左右卡片同层 */
+  position: relative;
+  overflow: hidden;
+  /* 移除 transition，改用 JS 直接控制以实现平滑跟随 */
+  will-change: transform;
+  transform: scale(1);
+}
+
+/* 主卡片图片 */
+.tools-showcase__card--main .tools-showcase__card-image {
+  transition: opacity 0.4s ease;
+  opacity: 1;
+}
+
+/* 图片切换时的模糊效果（快速切换时使用）*/
+.tools-showcase__card--main.switching {
+  transition: filter 0.3s ease;
+}
+
+.tools-showcase__card--main.switching .tools-showcase__card-image {
+  filter: blur(8px);
+  opacity: 0.5;
+}
+
+/* 小卡片淡入淡出过渡 */
+.tools-showcase__card--small .tools-showcase__card-image {
+  transition: opacity 0.5s ease;
+}
+
+/* ===== 行动号召按钮 - 白底黑字（参考 banner）===== */
+.tools-showcase__cta {
+  display: flex;
+  justify-content: center;
+  margin-top: -30px;
+}
+
+.tools-showcase__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-sm) var(--spacing-md);
+  min-width: 200px;
+  background: white;
+  color: black;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 6px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.tools-showcase__button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+  background: rgba(255, 255, 255, 0.95);
+}
+
+/* ===== 响应式：平板 ===== */
+@media (max-width: 991px) {
+  .tools-showcase {
+    padding: 80px 0;
+  }
+
+  .tools-showcase__title {
+    font-size: 2.5rem;
+  }
+
+  .tools-showcase__tabs {
+    margin-bottom: 60px;
+  }
+
+  .tools-showcase__tab {
+    padding: 12px 24px;
+    font-size: 0.875rem;
+  }
+
+  .tools-showcase__carousel {
+    gap: 1.5rem;
+  }
+
+  /* 平板端缩小主卡片容器尺寸 */
+  .tools-showcase__card--main {
+    width: 500px;
+    height: 350px;
+  }
+
+  /* 左右小卡片也相应缩小 */
+  .tools-showcase__card--small {
+    width: 160px;
+    height: 200px;
+  }
+
+  /* 调整负边距以适应较小的卡片 */
+  .tools-showcase__side.left {
+    margin-right: -120px;
+  }
+
+  .tools-showcase__side.right {
+    margin-left: -120px;
+  }
+
+  /* 平板端扩散距离缩小 */
+  .tools-showcase__carousel.expanded .tools-showcase__side.left {
+    transform: translateX(-80px);
+  }
+
+  .tools-showcase__carousel.expanded .tools-showcase__side.right {
+    transform: translateX(80px);
+  }
+
+  /* 隐藏左右第二张小卡片，仅显示最近的一张 */
+  .tools-showcase__side .tools-showcase__card:first-child {
+    display: none;
+  }
+}
+
+/* ===== 响应式：移动端 ===== */
+@media (max-width: 767px) {
+  .tools-showcase {
+    padding: 60px 0;
+  }
+
+  .tools-showcase__title {
+    font-size: 2rem;
+  }
+
+  .tools-showcase__subtitle {
+    font-size: 1rem;
+  }
+
+  .tools-showcase__tabs {
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+
+  .tools-showcase__tab {
+    padding: 10px 20px;
+    font-size: 0.8125rem;
+  }
+
+  /* 隐藏左右堆叠，仅显示中央卡片 */
+  .tools-showcase__side {
+    display: none;
+  }
+
+  .tools-showcase__carousel {
+    gap: 0;
+    min-height: 400px;
+  }
+
+  .tools-showcase__card--main {
+    width: 100%;
+    max-width: 400px;
+    height: 350px;
+  }
+
+  /* 移动端禁用扩散动画 */
+  .tools-showcase__carousel.expanded .tools-showcase__card--main {
+    transform: scale(1); /* 不放大 */
+  }
+
+  .tools-showcase__button {
+    padding: 16px 40px;
+    font-size: 0.9375rem;
+  }
+}
+
+/* ===== 小屏手机优化 ===== */
+@media (max-width: 479px) {
+  .tools-showcase__title {
+    font-size: 1.75rem;
+  }
+
+  .tools-showcase__carousel {
+    min-height: 350px;
+  }
+
+  .tools-showcase__card--main {
+    max-width: 320px;
+    height: 300px;
+  }
+
+  .tools-showcase__button {
+    width: 100%;
+    max-width: 300px;
+  }
+}
+
+/* ===== 禁用触摸设备的悬浮效果 ===== */
+@media (hover: none) {
+  .tools-showcase__tab:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--color-text-secondary);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  .tools-showcase__tab--active:hover {
+    background: white;
+    color: black;
+  }
+
+  .tools-showcase__button:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+</style>
+
+<!-- ===== HTML 结构 ===== -->
+<section class="tools-showcase">
+  <div class="container">
+    <!-- 标题区域 -->
+    <div class="tools-showcase__header">
+      <p class="tools-showcase__subtitle">
+        ECLIPSES ENGINE
+      </p>
+      <h2 class="tools-showcase__title">Where Imagination Eclipses Reality.</h2>
+    </div>
+
+    <!-- 工具标签栏 -->
+    <div class="tools-showcase__tabs" id="toolsTabs">
+      <button class="tools-showcase__tab tools-showcase__tab--active" data-tool="image-generator">
+        Image Generator
+      </button>
+      <button class="tools-showcase__tab" data-tool="video-generator">
+        Video Generator
+      </button>
+      <button class="tools-showcase__tab" data-tool="timeline-editor">
+        Timeline Editor
+      </button>
+      <button class="tools-showcase__tab" data-tool="avatar">
+        Avatar
+      </button>
+    </div>
+
+    <!-- 扑克牌堆叠轮播 -->
+    <div class="tools-showcase__carousel-wrapper">
+      <div class="tools-showcase__carousel" id="toolsCarousel">
+        <!-- 左侧堆叠（2张小卡片）- 负边距实现重叠 -->
+        <div class="tools-showcase__side left" id="leftStack">
+          <div class="tools-showcase__card tools-showcase__card--small">
+            <img src="" alt="" class="tools-showcase__card-image">
+          </div>
+          <div class="tools-showcase__card tools-showcase__card--small">
+            <img src="" alt="" class="tools-showcase__card-image">
+          </div>
+        </div>
+
+        <!-- 中央大卡片 -->
+        <div class="tools-showcase__center">
+          <div class="tools-showcase__card tools-showcase__card--main" id="mainCard">
+            <img src="" alt="" class="tools-showcase__card-image">
+          </div>
+        </div>
+
+        <!-- 右侧堆叠（1张竖向长方形卡片）- 负边距实现重叠 -->
+        <div class="tools-showcase__side right" id="rightStack">
+          <div class="tools-showcase__card tools-showcase__card--small">
+            <img src="" alt="" class="tools-showcase__card-image">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 行动号召按钮 -->
+    <div class="tools-showcase__cta">
+      <button class="tools-showcase__button" id="runGenerator">
+        RUN GENERATOR
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== JavaScript 交互逻辑 ===== -->
+<script>
+(function() {
+  'use strict';
+
+  // ===== 工具数据配置 =====
+  // 暂时使用占位图片，后续可替换为真实资源
+  const toolsData = {
+    'image-generator': [
+      { url: 'sections/tools-showcase/images/image-gen-1.png', alt: 'AI Generated Image 1' },
+      { url: 'sections/tools-showcase/images/image-gen-2.jpg', alt: 'AI Generated Image 2' },
+      { url: 'sections/tools-showcase/images/image-gen-3.png', alt: 'AI Generated Image 3' },
+      { url: 'sections/tools-showcase/images/image-gen-4.png', alt: 'AI Generated Image 4' },
+      { url: 'sections/tools-showcase/images/image-gen-5.png', alt: 'AI Generated Image 5' }
+    ],
+    'video-generator': [
+      { url: 'sections/tools-showcase/images/video-gen-1.png', alt: 'AI Video Thumbnail 1' },
+      { url: 'sections/tools-showcase/images/video-gen-2.png', alt: 'AI Video Thumbnail 2' },
+      { url: 'sections/tools-showcase/images/video-gen-3.jpg', alt: 'AI Video Thumbnail 3' },
+      { url: 'sections/tools-showcase/images/video-gen-4.png', alt: 'AI Video Thumbnail 4' },
+      { url: 'sections/tools-showcase/images/video-gen-5.png', alt: 'AI Video Thumbnail 5' }
+    ],
+    'timeline-editor': [
+      { url: 'sections/tools-showcase/images/timeline-1.png', alt: 'Timeline Editor Screenshot 1' },
+      { url: 'sections/tools-showcase/images/timeline-2.png', alt: 'Timeline Editor Screenshot 2' },
+      { url: 'sections/tools-showcase/images/timeline-3.png', alt: 'Timeline Editor Screenshot 3' },
+      { url: 'sections/tools-showcase/images/timeline-4.png', alt: 'Timeline Editor Screenshot 4' },
+      { url: 'sections/tools-showcase/images/timeline-5.jpg', alt: 'Timeline Editor Screenshot 5' }
+    ],
+    'avatar': [
+      { url: 'sections/tools-showcase/images/avatar-1.png', alt: 'AI Generated Avatar 1' },
+      { url: 'sections/tools-showcase/images/avatar-2.png', alt: 'AI Generated Avatar 2' },
+      { url: 'sections/tools-showcase/images/avatar-3.png', alt: 'AI Generated Avatar 3' },
+      { url: 'sections/tools-showcase/images/avatar-4.png', alt: 'AI Generated Avatar 4' },
+      { url: 'sections/tools-showcase/images/avatar-5.jpg', alt: 'AI Generated Avatar 5' }
+    ]
+  };
+
+  // ===== 状态管理 =====
+  let currentTool = 'image-generator';
+  let currentIndex = 2; // 从中间开始（可见卡片索引：0,1,2,3,4）
+  let isAnimating = false;
+  let currentCards = toolsData[currentTool];
+
+  // ===== Apple 风格滚动劫持参数 =====
+  let scrollAccumulator = 0; // 滚动累积器
+  const scrollThreshold = 400; // 需要累积 400px 完成一次完整缩放
+  const minScale = 1.0; // 最小缩放值
+  const maxScale = 1.5; // 最大缩放值
+  const maxPushDistance = 100; // 左右卡片最大推开距离（px）
+
+  let rafId = null; // requestAnimationFrame ID
+  let currentScale = minScale; // 当前缩放值
+  let targetScale = minScale; // 目标缩放值
+
+  let consecutiveScrollCount = 0; // 连续滚动计数器（用于释放滚动）
+  let lastScrollDirection = 0; // 上次滚动方向（1=向下, -1=向上）
+
+  const isMobile = window.innerWidth < 768; // 检测是否为移动设备
+
+  // ===== DOM 元素 =====
+  const carousel = document.getElementById('toolsCarousel'); // 轮播容器
+  const mainCardContainer = document.getElementById('mainCard'); // 主卡片容器
+  const mainCard = document.querySelector('#mainCard img'); // 主卡片图片
+  const leftSide = document.querySelector('#leftStack'); // 左侧容器
+  const rightSide = document.querySelector('#rightStack'); // 右侧容器
+  const leftStack = document.querySelectorAll('#leftStack img');
+  const rightStack = document.querySelectorAll('#rightStack img');
+  const tabs = document.querySelectorAll('.tools-showcase__tab');
+  const runBtn = document.getElementById('runGenerator');
+
+  // ===== 初始化 =====
+  function init() {
+    updateCardsDisplay();
+    attachEventListeners();
+  }
+
+  // ===== 获取可见卡片索引 =====
+  // 返回 [left-1, left-2, center, right-1] 的索引（左2张+中1张+右1张）
+  function getVisibleIndices() {
+    const total = currentCards.length;
+    return [
+      (currentIndex - 2 + total) % total,  // 左侧第一张
+      (currentIndex - 1 + total) % total,  // 左侧第二张
+      currentIndex,                        // 中央卡片
+      (currentIndex + 1) % total           // 右侧卡片
+    ];
+  }
+
+  // ===== 更新卡片显示 =====
+  function updateCardsDisplay() {
+    const indices = getVisibleIndices();
+
+    // 更新左侧堆叠（2张卡片）
+    leftStack[0].src = currentCards[indices[0]].url;
+    leftStack[0].alt = currentCards[indices[0]].alt;
+    leftStack[1].src = currentCards[indices[1]].url;
+    leftStack[1].alt = currentCards[indices[1]].alt;
+
+    // 更新中央卡片
+    mainCard.src = currentCards[indices[2]].url;
+    mainCard.alt = currentCards[indices[2]].alt;
+
+    // 更新右侧卡片（只有1张）
+    rightStack[0].src = currentCards[indices[3]].url;
+    rightStack[0].alt = currentCards[indices[3]].alt;
+  }
+
+  // ===== 应用缩放效果（平滑跟随滚动）=====
+  function applyScaleTransform(scale) {
+    // 更新中央卡片缩放
+    mainCardContainer.style.transform = `scale(${scale})`;
+
+    // 计算左右卡片的推开距离（线性映射）
+    // scale 1.0 → 0px, scale 1.5 → maxPushDistance
+    const progress = (scale - minScale) / (maxScale - minScale);
+    const pushDistance = progress * maxPushDistance;
+
+    // 应用视差效果
+    leftSide.style.transform = `translateX(-${pushDistance}px)`;
+    rightSide.style.transform = `translateX(${pushDistance}px)`;
+  }
+
+  // ===== 使用 RAF 平滑更新缩放（性能优化）=====
+  function updateScaleAnimation() {
+    // 平滑插值（Lerp），避免突变
+    currentScale += (targetScale - currentScale) * 0.15;
+
+    // 应用变换
+    applyScaleTransform(currentScale);
+
+    // 如果还有差距，继续下一帧
+    if (Math.abs(targetScale - currentScale) > 0.001) {
+      rafId = requestAnimationFrame(updateScaleAnimation);
+    } else {
+      currentScale = targetScale;
+      rafId = null;
+    }
+  }
+
+  // ===== 切换到下一张/上一张卡片 =====
+  function switchToCard(direction) {
+    if (isAnimating) return;
+
+    isAnimating = true;
+    const total = currentCards.length;
+
+    // 添加模糊切换效果
+    mainCardContainer.classList.add('switching');
+
+    // 在模糊时切换图片
+    setTimeout(() => {
+      currentIndex = (currentIndex + direction + total) % total;
+      updateCardsDisplay();
+    }, 150);
+
+    // 移除模糊效果，重置缩放
+    setTimeout(() => {
+      mainCardContainer.classList.remove('switching');
+      scrollAccumulator = 0;
+      targetScale = minScale;
+      currentScale = minScale;
+      applyScaleTransform(minScale);
+      isAnimating = false;
+    }, 300);
+  }
+
+  // ===== 基于滚动位置计算缩放（不劫持滚动）=====
+  function updateScaleBasedOnScroll() {
+    const section = document.querySelector('.tools-showcase');
+    const rect = section.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+
+    // 计算区域相对于视口的位置
+    const sectionTop = rect.top;
+    const sectionBottom = rect.bottom;
+    const viewportCenter = viewportHeight / 2;
+
+    // 如果区域还未进入视口，保持初始缩放
+    if (sectionBottom < 0 || sectionTop > viewportHeight) {
+      targetScale = minScale;
+      if (!rafId) {
+        rafId = requestAnimationFrame(updateScaleAnimation);
+      }
+      return;
+    }
+
+    // 计算区域中心相对于视口中心的偏移
+    const sectionCenter = sectionTop + rect.height / 2;
+    const offset = sectionCenter - viewportCenter;
+
+    // 定义缩放触发区域
+    const scaleRange = viewportHeight * 0.8; // 缩放过渡范围
+
+    // 计算缩放进度
+    let progress = 0;
+
+    if (offset > 0) {
+      // 区域中心在视口中心下方（尚未滚动到居中位置）
+      // 从下方进入，逐渐放大
+      progress = Math.max(0, 1 - offset / scaleRange);
+    } else {
+      // 区域中心在视口中心上方或对齐（已经滚动到居中或更上方）
+      // 保持最大缩放，不缩小
+      progress = 1;
+    }
+
+    // 映射到缩放值 (1.0 ~ 1.5)
+    targetScale = minScale + (maxScale - minScale) * progress;
+
+    // 启动平滑动画
+    if (!rafId) {
+      rafId = requestAnimationFrame(updateScaleAnimation);
+    }
+  }
+
+  // ===== 监听页面滚动 =====
+  function handleScroll() {
+    updateScaleBasedOnScroll();
+  }
+
+  // ===== 移动端滚轮事件（离散切换）=====
+  let wheelTimeout = null;
+  function handleWheelMobile(event) {
+    if (isAnimating || wheelTimeout) return;
+
+    event.preventDefault();
+
+    // 离散切换
+    if (event.deltaY > 0) {
+      switchToCard(1);
+    } else {
+      switchToCard(-1);
+    }
+
+    // 节流
+    wheelTimeout = setTimeout(() => {
+      wheelTimeout = null;
+    }, 500);
+  }
+
+  // ===== 标签切换 =====
+  function handleTabClick(event) {
+    const clickedTab = event.target.closest('.tools-showcase__tab');
+    if (!clickedTab || isAnimating) return;
+
+    const toolName = clickedTab.dataset.tool;
+    if (toolName === currentTool) return;
+
+    // 更新标签激活状态
+    tabs.forEach(tab => tab.classList.remove('tools-showcase__tab--active'));
+    clickedTab.classList.add('tools-showcase__tab--active');
+
+    // 切换工具数据
+    currentTool = toolName;
+    currentCards = toolsData[currentTool];
+    currentIndex = 2; // 重置到中间索引
+
+    // 重置滚动状态（但保持当前缩放）
+    scrollAccumulator = 0;
+    consecutiveScrollCount = 0;
+
+    // 使用图片交叉淡入淡出（避免闪烁）
+    isAnimating = true;
+
+    // 先将所有图片淡出
+    const allImages = carousel.querySelectorAll('.tools-showcase__card-image');
+    allImages.forEach(img => {
+      img.style.transition = 'opacity 0.2s ease';
+      img.style.opacity = '0';
+    });
+
+    // 在图片淡出后切换
+    setTimeout(() => {
+      updateCardsDisplay();
+      // 保持当前缩放状态，不重置为 minScale
+      applyScaleTransform(currentScale);
+
+      // 立即淡入新图片
+      setTimeout(() => {
+        allImages.forEach(img => {
+          img.style.opacity = '1';
+        });
+
+        // 重新计算基于当前滚动位置的缩放
+        updateScaleBasedOnScroll();
+
+        // 动画完成后清理
+        setTimeout(() => {
+          allImages.forEach(img => {
+            img.style.transition = '';
+          });
+          isAnimating = false;
+        }, 200);
+      }, 50);
+    }, 200);
+  }
+
+  // ===== 触摸事件支持（移动端）=====
+  let touchStartX = 0;
+  let touchEndX = 0;
+
+  function handleTouchStart(event) {
+    touchStartX = event.touches[0].clientX;
+  }
+
+  function handleTouchEnd(event) {
+    if (isAnimating) return;
+
+    touchEndX = event.changedTouches[0].clientX;
+    const diff = touchStartX - touchEndX;
+
+    // 滑动距离超过 50px 才触发切换
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) {
+        switchToCard(1); // 左滑 → 下一张
+      } else {
+        switchToCard(-1); // 右滑 → 上一张
+      }
+    }
+  }
+
+  // ===== 按钮点击事件 =====
+  function handleRunGenerator() {
+    console.log('Run Generator clicked for:', currentTool);
+    // TODO: 实现跳转或打开模态框逻辑
+    alert(`Starting ${currentTool.replace('-', ' ')}...`);
+  }
+
+  // ===== 绑定事件监听器 =====
+  function attachEventListeners() {
+    // 监听页面滚动（被动式，不劫持）
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // 移动端保留滚轮切换功能
+    if (isMobile) {
+      const section = document.querySelector('.tools-showcase');
+      section.addEventListener('wheel', handleWheelMobile, { passive: false });
+    }
+
+    // 标签切换
+    tabs.forEach(tab => {
+      tab.addEventListener('click', handleTabClick);
+    });
+
+    // 行动号召按钮
+    runBtn.addEventListener('click', handleRunGenerator);
+
+    // 初始化时计算一次缩放
+    updateScaleBasedOnScroll();
+  }
+
+  // ===== 启动模块 =====
+  // 等待 DOM 完全加载后初始化
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+
+})();
+</script>
