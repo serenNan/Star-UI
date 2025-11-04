@@ -90,8 +90,8 @@
   flex: 1;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  column-gap: 48px; /* 左右间距保持 48px */
-  row-gap: 34px; /* 上下间距缩小为 34px（原来 48px 的一半）*/
+  column-gap: 52px; /* 左右间距 */
+  row-gap: 37.25px; /* 上下间距缩小为 34px（原来 48px 的一半）*/
   max-width: 940px; /* 从 900px 增加到 940px，卡片变大 */
   margin-left: -100px; /* 卡片向左移动 */
 }
@@ -149,7 +149,7 @@
     rgba(0, 0, 0, 0.2) 50%,
     rgba(0, 0, 0, 0.7) 100%
   );
-  padding: var(--spacing-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -168,12 +168,12 @@
 /* 卡片标签 */
 .use-cases__card-label {
   display: inline-block;
-  padding: var(--spacing-xs) var(--spacing-md);
-  background: rgba(255, 255, 255, 0.15);
-  backdrop-filter: blur(10px);
-  border-radius: 50px;
+  padding: 0;
+  background: transparent;
+  backdrop-filter: none;
+  border-radius: 0;
   color: var(--color-text);
-  font-size: 0.875rem;
+  font-size: 1.125rem;
   font-weight: 500;
   align-self: flex-start;
 }
@@ -297,68 +297,68 @@
       <div class="use-cases__cards">
         <!-- Education 分类（6张卡片）-->
         <div class="use-cases__card" data-hover-video data-categories="education">
-          <img src="assets/images/use-case-placeholder.jpg" alt="Education 1" class="use-cases__card-image">
+          <img src="sections/use-cases/1.png" alt="Education 1" class="use-cases__card-image">
           <video class="use-cases__card-video" muted loop>
             <source src="assets/videos/gallery-1.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Education</span>
-            <p class="use-cases__card-description">Educational content for online courses and tutorials.</p>
+            <span class="use-cases__card-label">TikTok creator</span>
+            <p class="use-cases__card-description">Create engaging educational content for TikTok with AI-powered short videos.</p>
           </div>
         </div>
 
         <div class="use-cases__card" data-hover-video data-categories="education">
-          <img src="assets/images/use-case-placeholder.jpg" alt="Education 2" class="use-cases__card-image">
+          <img src="sections/use-cases/2.png" alt="Education 2" class="use-cases__card-image">
           <video class="use-cases__card-video" muted loop>
             <source src="assets/videos/gallery-2.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Education</span>
-            <p class="use-cases__card-description">Interactive learning experiences for students.</p>
+            <span class="use-cases__card-label">Creator</span>
+            <p class="use-cases__card-description">Transform your knowledge into compelling visual stories for all platforms.</p>
           </div>
         </div>
 
         <div class="use-cases__card" data-hover-video data-categories="education">
-          <img src="assets/images/use-case-placeholder.jpg" alt="Education 3" class="use-cases__card-image">
+          <img src="sections/use-cases/3.png" alt="Education 3" class="use-cases__card-image">
           <video class="use-cases__card-video" muted loop>
             <source src="assets/videos/gallery-3.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Education</span>
-            <p class="use-cases__card-description">Professional development and training materials.</p>
+            <span class="use-cases__card-label">YouTube small creator</span>
+            <p class="use-cases__card-description">Grow your YouTube channel with professional educational content.</p>
           </div>
         </div>
 
         <div class="use-cases__card" data-hover-video data-categories="education">
-          <img src="assets/images/use-case-placeholder.jpg" alt="Education 4" class="use-cases__card-image">
+          <img src="sections/use-cases/4.png" alt="Education 4" class="use-cases__card-image">
           <video class="use-cases__card-video" muted loop>
             <source src="assets/videos/gallery-4.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Education</span>
-            <p class="use-cases__card-description">Science and technology explainer videos.</p>
+            <span class="use-cases__card-label">Podcaster</span>
+            <p class="use-cases__card-description">Convert podcast episodes into engaging video clips for social media.</p>
           </div>
         </div>
 
         <div class="use-cases__card" data-hover-video data-categories="education">
-          <img src="assets/images/use-case-placeholder.jpg" alt="Education 5" class="use-cases__card-image">
+          <img src="sections/use-cases/5.jpg" alt="Education 5" class="use-cases__card-image">
           <video class="use-cases__card-video" muted loop>
             <source src="assets/videos/gallery-5.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Education</span>
-            <p class="use-cases__card-description">Language learning and cultural education.</p>
+            <span class="use-cases__card-label">YouTube vlogger</span>
+            <p class="use-cases__card-description">Build educational content pages with stunning visual presentations.</p>
           </div>
         </div>
 
         <div class="use-cases__card" data-hover-video data-categories="education">
-          <img src="assets/images/use-case-placeholder.jpg" alt="Education 6" class="use-cases__card-image">
+          <img src="sections/use-cases/6.png" alt="Education 6" class="use-cases__card-image">
           <video class="use-cases__card-video" muted loop>
             <source src="assets/videos/gallery-6.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Education</span>
-            <p class="use-cases__card-description">Academic research presentations and summaries.</p>
+            <span class="use-cases__card-label">Page</span>
+            <p class="use-cases__card-description">Stand out with professionally crafted educational videos for YouTube.</p>
           </div>
         </div>
 
@@ -369,7 +369,7 @@
             <source src="assets/videos/gallery-1.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Motivation</span>
+            <span class="use-cases__card-label">TikTok creator</span>
             <p class="use-cases__card-description">Inspirational content to boost daily motivation.</p>
           </div>
         </div>
@@ -380,7 +380,7 @@
             <source src="assets/videos/gallery-2.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Motivation</span>
+            <span class="use-cases__card-label">Creator</span>
             <p class="use-cases__card-description">Success stories and achievement highlights.</p>
           </div>
         </div>
@@ -391,7 +391,7 @@
             <source src="assets/videos/gallery-3.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Motivation</span>
+            <span class="use-cases__card-label">YouTube small creator</span>
             <p class="use-cases__card-description">Personal growth and mindset transformation.</p>
           </div>
         </div>
@@ -402,7 +402,7 @@
             <source src="assets/videos/gallery-4.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Motivation</span>
+            <span class="use-cases__card-label">Podcaster</span>
             <p class="use-cases__card-description">Fitness and wellness motivational clips.</p>
           </div>
         </div>
@@ -413,7 +413,7 @@
             <source src="assets/videos/gallery-5.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Motivation</span>
+            <span class="use-cases__card-label">YouTube vlogger</span>
             <p class="use-cases__card-description">Entrepreneurship and business inspiration.</p>
           </div>
         </div>
@@ -424,7 +424,7 @@
             <source src="assets/videos/gallery-6.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Motivation</span>
+            <span class="use-cases__card-label">Page</span>
             <p class="use-cases__card-description">Daily affirmations and positive mindset content.</p>
           </div>
         </div>
@@ -436,7 +436,7 @@
             <source src="assets/videos/gallery-1.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Finance</span>
+            <span class="use-cases__card-label">TikTok creator</span>
             <p class="use-cases__card-description">Investment strategies and market analysis.</p>
           </div>
         </div>
@@ -447,7 +447,7 @@
             <source src="assets/videos/gallery-2.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Finance</span>
+            <span class="use-cases__card-label">Creator</span>
             <p class="use-cases__card-description">Personal budgeting and savings tips.</p>
           </div>
         </div>
@@ -458,7 +458,7 @@
             <source src="assets/videos/gallery-3.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Finance</span>
+            <span class="use-cases__card-label">YouTube small creator</span>
             <p class="use-cases__card-description">Cryptocurrency and blockchain education.</p>
           </div>
         </div>
@@ -469,7 +469,7 @@
             <source src="assets/videos/gallery-4.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Finance</span>
+            <span class="use-cases__card-label">Podcaster</span>
             <p class="use-cases__card-description">Real estate investment guidance.</p>
           </div>
         </div>
@@ -480,7 +480,7 @@
             <source src="assets/videos/gallery-5.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Finance</span>
+            <span class="use-cases__card-label">YouTube vlogger</span>
             <p class="use-cases__card-description">Retirement planning and wealth management.</p>
           </div>
         </div>
@@ -491,7 +491,7 @@
             <source src="assets/videos/gallery-6.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Finance</span>
+            <span class="use-cases__card-label">Page</span>
             <p class="use-cases__card-description">Tax optimization and financial planning.</p>
           </div>
         </div>
@@ -503,7 +503,7 @@
             <source src="assets/videos/gallery-1.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Webinar</span>
+            <span class="use-cases__card-label">TikTok creator</span>
             <p class="use-cases__card-description">Professional online seminars and workshops.</p>
           </div>
         </div>
@@ -514,7 +514,7 @@
             <source src="assets/videos/gallery-2.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Webinar</span>
+            <span class="use-cases__card-label">Creator</span>
             <p class="use-cases__card-description">Industry expert panel discussions.</p>
           </div>
         </div>
@@ -525,7 +525,7 @@
             <source src="assets/videos/gallery-3.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Webinar</span>
+            <span class="use-cases__card-label">YouTube small creator</span>
             <p class="use-cases__card-description">Product demonstrations and launches.</p>
           </div>
         </div>
@@ -536,7 +536,7 @@
             <source src="assets/videos/gallery-4.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Webinar</span>
+            <span class="use-cases__card-label">Podcaster</span>
             <p class="use-cases__card-description">Q&A sessions with thought leaders.</p>
           </div>
         </div>
@@ -547,7 +547,7 @@
             <source src="assets/videos/gallery-5.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Webinar</span>
+            <span class="use-cases__card-label">YouTube vlogger</span>
             <p class="use-cases__card-description">Virtual conferences and networking events.</p>
           </div>
         </div>
@@ -558,7 +558,7 @@
             <source src="assets/videos/gallery-6.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Webinar</span>
+            <span class="use-cases__card-label">Page</span>
             <p class="use-cases__card-description">Training sessions and skill development.</p>
           </div>
         </div>
@@ -570,7 +570,7 @@
             <source src="assets/videos/gallery-1.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Vlog</span>
+            <span class="use-cases__card-label">TikTok creator</span>
             <p class="use-cases__card-description">Daily life and lifestyle content.</p>
           </div>
         </div>
@@ -581,7 +581,7 @@
             <source src="assets/videos/gallery-2.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Vlog</span>
+            <span class="use-cases__card-label">Creator</span>
             <p class="use-cases__card-description">Travel adventures and destinations.</p>
           </div>
         </div>
@@ -592,7 +592,7 @@
             <source src="assets/videos/gallery-3.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Vlog</span>
+            <span class="use-cases__card-label">YouTube small creator</span>
             <p class="use-cases__card-description">Food and cooking experiences.</p>
           </div>
         </div>
@@ -603,7 +603,7 @@
             <source src="assets/videos/gallery-4.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Vlog</span>
+            <span class="use-cases__card-label">Podcaster</span>
             <p class="use-cases__card-description">Fashion and beauty tutorials.</p>
           </div>
         </div>
@@ -614,7 +614,7 @@
             <source src="assets/videos/gallery-5.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Vlog</span>
+            <span class="use-cases__card-label">YouTube vlogger</span>
             <p class="use-cases__card-description">Behind-the-scenes creator content.</p>
           </div>
         </div>
@@ -625,7 +625,7 @@
             <source src="assets/videos/gallery-6.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Vlog</span>
+            <span class="use-cases__card-label">Page</span>
             <p class="use-cases__card-description">Personal storytelling and experiences.</p>
           </div>
         </div>
@@ -637,7 +637,7 @@
             <source src="assets/videos/gallery-1.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Podcast</span>
+            <span class="use-cases__card-label">TikTok creator</span>
             <p class="use-cases__card-description">Interview-style podcast episodes.</p>
           </div>
         </div>
@@ -648,7 +648,7 @@
             <source src="assets/videos/gallery-2.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Podcast</span>
+            <span class="use-cases__card-label">Creator</span>
             <p class="use-cases__card-description">Solo commentary and insights.</p>
           </div>
         </div>
@@ -659,7 +659,7 @@
             <source src="assets/videos/gallery-3.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Podcast</span>
+            <span class="use-cases__card-label">YouTube small creator</span>
             <p class="use-cases__card-description">True crime and mystery stories.</p>
           </div>
         </div>
@@ -670,7 +670,7 @@
             <source src="assets/videos/gallery-4.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Podcast</span>
+            <span class="use-cases__card-label">Podcaster</span>
             <p class="use-cases__card-description">Technology and innovation discussions.</p>
           </div>
         </div>
@@ -681,7 +681,7 @@
             <source src="assets/videos/gallery-5.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Podcast</span>
+            <span class="use-cases__card-label">YouTube vlogger</span>
             <p class="use-cases__card-description">Health and wellness conversations.</p>
           </div>
         </div>
@@ -692,7 +692,7 @@
             <source src="assets/videos/gallery-6.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Podcast</span>
+            <span class="use-cases__card-label">Page</span>
             <p class="use-cases__card-description">Entertainment and pop culture reviews.</p>
           </div>
         </div>
@@ -704,7 +704,7 @@
             <source src="assets/videos/gallery-1.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Coaching</span>
+            <span class="use-cases__card-label">TikTok creator</span>
             <p class="use-cases__card-description">Life coaching and personal development.</p>
           </div>
         </div>
@@ -715,7 +715,7 @@
             <source src="assets/videos/gallery-2.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Coaching</span>
+            <span class="use-cases__card-label">Creator</span>
             <p class="use-cases__card-description">Business and career coaching.</p>
           </div>
         </div>
@@ -726,7 +726,7 @@
             <source src="assets/videos/gallery-3.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Coaching</span>
+            <span class="use-cases__card-label">YouTube small creator</span>
             <p class="use-cases__card-description">Fitness and athletic performance training.</p>
           </div>
         </div>
@@ -737,7 +737,7 @@
             <source src="assets/videos/gallery-4.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Coaching</span>
+            <span class="use-cases__card-label">Podcaster</span>
             <p class="use-cases__card-description">Relationship and communication coaching.</p>
           </div>
         </div>
@@ -748,7 +748,7 @@
             <source src="assets/videos/gallery-5.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Coaching</span>
+            <span class="use-cases__card-label">YouTube vlogger</span>
             <p class="use-cases__card-description">Mindfulness and meditation guidance.</p>
           </div>
         </div>
@@ -759,7 +759,7 @@
             <source src="assets/videos/gallery-6.mp4" type="video/mp4">
           </video>
           <div class="use-cases__card-overlay">
-            <span class="use-cases__card-label">Coaching</span>
+            <span class="use-cases__card-label">Page</span>
             <p class="use-cases__card-description">Leadership and executive coaching.</p>
           </div>
         </div>
