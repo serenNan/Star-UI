@@ -1,0 +1,356 @@
+<style>
+/* ========================================
+   Workflow 模块样式
+   ======================================== */
+
+.workflow {
+  padding: var(--spacing-3xl) 0;
+  background: var(--color-bg);
+}
+
+/* 标题区域 */
+.workflow__header {
+  text-align: center;
+  max-width: 1120px; /* 增加宽度，减少换行 */
+  margin: 0 auto 45px auto; /* 水平居中，底部45px间距 */
+}
+
+/* 小标题 "WORKFLOW" */
+.workflow__subtitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.1rem; /* 减小与主标题的间距 */
+}
+
+/* 主标题 "A Seamless Creative Workflow" */
+.workflow__title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-lg); /* 增加与描述的间距 */
+}
+
+/* 描述文字 */
+.workflow__description {
+  font-size: 1.6rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  white-space: normal; /* 正常换行 */
+  word-break: keep-all; /* 尽量不在单词中间断行 */
+  word-wrap: break-word; /* 仅在必要时断词 */
+}
+
+/* 卡片网格 */
+.workflow__cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap:27px; /* 减少卡片间距 */
+  max-width: 1400px; /* 增加最大宽度，让卡片变宽，文字描述能一行显示更多 */
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+/* 单个卡片 */
+.workflow__card {
+  position: relative;
+  aspect-ratio: 3 / 6.1;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform var(--transition);
+  background: #000000;
+}
+
+.workflow__card:hover {
+  transform: translateY(-8px);
+}
+
+/* 卡片图片 */
+.workflow__card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 步骤编号 - 移到标题左侧 */
+.workflow__card-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: -5px;
+}
+
+.workflow__card-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1;
+  position: relative;
+  top: -4px;
+}
+
+/* 渐变叠加层 - 从透明到纯黑 */
+.workflow__card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: linear-gradient(
+    to top,
+    #000000 0%,
+    rgba(0, 0, 0, 0.95) 15%,
+    rgba(0, 0, 0, 0.85) 30%,
+    rgba(0, 0, 0, 0.6) 50%,
+    rgba(0, 0, 0, 0.3) 70%,
+    transparent 100%
+  );
+  z-index: 1;
+}
+
+/* 文字内容区域 */
+.workflow__card-content {
+  position: absolute;
+  bottom: -25px;
+  left: -15px;
+  right: 0;
+  padding: var(--spacing-lg);
+  z-index: 2;
+}
+
+.workflow__card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.2rem;
+  margin-left: -8px;
+}
+
+.workflow__card-text {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #727272;
+  margin: 0;
+}
+
+/* ========================================
+   响应式设计
+   ======================================== */
+
+/* 平板端 */
+@media (max-width: 991px) {
+  .workflow {
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .workflow__title {
+    font-size: 2.5rem;
+  }
+
+  .workflow__cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 移动端 */
+@media (max-width: 767px) {
+  .workflow {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .workflow__header {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .workflow__title {
+    font-size: 2rem;
+  }
+
+  .workflow__description {
+    font-size: 1rem;
+  }
+
+  .workflow__cards {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .workflow__card {
+    aspect-ratio: 3 / 3.5;
+  }
+
+  .workflow__card-number {
+    font-size: 2.5rem;
+    top: var(--spacing-sm);
+    left: var(--spacing-sm);
+  }
+
+  .workflow__card-content {
+    padding: var(--spacing-md);
+  }
+
+  .workflow__card-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* 小屏手机 */
+@media (max-width: 479px) {
+  .workflow__title {
+    font-size: 1.75rem;
+  }
+
+  .workflow__card-number {
+    font-size: 2rem;
+  }
+}
+</style>
+
+<section class="workflow" id="workflow">
+  <div class="container">
+    <!-- 标题区域 -->
+    <div class="workflow__header">
+      <p class="workflow__subtitle">WORKFLOW</p>
+      <h2 class="workflow__title">A Seamless Creative Workflow</h2>
+      <p class="workflow__description">
+        Every step is connected through the CLIP Engine and tracked by an
+        intelligent assistant built to enhance your process.
+      </p>
+    </div>
+
+    <!-- 卡片网格 -->
+    <div class="workflow__cards">
+      <!-- 卡片 1: Generative -->
+      <div class="workflow__card" data-step="generative">
+        <img
+          src="sections/workflow/1.png"
+          alt="Generative AI"
+          class="workflow__card-image"
+          loading="lazy"
+        >
+        <div class="workflow__card-overlay"></div>
+        <div class="workflow__card-content">
+          <div class="workflow__card-title-wrapper">
+            <span class="workflow__card-number">1</span>
+            <h3 class="workflow__card-title">Generative</h3>
+          </div>
+          <p class="workflow__card-text">
+            Colors, fonts, lower thirds, logo safe-zones, intro/outro.
+          </p>
+        </div>
+      </div>
+
+      <!-- 卡片 2: Storyboard -->
+      <div class="workflow__card" data-step="storyboard">
+        <img
+          src="sections/workflow/2.jpg"
+          alt="Storyboard"
+          class="workflow__card-image"
+          loading="lazy"
+        >
+        <div class="workflow__card-overlay"></div>
+        <div class="workflow__card-content">
+          <div class="workflow__card-title-wrapper">
+            <span class="workflow__card-number">2</span>
+            <h3 class="workflow__card-title">Storyboard</h3>
+          </div>
+          <p class="workflow__card-text">
+            Captures tone, pacing, motion and composition preferences.
+          </p>
+        </div>
+      </div>
+
+      <!-- 卡片 3: Timeline -->
+      <div class="workflow__card" data-step="timeline">
+        <img
+          src="sections/workflow/3.png"
+          alt="Timeline"
+          class="workflow__card-image"
+          loading="lazy"
+        >
+        <div class="workflow__card-overlay"></div>
+        <div class="workflow__card-content">
+          <div class="workflow__card-title-wrapper">
+            <span class="workflow__card-number">3</span>
+            <h3 class="workflow__card-title">Timeline</h3>
+          </div>
+          <p class="workflow__card-text">
+            Brand recipes prevent drift and keep every render consistent.
+          </p>
+        </div>
+      </div>
+
+      <!-- 卡片 4: Assistant -->
+      <div class="workflow__card" data-step="assistant">
+        <img
+          src="sections/workflow/4.png"
+          alt="Assistant"
+          class="workflow__card-image"
+          loading="lazy"
+        >
+        <div class="workflow__card-overlay"></div>
+        <div class="workflow__card-content">
+          <div class="workflow__card-title-wrapper">
+            <span class="workflow__card-number">4</span>
+            <h3 class="workflow__card-title">Assistant</h3>
+          </div>
+          <p class="workflow__card-text">
+            Brand recipes prevent drift and keep every render consistent.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  'use strict';
+
+  /**
+   * 初始化 Workflow 模块
+   */
+  const initWorkflow = () => {
+    console.log('✅ Workflow module initialized');
+
+    const cards = document.querySelectorAll('.workflow__card');
+
+    // 图片加载错误处理
+    cards.forEach(card => {
+      const img = card.querySelector('.workflow__card-image');
+
+      if (img) {
+        img.addEventListener('error', function() {
+          console.warn(`Failed to load image: ${this.src}`);
+          // 可以在这里设置占位图或处理逻辑
+        });
+      }
+    });
+
+    // 预留：未来可添加视频悬浮播放功能
+    // 参考 gallery 模块的实现
+    // const initVideoHover = () => { ... };
+
+    // 预留：未来可添加点击展开详情功能
+    // cards.forEach(card => {
+    //   card.addEventListener('click', () => {
+    //     const step = card.dataset.step;
+    //     console.log(`Clicked on ${step}`);
+    //     // 处理点击事件
+    //   });
+    // });
+  };
+
+  // DOM Ready 检测
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWorkflow);
+  } else {
+    initWorkflow();
+  }
+})();
+</script>
