@@ -1,0 +1,417 @@
+<!-- ===== Assistant Section Module ===== -->
+<style>
+/* Assistant Section Styles - 特殊左右分栏布局 */
+.assistant-section {
+  padding: var(--spacing-3xl) 0;
+  background: var(--color-bg);
+}
+
+/* 标题区域 - 居中 */
+.assistant-section .section-header-center {
+  text-align: center;
+  max-width: 1200px;  /* 增大宽度，减少主标题换行 */
+  margin: 0 auto 35px;  /* 减少下边距（原来 200px）*/
+  padding: 0 var(--spacing-lg);
+}
+
+.assistant-section .section-label {
+  font-size: 1.2rem;  /* 增大小标题字体（原来 0.875rem）*/
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-sm);
+}
+
+/* 使用更具体的选择器，避免被 features 模块覆盖 */
+.assistant-section .section-title-large {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: var(--spacing-md);
+  line-height: 1.2;
+}
+
+.assistant-section .section-subtitle-large {
+  font-size: 1.5rem;  /* 增大描述字体（原来 1.125rem）*/
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* 主布局容器 - 左右分栏 */
+.assistant-container {
+  max-width: 1500px;  /* 缩小容器宽度（原来是 1400px）*/
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+.assistant-grid {
+  display: grid;
+  grid-template-columns: auto auto;  /* 改为自动宽度，由 max-width 控制 */
+  gap: 35px;
+  justify-content: center;  /* 整体居中显示 */
+}
+
+/* 左侧列 - 单个卡片包含两个功能 */
+.assistant-left {
+  display: flex;
+  max-width: 745px;  /* 限制左侧卡片最大宽度 */
+}
+
+/* 右侧列 - 一张大卡片 */
+.assistant-right {
+  display: flex;
+  max-width: 465px;  /* 限制右侧卡片最大宽度，让它更窄 */
+}
+
+/* 强制左右卡片高度一致 */
+.assistant-card {
+  height: 550px;  /* 固定卡片高度 */
+}
+
+/* 卡片基础样式 */
+.assistant-card {
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: 24px;  /* 增大圆角 */
+  overflow: hidden;
+  transition: all var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.assistant-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* 卡片图片区域 */
+.assistant-visual {
+  overflow: hidden;
+  background: var(--color-bg);
+  position: relative;
+}
+
+/* 左侧合并卡片 - 包含两个功能项（左右并排）*/
+.assistant-card-merged {
+  display: grid;
+  grid-template-columns: 1fr 1fr;  /* 两列等宽并排 */
+  gap: 32px;  /* 两个功能项之间的间距 */
+  padding-top: 32px;     /* 上边距 */
+  padding-right: var(--spacing-xl);   /* 右边距 */
+  padding-bottom: var(--spacing-xl);  /* 下边距 */
+  padding-left: var(--spacing-xl);    /* 左边距 */
+  flex: 1;
+  align-items: stretch;  /* 确保两个功能项高度一致 */
+}
+
+/* 右侧单卡片 - 包含一个功能项（内嵌样式）*/
+.assistant-card-single {
+  padding-top: 32px;     /* 上边距 */
+  padding-left: 6px;    /* 左边距 */
+  flex: 1;
+}
+
+.assistant-feature-item {
+  display: flex;
+  flex-direction: column;  /* 垂直布局：图片在上，文字在下 */
+  gap: var(--spacing-sm); 
+  height: 100%;  /* 填充父容器高度，确保两个功能项高度一致 */
+}
+
+/* 移除分割线 - 两个功能项之间不再有边框 */
+.assistant-feature-item:not(:last-child) {
+  padding-right: var(--spacing-md);
+}
+
+/* 功能项图片 - 左侧两个功能项的图片，固定宽高 */
+.assistant-feature-visual {
+  overflow: hidden;
+  background: var(--color-bg);
+  border-radius: 12px;
+  width: 295px;  /* 固定左侧图片宽度 */
+  height: 250px;  /* 固定左侧图片高度 */
+}
+
+/* 右侧单卡片图片 - 单独设置宽高 */
+.assistant-card-single .assistant-feature-visual {
+  width: 385px;  /* 固定右侧图片宽度 */
+  height: 250px;  /* 固定右侧图片高度 */
+}
+
+.assistant-feature-visual img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.assistant-card:hover .assistant-feature-visual img {
+  transform: scale(1.05);
+}
+
+.assistant-feature-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;  /* 水平居中 */
+  text-align: center;   /* 文字居中对齐 */
+  padding-top: 12px;
+  flex: 1;  /* 填满剩余空间 */
+}
+
+/* ===== 右侧卡片独立样式 - 完全不受其他样式影响 ===== */
+
+/* 右侧功能项容器 */
+.assistant-feature-item-right {
+  display: flex;
+  flex-direction: column;
+  gap: 0;  /* 不使用 gap，完全用 padding 控制 */
+  height: 100%;
+}
+
+/* 右侧图片 */
+.assistant-feature-visual-right {
+  overflow: hidden;
+  background: var(--color-bg);
+  border-radius: 12px;
+  width: 385px;
+  height: 250px;
+}
+
+.assistant-feature-visual-right img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.assistant-card:hover .assistant-feature-visual-right img {
+  transform: scale(1.05);
+}
+
+/* 右侧内容区域 - 精确控制间距 */
+.assistant-feature-content-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;  /* 顶部对齐 */
+  align-items: center;
+  text-align: center;
+  padding-top: 28px;  /* 与左侧一致的间距 */
+  flex: 1;
+}
+
+/* 右侧标题 */
+.assistant-feature-title-right {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.3;
+  text-align: center;  /* 标题居中 */
+  width: 100%;  /* 确保标题占满宽度以便居中 */
+}
+
+/* 右侧描述 */
+.assistant-feature-description-right {
+  color: var(--color-text-secondary);
+  font-size: 1.3rem;
+  line-height: 1.6;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  hyphens: none;
+  max-width: 100%;
+  text-align: center;  /* 描述居中 */
+  margin: 0 auto;  /* 水平居中 */
+}
+
+.assistant-feature-title {
+  font-size: 1.5rem;  /* 进一步增大标题字体 */
+  font-weight: 700;
+  margin-bottom: var(--spacing-sm);  /* 增大间距 */
+  line-height: 1.3;
+}
+
+.assistant-feature-description {
+  color: var(--color-text-secondary);
+  font-size: 1.3rem;  /* 进一步增大描述文字 */
+  line-height: 1.6;
+  word-break: keep-all;  /* 严格控制换行，保持单词完整 */
+  overflow-wrap: break-word;  /* 超长单词才换行 */
+  hyphens: none;  /* 禁用连字符 */
+  max-width: 100%;  /* 限制描述文字最大宽度，控制换行 */
+}
+
+/* 已移除旧的右侧大卡片样式（.assistant-card-large, .assistant-content, .assistant-title, .assistant-description, .assistant-link）
+   现在右侧也使用内嵌功能项样式 */
+
+/* 响应式布局 */
+@media (max-width: 991px) {
+  .assistant-grid {
+    grid-template-columns: 1fr;  /* 单列布局 */
+  }
+
+  /* 移动端左侧卡片也改为垂直堆叠 */
+  .assistant-card-merged {
+    grid-template-columns: 1fr;
+  }
+
+  .assistant-feature-item:not(:last-child) {
+    border-bottom: 1px solid var(--color-border);
+    padding-right: 0;
+    padding-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* 移动端图片比例调整 - 所有功能项统一使用 16:9 */
+  .assistant-feature-visual {
+    aspect-ratio: 16/9;
+  }
+}
+
+@media (max-width: 767px) {
+  .assistant-section {
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .section-header-center {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .assistant-grid {
+    gap: var(--spacing-lg);
+  }
+
+  .assistant-feature-item {
+    padding: var(--spacing-md);
+  }
+
+  .assistant-feature-title {
+    font-size: 1.125rem;
+  }
+
+  .assistant-feature-description {
+    font-size: 12px;
+  }
+}
+</style>
+
+<section class="assistant-section" id="assistant">
+  <!-- 标题区域 -->
+  <div class="section-header-center">
+    <div class="section-label" data-animate>ASSISTANT</div>
+    <h2 class="section-title-large" data-animate>Your Intelligent Creative Partner</h2>
+    <p class="section-subtitle-large" data-animate>
+      The Treclipse Assistant helps you plan, generate, and refine.
+    </p>
+  </div>
+
+  <!-- 主内容区域 - 特殊左右分栏布局 -->
+  <div class="assistant-container">
+    <div class="assistant-grid">
+
+      <!-- 左侧列：单个卡片包含两个功能 -->
+      <div class="assistant-left">
+
+        <!-- 合并卡片：包含两个功能项 -->
+        <div class="assistant-card assistant-card-merged" data-animate>
+
+          <!-- 功能项 1: Script, Story & Hooks -->
+          <div class="assistant-feature-item">
+            <div class="assistant-feature-visual">
+              <img src="sections/assistant/assistant-1.jpg" alt="Script, Story & Hooks" loading="lazy">
+            </div>
+            <div class="assistant-feature-content">
+              <h3 class="assistant-feature-title">Script, Story & Hooks</h3>
+              <p class="assistant-feature-description">
+                Generate scripts, hooks,<br> and scene outlines that <br>match your tone, pacing, <br>and emotion — guided by <br>AI built for storytelling.
+              </p>
+            </div>
+          </div>
+
+          <!-- 功能项 2: Adaptive Intelligence -->
+          <div class="assistant-feature-item">
+            <div class="assistant-feature-visual">
+              <img src="sections/assistant/assistant-2.jpg" alt="Adaptive Intelligence" loading="lazy">
+            </div>
+            <div class="assistant-feature-content">
+              <h3 class="assistant-feature-title">Adaptive Intelligence</h3>
+              <p class="assistant-feature-description">
+                The Treclipse Assistant  <br>evolves with your workflow<br> — adapting to your preferences, visual <br>language, and brand tone.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- 右侧列：一张大卡片（内嵌样式）-->
+      <div class="assistant-right">
+
+        <!-- 卡片 3: Analytical Insight - 使用独立类名 -->
+        <div class="assistant-card assistant-card-single" data-animate>
+
+          <!-- 功能项：Analytical Insight - 独立类名 -->
+          <div class="assistant-feature-item-right">
+            <div class="assistant-feature-visual-right">
+              <img src="sections/assistant/assistant-3.jpg" alt="Analytical Insight" loading="lazy">
+            </div>
+            <div class="assistant-feature-content-right">
+              <h3 class="assistant-feature-title-right">Analytical Insight</h3>
+              <p class="assistant-feature-description-right">
+                Gain intelligent feedback on pacing,<br> composition,and emotional flow —<br> helping you refine visuals and <br>narratives with precision.
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+// Assistant Section Script - 滚动动画初始化
+(function() {
+  'use strict';
+
+  const initAssistantAnimation = () => {
+    // 仅选择 assistant-section 内的需要动画的元素
+    const animateElements = document.querySelectorAll('.assistant-section [data-animate]');
+
+    if (animateElements.length === 0) return;
+
+    // IntersectionObserver 配置
+    const observerOptions = {
+      threshold: 0.1,  // 元素进入视口 10% 时触发
+      rootMargin: '0px 0px -50px 0px'  // 提前 50px 触发
+    };
+
+    // 创建观察者
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          // 添加动画类
+          entry.target.classList.add('animate-in');
+          // 只触发一次，观察后取消
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    // 观察所有需要动画的元素
+    animateElements.forEach(element => {
+      observer.observe(element);
+    });
+  };
+
+  // DOM 加载完成后初始化
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAssistantAnimation);
+  } else {
+    initAssistantAnimation();
+  }
+})();
+</script>
