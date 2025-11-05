@@ -1,0 +1,330 @@
+<style>
+/* ========================================
+   Brand Control 模块样式
+   ======================================== */
+
+.brand-control {
+  padding: var(--spacing-3xl) 0;
+  background: var(--color-bg);
+}
+
+/* 标题区域 */
+.brand-control__header {
+  text-align: center;
+  max-width: 1400px;
+  margin: 0 auto var(--spacing-md) auto;
+  padding: 0 var(--spacing-lg);
+}
+
+/* 小标题 "BRAND CONTROL" */
+.brand-control__subtitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin-bottom:0.4rem;
+}
+
+/* 主标题 "Always On-Brand, Automatically" */
+.brand-control__title {
+  font-size: 2.8rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin-bottom: 1rem;
+}
+
+/* 描述文字 */
+.brand-control__description {
+  font-size: 1.45rem;
+  line-height: 1.6;
+  letter-spacing: 0.02em;
+  color: var(--color-text-secondary);
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* 卡片容器 */
+.brand-control__cards {
+  max-width: 1310px;
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 26.5px;
+}
+
+/* 单个卡片 */
+.brand-control__card {
+  position: relative;
+  aspect-ratio: 16/11.45;
+  border-radius: 24px;
+  overflow: hidden;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.02);
+  transition: transform 0.3s ease;
+}
+
+.brand-control__card:hover {
+  transform: scale(1.02);
+}
+
+/* 卡片图片 */
+.brand-control__card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.3s ease;
+}
+
+/* 卡片视频 */
+.brand-control__card-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.brand-control__card:hover .brand-control__card-video {
+  opacity: 1;
+}
+
+.brand-control__card:hover .brand-control__card-image {
+  opacity: 0;
+}
+
+/* 卡片内容层 */
+.brand-control__card-content {
+  position: absolute;
+  inset: 0;
+  padding: var(--spacing-xl);
+  padding-left: 20px;   /* 左边距 */
+  padding-bottom: 50px; /* 下边距 */
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+/* 卡片标题 */
+.brand-control__card-title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--color-text);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 卡片标签 */
+.brand-control__card-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+  max-width: 70px;
+  word-wrap: break-word;
+  text-align: left;
+  margin-right: -30px;
+}
+
+/* CTA 按钮区域 */
+.brand-control__cta {
+  text-align: center;
+  margin-top: var(--spacing-2xl);
+}
+
+.brand-control__cta-button {
+  display: inline-block;
+  font-size: 1rem;
+  font-weight: 780;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #0D0D0D;
+  background: #E8E8E8;
+  border: 1px solid #E8E8E8;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  width: 180px;
+  text-align: center;
+}
+
+.brand-control__cta-button:hover {
+  background: #F5F5F5;
+  border-color: #F5F5F5;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(232, 232, 232, 0.3);
+}
+
+/* 响应式设计 */
+@media (max-width: 991px) {
+  .brand-control__cards {
+    gap: var(--spacing-lg);
+  }
+
+  .brand-control__card-title {
+    font-size: 1.75rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .brand-control {
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .brand-control__cards {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .brand-control__card {
+    aspect-ratio: 4/3;
+  }
+
+  .brand-control__card-content {
+    padding: var(--spacing-lg);
+  }
+
+  .brand-control__card-title {
+    font-size: 1.5rem;
+  }
+
+  .brand-control__card-label {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.875rem;
+  }
+}
+
+@media (max-width: 479px) {
+  .brand-control__title {
+    font-size: 1.75rem;
+  }
+
+  .brand-control__description {
+    font-size: 1rem;
+  }
+
+  .brand-control__card-title {
+    font-size: 1.25rem;
+  }
+
+  .brand-control__cta-button {
+    padding: 0.875rem 2rem;
+    font-size: 0.8125rem;
+  }
+}
+</style>
+
+<section class="brand-control" id="brand-control">
+  <div class="brand-control__header">
+    <div class="brand-control__subtitle">BRAND CONTROL</div>
+    <h2 class="brand-control__title">Always On-Brand, Automatically</h2>
+    <p class="brand-control__description">
+      Build your brand from the inside out — design avatars, manage assets, and maintain visual consistency across every creation.
+    </p>
+  </div>
+
+  <div class="brand-control__cards">
+    <!-- AI Avatar 卡片 -->
+    <div class="brand-control__card" data-hover-video>
+      <img
+        src="sections/brand-control/ai-avatar.jpg"
+        alt="AI Avatar"
+        class="brand-control__card-image"
+      >
+      <video
+        class="brand-control__card-video"
+        loop
+        muted
+        playsinline
+      >
+        <source src="sections/brand-control/ai-avatar.mp4" type="video/mp4">
+      </video>
+      <div class="brand-control__card-content">
+        <h3 class="brand-control__card-title">AI Avatar</h3>
+        <div class="brand-control__card-label">On-brand spokespeople</div>
+      </div>
+    </div>
+
+    <!-- Brand Kit 卡片 -->
+    <div class="brand-control__card" data-hover-video>
+      <img
+        src="sections/brand-control/brand-kit.jpg"
+        alt="Brand Kit"
+        class="brand-control__card-image"
+      >
+      <video
+        class="brand-control__card-video"
+        loop
+        muted
+        playsinline
+      >
+        <source src="sections/brand-control/brand-kit.mp4" type="video/mp4">
+      </video>
+      <div class="brand-control__card-content">
+        <h3 class="brand-control__card-title">Brand Kit</h3>
+        <div class="brand-control__card-label">Studio look, no studio</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="brand-control__cta">
+    <a href="#studio" class="brand-control__cta-button">EXPLORE STUDIO</a>
+  </div>
+</section>
+
+<script>
+// Brand Control Section Script - 视频悬浮播放效果
+(function() {
+  'use strict';
+
+  const initBrandControlVideoHover = () => {
+    // 仅针对 brand-control 模块内的视频
+    const brandControlVideoItems = document.querySelectorAll('.brand-control [data-hover-video]');
+
+    brandControlVideoItems.forEach(item => {
+      const video = item.querySelector('video');
+      if (!video) return;
+
+      // 鼠标进入 - 播放视频
+      item.addEventListener('mouseenter', () => {
+        video.play().catch(err => {
+          console.log('Brand Control video play failed:', err);
+        });
+      });
+
+      // 鼠标离开 - 暂停并重置视频
+      item.addEventListener('mouseleave', () => {
+        video.pause();
+        video.currentTime = 0;
+      });
+
+      // 触摸设备优化 - 点击切换视频播放
+      item.addEventListener('touchstart', (e) => {
+        if (video.paused) {
+          video.play().catch(err => {
+            console.log('Brand Control video play failed:', err);
+          });
+        } else {
+          video.pause();
+          video.currentTime = 0;
+        }
+      }, { passive: true });
+    });
+  };
+
+  // DOM 加载完成后初始化
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initBrandControlVideoHover);
+  } else {
+    initBrandControlVideoHover();
+  }
+})();
+</script>
