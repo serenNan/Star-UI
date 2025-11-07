@@ -1,0 +1,405 @@
+<!-- ===== APIs Section Module ===== -->
+<style>
+/* APIs Section Styles */
+.apis-section {
+  padding: var(--spacing-3xl) 0;
+  background: var(--color-bg);
+}
+
+.apis-header {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto var(--spacing-2xl);
+  padding: 0 var(--spacing-lg);
+}
+
+.apis-label {
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
+}
+
+.apis-title {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 800;
+  margin-bottom: var(--spacing-md);
+  line-height: 1.1;
+  background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.apis-description {
+  font-size: 1.125rem;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Grid Layout - 自由定位布局 */
+.apis-grid {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  position: relative;
+  min-height: 2000px; /* 根据需要调整容器高度 */
+}
+
+/* API Card Styles */
+.api-card {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+  border: none;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: absolute; /* 改为绝对定位，方便自由摆放 */
+  cursor: pointer;
+}
+
+.api-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* 卡片位置和大小 - 可自由调整 */
+/*
+  使用方式：
+  - top/left: 控制位置偏移
+  - width/height: 控制卡片大小
+  - transform: translateX() translateY() 进行微调
+*/
+
+.api-card:nth-child(1) {
+  top: 0;
+  left: 100px;
+  width: 830px;
+  height: 282px;
+}
+
+.api-card:nth-child(2) {
+  top: 0;
+  left: 957px;
+  width: 362px;
+  height: 598px;
+}
+
+.api-card:nth-child(3) {
+  top: 305px;
+  left: 100px;
+  width: 305px;
+  height: 290px;
+}
+
+.api-card:nth-child(4) {
+  top: 305px;
+  left: 435px;
+  width: 498px;
+  height: 290px;
+}
+
+.api-card:nth-child(5) {
+  top: 615px;
+  left: 100px;
+  width: 545px;
+  height: 605px;
+}
+
+.api-card:nth-child(6) {
+  top: 615px;
+  left: 670px;
+  width: 649px;
+  height: 293px;
+}
+
+.api-card:nth-child(7) {
+  top: 928px;
+  left: 670px;
+  width: 305px;
+  height: 290px;
+}
+
+.api-card:nth-child(8) {
+  top: 928px;
+  left: 1000px;
+  width: 318px;
+  height: 290px;
+}
+
+.api-card:nth-child(9) {
+  top: 1240px;
+  left: 100px;
+  width: 643px;
+  height: 290px;
+}
+
+.api-card:nth-child(10) {
+  top: 1240px;
+  left: 766px;
+  width: 553px;
+  height: 290px;
+}
+
+/* API Image */
+.api-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.api-card:hover .api-image {
+  transform: scale(1.05);
+}
+
+/* API Overlay Content - 始终显示在左上角 */
+.api-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: var(--spacing-lg);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+  z-index: 2;
+}
+
+/* 卡片编号 - 已隐藏 */
+.api-number {
+  display: none;
+}
+
+.api-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: -6px;
+  color: var(--color-text);
+  line-height: 1.3;
+}
+
+.api-description {
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.9);
+  line-height: 1.5;
+}
+
+/* Responsive Design */
+@media (max-width: 991px) {
+  .apis-grid {
+    min-height: auto;
+  }
+
+  /* 平板端: 垂直堆叠布局 */
+  .api-card {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    aspect-ratio: 16 / 10;
+    top: auto !important;
+    left: auto !important;
+    margin-bottom: var(--spacing-md);
+  }
+}
+
+@media (max-width: 767px) {
+  .apis-section {
+    padding: var(--spacing-2xl) 0;
+  }
+
+  /* 移动端: 单列布局 */
+  .api-card {
+    aspect-ratio: 1 / 1;
+  }
+}
+
+/* Animation */
+.api-card {
+  opacity: 0;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+.api-card:nth-child(1) { animation-delay: 0.1s; }
+.api-card:nth-child(2) { animation-delay: 0.2s; }
+.api-card:nth-child(3) { animation-delay: 0.3s; }
+.api-card:nth-child(4) { animation-delay: 0.4s; }
+.api-card:nth-child(5) { animation-delay: 0.5s; }
+.api-card:nth-child(6) { animation-delay: 0.6s; }
+.api-card:nth-child(7) { animation-delay: 0.7s; }
+.api-card:nth-child(8) { animation-delay: 0.8s; }
+.api-card:nth-child(9) { animation-delay: 0.9s; }
+.api-card:nth-child(10) { animation-delay: 1s; }
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
+<section class="apis-section" id="apis">
+  <div class="apis-header">
+    <p class="apis-label">APIs</p>
+    <h2 class="apis-title">Powerful APIs For Every Creative Flow</h2>
+    <p class="apis-description">
+      Access a curated suite of industry-leading AI models all unified through the Eclipse Engine.
+    </p>
+  </div>
+
+  <div class="apis-grid">
+    <!-- API Card 1 - Voice & Likeness -->
+    <div class="api-card">
+      <img src="sections/APIs/1.png" alt="Voice & Likeness API" class="api-image">
+      <span class="api-number">1</span>
+      <div class="api-overlay">
+        <h3 class="api-title">Voice & Likeness.</h3>
+        <p class="api-description">Trains on approved samples with <br>consent & controls.</p>
+      </div>
+    </div>
+
+    <!-- API Card 2 - Brand Safety -->
+    <div class="api-card">
+      <img src="sections/APIs/2.jpg" alt="Brand Safety API" class="api-image">
+      <span class="api-number">2</span>
+      <div class="api-overlay">
+        <h3 class="api-title">Brand Safety</h3>
+        <p class="api-description">Comprehensive tools to protect your brand and ensure safe content generation.</p>
+      </div>
+    </div>
+
+    <!-- API Card 3 - Brand Safety -->
+    <div class="api-card">
+      <img src="sections/APIs/3.png" alt="Brand Safety API" class="api-image">
+      <span class="api-number">3</span>
+      <div class="api-overlay">
+        <h3 class="api-title">Brand Safety</h3>
+        <p class="api-description">Fine-tune every frame with professional-grade timing controls.</p>
+      </div>
+    </div>
+
+    <!-- API Card 4 - Brand Safety -->
+    <div class="api-card">
+      <img src="sections/APIs/4.png" alt="Brand Safety API" class="api-image">
+      <span class="api-number">4</span>
+      <div class="api-overlay">
+        <h3 class="api-title">Brand Safety</h3>
+        <p class="api-description">Advanced moderation tools for content safety and compliance.</p>
+      </div>
+    </div>
+
+    <!-- API Card 5 - Brand Safety -->
+    <div class="api-card">
+      <img src="sections/APIs/5.png" alt="Brand Safety API" class="api-image">
+      <span class="api-number">5</span>
+      <div class="api-overlay">
+        <h3 class="api-title">Brand Safety</h3>
+        <p class="api-description">Protect your content with invisible watermarking technology.</p>
+      </div>
+    </div>
+
+    <!-- API Card 6 - Brand Safety -->
+    <div class="api-card">
+      <img src="sections/APIs/1 copy.png" alt="Brand Safety API" class="api-image">
+      <span class="api-number">6</span>
+      <div class="api-overlay">
+        <h3 class="api-title">Brand Safety</h3>
+        <p class="api-description">Complete transparency with comprehensive audit trails.</p>
+      </div>
+    </div>
+
+    <!-- API Card 7 - Brand Safety -->
+    <div class="api-card">
+      <img src="sections/APIs/2 copy.jpg" alt="Brand Safety API" class="api-image">
+      <span class="api-number">7</span>
+      <div class="api-overlay">
+        <h3 class="api-title">Brand Safety</h3>
+        <p class="api-description">Granular control over API usage and rate limiting.</p>
+      </div>
+    </div>
+
+    <!-- API Card 8 - Brand Safety -->
+    <div class="api-card">
+      <img src="sections/APIs/3 copy.png" alt="Brand Safety API" class="api-image">
+      <span class="api-number">8</span>
+      <div class="api-overlay">
+        <h3 class="api-title">Brand Safety</h3>
+        <p class="api-description">Enterprise-grade security for your AI-generated content.</p>
+      </div>
+    </div>
+
+    <!-- API Card 9 - Brand Safety -->
+    <div class="api-card">
+      <img src="sections/APIs/4 copy.png" alt="Brand Safety API" class="api-image">
+      <span class="api-number">9</span>
+      <div class="api-overlay">
+        <h3 class="api-title">Brand Safety</h3>
+        <p class="api-description">Stay compliant with industry standards and regulations.</p>
+      </div>
+    </div>
+
+    <!-- API Card 10 - Brand Safety -->
+    <div class="api-card">
+      <img src="sections/APIs/5 copy.png" alt="Brand Safety API" class="api-image">
+      <span class="api-number">10</span>
+      <div class="api-overlay">
+        <h3 class="api-title">Brand Safety</h3>
+        <p class="api-description">Real-time monitoring and analytics for your API usage.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// APIs Section Script
+(function() {
+  'use strict';
+
+  const initAPIsSection = () => {
+    // 添加滚动触发动画
+    const apiCards = document.querySelectorAll('.api-card');
+
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -100px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.animationPlayState = 'running';
+          observer.unobserve(entry.target);
+        }
+      });
+    }, observerOptions);
+
+    apiCards.forEach(card => {
+      card.style.animationPlayState = 'paused';
+      observer.observe(card);
+    });
+
+    // 添加点击事件（可选）
+    apiCards.forEach(card => {
+      card.addEventListener('click', () => {
+        const category = card.querySelector('.api-category')?.textContent;
+        const title = card.querySelector('.api-title')?.textContent;
+        console.log(`API Card clicked: ${category} - ${title}`);
+        // 这里可以添加更多交互逻辑，比如打开模态框或跳转到详情页
+      });
+    });
+  };
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initAPIsSection);
+  } else {
+    initAPIsSection();
+  }
+})();
+</script>
