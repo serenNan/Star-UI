@@ -3094,7 +3094,7 @@
 /* 卡片基础样式 */
 .assistant-card {
   background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
+  border: none;  /* 移除边框 */
   border-radius: 24px;  /* 增大圆角 */
   overflow: hidden;
   transition: all var(--transition);
@@ -3104,7 +3104,6 @@
 
 .assistant-card:hover {
   transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.2);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
@@ -3440,876 +3439,491 @@
 </script>
 
 
-  <!-- ===== GALLERY SECTION ===== -->
-<!-- ===== Product Gallery Module ===== -->
+  <!-- ===== STYLES SECTION ===== -->
+<!-- ===================================
+     STYLES 模块
+     展示 AI 视频创作的风格选项
+     =================================== -->
+
 <style>
-/* Gallery Section Styles */
-.gallery-section {
+/* ==================== 主容器样式 ==================== */
+.styles {
   padding: var(--spacing-3xl) 0;
+  background-color: var(--color-bg);
+  position: relative;
+  overflow: hidden;
 }
 
-.section-header {
-  text-align: center;
-  margin-bottom: var(--spacing-2xl);
-}
-
-.section-title {
-  font-size: clamp(1.5rem, 3vw, 2.5rem);
-  font-weight: 700;
-  line-height: 1.3;
-  letter-spacing: -0.01em;
-}
-
-.product-gallery {
+.styles-container {
   max-width: var(--container-width);
   margin: 0 auto;
   padding: 0 var(--spacing-lg);
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-md);
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-xl);
+  align-items: start; /* 改为顶部对齐，避免挤压 */
+  position: relative; /* 定位上下文 */
 }
 
-.gallery-item {
+/* ==================== 左侧：风格卡片网格 ==================== */
+.styles-gallery {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr); /* 6列网格用于更灵活的布局 */
+  gap: var(--spacing-md);
+  transform: rotate(35deg); /* 整体向右倾斜 35 度 */
+  padding: var(--spacing-lg);
+  overflow: visible; /* 允许卡片超出容器 */
+  position: relative; /* 定位上下文 */
+  min-height: 600px; /* 设置最小高度，防止容器塌陷 */
+  width: 100%; /* 固定宽度为父容器的100% */
+  max-width: 600px; /* 限制最大宽度，防止过度扩张 */
+}
+
+.styles-card {
   position: relative;
-  aspect-ratio: 1;
-  border-radius: 12px;
+  aspect-ratio: 3 / 4;
+  border-radius: 32px;  /* 圆角从 16px 增大到 32px */
   overflow: hidden;
-  cursor: pointer;
+  background-color: var(--color-bg-secondary);
+  transition: all 0.4s ease;
+  opacity: 0;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.styles-card.animate-in {
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* 灵活交错布局（6列网格）：
+   使用 grid-column/grid-row 定位基础位置
+   使用 transform 微调每个卡片的精确位置，实现自由布局
+*/
+
+/* 卡片 1：右上角 */
+.styles-card:nth-child(1) {
+  grid-column: 3 / 5;
+  grid-row: 1;
+  animation-delay: 0s;
+  width: 235px;
+  height: 195px;
+  transform: translate(-325px, 170px);  /* 向上移动20px（220 - 20 = 200）*/
+}
+
+/* 卡片 2：右上角，与卡片1并排 */
+.styles-card:nth-child(2) {
+  grid-column: 5 / 7;
+  grid-row: 1;
+  animation-delay: 0.1s;
+  width: 235px;
+  height: 195px;
+  transform: translate(-380px, 170px);  /* 向上移动20px（220 - 20 = 200）*/
+}
+
+/* 卡片 3：左侧中间 */
+.styles-card:nth-child(3) {
+  grid-column: 1 / 3;
+  grid-row: 2;
+  animation-delay: 0.2s;
+  width: 220px;   /* 宽度 */
+  height: 290px;  /* 高度 */
+  transform: translate(-335px, 70px);  
+}
+
+/* 卡片 4：中间 */
+.styles-card:nth-child(4) {
+  grid-column: 3 / 6;
+  grid-row: 2;
+  animation-delay: 0.3s;
+  width: 367px;
+  height: 315px;
+  z-index: 2;
+  transform: translate(-325px, 170px);  /* 向上移动20px（220 - 20 = 200）*/
+}
+
+/* 卡片 5：右侧，跨2行，向右突出 */
+.styles-card:nth-child(5) {
+  grid-column: 4 / 6;
+  grid-row: 2 / 4;
+  animation-delay: 0.4s;
+  width: 240px;   /* 宽度 */
+  height: 395px;  /* 高度（较高）*/
+  z-index: 3;
+  transform: translate(-80px, 170px);
+}
+
+/* 卡片 6：底部中间 */
+.styles-card:nth-child(6) {
+  grid-column: 3 / 5;
+  grid-row: 3;
+  animation-delay: 0.5s;
+  width: 295px;   /* 宽度 */
+  height: 400px;  /* 高度 */
+  transform: translate(-250px, 170px);
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 悬浮效果：增加阴影和缩放，不影响位置偏移 */
+.styles-card:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+  /* 不使用 transform，避免覆盖位置偏移 */
+}
+
+.styles-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
   transition: transform var(--transition);
 }
 
-.gallery-item:hover {
-  transform: scale(1.02);
+.styles-card:hover img {
+  transform: scale(1.1);  /* 悬浮时图片放大 */
 }
 
-.gallery-large {
-  grid-row: span 2;
-  aspect-ratio: 1/2;
-}
-
-.gallery-wide {
-  grid-column: span 2;
-  aspect-ratio: 2/1;
-}
-
-.gallery-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: opacity var(--transition);
-}
-
-.gallery-item video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity var(--transition);
-}
-
-.gallery-item:hover video {
-  opacity: 1;
-}
-
-.gallery-item:hover img {
-  opacity: 0;
-}
-
-.gallery-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: var(--spacing-lg);
-  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-  opacity: 0;
-  transition: opacity var(--transition);
-}
-
-.gallery-item:hover .gallery-overlay {
-  opacity: 1;
-}
-
-.gallery-title {
-  font-size: 1.25rem;
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-}
-
-.gallery-subtitle {
-  font-size: 14px;
-  color: var(--color-text-secondary);
-}
-
-/* Responsive */
-@media (max-width: 991px) {
-  .product-gallery {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 767px) {
-  .product-gallery {
-    grid-template-columns: 1fr;
-  }
-
-  .gallery-large,
-  .gallery-wide {
-    grid-column: auto;
-    grid-row: auto;
-    aspect-ratio: 1;
-  }
-}
-</style>
-
-<section class="gallery-section" id="solutions">
-  <div class="section-header">
-    <h2 class="section-title">Explore Creative Possibilities</h2>
-  </div>
-
-  <div class="product-gallery">
-    <div class="gallery-item" data-hover-video>
-      <img src="sections/gallery/gallery-1.jpg" alt="AI Generated Video 1">
-      <video loop muted playsinline>
-        <source src="sections/gallery/gallery-1.mp4" type="video/mp4">
-      </video>
-      <div class="gallery-overlay">
-        <h3 class="gallery-title">Space Journey</h3>
-        <p class="gallery-subtitle">AI Animation</p>
-      </div>
-    </div>
-
-    <div class="gallery-item gallery-large" data-hover-video>
-      <img src="sections/gallery/gallery-2.jpg" alt="AI Generated Video 2">
-      <video loop muted playsinline>
-        <source src="sections/gallery/gallery-2.mp4" type="video/mp4">
-      </video>
-      <div class="gallery-overlay">
-        <h3 class="gallery-title">Cosmic Dreams</h3>
-        <p class="gallery-subtitle">Visual Effects</p>
-      </div>
-    </div>
-
-    <div class="gallery-item" data-hover-video>
-      <img src="sections/gallery/gallery-3.jpg" alt="AI Generated Video 3">
-      <video loop muted playsinline>
-        <source src="sections/gallery/gallery-3.mp4" type="video/mp4">
-      </video>
-      <div class="gallery-overlay">
-        <h3 class="gallery-title">Stellar View</h3>
-        <p class="gallery-subtitle">AI Creation</p>
-      </div>
-    </div>
-
-    <div class="gallery-item gallery-wide" data-hover-video>
-      <img src="sections/gallery/gallery-4.jpg" alt="AI Generated Video 4">
-      <video loop muted playsinline>
-        <source src="sections/gallery/gallery-4.mp4" type="video/mp4">
-      </video>
-      <div class="gallery-overlay">
-        <h3 class="gallery-title">Lunar Eclipse</h3>
-        <p class="gallery-subtitle">Time-lapse</p>
-      </div>
-    </div>
-
-    <div class="gallery-item" data-hover-video>
-      <img src="sections/gallery/gallery-5.jpg" alt="AI Generated Video 5">
-      <video loop muted playsinline>
-        <source src="sections/gallery/gallery-5.mp4" type="video/mp4">
-      </video>
-      <div class="gallery-overlay">
-        <h3 class="gallery-title">Astronaut's View</h3>
-        <p class="gallery-subtitle">POV Camera</p>
-      </div>
-    </div>
-
-    <div class="gallery-item" data-hover-video>
-      <img src="sections/gallery/gallery-6.jpg" alt="AI Generated Video 6">
-      <video loop muted playsinline>
-        <source src="sections/gallery/gallery-6.mp4" type="video/mp4">
-      </video>
-      <div class="gallery-overlay">
-        <h3 class="gallery-title">Nebula Colors</h3>
-        <p class="gallery-subtitle">Digital Art</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<script>
-// Gallery Section Script - Video Hover Effect
-(function() {
-  'use strict';
-
-  const initGalleryVideoHover = () => {
-    // Only target videos within gallery section
-    const galleryVideoItems = document.querySelectorAll('.gallery-section [data-hover-video]');
-
-    galleryVideoItems.forEach(item => {
-      const video = item.querySelector('video');
-      if (!video) return;
-
-      item.addEventListener('mouseenter', () => {
-        video.play().catch(err => console.log('Video play failed:', err));
-      });
-
-      item.addEventListener('mouseleave', () => {
-        video.pause();
-        video.currentTime = 0;
-      });
-    });
-  };
-
-  // Initialize on DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initGalleryVideoHover);
-  } else {
-    initGalleryVideoHover();
-  }
-})();
-</script>
-
-
-  <!-- ===== STATS SECTION ===== -->
-<!-- ===== Stats Section Module ===== -->
-<style>
-/* Stats Section Styles */
-.stats-section {
-  padding: var(--spacing-2xl) 0;
-  background: var(--color-bg-secondary);
-  border-top: 1px solid var(--color-border);
-  border-bottom: 1px solid var(--color-border);
-}
-
-.stats-grid {
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: var(--spacing-xl);
-  text-align: center;
-}
-
-.stat-item {
+/* ==================== 右侧：内容区域 ==================== */
+.styles-content {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  gap: var(--spacing-lg);
+  margin-top: 120px; /* 向下偏移 120px */
 }
 
-.stat-number {
-  font-size: 3rem;
-  font-weight: 900;
-  margin-bottom: 0.5rem;
-  background: linear-gradient(135deg, var(--color-text), var(--color-text-secondary));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+/* 标题区域 */
+.styles-header {
+  margin-bottom: var(--spacing-md);
+  text-align: center; /* 居中对齐 */
 }
 
-.stat-label {
-  font-size: 14px;
-  color: var(--color-text-secondary);
+.styles-label {
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-sm);
+  display: block;
+  text-align: center; /* 居中对齐 */
 }
 
-/* Responsive */
+.styles-title {
+  font-size: 2.75rem;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--color-text);
+  margin: 0 0 var(--spacing-md) 0;
+  letter-spacing: -0.02em;
+  text-align: center; /* 居中对齐 */
+}
+
+.styles-description {
+  font-size: 1.45rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin: 0;
+  text-align: center; /* 居中对齐 */
+}
+
+/* 功能卡片容器（水平并列）*/
+.styles-features {
+  display: grid;
+  grid-template-columns: 380px 380px;  /* 宽度从 350px 增加到 380px */
+  gap: 24px;  /* 卡片之间间距 24px */
+  margin-top: var(--spacing-md);
+  justify-content: center;  /* 居中对齐 */
+}
+
+.styles-feature-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  padding: 32px;  /* 内边距 */
+  border: none;  /* 移除边框 */
+  transition: all var(--transition);
+  min-height: 230px;  /* 高度从 200px 增加到 230px */
+  box-sizing: border-box;  /* 确保 padding 包含在宽度内 */
+  text-align: center;  /* 卡片内文字居中对齐 */
+}
+
+.styles-feature-card:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-4px);
+}
+
+.styles-feature-title {
+  font-size: 1.5rem;  /* 从 1.25rem 增大到 1.5rem (24px) */
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-text);
+  margin: 0 0 var(--spacing-sm) 0;
+}
+
+.styles-feature-description {
+  font-size: 1.25rem;  /* 从 1.125rem 增大到 1.25rem (20px) */
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+/* CTA 按钮 */
+.styles-cta {
+  margin-top: var(--spacing-lg);
+  text-align: center;  /* 按钮居中对齐 */
+}
+
+.styles-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 17px 25px;  /* 从 16px 32px 减小到 14px 24px */
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: var(--color-bg);
+  background-color: var(--color-text);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-decoration: none;
+}
+
+.styles-button:hover {
+  background-color: var(--color-text-secondary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.1);
+}
+
+/* ==================== 响应式设计 ==================== */
+
+/* 平板端（≤ 991px）*/
 @media (max-width: 991px) {
-  .stats-grid {
+  .styles-container {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl);
+  }
+
+  .styles-content {
+    order: 1;
+  }
+
+  /* 平板端：保持交错布局 */
+  .styles-gallery {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-sm);
+    order: 2;
+    padding: var(--spacing-md);
+    transform: rotate(35deg);
+  }
+
+  .styles-title {
+    font-size: 2.5rem;
+  }
+
+  .styles-features {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
+/* 移动端（≤ 767px）*/
 @media (max-width: 767px) {
-  .stats-grid {
-    grid-template-columns: 1fr;
+  .styles {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .styles-container {
+    padding: 0 var(--spacing-md);
     gap: var(--spacing-lg);
   }
 
-  .stat-number {
-    font-size: 2.5rem;
+  /* 移动端：简化为2列网格 */
+  .styles-gallery {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-sm);
+    transform: rotate(35deg);
+    padding: var(--spacing-sm);
   }
-}
-</style>
 
-<section class="stats-section" id="resources">
-  <div class="stats-grid">
-    <div class="stat-item">
-      <div class="stat-number">10M+</div>
-      <div class="stat-label">Videos Created</div>
-    </div>
+  /* 移动端：重置交错布局，改为简单的2列排列 */
+  .styles-card:nth-child(1) { grid-column: 1 / 2; grid-row: 1; }
+  .styles-card:nth-child(2) { grid-column: 2 / 3; grid-row: 1; }
+  .styles-card:nth-child(3) { grid-column: 1 / 2; grid-row: 2; }
+  .styles-card:nth-child(4) { grid-column: 2 / 3; grid-row: 2; }
+  .styles-card:nth-child(5) { grid-column: 1 / 2; grid-row: 3; }
+  .styles-card:nth-child(6) { grid-column: 2 / 3; grid-row: 3; }
 
-    <div class="stat-item">
-      <div class="stat-number">500K+</div>
-      <div class="stat-label">Active Users</div>
-    </div>
+  .styles-title {
+    font-size: 2rem;
+  }
 
-    <div class="stat-item">
-      <div class="stat-number">150+</div>
-      <div class="stat-label">Countries</div>
-    </div>
+  .styles-description {
+    font-size: 1rem;
+  }
 
-    <div class="stat-item">
-      <div class="stat-number">99.9%</div>
-      <div class="stat-label">Satisfaction</div>
-    </div>
-  </div>
-</section>
-
-
-  <!-- ===== FEATURES SECTION ===== -->
-<!-- ===== Features Section Module ===== -->
-<style>
-/* Features Section Styles */
-.features-section {
-  padding: var(--spacing-3xl) 0;
-}
-
-.section-header-center {
-  text-align: center;
-  max-width: 800px;
-  margin: 0 auto var(--spacing-2xl);
-  padding: 0 var(--spacing-lg);
-}
-
-.section-title-large {
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-weight: 800;
-  margin-bottom: var(--spacing-md);
-  line-height: 1.2;
-}
-
-.section-subtitle-large {
-  font-size: 1.125rem;
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-}
-
-.features-grid {
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--spacing-xl);
-}
-
-.feature-card {
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: 16px;
-  overflow: hidden;
-  transition: all var(--transition);
-}
-
-.feature-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-.feature-visual {
-  aspect-ratio: 16/9;
-  overflow: hidden;
-  background: var(--color-bg);
-}
-
-.feature-visual img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.feature-content {
-  padding: var(--spacing-lg);
-}
-
-.feature-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: var(--spacing-sm);
-}
-
-.feature-description {
-  color: var(--color-text-secondary);
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: var(--spacing-md);
-}
-
-.feature-link {
-  color: var(--color-text);
-  font-weight: 600;
-  font-size: 14px;
-  transition: color var(--transition);
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.feature-link:hover {
-  color: var(--color-accent);
-}
-
-.feature-link::after {
-  content: '→';
-  transition: transform var(--transition);
-}
-
-.feature-link:hover::after {
-  transform: translateX(4px);
-}
-
-/* Responsive */
-@media (max-width: 991px) {
-  .features-grid {
+  /* 功能卡片垂直堆叠 */
+  .styles-features {
     grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+  }
+
+  .styles-feature-card {
+    padding: var(--spacing-md);
+  }
+
+  .styles-feature-title {
+    font-size: 1.125rem;
+  }
+
+  .styles-feature-description {
+    font-size: 0.875rem;
+  }
+
+  .styles-button {
+    width: 100%;
+    padding: 14px 24px;
+  }
+}
+
+/* 小屏移动端（≤ 479px）*/
+@media (max-width: 479px) {
+  .styles-title {
+    font-size: 1.75rem;
+  }
+
+  .styles-gallery {
+    gap: 0.5rem;
   }
 }
 </style>
 
-<section class="features-section" id="features">
-  <div class="section-header-center">
-    <h2 class="section-title-large" data-animate>Powerful Features for Creators</h2>
-    <p class="section-subtitle-large" data-animate>
-      Everything you need to create professional videos with AI
-    </p>
-  </div>
+<!-- ===================================
+     HTML 结构
+     =================================== -->
 
-  <div class="features-grid">
-    <div class="feature-card" data-animate>
-      <div class="feature-visual">
-        <img src="sections/features/feature-1.jpg" alt="AI Video Generation">
+<section class="styles" id="styles">
+  <div class="styles-container">
+
+    <!-- 左侧：风格卡片画廊 -->
+    <div class="styles-gallery">
+      <div class="styles-card">
+        <img src="sections/styles/1.png" alt="Style 1" loading="lazy">
       </div>
-      <div class="feature-content">
-        <h3 class="feature-title">AI Video Generation</h3>
-        <p class="feature-description">
-          Transform text prompts into stunning videos in seconds. Our advanced AI understands your vision and brings it to life.
-        </p>
-        <a href="#" class="feature-link">Learn more</a>
+      <div class="styles-card">
+        <img src="sections/styles/2.jpg" alt="Style 2" loading="lazy">
+      </div>
+      <div class="styles-card">
+        <img src="sections/styles/3.png" alt="Style 3" loading="lazy">
+      </div>
+      <div class="styles-card">
+        <img src="sections/styles/4.png" alt="Style 4" loading="lazy">
+      </div>
+      <div class="styles-card">
+        <img src="sections/styles/5.png" alt="Style 5" loading="lazy">
+      </div>
+      <div class="styles-card">
+        <img src="sections/styles/6.png" alt="Style 6" loading="lazy">
       </div>
     </div>
 
-    <div class="feature-card" data-animate>
-      <div class="feature-visual">
-        <img src="sections/features/feature-2.jpg" alt="Smart Editing">
-      </div>
-      <div class="feature-content">
-        <h3 class="feature-title">Smart Editing</h3>
-        <p class="feature-description">
-          Automatic scene detection, transitions, and effects. Edit like a pro without the learning curve.
+    <!-- 右侧：内容区域 -->
+    <div class="styles-content">
+
+      <!-- 标题区域 -->
+      <div class="styles-header">
+        <span class="styles-label">STYLES</span>
+        <h2 class="styles-title">Your Style, Your Story</h2>
+        <p class="styles-description">
+          Explore curated looks and visual moods — from <br>minimal to cinematic — to express your brand <br>and artistic vision.
         </p>
-        <a href="#" class="feature-link">Learn more</a>
       </div>
+
+      <!-- 功能卡片（水平并列）-->
+      <div class="styles-features">
+        <div class="styles-feature-card">
+          <h3 class="styles-feature-title">Create Your Own <br>Aesthetic</h3>
+          <p class="styles-feature-description">
+            Build and save personalized styles that define your visual signature across every project.
+          </p>
+        </div>
+
+        <div class="styles-feature-card">
+          <h3 class="styles-feature-title">Cinematic Looks, <br>Ready To Use</h3>
+          <p class="styles-feature-description">
+            Explore professionally <br>designed styles inspired by <br>film, photography, and art.
+          </p>
+        </div>
+      </div>
+
+      <!-- CTA 按钮 -->
+      <div class="styles-cta">
+        <a href="#templates" class="styles-button">Explore Templates</a>
+      </div>
+
     </div>
 
-    <div class="feature-card" data-animate>
-      <div class="feature-visual">
-        <img src="sections/features/feature-3.jpg" alt="One-Click Export">
-      </div>
-      <div class="feature-content">
-        <h3 class="feature-title">One-Click Export</h3>
-        <p class="feature-description">
-          Export in any format optimized for your platform. TikTok, Instagram, YouTube - we've got you covered.
-        </p>
-        <a href="#" class="feature-link">Learn more</a>
-      </div>
-    </div>
-
-    <div class="feature-card" data-animate>
-      <div class="feature-visual">
-        <img src="sections/features/feature-4.jpg" alt="Collaboration Tools">
-      </div>
-      <div class="feature-content">
-        <h3 class="feature-title">Collaboration Tools</h3>
-        <p class="feature-description">
-          Work together in real-time with your team. Share, comment, and iterate faster than ever.
-        </p>
-        <a href="#" class="feature-link">Learn more</a>
-      </div>
-    </div>
   </div>
 </section>
+
+<!-- ===================================
+     JavaScript 交互逻辑
+     =================================== -->
 
 <script>
-// Features Section Script - Scroll Animation
 (function() {
   'use strict';
 
-  const initFeaturesAnimation = () => {
-    // Only target elements within features section
-    const animateElements = document.querySelectorAll('.features-section [data-animate]');
+  /**
+   * 初始化 Styles 模块
+   * 功能：滚动进入视口时触发卡片淡入动画
+   */
+  const initStyles = () => {
+    const cards = document.querySelectorAll('.styles-card');
 
-    if (animateElements.length === 0) return;
+    // 检查元素是否存在
+    if (cards.length === 0) return;
 
+    // 创建 Intersection Observer 实例
     const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
+      threshold: 0.2,  // 当 20% 的元素可见时触发
+      rootMargin: '0px 0px -50px 0px'  // 提前触发动画
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
+          // 添加动画类
           entry.target.classList.add('animate-in');
+          // 一旦动画触发，停止观察该元素
           observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
 
-    animateElements.forEach(element => {
-      observer.observe(element);
+    // 开始观察所有卡片
+    cards.forEach(card => {
+      observer.observe(card);
     });
+
+    console.log('✅ Styles module initialized with', cards.length, 'cards');
   };
 
-  // Initialize on DOM ready
+  // DOM 加载完成后初始化
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFeaturesAnimation);
+    document.addEventListener('DOMContentLoaded', initStyles);
   } else {
-    initFeaturesAnimation();
+    initStyles();
   }
+
 })();
 </script>
-
-
-  <!-- ===== CTA SECTION ===== -->
-<!-- ===== CTA Section Module ===== -->
-<style>
-/* CTA Section Styles */
-.cta-section {
-  padding: var(--spacing-3xl) 0;
-  background: var(--color-bg-secondary);
-  border-top: 1px solid var(--color-border);
-}
-
-.cta-content {
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-}
-
-.cta-title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 800;
-  margin-bottom: var(--spacing-sm);
-  line-height: 1.2;
-}
-
-.cta-subtitle {
-  font-size: 1.125rem;
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-xl);
-  line-height: 1.6;
-}
-
-.cta-buttons {
-  display: flex;
-  gap: var(--spacing-md);
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.btn-cta-primary {
-  padding: 1rem 2.5rem;
-  background: var(--color-text);
-  color: var(--color-bg);
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 16px;
-  transition: all var(--transition);
-  border: none;
-  cursor: pointer;
-}
-
-.btn-cta-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.2);
-}
-
-.btn-cta-secondary {
-  padding: 1rem 2.5rem;
-  background: transparent;
-  color: var(--color-text);
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 16px;
-  transition: all var(--transition);
-  cursor: pointer;
-}
-
-.btn-cta-secondary:hover {
-  border-color: var(--color-text);
-  transform: translateY(-2px);
-}
-
-/* Responsive */
-@media (max-width: 767px) {
-  .cta-buttons {
-    flex-direction: column;
-  }
-
-  .btn-cta-primary,
-  .btn-cta-secondary {
-    width: 100%;
-  }
-}
-</style>
-
-<section class="cta-section" id="pricing">
-  <div class="cta-content">
-    <h2 class="cta-title">Ready to create amazing videos?</h2>
-    <p class="cta-subtitle">
-      Join thousands of creators who are already using TreClip to bring their ideas to life
-    </p>
-    <div class="cta-buttons">
-      <a href="#" class="btn-cta-primary">Start Creating Free</a>
-      <a href="#" class="btn-cta-secondary">Watch Demo</a>
-    </div>
-  </div>
-</section>
-
-
-  <!-- ===== FOOTER SECTION ===== -->
-<!-- ===== Footer Module ===== -->
-<style>
-/* Footer Styles */
-.footer {
-  padding: var(--spacing-3xl) 0 var(--spacing-lg);
-  background: var(--color-bg);
-  border-top: 1px solid var(--color-border);
-}
-
-.footer-grid {
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
-  gap: var(--spacing-xl);
-  margin-bottom: var(--spacing-2xl);
-}
-
-.footer-brand .footer-logo {
-  height: 32px;
-  margin-bottom: var(--spacing-md);
-}
-
-.footer-tagline {
-  color: var(--color-text-secondary);
-  font-size: 14px;
-  line-height: 1.6;
-  margin-bottom: var(--spacing-md);
-  max-width: 300px;
-}
-
-.footer-social {
-  display: flex;
-  gap: var(--spacing-sm);
-}
-
-.footer-social a {
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 8px;
-  color: var(--color-text-secondary);
-  transition: all var(--transition);
-  font-size: 18px;
-}
-
-.footer-social a:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--color-text);
-  transform: translateY(-2px);
-}
-
-.footer-column {
-  display: flex;
-  flex-direction: column;
-}
-
-.footer-title {
-  font-size: 14px;
-  font-weight: 600;
-  margin-bottom: var(--spacing-md);
-  color: var(--color-text);
-}
-
-.footer-links {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footer-links li {
-  margin-bottom: 0.75rem;
-}
-
-.footer-links a {
-  color: var(--color-text-secondary);
-  font-size: 14px;
-  transition: color var(--transition);
-}
-
-.footer-links a:hover {
-  color: var(--color-text);
-}
-
-.footer-bottom {
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: var(--spacing-lg);
-  border-top: 1px solid var(--color-border);
-}
-
-.footer-copyright {
-  color: var(--color-text-muted);
-  font-size: 14px;
-}
-
-.footer-bottom-links {
-  display: flex;
-  gap: var(--spacing-lg);
-}
-
-.footer-bottom-links a {
-  color: var(--color-text-muted);
-  font-size: 14px;
-  transition: color var(--transition);
-}
-
-.footer-bottom-links a:hover {
-  color: var(--color-text-secondary);
-}
-
-/* Responsive */
-@media (max-width: 991px) {
-  .footer-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .footer-brand {
-    grid-column: 1 / -1;
-  }
-}
-
-@media (max-width: 767px) {
-  .footer-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .footer-bottom {
-    flex-direction: column;
-    gap: var(--spacing-md);
-    text-align: center;
-  }
-
-  .footer-bottom-links {
-    flex-direction: column;
-    gap: var(--spacing-sm);
-  }
-}
-</style>
-
-<footer class="footer">
-  <div class="footer-grid">
-    <div class="footer-brand">
-      <img src="sections/footer/logo.jpg" alt="TreClip" class="footer-logo">
-      <p class="footer-tagline">
-        AI-powered video creation platform for creators who want to make stunning content effortlessly.
-      </p>
-      <div class="footer-social">
-        <a href="#" aria-label="Twitter">
-          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"></path>
-          </svg>
-        </a>
-        <a href="#" aria-label="GitHub">
-          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 00-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0020 4.77 5.07 5.07 0 0019.91 1S18.73.65 16 2.48a13.38 13.38 0 00-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 005 4.77a5.44 5.44 0 00-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 009 18.13V22"></path>
-          </svg>
-        </a>
-        <a href="#" aria-label="LinkedIn">
-          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"></path>
-            <circle cx="4" cy="4" r="2"></circle>
-          </svg>
-        </a>
-        <a href="#" aria-label="Discord">
-          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M20.317 4.37a19.791 19.791 0 00-4.885-1.515.074.074 0 00-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 00-5.487 0 12.64 12.64 0 00-.617-1.25.077.077 0 00-.079-.037A19.736 19.736 0 003.677 4.37a.07.07 0 00-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 00.031.057 19.9 19.9 0 005.993 3.03.078.078 0 00.084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 00-.041-.106 13.107 13.107 0 01-1.872-.892.077.077 0 01-.008-.128 10.2 10.2 0 00.372-.292.074.074 0 01.077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 01.078.01c.12.098.246.198.373.292a.077.077 0 01-.006.127 12.299 12.299 0 01-1.873.892.077.077 0 00-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 00.084.028 19.839 19.839 0 006.002-3.03.077.077 0 00.032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 00-.031-.03z"></path>
-          </svg>
-        </a>
-      </div>
-    </div>
-
-    <div class="footer-column">
-      <h4 class="footer-title">Product</h4>
-      <ul class="footer-links">
-        <li><a href="#">Features</a></li>
-        <li><a href="#">Pricing</a></li>
-        <li><a href="#">AI Studio</a></li>
-        <li><a href="#">Templates</a></li>
-        <li><a href="#">Updates</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-column">
-      <h4 class="footer-title">Resources</h4>
-      <ul class="footer-links">
-        <li><a href="#">Documentation</a></li>
-        <li><a href="#">Tutorials</a></li>
-        <li><a href="#">Blog</a></li>
-        <li><a href="#">Community</a></li>
-        <li><a href="#">Support</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-column">
-      <h4 class="footer-title">Company</h4>
-      <ul class="footer-links">
-        <li><a href="#">About</a></li>
-        <li><a href="#">Careers</a></li>
-        <li><a href="#">Press</a></li>
-        <li><a href="#">Partners</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </div>
-
-    <div class="footer-column">
-      <h4 class="footer-title">Legal</h4>
-      <ul class="footer-links">
-        <li><a href="#">Privacy Policy</a></li>
-        <li><a href="#">Terms of Service</a></li>
-        <li><a href="#">Cookie Policy</a></li>
-        <li><a href="#">GDPR</a></li>
-        <li><a href="#">Licenses</a></li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="footer-bottom">
-    <div class="footer-copyright">
-      &copy; 2025 TreClip. All rights reserved.
-    </div>
-    <div class="footer-bottom-links">
-      <a href="#">Privacy</a>
-      <a href="#">Terms</a>
-      <a href="#">Cookies</a>
-    </div>
-  </div>
-</footer>
 
 
   <!-- ===== GLOBAL SCRIPTS ===== -->
