@@ -10,7 +10,8 @@
     "styles",
     "adaptation",
     "APIs",
-    "explore_more"
+    "explore_more",
+    "question"
   ],
   "output": "index.html",
   "description": "Star-UI Build Configuration - Define section loading order"
