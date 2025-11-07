@@ -7,12 +7,7 @@
     "use-cases",
     "workflow",
     "assistant",
-    "brand-control",
-    "gallery",
-    "stats",
-    "features",
-    "cta",
-    "footer"
+    "styles"
   ],
   "output": "index.html",
   "description": "Star-UI Build Configuration - Define section loading order"
