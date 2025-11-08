@@ -16,8 +16,8 @@
   background-position: center;
   background-repeat: no-repeat;
   padding-top: calc(var(--nav-height) + var(--spacing-lg)); /* 减小顶部内边距 */
-  padding-bottom: var(--spacing-2xl); /* 减小底部内边距 */
-  overflow: hidden;
+  padding-bottom: calc(22rem + var(--spacing-2xl)); /* 增加底部内边距，为卡片留出空间 */
+  overflow: visible; /* 允许内容溢出，确保卡片可见 */
 }
 
 /* 深色渐变遮罩层 - 已移除 */
@@ -120,7 +120,7 @@
 
 /* 3. 右上角描述区 */
 .banner-right {
-  position: absolute; /* 相对于视口定位，保持与浏览器边缘的固定距离 */
+  position: absolute; /* 相对于 banner-container 定位 */
   bottom: calc(-22rem + 120px + 4rem); /* 距离底部 = 卡片底部间距 + 卡片高度 + 间距 */
   right: 3rem; /* 距离浏览器右边缘固定距离 */
   display: flex;
@@ -158,10 +158,11 @@
 
 /* 4. 右下角背景切换卡片区 - 水平排列不换行 */
 .video-cards-container {
-  position: absolute; /* 相对于视口定位，保持与浏览器边缘的固定距离 */
+  position: absolute; /* 相对于 banner-container 定位 */
   right: 3rem; /* 距离浏览器右边缘固定距离 */
   bottom: -22rem; /* 距离浏览器底部固定距离 */
   z-index: 3;
+  max-width: calc(100vw - 6rem); /* 限制最大宽度，防止卡片超出视口 */
 }
 
 .video-cards-grid {

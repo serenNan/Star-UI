@@ -39,6 +39,10 @@
   background: transparent; /* 默认完全透明 */
   border-bottom: none;
   z-index: 1000;
+  /* 默认无模糊效果 */
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  /* 过渡所有效果 */
   transition: background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
 }
 
@@ -47,6 +51,7 @@
 .navbar.hovered {
   background: rgba(13, 13, 13, 0.95);
   backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
 }
 
@@ -105,11 +110,17 @@
   border-radius: 6px;
   color: var(--color-text);
   font-weight: 500;
-  backdrop-filter: blur(10px); /* 毛玻璃效果 */
-  -webkit-backdrop-filter: blur(10px); /* Safari 兼容 */
+  /* 移除 backdrop-filter，避免与导航栏的 backdrop-filter 冲突 */
   transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease; /* 只过渡必要属性 */
   overflow: hidden; /* 确保背景图片不溢出 */
   isolation: isolate; /* 创建独立的层叠上下文，避免重绘问题 */
+  will-change: transform; /* 提示浏览器优化 transform 属性 */
+  /* 使用 GPU 加速，创建独立渲染层 */
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  /* 强制创建合成层，避免父元素变化时重绘 */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* 月亮背景图片层 */
@@ -123,10 +134,15 @@
   background-image: url('sections/navigation/moon.jpg');
   background-size: cover;
   background-position: center;
-  opacity: 0.5; 
-  z-index: -1; 
+  opacity: 0.5;
+  z-index: -1;
   transition: opacity 0.3s ease; /* 明确指定过渡属性 */
   will-change: opacity; /* 提示浏览器优化此属性 */
+  /* 使用 GPU 加速，创建独立渲染层 */
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .nav-menu a.btn-style:hover::before {
@@ -136,9 +152,7 @@
 .nav-menu a.btn-style:hover {
   background: rgba(128, 128, 128, 0.25); /* 悬浮时更亮一些 */
   border-color: rgba(128, 128, 128, 0.4);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  transform: translateY(-1px);
+  transform: translate3d(0, -1px, 0); /* 保持 GPU 加速 */
 }
 
 .nav-actions {
@@ -298,38 +312,33 @@
     });
   };
 
-  // Navbar scroll effect - 滚动时不透明，停止时立即透明
+  // Navbar scroll effect - 滚动时不透明,停止时平滑透明
   const initNavbarScroll = () => {
     const navbar = document.querySelector('.navbar');
     if (!navbar) return;
 
     let scrollTimeout;
-    let lastScrollY = window.scrollY;
-    let ticking = false;
+    let isScrolling = false;
 
     const handleScroll = () => {
-      lastScrollY = window.scrollY;
-
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          // 滚动时添加 scrolling 类
-          navbar.classList.add('scrolling');
-
-          // 清除之前的定时器
-          clearTimeout(scrollTimeout);
-
-          // 滚动停止后立即移除 scrolling 类
-          scrollTimeout = setTimeout(() => {
-            navbar.classList.remove('scrolling');
-          }, 100); // 100ms 后认为停止滚动，避免过于敏感
-
-          ticking = false;
-        });
-
-        ticking = true;
+      // 如果不在滚动状态,立即添加类
+      if (!isScrolling) {
+        navbar.classList.add('scrolling');
+        isScrolling = true;
       }
+
+      // 清除之前的定时器
+      clearTimeout(scrollTimeout);
+
+      // 滚动停止后延迟移除 scrolling 类
+      // 延迟时间应大于 CSS 过渡时间(300ms),确保过渡完整播放
+      scrollTimeout = setTimeout(() => {
+        navbar.classList.remove('scrolling');
+        isScrolling = false;
+      }, 500); // 500ms 后认为停止滚动,给足过渡时间
     };
 
+    // 使用 passive 监听器提升滚动性能
     window.addEventListener('scroll', handleScroll, { passive: true });
 
     // 鼠标悬浮导航栏时显示背景
@@ -341,7 +350,6 @@
       navbar.classList.remove('hovered');
     });
   };
-
   // 当前页面高亮功能
   const initActiveSection = () => {
     const navLinks = document.querySelectorAll('.nav-menu a');
@@ -429,8 +437,8 @@
   background-position: center;
   background-repeat: no-repeat;
   padding-top: calc(var(--nav-height) + var(--spacing-lg)); /* 减小顶部内边距 */
-  padding-bottom: var(--spacing-2xl); /* 减小底部内边距 */
-  overflow: hidden;
+  padding-bottom: calc(22rem + var(--spacing-2xl)); /* 增加底部内边距，为卡片留出空间 */
+  overflow: visible; /* 允许内容溢出，确保卡片可见 */
 }
 
 /* 深色渐变遮罩层 - 已移除 */
@@ -533,7 +541,7 @@
 
 /* 3. 右上角描述区 */
 .banner-right {
-  position: absolute; /* 相对于视口定位，保持与浏览器边缘的固定距离 */
+  position: absolute; /* 相对于 banner-container 定位 */
   bottom: calc(-22rem + 120px + 4rem); /* 距离底部 = 卡片底部间距 + 卡片高度 + 间距 */
   right: 3rem; /* 距离浏览器右边缘固定距离 */
   display: flex;
@@ -571,10 +579,11 @@
 
 /* 4. 右下角背景切换卡片区 - 水平排列不换行 */
 .video-cards-container {
-  position: absolute; /* 相对于视口定位，保持与浏览器边缘的固定距离 */
+  position: absolute; /* 相对于 banner-container 定位 */
   right: 3rem; /* 距离浏览器右边缘固定距离 */
   bottom: -22rem; /* 距离浏览器底部固定距离 */
   z-index: 3;
+  max-width: calc(100vw - 6rem); /* 限制最大宽度，防止卡片超出视口 */
 }
 
 .video-cards-grid {
