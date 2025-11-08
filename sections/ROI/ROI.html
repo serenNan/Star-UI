@@ -1,0 +1,282 @@
+<!-- ===== ROI 模块 ===== -->
+<style>
+/* ROI Section Styles */
+.roi-section {
+  padding: var(--spacing-3xl) 0;
+  background: var(--color-bg);
+  position: relative;
+}
+
+.roi-container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+/* 标题区域 */
+.roi-header {
+  text-align: center;
+  margin-bottom: var(--spacing-3xl);
+}
+
+.roi-label {
+  font-size: 1.25rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
+}
+
+.roi-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.2;
+}
+
+.roi-subtitle {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* 内容区域 - 9个卡片网格布局 */
+.roi-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-2xl);
+}
+
+/* ROI 指标卡片 */
+.roi-metric {
+  background: var(--color-bg-secondary);
+  border-radius: 16px;
+  padding: var(--spacing-lg);
+  position: relative;
+  transition: transform var(--transition);
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.roi-metric:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* 右上角图标 */
+.roi-metric-icon {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  width: 32px;
+  height: 32px;
+  opacity: 0.6;
+  transition: opacity var(--transition);
+}
+
+.roi-metric:hover .roi-metric-icon {
+  opacity: 1;
+}
+
+/* 左上角大数字 */
+.roi-metric-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-xs);
+  line-height: 1;
+}
+
+/* 数字类型说明 */
+.roi-metric-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.3;
+}
+
+/* 类型解释 */
+.roi-metric-description {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin-top: auto;
+}
+
+/* 响应式设计 */
+@media (max-width: 991px) {
+  .roi-section {
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .roi-header {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .roi-content {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+  }
+  
+  .roi-metric {
+    min-height: 180px;
+    padding: var(--spacing-md);
+  }
+  
+  .roi-metric-value {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .roi-section {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .roi-header {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .roi-content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  .roi-metric {
+    min-height: 160px;
+    padding: var(--spacing-md);
+  }
+
+  .roi-metric-value {
+    font-size: 1.8rem;
+  }
+  
+  .roi-metric-icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+</style>
+
+<!-- ROI Section -->
+<section class="roi-section" id="roi">
+  <div class="roi-container">
+    <div class="roi-header">
+      <div class="roi-label">ROI</div>
+      <h2 class="roi-title">Real ROI For All Media, Established or New</h2>
+    </div>
+
+    <div class="roi-content">
+      <!-- 9个 ROI 指标卡片 -->
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="roi-metric-value">300%</div>
+        <div class="roi-metric-label">Average ROI</div>
+        <div class="roi-metric-description">Return on investment across all projects</div>
+      </div>
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+          <polyline points="12 6 12 12 16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="roi-metric-value">50%</div>
+        <div class="roi-metric-label">Time Saved</div>
+        <div class="roi-metric-description">Reduction in production time</div>
+      </div>
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="12" y1="1" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="roi-metric-value">80%</div>
+        <div class="roi-metric-label">Cost Reduction</div>
+        <div class="roi-metric-description">Lower production costs</div>
+      </div>
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="roi-metric-value">10K+</div>
+        <div class="roi-metric-label">Active Users</div>
+        <div class="roi-metric-description">Growing community of creators</div>
+      </div>
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="roi-metric-value">5M+</div>
+        <div class="roi-metric-label">Videos Created</div>
+        <div class="roi-metric-description">Total videos generated</div>
+      </div>
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="12" y1="22.08" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="roi-metric-value">95%</div>
+        <div class="roi-metric-label">Satisfaction Rate</div>
+        <div class="roi-metric-description">User satisfaction score</div>
+      </div>
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="roi-metric-value">24/7</div>
+        <div class="roi-metric-label">Support Available</div>
+        <div class="roi-metric-description">Round-the-clock assistance</div>
+      </div>
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+          <line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="roi-metric-value">4K</div>
+        <div class="roi-metric-label">Quality Output</div>
+        <div class="roi-metric-description">High-resolution video support</div>
+      </div>
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="roi-metric-value">99.9%</div>
+        <div class="roi-metric-label">Uptime</div>
+        <div class="roi-metric-description">Reliable service availability</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// ROI 模块交互逻辑
+(function() {
+  'use strict';
+
+  const initROI = () => {
+    // 可以在这里添加动画效果或数据可视化
+  };
+
+  // DOM 加载后初始化
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initROI);
+  } else {
+    initROI();
+  }
+})();
+</script>
+

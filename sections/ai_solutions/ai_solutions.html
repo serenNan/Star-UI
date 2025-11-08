@@ -1,0 +1,188 @@
+<!-- ===== AI SOLUTIONS 模块 ===== -->
+<style>
+  /* AI Solutions Section Styles */
+  .ai-solutions {
+    padding: 0;
+    background: var(--color-bg);
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-solutions-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* 标题区域 - 占页面约 3/10 (30vh) */
+  .ai-solutions-header {
+    text-align: center;
+    padding: var(--spacing-3xl) var(--spacing-lg) var(--spacing-md);
+    min-height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* 像素风格字体 - Press Start 2P 字体已在全局 head 中引入 */
+  .ai-solutions-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: clamp(0.8rem, 3vw, 2.8rem);
+    font-weight: 400;
+    color: var(--color-text);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    letter-spacing: 0.02em;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    /* 允许换行 */
+    white-space: normal;
+    word-wrap: break-word;
+    /* 像素字体特性 */
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+
+  .ai-solutions-subtitle {
+    font-family: var(--font-primary);
+    font-size: clamp(0.9rem, 1.5vw, 0.125rem);
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    max-width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    font-weight: 400;
+  }
+
+  /* 图片区域 - 占页面约 7/10 (70vh) */
+  .ai-solutions-image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-3xl);
+    min-height: 70vh;
+    flex: 1;
+  }
+
+  .ai-solutions-image {
+    width: 120%;
+    max-width: 1400px;
+    height: auto;
+    object-fit: contain;
+    border-radius: 12px;
+    display: block;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 991px) {
+    .ai-solutions {
+      min-height: auto;
+    }
+
+    .ai-solutions-container {
+      min-height: auto;
+    }
+
+    .ai-solutions-header {
+      min-height: auto;
+      padding: var(--spacing-2xl) var(--spacing-lg) var(--spacing-sm);
+    }
+
+    .ai-solutions-title {
+      font-size: clamp(0.7rem, 4vw, 1.5rem);
+      max-width: 80%;
+      white-space: normal;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .ai-solutions-subtitle {
+      font-size: clamp(0.875rem, 2vw, 1rem);
+      max-width: 70%;
+      padding: 0;
+    }
+
+    .ai-solutions-image-container {
+      min-height: auto;
+      padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-2xl);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .ai-solutions-container {
+      padding: 0 var(--spacing-md);
+    }
+
+    .ai-solutions-header {
+      padding: var(--spacing-xl) var(--spacing-md) var(--spacing-sm);
+    }
+
+    .ai-solutions-title {
+      font-size: clamp(0.6rem, 5vw, 1.2rem);
+      max-width: 90%;
+      white-space: normal;
+      line-height: 1.8;
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .ai-solutions-subtitle {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      max-width: 85%;
+      padding: 0;
+    }
+
+    .ai-solutions-image-container {
+      padding: var(--spacing-xs) var(--spacing-md) var(--spacing-lg);
+    }
+  }
+</style>
+
+<!-- HTML 结构 -->
+<section class="ai-solutions" id="ai-solutions">
+  <div class="ai-solutions-container">
+    <!-- 标题区域 -->
+    <div class="ai-solutions-header">
+      <h1 class="ai-solutions-title">
+        AI Solutions For visionary Brands
+      </h1>
+      <p class="ai-solutions-subtitle">
+        Empower your brand with cinematic AI from video storytelling and visual design to consistent identity and
+        audience resonance, all powered by the Eclipse Engine.
+      </p>
+    </div>
+
+    <!-- 图片区域 -->
+    <div class="ai-solutions-image-container">
+      <img src="sections/ai_solutions/bg.jpg" alt="AI Solutions" class="ai-solutions-image">
+    </div>
+  </div>
+</section>
+
+<script>
+  // AI Solutions 模块交互逻辑（如需要）
+  (function () {
+    'use strict';
+
+    const initAISolutions = () => {
+      // 可以在这里添加滚动动画、图片懒加载等功能
+      // 目前模块较为简单，暂不需要额外的 JavaScript 逻辑
+    };
+
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAISolutions);
+    } else {
+      initAISolutions();
+    }
+  })();
+</script>
