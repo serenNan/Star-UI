@@ -1,0 +1,583 @@
+<!-- ===== CALCULATOR 模块 ===== -->
+<style>
+  /* Calculator Section Styles */
+  .calculator-section {
+    padding: var(--spacing-3xl) 0;
+    background: var(--color-bg);
+    position: relative;
+  }
+
+  .calculator-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
+
+  /* 标题区域 */
+  .calculator-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
+
+  .calculator-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
+  }
+
+  .calculator-subtitle {
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* 计算区域容器 - 无背景方块 */
+  .calculator-form-wrapper {
+    max-width: 1400px;
+    margin: 0;
+    background: transparent;
+    padding: var(--spacing-2xl) 0;
+  }
+
+  /* 输入区域 - 五个输入项一行，对齐 */
+  .calculator-form-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    align-items: end;
+    /* 确保底部对齐 */
+  }
+
+  /* 确保所有输入组高度一致并底部对齐 */
+  .calculator-input-group {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  /* 确保所有输入框底部对齐 */
+  .calculator-input-wrapper,
+  .calculator-select,
+  .calculator-platform-group {
+    margin-top: auto;
+  }
+
+  /* 平台选项容器对齐 - 确保按钮与输入框底部对齐 */
+  .calculator-platform-options {
+    display: flex;
+    align-items: stretch;
+    /* 确保按钮高度一致 */
+    min-height: 68px;
+    /* 与其他输入框高度一致 */
+  }
+
+  .calculator-label-text {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 500;
+  }
+
+  .calculator-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .calculator-input {
+    width: 100%;
+    padding: var(--spacing-md) 60px var(--spacing-md) var(--spacing-md);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-size: 1rem;
+    transition: border-color var(--transition);
+    font-family: var(--font-primary);
+  }
+
+  .calculator-input:focus {
+    outline: none;
+    border-color: var(--color-text-secondary);
+  }
+
+  /* 输入框内的单位标签 */
+  .calculator-input-unit {
+    position: absolute;
+    right: var(--spacing-md);
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+  }
+
+  /* Views 输入框的单位标签位置 */
+  .calculator-input-wrapper:has(#average-views) .calculator-input-unit {
+    right: var(--spacing-md);
+  }
+
+  /* Credits 输入框 - 文本类型，无上下箭头 */
+  .calculator-input#credits {
+    padding-right: 70px;
+    /* 为单位留出空间 */
+  }
+
+  /* 确保所有输入框高度一致 */
+  .calculator-input,
+  .calculator-select {
+    min-height: 48px;
+    box-sizing: border-box;
+  }
+
+  .calculator-platform-options {
+    min-height: 48px;
+  }
+
+  /* Views 输入框 - 移除上下箭头 */
+  .calculator-input#average-views {
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
+
+  /* 隐藏箭头 */
+  .calculator-input#average-views::-webkit-inner-spin-button,
+  .calculator-input#average-views::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+    display: none;
+  }
+
+  /* 下拉框 - 科技感样式 */
+  .calculator-select {
+    width: 100%;
+    padding: var(--spacing-md);
+    background: linear-gradient(135deg,
+        var(--color-bg) 0%,
+        rgba(30, 30, 30, 0.8) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    font-family: var(--font-primary);
+    cursor: pointer;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+    position: relative;
+  }
+
+  .calculator-select:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow:
+      inset 0 1px 3px rgba(0, 0, 0, 0.3),
+      0 0 10px rgba(255, 255, 255, 0.1);
+  }
+
+  .calculator-select:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow:
+      inset 0 1px 3px rgba(0, 0, 0, 0.3),
+      0 0 15px rgba(255, 255, 255, 0.15),
+      0 0 5px rgba(100, 200, 255, 0.3);
+  }
+
+  /* 下拉框选项样式 */
+  .calculator-select option {
+    background: var(--color-bg);
+    color: var(--color-text);
+    padding: var(--spacing-sm);
+  }
+
+
+  /* 平台选择 - 按钮组，一行显示 */
+  .calculator-platform-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .calculator-platform-options {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: space-between;
+  }
+
+  .calculator-platform-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all var(--transition);
+    min-height: 48px;
+    /* 与其他输入框高度一致 */
+    box-sizing: border-box;
+    transform: translateY(-4px);
+    /* 向上移动4px */
+  }
+
+  .calculator-platform-button:hover {
+    border-color: var(--color-text-secondary);
+    background: var(--color-bg-secondary);
+  }
+
+  .calculator-platform-button.active {
+    background: var(--color-bg-secondary);
+    border-color: var(--color-text);
+  }
+
+  /* 平台图标 - 灰色 */
+  .calculator-platform-icon {
+    width: 24px;
+    height: 24px;
+    fill: var(--color-text-secondary);
+    transition: fill var(--transition);
+  }
+
+  .calculator-platform-button:hover .calculator-platform-icon {
+    fill: var(--color-text);
+  }
+
+  .calculator-platform-button.active .calculator-platform-icon {
+    fill: var(--color-text);
+  }
+
+  /* 计算按钮 - 与其他输入框对齐，字体更大 */
+  .calculator-submit-button {
+    width: 100%;
+    padding: var(--spacing-md);
+    background: var(--color-text);
+    color: var(--color-bg);
+    border: none;
+    border-radius: 8px;
+    font-size: 1.125rem;
+    /* 更大的字体 */
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+    min-height: 48px;
+    /* 与其他输入框高度一致 */
+    box-sizing: border-box;
+  }
+
+  .calculator-submit-button:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+  }
+
+  /* 结果展示区域 - 六个卡片，贴近计算区域 */
+  .calculator-results {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+    margin-top: 10px;
+    /* 与计算区域相距10px */
+  }
+
+  .calculator-result-card {
+    background: var(--color-bg-secondary);
+    border-radius: 16px;
+    padding: var(--spacing-xl);
+    text-align: center;
+    transition: transform var(--transition);
+  }
+
+  .calculator-result-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .calculator-result-value {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-sm);
+    line-height: 1;
+  }
+
+  .calculator-result-label {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 991px) {
+    .calculator-section {
+      padding: var(--spacing-2xl) 0;
+    }
+
+    .calculator-header {
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .calculator-form-wrapper {
+      padding: var(--spacing-xl);
+    }
+
+    .calculator-form-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-md);
+    }
+
+    .calculator-results {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-md);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .calculator-section {
+      padding: var(--spacing-xl) 0;
+    }
+
+    .calculator-header {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .calculator-form-wrapper {
+      padding: var(--spacing-lg);
+    }
+
+    .calculator-form-grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+
+    .calculator-results {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+
+    .calculator-result-value {
+      font-size: 2.5rem;
+    }
+  }
+</style>
+
+<!-- Calculator Section -->
+<section class="calculator-section" id="calculator">
+  <div class="calculator-container">
+    <div class="calculator-header">
+      <h2 class="calculator-title">Create & Grow Faster Calculator</h2>
+      <p class="calculator-subtitle">
+        Use this calculator to estimate how TreClip helps you save time, post more, and grow faster.
+      </p>
+    </div>
+
+    <!-- 计算区域 -->
+    <div class="calculator-form-wrapper">
+      <form id="calculator-form">
+        <div class="calculator-form-grid">
+          <!-- 1. How many credits do you need -->
+          <div class="calculator-input-group">
+            <label class="calculator-label-text" for="credits">
+              How many credits do you need
+            </label>
+            <div class="calculator-input-wrapper">
+              <input type="text" id="credits" class="calculator-input" placeholder="0" value="100" inputmode="numeric"
+                pattern="[0-9]*">
+              <span class="calculator-input-unit">credits</span>
+            </div>
+          </div>
+
+          <!-- 2. Average views of your clips -->
+          <div class="calculator-input-group">
+            <label class="calculator-label-text" for="average-views">
+              Average views of your clips
+            </label>
+            <div class="calculator-input-wrapper">
+              <input type="number" id="average-views" class="calculator-input" placeholder="0" min="0" value="1000"
+                step="100">
+              <span class="calculator-input-unit">views</span>
+            </div>
+          </div>
+
+          <!-- 3. What category? -->
+          <div class="calculator-input-group">
+            <label class="calculator-label-text" for="category">
+              What category?
+            </label>
+            <select id="category" class="calculator-select" name="category">
+              <option value="podcast" selected>Podcast</option>
+              <option value="education">Education</option>
+              <option value="motivation">Motivation</option>
+              <option value="finance">Finance</option>
+              <option value="webinar">Webinar</option>
+              <option value="vlog">Vlog</option>
+              <option value="coaching">Coaching</option>
+            </select>
+          </div>
+
+          <!-- 4. Which platform will you post to? -->
+          <div class="calculator-input-group">
+            <label class="calculator-label-text">
+              Which platform will you post to?
+            </label>
+            <div class="calculator-platform-group">
+              <div class="calculator-platform-options">
+                <button type="button" class="calculator-platform-button active" data-platform="tiktok"
+                  aria-label="TikTok">
+                  <svg class="calculator-platform-icon" viewBox="0 0 24 24" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+                  </svg>
+                </button>
+                <button type="button" class="calculator-platform-button" data-platform="youtube" aria-label="YouTube">
+                  <svg class="calculator-platform-icon" viewBox="0 0 24 24" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                  </svg>
+                </button>
+                <button type="button" class="calculator-platform-button" data-platform="instagram"
+                  aria-label="Instagram">
+                  <svg class="calculator-platform-icon" viewBox="0 0 24 24" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z" />
+                  </svg>
+                </button>
+                <button type="button" class="calculator-platform-button" data-platform="facebook" aria-label="Facebook">
+                  <svg class="calculator-platform-icon" viewBox="0 0 24 24" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Calculate Button -->
+          <div class="calculator-input-group">
+            <label class="calculator-label-text" style="opacity: 0;">
+              Calculate
+            </label>
+            <button type="submit" class="calculator-submit-button">
+              Calculate
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- 数据展示区域 - 六个卡片 -->
+    <div class="calculator-results" id="calculator-results">
+      <div class="calculator-result-card">
+        <div class="calculator-result-value" id="result-time-saved">0</div>
+        <div class="calculator-result-label">Hours Saved</div>
+      </div>
+      <div class="calculator-result-card">
+        <div class="calculator-result-value" id="result-posts">0</div>
+        <div class="calculator-result-label">Posts Created</div>
+      </div>
+      <div class="calculator-result-card">
+        <div class="calculator-result-value" id="result-reach">0</div>
+        <div class="calculator-result-label">Total Reach</div>
+      </div>
+      <div class="calculator-result-card">
+        <div class="calculator-result-value" id="result-growth">0%</div>
+        <div class="calculator-result-label">Growth Rate</div>
+      </div>
+      <div class="calculator-result-card">
+        <div class="calculator-result-value" id="result-efficiency">0%</div>
+        <div class="calculator-result-label">Efficiency Gain</div>
+      </div>
+      <div class="calculator-result-card">
+        <div class="calculator-result-value" id="result-engagement">0</div>
+        <div class="calculator-result-label">Engagement Rate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Calculator 模块交互逻辑
+  (function () {
+    'use strict';
+
+    const initCalculator = () => {
+      const form = document.getElementById('calculator-form');
+      const platformButtons = document.querySelectorAll('.calculator-platform-button');
+      let selectedPlatform = 'tiktok';
+
+      // 平台选择按钮
+      platformButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          platformButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          selectedPlatform = button.dataset.platform;
+        });
+      });
+
+      // 表单提交
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          const creditsInput = document.getElementById('credits').value;
+          const credits = parseFloat(creditsInput.replace(/[^0-9.]/g, '')) || 0;
+          const averageViews = parseFloat(document.getElementById('average-views').value) || 0;
+          const category = document.getElementById('category').value || 'podcast';
+
+          // 计算逻辑
+          // 假设每个 credit 可以创建 1 个视频
+          const postsCreated = credits;
+
+          // 假设每个视频平均节省 2 小时
+          const hoursSaved = postsCreated * 2;
+
+          // 总触达 = 视频数 × 平均观看数
+          const totalReach = postsCreated * averageViews;
+
+          // 增长率基于视频数量（简化计算）
+          const growthRate = Math.min(postsCreated * 5, 100);
+
+          // 效率提升（基于视频数量）
+          const efficiencyGain = Math.min(postsCreated * 10, 100);
+
+          // 参与度（基于平台，简化计算）
+          const engagementRates = {
+            tiktok: 8.5,
+            youtube: 4.2,
+            instagram: 3.8,
+            facebook: 2.5
+          };
+          const engagementRate = engagementRates[selectedPlatform] || 5.0;
+
+          // 更新结果
+          document.getElementById('result-time-saved').textContent = hoursSaved.toLocaleString();
+          document.getElementById('result-posts').textContent = postsCreated.toLocaleString();
+          document.getElementById('result-reach').textContent = totalReach.toLocaleString();
+          document.getElementById('result-growth').textContent = growthRate.toFixed(0) + '%';
+          document.getElementById('result-efficiency').textContent = efficiencyGain.toFixed(0) + '%';
+          document.getElementById('result-engagement').textContent = engagementRate.toFixed(1) + '%';
+        });
+      }
+
+      // 页面加载时不自动计算，等待用户点击 Calculate
+    };
+
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCalculator);
+    } else {
+      initCalculator();
+    }
+  })();
+</script>

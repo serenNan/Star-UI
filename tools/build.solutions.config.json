@@ -1,0 +1,15 @@
+{
+  "sections": [
+    "navigation",
+    "ai_solutions",
+    "links",
+    "ai_creative_suite",
+    "ROI",
+    "workflow",
+    "calculator",
+    "footer"
+  ],
+  "output": "solutions.html",
+  "description": "Star-UI Build Configuration - Solutions page sections"
+}
+

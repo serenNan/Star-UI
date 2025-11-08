@@ -1,0 +1,3082 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TreClip - AI short-form video created like art">
+  <title>TreClip - AI Video Creation Platform</title>
+
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/webflow.css">
+  <link rel="stylesheet" href="css/treclip.css">
+  <link rel="stylesheet" href="global/global.css">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Lenis Smooth Scroll -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.2.3/dist/lenis.css">
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.2.3/dist/lenis.min.js"></script>
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/images/favicon.png">
+</head>
+<body>
+
+  <!-- ===== NAVIGATION SECTION ===== -->
+<!-- ===== Navigation Module ===== -->
+<style>
+/* Navigation Styles */
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: var(--nav-height);
+  background: transparent; /* 默认完全透明 */
+  border-bottom: none;
+  z-index: 1000;
+  /* 默认无模糊效果 */
+  backdrop-filter: blur(0px);
+  -webkit-backdrop-filter: blur(0px);
+  /* 过渡所有效果 */
+  transition: background 0.3s ease, backdrop-filter 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* 滚动中或鼠标悬浮时显示背景 */
+.navbar.scrolling,
+.navbar.hovered {
+  background: rgba(13, 13, 13, 0.95);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+}
+
+.nav-container {
+  max-width: 100%; /* 使用全宽 */
+  margin: 0 auto;
+  padding: 0 3rem; /* 与 Banner 容器保持一致 */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Logo+Menu 靠左，Actions 靠右 */
+}
+
+/* 左侧区域：Logo + Menu */
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 2rem; /* Logo 和菜单之间的间距 */
+}
+
+.nav-logo .logo-img {
+  height: 96px; /* 原来 32px 的三倍 */
+  /* 使用透明背景 PNG，不需要混合模式 */
+}
+
+.nav-menu {
+  display: flex;
+  gap: 2.5rem; /* 菜单项之间的间距加大 */
+}
+
+.nav-menu a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  transition: color var(--transition); /* 只过渡颜色 */
+  position: relative;
+  /* 使用 text-shadow 模拟加粗效果，避免宽度变化 */
+}
+
+.nav-menu a:hover {
+  color: var(--color-text);
+}
+
+/* 当前激活的导航项样式 - 使用 text-shadow 模拟加粗 */
+.nav-menu a.active {
+  color: var(--color-text);
+  text-shadow: 0.5px 0 0 currentColor, -0.5px 0 0 currentColor; /* 模拟加粗，不改变宽度 */
+}
+
+/* 特殊按钮样式的菜单项 */
+.nav-menu a.btn-style {
+  padding: 0.5rem 1rem;
+  position: relative;
+  background: rgba(128, 128, 128, 0.15); /* 灰色半透明背景 */
+  border: 1px solid rgba(128, 128, 128, 0.25);
+  border-radius: 6px;
+  color: var(--color-text);
+  font-weight: 500;
+  /* 移除 backdrop-filter，避免与导航栏的 backdrop-filter 冲突 */
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease; /* 只过渡必要属性 */
+  overflow: hidden; /* 确保背景图片不溢出 */
+  isolation: isolate; /* 创建独立的层叠上下文，避免重绘问题 */
+  will-change: transform; /* 提示浏览器优化 transform 属性 */
+  /* 使用 GPU 加速，创建独立渲染层 */
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  /* 强制创建合成层，避免父元素变化时重绘 */
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* 月亮背景图片层 */
+.nav-menu a.btn-style::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('sections/navigation/moon.jpg');
+  background-size: cover;
+  background-position: center;
+  opacity: 0.5;
+  z-index: -1;
+  transition: opacity 0.3s ease; /* 明确指定过渡属性 */
+  will-change: opacity; /* 提示浏览器优化此属性 */
+  /* 使用 GPU 加速，创建独立渲染层 */
+  transform: translate3d(0, 0, 0);
+  -webkit-transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.nav-menu a.btn-style:hover::before {
+  opacity: 0.6; /* 悬浮时图片更亮 */
+}
+
+.nav-menu a.btn-style:hover {
+  background: rgba(128, 128, 128, 0.25); /* 悬浮时更亮一些 */
+  border-color: rgba(128, 128, 128, 0.4);
+  transform: translate3d(0, -1px, 0); /* 保持 GPU 加速 */
+}
+
+.nav-actions {
+  display: flex;
+  gap: var(--spacing-md);
+  align-items: center;
+}
+
+.btn-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text);
+  transition: opacity var(--transition);
+}
+
+.btn-text:hover {
+  opacity: 0.7;
+}
+
+.btn-primary {
+  padding: 0.75rem 1.5rem;
+  background: var(--color-text);
+  color: var(--color-bg);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.2);
+}
+
+.mobile-menu-toggle {
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.mobile-menu-toggle span {
+  width: 24px;
+  height: 2px;
+  background: var(--color-text);
+  transition: all var(--transition);
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -6px);
+}
+
+/* ===== 导航下拉面板样式 ===== */
+.nav-item-dropdown {
+  position: relative;
+}
+
+.nav-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  transform: translateY(10px);
+  width: 670px;
+  max-height: 400px;
+  background: rgba(20, 20, 20, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.nav-item-dropdown:hover .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* 下拉面板容器 */
+.dropdown-container {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1.25rem;
+}
+
+/* 左侧区域 */
+.dropdown-left-section {
+  display: flex;
+  flex-direction: column;
+  gap: calc(0.75rem + 20px);
+}
+
+.dropdown-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+/* 右侧框 */
+.dropdown-right-section {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.dropdown-title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.dropdown-subtitle {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.dropdown-cta {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background: #2C2C2C;
+  color: #FFFFFF !important;
+  border: none;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  text-align: center;
+  align-self: flex-start;
+}
+
+.dropdown-cta:hover {
+  color: #FFFFFF !important;
+}
+
+/* 右侧横向图片 */
+.dropdown-image {
+  width: 100%;
+  margin-top: 0.25rem;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.dropdown-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* 下拉面板卡片区 */
+.dropdown-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+/* ===== Solutions 下拉面板专属样式 ===== */
+.solutions-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  height: 268px; /* 固定高度，匹配 Feature 的实际高度 */
+  overflow: hidden;
+}
+
+/* Solutions 描述文字独占一行 */
+.dropdown-desc-solo {
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 0.5rem 0;
+  text-align: left;
+}
+
+/* Solutions 卡片布局 - 4列 */
+.solutions-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0rem; /* 减少图片间距 */
+}
+
+/* Solutions 卡片尺寸 - 使用固定宽高 */
+.solutions-cards .dropdown-card {
+  width: 135px;
+  height: 190px;
+}
+
+/* Solutions 卡片标题样式 - 减小字体 */
+.solutions-cards .card-overlay h3 {
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+  color: var(--color-text);
+}
+
+/* Solutions 卡片不显示副文字 */
+.solutions-cards .card-overlay p {
+  display: none;
+}
+
+.dropdown-card {
+  position: relative;
+  aspect-ratio: 1 / 1.5;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.dropdown-card:hover {
+  transform: translateY(-4px);
+}
+
+.dropdown-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 60%, transparent 100%);
+  color: var(--color-text);
+}
+
+.card-overlay h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+  color: var(--color-text);
+}
+
+.card-overlay p {
+  font-size: 10px;
+  line-height: 1.4;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Mobile Responsive */
+@media (max-width: 991px) {
+  .nav-left .nav-menu,
+  .nav-actions {
+    display: none;
+  }
+
+  .mobile-menu-toggle {
+    display: flex;
+  }
+
+  /* 移动端隐藏下拉面板 */
+  .nav-dropdown {
+    display: none;
+  }
+
+  /* Mobile menu expanded (if needed) */
+  .nav-menu.active {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: var(--nav-height);
+    left: 0;
+    right: 0;
+    background: var(--color-bg);
+    padding: var(--spacing-lg);
+    border-bottom: 1px solid var(--color-border);
+  }
+}
+
+@media (max-width: 767px) {
+  .nav-container {
+    padding: 0 var(--spacing-md);
+  }
+
+  .nav-logo .logo-img {
+    height: 64px; /* 移动端也相应调整 */
+  }
+}
+</style>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <!-- 左侧区域：Logo + 导航菜单 -->
+    <div class="nav-left">
+      <div class="nav-logo">
+        <img src="sections/navigation/logo.png" alt="TreClip" class="logo-img">
+      </div>
+
+      <ul class="nav-menu">
+        <li class="nav-item-dropdown">
+          <a href="#features">Features</a>
+          <!-- Features 下拉面板 -->
+          <div class="nav-dropdown">
+            <div class="dropdown-container">
+              <!-- 左侧区域 -->
+              <div class="dropdown-left-section">
+                <!-- 描述文字 -->
+                <p class="dropdown-desc">Discover everything Treclipse can do. Generate <br>cinematic videos, design AI imagery, and build brand<br> identities.</p>
+
+                <!-- 三个功能卡片 -->
+                <div class="dropdown-cards">
+                  <div class="dropdown-card">
+                    <img src="sections/adaptation/1.png" alt="Create">
+                    <div class="card-overlay">
+                      <h3>Create</h3>
+                      <p>Image Generator<br>Video Generator</p>
+                    </div>
+                  </div>
+                  <div class="dropdown-card">
+                    <img src="sections/adaptation/2.jpg" alt="Compose">
+                    <div class="card-overlay">
+                      <h3>Compose</h3>
+                      <p>Timeline Editor<br>Storyboard<br>Assistant</p>
+                    </div>
+                  </div>
+                  <div class="dropdown-card">
+                    <img src="sections/adaptation/3.png" alt="Studio">
+                    <div class="card-overlay">
+                      <h3>Studio</h3>
+                      <p>Avatar<br>Brand Kit<br>Assistant</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 右侧框 -->
+              <div class="dropdown-right-section">
+                <h2 class="dropdown-title">WHERE IMAGINATION ECLIPSES REALITY.</h2>
+                <p class="dropdown-subtitle">Create contents that resonates</p>
+                <a href="#" class="dropdown-cta">Start Engine</a>
+                <div class="dropdown-image">
+                  <img src="sections/navigation/5.png" alt="Feature showcase">
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item-dropdown">
+          <a href="solutions.html">Solutions</a>
+          <!-- Solutions 下拉面板 -->
+          <div class="nav-dropdown">
+            <div class="dropdown-container solutions-dropdown">
+              <!-- 描述文字 -->
+              <p class="dropdown-desc-solo">Treclipse unites artistry and intelligence to create cinematic visuals<br> that resonate.</p>
+
+              <!-- 四个解决方案卡片 -->
+              <div class="dropdown-cards solutions-cards">
+                <div class="dropdown-card">
+                  <img src="sections/navigation/1.png" alt="Brands & Marketers">
+                  <div class="card-overlay">
+                    <h3>Brands<br>& Marketers</h3>
+                  </div>
+                </div>
+                <div class="dropdown-card">
+                  <img src="sections/navigation/2.jpg" alt="Agencies & Enterprise">
+                  <div class="card-overlay">
+                    <h3>Agencies<br>& Enterprise</h3>
+                  </div>
+                </div>
+                <div class="dropdown-card">
+                  <img src="sections/navigation/4.png" alt="Creators & Filmmakers">
+                  <div class="card-overlay">
+                    <h3>Creators<br>& Filmmakers</h3>
+                  </div>
+                </div>
+                <div class="dropdown-card">
+                  <img src="sections/navigation/3.png" alt="Artists & Designers">
+                  <div class="card-overlay">
+                    <h3>Artists<br>& Designers</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
+        <li><a href="#resources">Resources</a></li>
+        <li><a href="#pricing">Pricing</a></li>
+        <li><a href="#ai-studio" class="btn-style">Eclipse Engine</a></li>
+      </ul>
+    </div>
+
+    <!-- 右侧区域：登录/注册按钮 -->
+    <div class="nav-actions">
+      <a href="#" class="btn-text">Sign in</a>
+      <a href="#" class="btn-primary">Sign up</a>
+    </div>
+
+    <!-- 移动端菜单按钮 -->
+    <button type="button" class="mobile-menu-toggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</nav>
+
+<script>
+// Navigation Module Script
+(function() {
+  'use strict';
+
+  // Mobile menu toggle
+  const initMobileMenu = () => {
+    const toggleBtn = document.querySelector('.mobile-menu-toggle');
+    const menu = document.querySelector('.nav-menu');
+
+    if (!toggleBtn || !menu) return;
+
+    toggleBtn.addEventListener('click', () => {
+      menu.classList.toggle('active');
+      toggleBtn.classList.toggle('active');
+      document.body.classList.toggle('menu-open');
+    });
+
+    // Close menu when clicking links
+    menu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('active');
+        toggleBtn.classList.remove('active');
+        document.body.classList.remove('menu-open');
+      });
+    });
+  };
+
+  // Navbar scroll effect - 滚动时不透明,停止时平滑透明
+  const initNavbarScroll = () => {
+    const navbar = document.querySelector('.navbar');
+    if (!navbar) return;
+
+    let scrollTimeout;
+    let isScrolling = false;
+
+    const handleScroll = () => {
+      // 如果不在滚动状态,立即添加类
+      if (!isScrolling) {
+        navbar.classList.add('scrolling');
+        isScrolling = true;
+      }
+
+      // 清除之前的定时器
+      clearTimeout(scrollTimeout);
+
+      // 滚动停止后延迟移除 scrolling 类
+      // 延迟时间应大于 CSS 过渡时间(300ms),确保过渡完整播放
+      scrollTimeout = setTimeout(() => {
+        navbar.classList.remove('scrolling');
+        isScrolling = false;
+      }, 500); // 500ms 后认为停止滚动,给足过渡时间
+    };
+
+    // 使用 passive 监听器提升滚动性能
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    // 鼠标悬浮导航栏时显示背景
+    navbar.addEventListener('mouseenter', () => {
+      navbar.classList.add('hovered');
+    });
+
+    navbar.addEventListener('mouseleave', () => {
+      navbar.classList.remove('hovered');
+    });
+  };
+  // 当前页面高亮功能
+  const initActiveSection = () => {
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    if (navLinks.length === 0) return;
+
+    const updateActiveLink = throttle(() => {
+      let currentSection = null;
+      let minDistance = Infinity;
+      const scrollPosition = window.scrollY + window.innerHeight / 3; // 使用视口的 1/3 位置作为触发点
+
+      // 遍历所有导航链接，找到对应的区块
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href || !href.startsWith('#')) return;
+
+        const sectionId = href.substring(1);
+        const section = document.getElementById(sectionId) ||
+                       document.querySelector(`.${sectionId}`) ||
+                       document.querySelector(`[class*="${sectionId}"]`);
+
+        if (section) {
+          const sectionTop = section.offsetTop;
+          const distance = Math.abs(scrollPosition - sectionTop);
+
+          // 找到距离当前滚动位置最近的区块
+          if (distance < minDistance && scrollPosition >= sectionTop - 100) {
+            minDistance = distance;
+            currentSection = href;
+          }
+        }
+      });
+
+      // 更新导航链接的 active 状态
+      navLinks.forEach(link => {
+        const href = link.getAttribute('href');
+        if (href === currentSection) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+
+      // 如果滚动到页面顶部，清除所有高亮
+      if (window.scrollY < 100) {
+        navLinks.forEach(link => link.classList.remove('active'));
+      }
+    }, 100);
+
+    window.addEventListener('scroll', updateActiveLink);
+    updateActiveLink(); // 初始化时执行一次
+  };
+
+  // 下拉菜单增强交互
+  const initDropdownInteraction = () => {
+    const dropdownItems = document.querySelectorAll('.nav-item-dropdown');
+
+    dropdownItems.forEach(item => {
+      let hideTimeout;
+      const dropdown = item.querySelector('.nav-dropdown');
+
+      if (!dropdown) return;
+
+      // 鼠标进入菜单项
+      item.addEventListener('mouseenter', () => {
+        clearTimeout(hideTimeout);
+        dropdown.style.opacity = '1';
+        dropdown.style.visibility = 'visible';
+        dropdown.style.pointerEvents = 'auto';
+      });
+
+      // 鼠标离开菜单项
+      item.addEventListener('mouseleave', () => {
+        hideTimeout = setTimeout(() => {
+          dropdown.style.opacity = '0';
+          dropdown.style.visibility = 'hidden';
+          dropdown.style.pointerEvents = 'none';
+        }, 150); // 延迟隐藏,避免鼠标移动过快时闪烁
+      });
+
+      // 鼠标进入下拉面板
+      dropdown.addEventListener('mouseenter', () => {
+        clearTimeout(hideTimeout);
+      });
+
+      // 鼠标离开下拉面板
+      dropdown.addEventListener('mouseleave', () => {
+        hideTimeout = setTimeout(() => {
+          dropdown.style.opacity = '0';
+          dropdown.style.visibility = 'hidden';
+          dropdown.style.pointerEvents = 'none';
+        }, 150);
+      });
+    });
+  };
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initMobileMenu();
+      initNavbarScroll();
+      initActiveSection();
+      initDropdownInteraction();
+    });
+  } else {
+    initMobileMenu();
+    initNavbarScroll();
+    initActiveSection();
+    initDropdownInteraction();
+  }
+})();
+</script>
+
+
+  <!-- ===== AI_SOLUTIONS SECTION ===== -->
+<!-- ===== AI SOLUTIONS 模块 ===== -->
+<style>
+  /* AI Solutions Section Styles */
+  .ai-solutions {
+    padding: 0;
+    background: var(--color-bg);
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ai-solutions-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* 标题区域 - 占页面约 3/10 (30vh) */
+  .ai-solutions-header {
+    text-align: center;
+    padding: var(--spacing-3xl) var(--spacing-lg) var(--spacing-md);
+    min-height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /* 像素风格字体 - Press Start 2P 字体已在全局 head 中引入 */
+  .ai-solutions-title {
+    font-family: 'Press Start 2P', cursive;
+    font-size: clamp(0.8rem, 3vw, 2.8rem);
+    font-weight: 400;
+    color: var(--color-text);
+    line-height: 1.6;
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    letter-spacing: 0.02em;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    /* 允许换行 */
+    white-space: normal;
+    word-wrap: break-word;
+    /* 像素字体特性 */
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+
+  .ai-solutions-subtitle {
+    font-family: var(--font-primary);
+    font-size: clamp(0.9rem, 1.5vw, 0.125rem);
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    max-width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    font-weight: 400;
+  }
+
+  /* 图片区域 - 占页面约 7/10 (70vh) */
+  .ai-solutions-image-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-3xl);
+    min-height: 70vh;
+    flex: 1;
+  }
+
+  .ai-solutions-image {
+    width: 120%;
+    max-width: 1400px;
+    height: auto;
+    object-fit: contain;
+    border-radius: 12px;
+    display: block;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 991px) {
+    .ai-solutions {
+      min-height: auto;
+    }
+
+    .ai-solutions-container {
+      min-height: auto;
+    }
+
+    .ai-solutions-header {
+      min-height: auto;
+      padding: var(--spacing-2xl) var(--spacing-lg) var(--spacing-sm);
+    }
+
+    .ai-solutions-title {
+      font-size: clamp(0.7rem, 4vw, 1.5rem);
+      max-width: 80%;
+      white-space: normal;
+      margin-bottom: var(--spacing-sm);
+    }
+
+    .ai-solutions-subtitle {
+      font-size: clamp(0.875rem, 2vw, 1rem);
+      max-width: 70%;
+      padding: 0;
+    }
+
+    .ai-solutions-image-container {
+      min-height: auto;
+      padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-2xl);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .ai-solutions-container {
+      padding: 0 var(--spacing-md);
+    }
+
+    .ai-solutions-header {
+      padding: var(--spacing-xl) var(--spacing-md) var(--spacing-sm);
+    }
+
+    .ai-solutions-title {
+      font-size: clamp(0.6rem, 5vw, 1.2rem);
+      max-width: 90%;
+      white-space: normal;
+      line-height: 1.8;
+      margin-bottom: var(--spacing-xs);
+    }
+
+    .ai-solutions-subtitle {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      max-width: 85%;
+      padding: 0;
+    }
+
+    .ai-solutions-image-container {
+      padding: var(--spacing-xs) var(--spacing-md) var(--spacing-lg);
+    }
+  }
+</style>
+
+<!-- HTML 结构 -->
+<section class="ai-solutions" id="ai-solutions">
+  <div class="ai-solutions-container">
+    <!-- 标题区域 -->
+    <div class="ai-solutions-header">
+      <h1 class="ai-solutions-title">
+        AI Solutions For visionary Brands
+      </h1>
+      <p class="ai-solutions-subtitle">
+        Empower your brand with cinematic AI from video storytelling and visual design to consistent identity and
+        audience resonance, all powered by the Eclipse Engine.
+      </p>
+    </div>
+
+    <!-- 图片区域 -->
+    <div class="ai-solutions-image-container">
+      <img src="sections/ai_solutions/bg.jpg" alt="AI Solutions" class="ai-solutions-image">
+    </div>
+  </div>
+</section>
+
+<script>
+  // AI Solutions 模块交互逻辑（如需要）
+  (function () {
+    'use strict';
+
+    const initAISolutions = () => {
+      // 可以在这里添加滚动动画、图片懒加载等功能
+      // 目前模块较为简单，暂不需要额外的 JavaScript 逻辑
+    };
+
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAISolutions);
+    } else {
+      initAISolutions();
+    }
+  })();
+</script>
+
+  <!-- ===== LINKS SECTION ===== -->
+<!-- 社交媒体链接区域 -->
+<!-- 此文件由 tools/generate-social-links.py 自动生成 -->
+<!-- 请勿手动编辑! 修改 tools/social-links.config.json 然后重新运行构建 -->
+
+<style>
+.social-links {
+  padding: var(--spacing-xl) 0;
+  background: var(--color-bg);
+}
+
+.social-links-container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.social-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  text-decoration: none;
+  transition: all var(--transition);
+  opacity: 0.8;
+}
+
+.social-link:hover {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.social-link-icon {
+  width: 32px;
+  height: 32px;
+  fill: var(--color-text);
+  flex-shrink: 0;
+}
+
+.social-link-text {
+  color: var(--color-text);
+  font-size: 1rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* 响应式设计 */
+@media (max-width: 991px) {
+  .social-links-container {
+    justify-content: center;
+    gap: 1.5rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .social-links-container {
+    gap: 1rem;
+  }
+  
+  .social-link-icon {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .social-link-text {
+    font-size: 0.9rem;
+  }
+}
+</style>
+
+<section class="social-links">
+  <div class="social-links-container">
+    <a href="https://linkedin.com/company/yourcompany" class="social-link" target="_blank" rel="noopener noreferrer">
+      <svg class="social-link-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+      </svg>
+      <span class="social-link-text">LinkedIn</span>
+    </a>
+    <a href="https://youtube.com/@yourhandle" class="social-link" target="_blank" rel="noopener noreferrer">
+      <svg class="social-link-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+      </svg>
+      <span class="social-link-text">YouTube</span>
+    </a>
+    <a href="https://instagram.com/yourhandle" class="social-link" target="_blank" rel="noopener noreferrer">
+      <svg class="social-link-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/>
+      </svg>
+      <span class="social-link-text">Instagram</span>
+    </a>
+    <a href="https://tiktok.com/@yourhandle" class="social-link" target="_blank" rel="noopener noreferrer">
+      <svg class="social-link-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
+      </svg>
+      <span class="social-link-text">TikTok</span>
+    </a>
+    <a href="https://facebook.com/yourhandle" class="social-link" target="_blank" rel="noopener noreferrer">
+      <svg class="social-link-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+      </svg>
+      <span class="social-link-text">Facebook</span>
+    </a>
+  </div>
+</section>
+
+  <!-- ===== AI_CREATIVE_SUITE SECTION ===== -->
+<!-- ===== AI CREATIVE SUITE 模块 ===== -->
+<style>
+  /* AI Creative Suite Section Styles */
+  .ai-creative-suite-section {
+    padding: var(--spacing-3xl) 0;
+    background: var(--color-bg);
+    position: relative;
+  }
+
+  .ai-creative-suite-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
+
+  /* 标题区域 */
+  .ai-creative-suite-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
+
+  .ai-creative-suite-label {
+    font-size: 1.25rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 600;
+  }
+
+  .ai-creative-suite-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-3xl);
+    line-height: 1.2;
+  }
+
+  /* 内容区域 - 左右布局，图片占比更大 */
+  .ai-creative-suite-content {
+    display: grid;
+    grid-template-columns: 2.5fr 1fr;
+    gap: var(--spacing-2xl);
+    align-items: center;
+  }
+
+  /* 左侧图片区域 */
+  .ai-creative-suite-image-wrapper {
+    position: relative;
+    width: 100%;
+    border-radius: 24px;
+    overflow: visible;
+    /* 允许badge超出图片边界 */
+  }
+
+  .ai-creative-suite-image {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 24px;
+  }
+
+  /* 左下角挖空的圆角方块 - 完全贴合图片左下角 */
+  .ai-creative-suite-badge {
+    position: absolute;
+    bottom: 0;
+    /* 完全贴合底部 */
+    left: 0;
+    /* 完全贴合左边 */
+    background: var(--color-bg);
+    /* 与背景色重合 */
+    border-radius: 0 16px 0 0;
+    /* 只有右上角圆角，左下角直角贴合 */
+    padding: var(--spacing-lg);
+    min-width: 120px;
+    /* 完全贴合，不超出图片边界 */
+  }
+
+  .ai-creative-suite-badge-value {
+    font-family: 'Orbitron', sans-serif;
+    /* 使用 Orbitron 字体 */
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1;
+    margin-bottom: var(--spacing-xs);
+    letter-spacing: 0.02em;
+  }
+
+  .ai-creative-suite-badge-label {
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* 右侧内容块 */
+  .ai-creative-suite-content-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .ai-creative-suite-content-label {
+    font-size: 1.2rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    font-weight: 600;
+  }
+
+  .ai-creative-suite-content-title {
+    font-size: clamp(1.5rem, 3vw, 2.0rem);
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1.3;
+  }
+
+  /* 按钮 - 更深灰色，白色字体，更大圆角，更大字体 */
+  .ai-creative-suite-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-md) var(--spacing-xl);
+    background: #2a2a2a;
+    /* 更深的灰色 */
+    color: var(--color-text);
+    /* 白色字体 */
+    font-size: 1.125rem;
+    /* 更大的字体 */
+    font-weight: 600;
+    border-radius: 40px;
+    /* 更圆的角 */
+    text-decoration: none;
+    width: fit-content;
+    transition: all var(--transition);
+    border: none;
+    cursor: pointer;
+    margin-top: var(--spacing-2xl);
+    /* 与上方文字保持更大距离 */
+  }
+
+  .ai-creative-suite-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(42, 42, 42, 0.6);
+    background: #1f1f1f;
+    /* 悬停时更深 */
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 991px) {
+    .ai-creative-suite-section {
+      padding: var(--spacing-2xl) 0;
+    }
+
+    .ai-creative-suite-header {
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .ai-creative-suite-content {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-xl);
+    }
+
+    .ai-creative-suite-badge {
+      bottom: 0;
+      left: 0;
+      padding: var(--spacing-md);
+      min-width: 100px;
+    }
+
+    .ai-creative-suite-badge-value {
+      font-size: 2rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .ai-creative-suite-section {
+      padding: var(--spacing-xl) 0;
+    }
+
+    .ai-creative-suite-header {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .ai-creative-suite-title {
+      font-size: clamp(1.5rem, 6vw, 2.5rem);
+    }
+
+    .ai-creative-suite-content {
+      gap: var(--spacing-lg);
+    }
+
+    .ai-creative-suite-badge {
+      bottom: 0;
+      left: 0;
+      padding: var(--spacing-sm);
+      min-width: 80px;
+    }
+
+    .ai-creative-suite-badge-value {
+      font-size: 1.5rem;
+    }
+
+    .ai-creative-suite-badge-label {
+      font-size: 0.75rem;
+    }
+
+    .ai-creative-suite-content-title {
+      font-size: clamp(1.25rem, 4vw, 2rem);
+    }
+
+    .ai-creative-suite-button {
+      width: 100%;
+      padding: var(--spacing-md);
+    }
+  }
+</style>
+
+<!-- AI Creative Suite Section -->
+<section class="ai-creative-suite-section" id="ai-creative-suite">
+  <div class="ai-creative-suite-container">
+    <!-- 标题 -->
+    <div class="ai-creative-suite-header">
+      <div class="ai-creative-suite-label">AI CREATIVE SUITE</div>
+      <h2 class="ai-creative-suite-title">Create on-Brand content In Minutes</h2>
+    </div>
+
+    <!-- 内容区域 - 左右布局 -->
+    <div class="ai-creative-suite-content">
+      <!-- 左侧：带挖空的图片 -->
+      <div class="ai-creative-suite-image-wrapper">
+        <img src="sections/ai_creative_suite/image.jpg" alt="AI Creative Suite" class="ai-creative-suite-image">
+        <!-- 左下角挖空的圆角方块 -->
+        <div class="ai-creative-suite-badge">
+          <div class="ai-creative-suite-badge-value">97%</div>
+          <div class="ai-creative-suite-badge-label">Real-Time</div>
+        </div>
+      </div>
+
+      <!-- 右侧：内容块 -->
+      <div class="ai-creative-suite-content-block">
+        <div class="ai-creative-suite-content-label">AI CREATIVE SUITE</div>
+        <h3 class="ai-creative-suite-content-title">
+          Four AI tools that keep every post consistent with your visual identity.
+        </h3>
+        <a href="#" class="ai-creative-suite-button">Experience it now</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // AI Creative Suite 模块交互逻辑
+  (function () {
+    'use strict';
+
+    const initAICreativeSuite = () => {
+      // 可以在这里添加交互逻辑
+    };
+
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAICreativeSuite);
+    } else {
+      initAICreativeSuite();
+    }
+  })();
+</script>
+
+  <!-- ===== ROI SECTION ===== -->
+<!-- ===== ROI 模块 ===== -->
+<style>
+/* ROI Section Styles */
+.roi-section {
+  padding: var(--spacing-3xl) 0;
+  background: var(--color-bg);
+  position: relative;
+}
+
+.roi-container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+/* 标题区域 */
+.roi-header {
+  text-align: center;
+  margin-bottom: var(--spacing-3xl);
+}
+
+.roi-label {
+  font-size: 1.25rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-sm);
+  font-weight: 600;
+}
+
+.roi-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-md);
+  line-height: 1.2;
+}
+
+.roi-subtitle {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* 内容区域 - 9个卡片网格布局 */
+.roi-content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--spacing-lg);
+  margin-top: var(--spacing-2xl);
+}
+
+/* ROI 指标卡片 */
+.roi-metric {
+  background: var(--color-bg-secondary);
+  border-radius: 16px;
+  padding: var(--spacing-lg);
+  position: relative;
+  transition: transform var(--transition);
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+}
+
+.roi-metric:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* 右上角图标 */
+.roi-metric-icon {
+  position: absolute;
+  top: var(--spacing-md);
+  right: var(--spacing-md);
+  width: 32px;
+  height: 32px;
+  opacity: 0.6;
+  transition: opacity var(--transition);
+}
+
+.roi-metric:hover .roi-metric-icon {
+  opacity: 1;
+}
+
+/* 左上角大数字 */
+.roi-metric-value {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-xs);
+  line-height: 1;
+}
+
+/* 数字类型说明 */
+.roi-metric-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-sm);
+  line-height: 1.3;
+}
+
+/* 类型解释 */
+.roi-metric-description {
+  font-size: 0.875rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+  margin-top: auto;
+}
+
+/* 响应式设计 */
+@media (max-width: 991px) {
+  .roi-section {
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .roi-header {
+    margin-bottom: var(--spacing-2xl);
+  }
+
+  .roi-content {
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-md);
+  }
+  
+  .roi-metric {
+    min-height: 180px;
+    padding: var(--spacing-md);
+  }
+  
+  .roi-metric-value {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 767px) {
+  .roi-section {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .roi-header {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .roi-content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--spacing-md);
+  }
+
+  .roi-metric {
+    min-height: 160px;
+    padding: var(--spacing-md);
+  }
+
+  .roi-metric-value {
+    font-size: 1.8rem;
+  }
+  
+  .roi-metric-icon {
+    width: 28px;
+    height: 28px;
+  }
+}
+</style>
+
+<!-- ROI Section -->
+<section class="roi-section" id="roi">
+  <div class="roi-container">
+    <div class="roi-header">
+      <div class="roi-label">ROI</div>
+      <h2 class="roi-title">Real ROI For All Media, Established or New</h2>
+    </div>
+
+    <div class="roi-content">
+      <!-- 9个 ROI 指标卡片 -->
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="roi-metric-value">300%</div>
+        <div class="roi-metric-label">Average ROI</div>
+        <div class="roi-metric-description">Return on investment across all projects</div>
+      </div>
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
+          <polyline points="12 6 12 12 16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="roi-metric-value">50%</div>
+        <div class="roi-metric-label">Time Saved</div>
+        <div class="roi-metric-description">Reduction in production time</div>
+      </div>
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <line x1="12" y1="1" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="roi-metric-value">80%</div>
+        <div class="roi-metric-label">Cost Reduction</div>
+        <div class="roi-metric-description">Lower production costs</div>
+      </div>
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="roi-metric-value">10K+</div>
+        <div class="roi-metric-label">Active Users</div>
+        <div class="roi-metric-description">Growing community of creators</div>
+      </div>
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="roi-metric-value">5M+</div>
+        <div class="roi-metric-label">Videos Created</div>
+        <div class="roi-metric-description">Total videos generated</div>
+      </div>
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <line x1="12" y1="22.08" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="roi-metric-value">95%</div>
+        <div class="roi-metric-label">Satisfaction Rate</div>
+        <div class="roi-metric-description">User satisfaction score</div>
+      </div>
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="roi-metric-value">24/7</div>
+        <div class="roi-metric-label">Support Available</div>
+        <div class="roi-metric-description">Round-the-clock assistance</div>
+      </div>
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+          <line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          <line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <div class="roi-metric-value">4K</div>
+        <div class="roi-metric-label">Quality Output</div>
+        <div class="roi-metric-description">High-resolution video support</div>
+      </div>
+      <div class="roi-metric">
+        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <div class="roi-metric-value">99.9%</div>
+        <div class="roi-metric-label">Uptime</div>
+        <div class="roi-metric-description">Reliable service availability</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+// ROI 模块交互逻辑
+(function() {
+  'use strict';
+
+  const initROI = () => {
+    // 可以在这里添加动画效果或数据可视化
+  };
+
+  // DOM 加载后初始化
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initROI);
+  } else {
+    initROI();
+  }
+})();
+</script>
+
+
+
+  <!-- ===== WORKFLOW SECTION ===== -->
+<style>
+/* ========================================
+   Workflow 模块样式
+   ======================================== */
+
+.workflow {
+  padding: var(--spacing-3xl) 0;
+  background: var(--color-bg);
+}
+
+/* 标题区域 */
+.workflow__header {
+  text-align: center;
+  max-width: 1120px; /* 增加宽度，减少换行 */
+  margin: 0 auto 45px auto; /* 水平居中，底部45px间距 */
+}
+
+/* 小标题 "WORKFLOW" */
+.workflow__subtitle {
+  font-size: 1.2rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  margin-bottom: 0.1rem; /* 减小与主标题的间距 */
+}
+
+/* 主标题 "A Seamless Creative Workflow" */
+.workflow__title {
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin-bottom: var(--spacing-lg); /* 增加与描述的间距 */
+}
+
+/* 描述文字 */
+.workflow__description {
+  font-size: 1.6rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  white-space: normal; /* 正常换行 */
+  word-break: keep-all; /* 尽量不在单词中间断行 */
+  word-wrap: break-word; /* 仅在必要时断词 */
+}
+
+/* 卡片网格 */
+.workflow__cards {
+  display: flex;
+  gap: 27px; /* 减少卡片间距 */
+  max-width: 1400px; /* 增加最大宽度，让卡片变宽，文字描述能一行显示更多 */
+  margin: 0 auto;
+  padding: 0 var(--spacing-lg);
+}
+
+/* 单个卡片 */
+.workflow__card {
+  position: relative;
+  flex: 1 1 0; /* 默认平均分配空间 */
+  aspect-ratio: 3 / 6.1;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* 只过渡flex属性 */
+  background: #000000;
+  will-change: flex; /* 性能优化 */
+}
+
+/* 悬浮状态：只增加宽度 */
+.workflow__card:hover {
+  flex: 2.5 1 0; /* 悬浮时占据更多宽度空间 */
+  z-index: 10; /* 确保悬浮卡片在最上层 */
+}
+
+/* 当有卡片悬浮时，其他卡片收缩 */
+.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
+  flex: 0.6 1 0; /* 未悬浮卡片收缩宽度 */
+}
+
+/* 卡片图片 */
+.workflow__card-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* 步骤编号 - 移到标题左侧 */
+.workflow__card-title-wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  margin-top: -5px;
+}
+
+.workflow__card-number {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.4);
+  line-height: 1;
+  position: relative;
+  top: -4px;
+}
+
+/* 渐变叠加层 - 从透明到纯黑 */
+.workflow__card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: linear-gradient(
+    to top,
+    #000000 0%,
+    rgba(0, 0, 0, 0.95) 15%,
+    rgba(0, 0, 0, 0.85) 30%,
+    rgba(0, 0, 0, 0.6) 50%,
+    rgba(0, 0, 0, 0.3) 70%,
+    transparent 100%
+  );
+  z-index: 1;
+  opacity: 1;
+  transition: opacity 0.3s ease; /* 淡出过渡 */
+}
+
+/* 悬浮时叠加层消失 */
+.workflow__card:hover .workflow__card-overlay {
+  opacity: 0;
+}
+
+/* 当有卡片悬浮时，所有未悬浮卡片的叠加层也淡出 */
+.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-overlay {
+  opacity: 0;
+}
+
+/* 文字内容区域 */
+.workflow__card-content {
+  position: absolute;
+  bottom: -25px;
+  left: -15px;
+  right: 0;
+  padding: var(--spacing-lg);
+  z-index: 2;
+  opacity: 1;
+  transition: opacity 0.3s ease; /* 淡出过渡 */
+}
+
+/* 悬浮时文字消失 */
+.workflow__card:hover .workflow__card-content {
+  opacity: 0;
+  pointer-events: none; /* 禁用交互 */
+}
+
+/* 当有卡片悬浮时，所有未悬浮卡片的文字也淡出 */
+.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-content {
+  opacity: 0;
+  pointer-events: none; /* 禁用交互 */
+}
+
+.workflow__card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text);
+  margin-bottom: 0.2rem;
+  margin-left: -8px;
+}
+
+.workflow__card-text {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #727272;
+  margin: 0;
+}
+
+/* ========================================
+   响应式设计
+   ======================================== */
+
+/* 平板端 */
+@media (max-width: 991px) {
+  .workflow {
+    padding: var(--spacing-2xl) 0;
+  }
+
+  .workflow__title {
+    font-size: 2.5rem;
+  }
+
+  .workflow__cards {
+    display: grid; /* 平板端恢复grid布局 */
+    grid-template-columns: repeat(2, 1fr);
+    height: auto; /* 取消固定高度 */
+  }
+
+  /* 平板端取消悬浮动画 */
+  .workflow__card {
+    flex: none;
+    height: auto; /* 取消固定高度 */
+    aspect-ratio: 3 / 6.1; /* 恢复原始比例 */
+  }
+
+  .workflow__card:hover {
+    flex: none;
+    transform: translateY(-8px); /* 简单的上移效果 */
+  }
+}
+
+/* 移动端 */
+@media (max-width: 767px) {
+  .workflow {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .workflow__header {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .workflow__title {
+    font-size: 2rem;
+  }
+
+  .workflow__description {
+    font-size: 1rem;
+  }
+
+  .workflow__cards {
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+  }
+
+  .workflow__card {
+    aspect-ratio: 3 / 3.5;
+  }
+
+  .workflow__card-number {
+    font-size: 2.5rem;
+    top: var(--spacing-sm);
+    left: var(--spacing-sm);
+  }
+
+  .workflow__card-content {
+    padding: var(--spacing-md);
+  }
+
+  .workflow__card-title {
+    font-size: 1.25rem;
+  }
+}
+
+/* 小屏手机 */
+@media (max-width: 479px) {
+  .workflow__title {
+    font-size: 1.75rem;
+  }
+
+  .workflow__card-number {
+    font-size: 2rem;
+  }
+}
+</style>
+
+<section class="workflow" id="workflow">
+  <div class="container">
+    <!-- 标题区域 -->
+    <div class="workflow__header">
+      <p class="workflow__subtitle">WORKFLOW</p>
+      <h2 class="workflow__title">A Seamless Creative Workflow</h2>
+      <p class="workflow__description">
+        Every step is connected through the CLIP Engine and tracked by an
+        intelligent assistant built to enhance your process.
+      </p>
+    </div>
+
+    <!-- 卡片网格 -->
+    <div class="workflow__cards">
+      <!-- 卡片 1: Generative -->
+      <div class="workflow__card" data-step="generative">
+        <img
+          src="sections/workflow/1.png"
+          alt="Generative AI"
+          class="workflow__card-image"
+          loading="lazy"
+        >
+        <div class="workflow__card-overlay"></div>
+        <div class="workflow__card-content">
+          <div class="workflow__card-title-wrapper">
+            <span class="workflow__card-number">1</span>
+            <h3 class="workflow__card-title">Generative</h3>
+          </div>
+          <p class="workflow__card-text">
+            Colors, fonts, lower thirds, logo safe-zones, intro/outro.
+          </p>
+        </div>
+      </div>
+
+      <!-- 卡片 2: Storyboard -->
+      <div class="workflow__card" data-step="storyboard">
+        <img
+          src="sections/workflow/2.jpg"
+          alt="Storyboard"
+          class="workflow__card-image"
+          loading="lazy"
+        >
+        <div class="workflow__card-overlay"></div>
+        <div class="workflow__card-content">
+          <div class="workflow__card-title-wrapper">
+            <span class="workflow__card-number">2</span>
+            <h3 class="workflow__card-title">Storyboard</h3>
+          </div>
+          <p class="workflow__card-text">
+            Captures tone, pacing, motion and composition preferences.
+          </p>
+        </div>
+      </div>
+
+      <!-- 卡片 3: Timeline -->
+      <div class="workflow__card" data-step="timeline">
+        <img
+          src="sections/workflow/3.png"
+          alt="Timeline"
+          class="workflow__card-image"
+          loading="lazy"
+        >
+        <div class="workflow__card-overlay"></div>
+        <div class="workflow__card-content">
+          <div class="workflow__card-title-wrapper">
+            <span class="workflow__card-number">3</span>
+            <h3 class="workflow__card-title">Timeline</h3>
+          </div>
+          <p class="workflow__card-text">
+            Brand recipes prevent drift and keep every render consistent.
+          </p>
+        </div>
+      </div>
+
+      <!-- 卡片 4: Assistant -->
+      <div class="workflow__card" data-step="assistant">
+        <img
+          src="sections/workflow/4.png"
+          alt="Assistant"
+          class="workflow__card-image"
+          loading="lazy"
+        >
+        <div class="workflow__card-overlay"></div>
+        <div class="workflow__card-content">
+          <div class="workflow__card-title-wrapper">
+            <span class="workflow__card-number">4</span>
+            <h3 class="workflow__card-title">Assistant</h3>
+          </div>
+          <p class="workflow__card-text">
+            Brand recipes prevent drift and keep every render consistent.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  'use strict';
+
+  /**
+   * 初始化 Workflow 模块
+   */
+  const initWorkflow = () => {
+    console.log('✅ Workflow module initialized');
+
+    const cards = document.querySelectorAll('.workflow__card');
+
+    // 记录每张卡片的原始高度
+    const originalHeights = new Map();
+
+    // 等待布局稳定后记录高度
+    setTimeout(() => {
+      cards.forEach(card => {
+        const height = card.offsetHeight;
+        originalHeights.set(card, height);
+        // 设置固定高度为内联样式
+        card.style.height = `${height}px`;
+      });
+    }, 100);
+
+    // 图片加载错误处理
+    cards.forEach(card => {
+      const img = card.querySelector('.workflow__card-image');
+
+      if (img) {
+        img.addEventListener('error', function() {
+          console.warn(`Failed to load image: ${this.src}`);
+          // 可以在这里设置占位图或处理逻辑
+        });
+      }
+    });
+
+    // 预留：未来可添加视频悬浮播放功能
+    // 参考 gallery 模块的实现
+    // const initVideoHover = () => { ... };
+
+    // 预留：未来可添加点击展开详情功能
+    // cards.forEach(card => {
+    //   card.addEventListener('click', () => {
+    //     const step = card.dataset.step;
+    //     console.log(`Clicked on ${step}`);
+    //     // 处理点击事件
+    //   });
+    // });
+  };
+
+  // DOM Ready 检测
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initWorkflow);
+  } else {
+    initWorkflow();
+  }
+})();
+</script>
+
+
+  <!-- ===== CALCULATOR SECTION ===== -->
+<!-- ===== CALCULATOR 模块 ===== -->
+<style>
+  /* Calculator Section Styles */
+  .calculator-section {
+    padding: var(--spacing-3xl) 0;
+    background: var(--color-bg);
+    position: relative;
+  }
+
+  .calculator-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
+
+  /* 标题区域 */
+  .calculator-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
+
+  .calculator-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
+  }
+
+  .calculator-subtitle {
+    font-size: clamp(1rem, 2vw, 1.5rem);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* 计算区域容器 - 无背景方块 */
+  .calculator-form-wrapper {
+    max-width: 1400px;
+    margin: 0;
+    background: transparent;
+    padding: var(--spacing-2xl) 0;
+  }
+
+  /* 输入区域 - 五个输入项一行，对齐 */
+  .calculator-form-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--spacing-lg);
+    margin-bottom: var(--spacing-xl);
+    align-items: end;
+    /* 确保底部对齐 */
+  }
+
+  /* 确保所有输入组高度一致并底部对齐 */
+  .calculator-input-group {
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+  }
+
+  /* 确保所有输入框底部对齐 */
+  .calculator-input-wrapper,
+  .calculator-select,
+  .calculator-platform-group {
+    margin-top: auto;
+  }
+
+  /* 平台选项容器对齐 - 确保按钮与输入框底部对齐 */
+  .calculator-platform-options {
+    display: flex;
+    align-items: stretch;
+    /* 确保按钮高度一致 */
+    min-height: 68px;
+    /* 与其他输入框高度一致 */
+  }
+
+  .calculator-label-text {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+    font-weight: 500;
+  }
+
+  .calculator-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .calculator-input {
+    width: 100%;
+    padding: var(--spacing-md) 60px var(--spacing-md) var(--spacing-md);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-size: 1rem;
+    transition: border-color var(--transition);
+    font-family: var(--font-primary);
+  }
+
+  .calculator-input:focus {
+    outline: none;
+    border-color: var(--color-text-secondary);
+  }
+
+  /* 输入框内的单位标签 */
+  .calculator-input-unit {
+    position: absolute;
+    right: var(--spacing-md);
+    color: var(--color-text-secondary);
+    font-size: 0.875rem;
+    pointer-events: none;
+    user-select: none;
+    z-index: 1;
+  }
+
+  /* Views 输入框的单位标签位置 */
+  .calculator-input-wrapper:has(#average-views) .calculator-input-unit {
+    right: var(--spacing-md);
+  }
+
+  /* Credits 输入框 - 文本类型，无上下箭头 */
+  .calculator-input#credits {
+    padding-right: 70px;
+    /* 为单位留出空间 */
+  }
+
+  /* 确保所有输入框高度一致 */
+  .calculator-input,
+  .calculator-select {
+    min-height: 48px;
+    box-sizing: border-box;
+  }
+
+  .calculator-platform-options {
+    min-height: 48px;
+  }
+
+  /* Views 输入框 - 移除上下箭头 */
+  .calculator-input#average-views {
+    appearance: textfield;
+    -moz-appearance: textfield;
+  }
+
+  /* 隐藏箭头 */
+  .calculator-input#average-views::-webkit-inner-spin-button,
+  .calculator-input#average-views::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+    display: none;
+  }
+
+  /* 下拉框 - 科技感样式 */
+  .calculator-select {
+    width: 100%;
+    padding: var(--spacing-md);
+    background: linear-gradient(135deg,
+        var(--color-bg) 0%,
+        rgba(30, 30, 30, 0.8) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    font-family: var(--font-primary);
+    cursor: pointer;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
+    position: relative;
+  }
+
+  .calculator-select:hover {
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow:
+      inset 0 1px 3px rgba(0, 0, 0, 0.3),
+      0 0 10px rgba(255, 255, 255, 0.1);
+  }
+
+  .calculator-select:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.3);
+    box-shadow:
+      inset 0 1px 3px rgba(0, 0, 0, 0.3),
+      0 0 15px rgba(255, 255, 255, 0.15),
+      0 0 5px rgba(100, 200, 255, 0.3);
+  }
+
+  /* 下拉框选项样式 */
+  .calculator-select option {
+    background: var(--color-bg);
+    color: var(--color-text);
+    padding: var(--spacing-sm);
+  }
+
+
+  /* 平台选择 - 按钮组，一行显示 */
+  .calculator-platform-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  .calculator-platform-options {
+    display: flex;
+    gap: var(--spacing-sm);
+    justify-content: space-between;
+  }
+
+  .calculator-platform-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm);
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all var(--transition);
+    min-height: 48px;
+    /* 与其他输入框高度一致 */
+    box-sizing: border-box;
+    transform: translateY(-4px);
+    /* 向上移动4px */
+  }
+
+  .calculator-platform-button:hover {
+    border-color: var(--color-text-secondary);
+    background: var(--color-bg-secondary);
+  }
+
+  .calculator-platform-button.active {
+    background: var(--color-bg-secondary);
+    border-color: var(--color-text);
+  }
+
+  /* 平台图标 - 灰色 */
+  .calculator-platform-icon {
+    width: 24px;
+    height: 24px;
+    fill: var(--color-text-secondary);
+    transition: fill var(--transition);
+  }
+
+  .calculator-platform-button:hover .calculator-platform-icon {
+    fill: var(--color-text);
+  }
+
+  .calculator-platform-button.active .calculator-platform-icon {
+    fill: var(--color-text);
+  }
+
+  /* 计算按钮 - 与其他输入框对齐，字体更大 */
+  .calculator-submit-button {
+    width: 100%;
+    padding: var(--spacing-md);
+    background: var(--color-text);
+    color: var(--color-bg);
+    border: none;
+    border-radius: 8px;
+    font-size: 1.125rem;
+    /* 更大的字体 */
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+    min-height: 48px;
+    /* 与其他输入框高度一致 */
+    box-sizing: border-box;
+  }
+
+  .calculator-submit-button:hover {
+    background: rgba(255, 255, 255, 0.9);
+    transform: translateY(-2px);
+  }
+
+  /* 结果展示区域 - 六个卡片，贴近计算区域 */
+  .calculator-results {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+    margin-top: 10px;
+    /* 与计算区域相距10px */
+  }
+
+  .calculator-result-card {
+    background: var(--color-bg-secondary);
+    border-radius: 16px;
+    padding: var(--spacing-xl);
+    text-align: center;
+    transition: transform var(--transition);
+  }
+
+  .calculator-result-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  .calculator-result-value {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-sm);
+    line-height: 1;
+  }
+
+  .calculator-result-label {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+    line-height: 1.5;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 991px) {
+    .calculator-section {
+      padding: var(--spacing-2xl) 0;
+    }
+
+    .calculator-header {
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .calculator-form-wrapper {
+      padding: var(--spacing-xl);
+    }
+
+    .calculator-form-grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-md);
+    }
+
+    .calculator-results {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-md);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .calculator-section {
+      padding: var(--spacing-xl) 0;
+    }
+
+    .calculator-header {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .calculator-form-wrapper {
+      padding: var(--spacing-lg);
+    }
+
+    .calculator-form-grid {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+
+    .calculator-results {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+
+    .calculator-result-value {
+      font-size: 2.5rem;
+    }
+  }
+</style>
+
+<!-- Calculator Section -->
+<section class="calculator-section" id="calculator">
+  <div class="calculator-container">
+    <div class="calculator-header">
+      <h2 class="calculator-title">Create & Grow Faster Calculator</h2>
+      <p class="calculator-subtitle">
+        Use this calculator to estimate how TreClip helps you save time, post more, and grow faster.
+      </p>
+    </div>
+
+    <!-- 计算区域 -->
+    <div class="calculator-form-wrapper">
+      <form id="calculator-form">
+        <div class="calculator-form-grid">
+          <!-- 1. How many credits do you need -->
+          <div class="calculator-input-group">
+            <label class="calculator-label-text" for="credits">
+              How many credits do you need
+            </label>
+            <div class="calculator-input-wrapper">
+              <input type="text" id="credits" class="calculator-input" placeholder="0" value="100" inputmode="numeric"
+                pattern="[0-9]*">
+              <span class="calculator-input-unit">credits</span>
+            </div>
+          </div>
+
+          <!-- 2. Average views of your clips -->
+          <div class="calculator-input-group">
+            <label class="calculator-label-text" for="average-views">
+              Average views of your clips
+            </label>
+            <div class="calculator-input-wrapper">
+              <input type="number" id="average-views" class="calculator-input" placeholder="0" min="0" value="1000"
+                step="100">
+              <span class="calculator-input-unit">views</span>
+            </div>
+          </div>
+
+          <!-- 3. What category? -->
+          <div class="calculator-input-group">
+            <label class="calculator-label-text" for="category">
+              What category?
+            </label>
+            <select id="category" class="calculator-select" name="category">
+              <option value="podcast" selected>Podcast</option>
+              <option value="education">Education</option>
+              <option value="motivation">Motivation</option>
+              <option value="finance">Finance</option>
+              <option value="webinar">Webinar</option>
+              <option value="vlog">Vlog</option>
+              <option value="coaching">Coaching</option>
+            </select>
+          </div>
+
+          <!-- 4. Which platform will you post to? -->
+          <div class="calculator-input-group">
+            <label class="calculator-label-text">
+              Which platform will you post to?
+            </label>
+            <div class="calculator-platform-group">
+              <div class="calculator-platform-options">
+                <button type="button" class="calculator-platform-button active" data-platform="tiktok"
+                  aria-label="TikTok">
+                  <svg class="calculator-platform-icon" viewBox="0 0 24 24" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
+                  </svg>
+                </button>
+                <button type="button" class="calculator-platform-button" data-platform="youtube" aria-label="YouTube">
+                  <svg class="calculator-platform-icon" viewBox="0 0 24 24" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                  </svg>
+                </button>
+                <button type="button" class="calculator-platform-button" data-platform="instagram"
+                  aria-label="Instagram">
+                  <svg class="calculator-platform-icon" viewBox="0 0 24 24" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z" />
+                  </svg>
+                </button>
+                <button type="button" class="calculator-platform-button" data-platform="facebook" aria-label="Facebook">
+                  <svg class="calculator-platform-icon" viewBox="0 0 24 24" fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path
+                      d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Calculate Button -->
+          <div class="calculator-input-group">
+            <label class="calculator-label-text" style="opacity: 0;">
+              Calculate
+            </label>
+            <button type="submit" class="calculator-submit-button">
+              Calculate
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- 数据展示区域 - 六个卡片 -->
+    <div class="calculator-results" id="calculator-results">
+      <div class="calculator-result-card">
+        <div class="calculator-result-value" id="result-time-saved">0</div>
+        <div class="calculator-result-label">Hours Saved</div>
+      </div>
+      <div class="calculator-result-card">
+        <div class="calculator-result-value" id="result-posts">0</div>
+        <div class="calculator-result-label">Posts Created</div>
+      </div>
+      <div class="calculator-result-card">
+        <div class="calculator-result-value" id="result-reach">0</div>
+        <div class="calculator-result-label">Total Reach</div>
+      </div>
+      <div class="calculator-result-card">
+        <div class="calculator-result-value" id="result-growth">0%</div>
+        <div class="calculator-result-label">Growth Rate</div>
+      </div>
+      <div class="calculator-result-card">
+        <div class="calculator-result-value" id="result-efficiency">0%</div>
+        <div class="calculator-result-label">Efficiency Gain</div>
+      </div>
+      <div class="calculator-result-card">
+        <div class="calculator-result-value" id="result-engagement">0</div>
+        <div class="calculator-result-label">Engagement Rate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Calculator 模块交互逻辑
+  (function () {
+    'use strict';
+
+    const initCalculator = () => {
+      const form = document.getElementById('calculator-form');
+      const platformButtons = document.querySelectorAll('.calculator-platform-button');
+      let selectedPlatform = 'tiktok';
+
+      // 平台选择按钮
+      platformButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          platformButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          selectedPlatform = button.dataset.platform;
+        });
+      });
+
+      // 表单提交
+      if (form) {
+        form.addEventListener('submit', (e) => {
+          e.preventDefault();
+
+          const creditsInput = document.getElementById('credits').value;
+          const credits = parseFloat(creditsInput.replace(/[^0-9.]/g, '')) || 0;
+          const averageViews = parseFloat(document.getElementById('average-views').value) || 0;
+          const category = document.getElementById('category').value || 'podcast';
+
+          // 计算逻辑
+          // 假设每个 credit 可以创建 1 个视频
+          const postsCreated = credits;
+
+          // 假设每个视频平均节省 2 小时
+          const hoursSaved = postsCreated * 2;
+
+          // 总触达 = 视频数 × 平均观看数
+          const totalReach = postsCreated * averageViews;
+
+          // 增长率基于视频数量（简化计算）
+          const growthRate = Math.min(postsCreated * 5, 100);
+
+          // 效率提升（基于视频数量）
+          const efficiencyGain = Math.min(postsCreated * 10, 100);
+
+          // 参与度（基于平台，简化计算）
+          const engagementRates = {
+            tiktok: 8.5,
+            youtube: 4.2,
+            instagram: 3.8,
+            facebook: 2.5
+          };
+          const engagementRate = engagementRates[selectedPlatform] || 5.0;
+
+          // 更新结果
+          document.getElementById('result-time-saved').textContent = hoursSaved.toLocaleString();
+          document.getElementById('result-posts').textContent = postsCreated.toLocaleString();
+          document.getElementById('result-reach').textContent = totalReach.toLocaleString();
+          document.getElementById('result-growth').textContent = growthRate.toFixed(0) + '%';
+          document.getElementById('result-efficiency').textContent = efficiencyGain.toFixed(0) + '%';
+          document.getElementById('result-engagement').textContent = engagementRate.toFixed(1) + '%';
+        });
+      }
+
+      // 页面加载时不自动计算，等待用户点击 Calculate
+    };
+
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initCalculator);
+    } else {
+      initCalculator();
+    }
+  })();
+</script>
+
+  <!-- ===== FOOTER SECTION ===== -->
+<style>
+/* Footer 样式 */
+.footer-section {
+  padding: 20px 0 20px;  /* 减少底部padding,与浏览器下方距离更近 */
+  background: #0D0D0D;
+}
+
+.footer-container {
+  position: relative;
+  max-width: 1520px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* 上方大框 */
+.footer-main-box {
+  position: relative;
+  background-color: rgba(20, 20, 20, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 110px 60px;
+  margin-top: 40px;      /* 整体下移 */
+  margin-bottom: 20px;
+  overflow: hidden;
+  width: 100%;           /* 宽度：可调整（100% 表示容器宽度）*/
+  height: 475px;          /* 高度：可调整（auto 或具体数值如 600px）*/
+  min-height: 400px;     /* 最小高度：可调整 */
+}
+
+.footer-main-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: -20px;
+  background-image: url('sections/footer/background.png');
+  background-size: 100% calc(100% + var(--footer-bottom-height) + 20px);
+  background-position: top left;
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.footer-main {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;  /* 左侧占2份，右侧4列各占1份 */
+  gap: 90px;
+}
+
+/* 左侧品牌区域 */
+.footer-brand {
+  grid-column: span 1;   /* 只占1列，但这1列宽度是2fr */
+}
+
+.footer-logo-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+  margin-bottom: -10px;    /* 减少 logo 和描述文字的间距 */
+  margin-top: -145px;    /* 与 logo 的 margin-top 保持一致 */
+  margin-left: -43px;    /* 与 logo 的 margin-left 保持一致 */
+}
+
+.footer-logo {
+  width: 220px;
+  height: auto;
+  margin-top: 0px;       /* logo 本身不需要边距，由 wrapper 控制 */
+  margin-left: 0px;      /* logo 本身不需要边距，由 wrapper 控制 */
+}
+
+.footer-brand-name {
+  font-size: 20px;
+  font-weight: 600;
+  color: #FFFFFF;
+  line-height: 1.2;
+}
+
+.footer-brand-subtitle {
+  font-size: 20px;   
+  font-weight: 600;
+  color: #FFFFFF;      
+  line-height: 1.2;   
+  margin-top: -4px;
+}
+
+.footer-description {
+  font-size: 14px;
+  line-height: 1.2;
+  color: #FFFFFF;        /* 改为白色字体 */
+  margin-bottom: 30px;
+  max-width: 800px;      /* 大幅增加容器宽度，减少换行 */
+  margin-left: 0px;      /* 与 logo 左对齐 */
+}
+
+.footer-cta-button {
+  display: inline-block;
+  padding: 12px 30px;    /* 增加左右内边距，让按钮变宽 */
+  background: #2A2A2A;   /* 暗灰色背景 */
+  color: #FFFFFF;
+  text-decoration: none;
+  border-radius: 5px;    /* 调整按钮圆角 */
+  font-size: 14px;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.2);  /* 边框 */
+  transition: all 0.3s ease;
+  margin-left: 0px;
+}
+
+.footer-cta-button:hover {
+  background: #3A3A3A;   /* hover 时稍亮的暗灰色 */
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* 链接列 */
+.footer-links-column {
+  display: flex;
+  flex-direction: column;
+  margin-right: -50px;   /* 右移：负值向右移动 */
+  margin-top: -60px;    /* 与 logo 上边距保持一致 */
+}
+
+.footer-column-title {
+  font-size: 16px;       /* 增加主分类标题文字大小 */
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 20px;
+  letter-spacing: 0.5px;
+}
+
+.footer-links-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;             /* 增加小分类项之间的间距 */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-link {
+  color: #999999;
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #FFFFFF;
+}
+
+/* 下方小框（版权区域）*/
+.footer-bottom-box {
+  position: relative;
+  background-color: rgba(20, 20, 20, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 23px 60px;
+  overflow: hidden;
+  width: 100%;         
+  height: auto;         
+  min-height: 70px;      /* 最小高度：可调整 */
+}
+
+.footer-bottom-box::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('sections/footer/background.png');
+  background-size: 100% calc(var(--footer-main-height) + 100% + 20px);
+  background-position-x: left;
+  background-position-y: calc(-1 * (var(--footer-main-height) + 20px));
+  background-repeat: no-repeat;
+  opacity: 0.5;
+  z-index: 0;
+}
+
+.footer-bottom {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-copyright {
+  font-size: 14px;
+  color: #FFFFFF;        /* 改为白色 */
+}
+
+.footer-legal-links {
+  display: flex;
+  gap: 0;                /* 移除 gap，使用分隔符间距 */
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-legal-links li {
+  display: flex;
+  align-items: center;
+}
+
+.footer-legal-links li:not(:last-child)::after {
+  content: '|';
+  color: #FFFFFF;
+  margin: 0 15px;        /* 分隔符左右间距 */
+}
+
+.footer-legal-link {
+  color: #FFFFFF;        /* 改为白色 */
+  text-decoration: none;
+  font-size: 14px;
+  transition: color 0.3s ease;
+}
+
+.footer-legal-link:hover {
+  color: #FFFFFF;
+}
+
+/* 响应式设计 */
+@media (max-width: 991px) {
+  .footer-main {
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 40px;
+  }
+
+  .footer-brand {
+    grid-column: span 3;
+  }
+
+  .footer-main-box {
+    padding: 40px 30px;
+  }
+
+  .footer-bottom-box {
+    padding: 20px 30px;
+  }
+}
+
+@media (max-width: 767px) {
+  .footer-section {
+    padding: 40px 0 0;
+  }
+
+  .footer-container {
+    padding: 0 20px;
+  }
+
+  .footer-main {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .footer-brand {
+    grid-column: span 1;
+  }
+
+  .footer-description {
+    max-width: 100%;
+  }
+
+  .footer-main-box {
+    padding: 30px 20px;
+    margin-bottom: 15px;
+  }
+
+  .footer-bottom-box {
+    padding: 20px;
+    margin-bottom: 40px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+
+  .footer-legal-links {
+    gap: 20px;
+  }
+}
+</style>
+
+<footer class="footer-section">
+  <div class="footer-container">
+    <!-- 上方大框：主要内容区域 -->
+    <div class="footer-main-box">
+      <div class="footer-main">
+      <!-- 品牌区域 -->
+      <div class="footer-brand">
+        <div class="footer-logo-wrapper">
+          <img src="sections/footer/logo.png" alt="TreClip Studio Logo" class="footer-logo">
+          <div>
+            <div class="footer-brand-name">Treclipse</div>
+            <div class="footer-brand-subtitle">Studio</div>
+          </div>
+        </div>
+        <p class="footer-description">
+          Premium AI for branded short-<br>form: content generation, editing,<br> AI avatars, and product shots — <br>crafted to your visual identity.
+        </p>
+        <a href="#contact" class="footer-cta-button">Contact us</a>
+      </div>
+
+      <!-- EXPLORE 列 -->
+      <div class="footer-links-column">
+        <h3 class="footer-column-title">EXPLORE</h3>
+        <ul class="footer-links-list">
+          <li><a href="#explore" class="footer-link">Explore</a></li>
+          <li><a href="#about" class="footer-link">About</a></li>
+          <li><a href="#contact" class="footer-link">Contact</a></li>
+        </ul>
+      </div>
+
+      <!-- FEATURES 列 -->
+      <div class="footer-links-column">
+        <h3 class="footer-column-title">FEATURES</h3>
+        <ul class="footer-links-list">
+          <li><a href="#create" class="footer-link">Create</a></li>
+          <li><a href="#edit" class="footer-link">Edit</a></li>
+          <li><a href="#avatar" class="footer-link">Avatar</a></li>
+        </ul>
+      </div>
+
+      <!-- SOLUTIONS 列 -->
+      <div class="footer-links-column">
+        <h3 class="footer-column-title">SOLUTIONS</h3>
+        <ul class="footer-links-list">
+          <li><a href="#brand-marketing" class="footer-link">Brand Marketing</a></li>
+          <li><a href="#storytelling" class="footer-link">Storytelling</a></li>
+          <li><a href="#sales" class="footer-link">Sales & Advertisment</a></li>
+          <li><a href="#media" class="footer-link">Media</a></li>
+        </ul>
+      </div>
+
+      <!-- AI SUITE 列 -->
+      <div class="footer-links-column">
+        <h3 class="footer-column-title">AI SUITE</h3>
+        <ul class="footer-links-list">
+          <li><a href="#content-generator" class="footer-link">Content generator</a></li>
+          <li><a href="#ai-avatar" class="footer-link">AI avatar.</a></li>
+          <li><a href="#product-shots" class="footer-link">Product shots</a></li>
+          <li><a href="#clipmaker" class="footer-link">Clipmaker</a></li>
+        </ul>
+      </div>
+      </div>
+    </div>
+
+    <!-- 下方小框：版权区域 -->
+    <div class="footer-bottom-box">
+      <div class="footer-bottom">
+      <p class="footer-copyright">© TreClip Studio. All rights reserved.</p>
+      <ul class="footer-legal-links">
+        <li><a href="#privacy" class="footer-legal-link">Privacy</a></li>
+        <li><a href="#terms" class="footer-legal-link">Terms</a></li>
+      </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  // 设置 footer 背景图的尺寸，确保两个框拼接成完整图片
+  function setFooterBackgroundSize() {
+    const mainBox = document.querySelector('.footer-main-box');
+    const bottomBox = document.querySelector('.footer-bottom-box');
+
+    if (mainBox && bottomBox) {
+      const mainHeight = mainBox.offsetHeight;
+      const bottomHeight = bottomBox.offsetHeight;
+
+      // 设置 CSS 变量
+      document.documentElement.style.setProperty('--footer-main-height', mainHeight + 'px');
+      document.documentElement.style.setProperty('--footer-bottom-height', bottomHeight + 'px');
+    }
+  }
+
+  // 页面加载时设置
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setFooterBackgroundSize);
+  } else {
+    setFooterBackgroundSize();
+  }
+
+  // 窗口大小改变时重新计算
+  let resizeTimer;
+  window.addEventListener('resize', function() {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(setFooterBackgroundSize, 100);
+  });
+})();
+</script>
+
+
+  <!-- ===== GLOBAL SCRIPTS ===== -->
+  <!-- Global Scripts -->
+  <script src="js/webflow.js"></script>
+
+  <!-- Global Initialization -->
+  <script>
+    // Utility: Throttle function
+    function throttle(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+
+    // Initialize Lenis Smooth Scroll
+    if (typeof Lenis !== 'undefined') {
+      const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smooth: true,
+      });
+
+      function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+      }
+
+      requestAnimationFrame(raf);
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          const targetId = this.getAttribute('href');
+          if (targetId !== '#') {
+            e.preventDefault();
+            const target = document.querySelector(targetId);
+            if (target) {
+              lenis.scrollTo(target, { offset: -80 });
+            }
+          }
+        });
+      });
+    }
+
+    console.log('✅ Star-UI Initialized');
+  </script>
+
+</body>
+</html>
