@@ -187,6 +187,171 @@
   transform: rotate(-45deg) translate(7px, -6px);
 }
 
+/* ===== 导航下拉面板样式 ===== */
+.nav-item-dropdown {
+  position: relative;
+}
+
+.nav-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  transform: translateY(10px);
+  width: 824px;
+  max-height: 370px;
+  background: rgba(20, 20, 20, 0.98);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+.nav-item-dropdown:hover .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+/* 下拉面板容器 */
+.dropdown-container {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 1.25rem;
+}
+
+/* 左侧区域 */
+.dropdown-left-section {
+  display: flex;
+  flex-direction: column;
+  gap: calc(0.75rem + 20px);
+}
+
+.dropdown-desc {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0;
+}
+
+/* 右侧框 */
+.dropdown-right-section {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.dropdown-title {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color-text);
+  margin: 0;
+  letter-spacing: -0.3px;
+}
+
+.dropdown-subtitle {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+}
+
+.dropdown-cta {
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  background: #2C2C2C;
+  color: #FFFFFF !important;
+  border: none;
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  text-align: center;
+  align-self: flex-start;
+}
+
+.dropdown-cta:hover {
+  color: #FFFFFF !important;
+}
+
+/* 右侧横向图片 */
+.dropdown-image {
+  width: 100%;
+  margin-top: 0.25rem;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.dropdown-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+/* 下拉面板卡片区 */
+.dropdown-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+}
+
+.dropdown-card {
+  position: relative;
+  aspect-ratio: 1 / 1.5;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.dropdown-card:hover {
+  transform: translateY(-4px);
+}
+
+.dropdown-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.6) 60%, transparent 100%);
+  color: var(--color-text);
+}
+
+.card-overlay h3 {
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0 0 0.25rem 0;
+  color: var(--color-text);
+}
+
+.card-overlay p {
+  font-size: 10px;
+  line-height: 1.4;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.8);
+}
+
 /* Mobile Responsive */
 @media (max-width: 991px) {
   .nav-left .nav-menu,
@@ -196,6 +361,11 @@
 
   .mobile-menu-toggle {
     display: flex;
+  }
+
+  /* 移动端隐藏下拉面板 */
+  .nav-dropdown {
+    display: none;
   }
 
   /* Mobile menu expanded (if needed) */
@@ -232,7 +402,54 @@
       </div>
 
       <ul class="nav-menu">
-        <li><a href="#features">Features</a></li>
+        <li class="nav-item-dropdown">
+          <a href="#features">Features</a>
+          <!-- Features 下拉面板 -->
+          <div class="nav-dropdown">
+            <div class="dropdown-container">
+              <!-- 左侧区域 -->
+              <div class="dropdown-left-section">
+                <!-- 描述文字 -->
+                <p class="dropdown-desc">Discover everything Treclipse can do. Generate <br>cinematic videos, design AI imagery, and build brand<br> identities.</p>
+
+                <!-- 三个功能卡片 -->
+                <div class="dropdown-cards">
+                  <div class="dropdown-card">
+                    <img src="sections/adaptation/1.png" alt="Create">
+                    <div class="card-overlay">
+                      <h3>Create</h3>
+                      <p>Image Generator<br>Video Generator</p>
+                    </div>
+                  </div>
+                  <div class="dropdown-card">
+                    <img src="sections/adaptation/2.jpg" alt="Compose">
+                    <div class="card-overlay">
+                      <h3>Compose</h3>
+                      <p>Timeline Editor<br>Storyboard<br>Assistant</p>
+                    </div>
+                  </div>
+                  <div class="dropdown-card">
+                    <img src="sections/adaptation/3.png" alt="Studio">
+                    <div class="card-overlay">
+                      <h3>Studio</h3>
+                      <p>Avatar<br>Brand Kit<br>Assistant</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 右侧框 -->
+              <div class="dropdown-right-section">
+                <h2 class="dropdown-title">WHERE IMAGINATION ECLIPSES REALITY.</h2>
+                <p class="dropdown-subtitle">Create contents that resonates</p>
+                <a href="#" class="dropdown-cta">Start Engine</a>
+                <div class="dropdown-image">
+                  <img src="sections/adaptation/5.png" alt="Feature showcase">
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
         <li><a href="#solutions">Solutions</a></li>
         <li><a href="#resources">Resources</a></li>
         <li><a href="#pricing">Pricing</a></li>
@@ -373,17 +590,62 @@
     updateActiveLink(); // 初始化时执行一次
   };
 
+  // 下拉菜单增强交互
+  const initDropdownInteraction = () => {
+    const dropdownItems = document.querySelectorAll('.nav-item-dropdown');
+
+    dropdownItems.forEach(item => {
+      let hideTimeout;
+      const dropdown = item.querySelector('.nav-dropdown');
+
+      if (!dropdown) return;
+
+      // 鼠标进入菜单项
+      item.addEventListener('mouseenter', () => {
+        clearTimeout(hideTimeout);
+        dropdown.style.opacity = '1';
+        dropdown.style.visibility = 'visible';
+        dropdown.style.pointerEvents = 'auto';
+      });
+
+      // 鼠标离开菜单项
+      item.addEventListener('mouseleave', () => {
+        hideTimeout = setTimeout(() => {
+          dropdown.style.opacity = '0';
+          dropdown.style.visibility = 'hidden';
+          dropdown.style.pointerEvents = 'none';
+        }, 150); // 延迟隐藏,避免鼠标移动过快时闪烁
+      });
+
+      // 鼠标进入下拉面板
+      dropdown.addEventListener('mouseenter', () => {
+        clearTimeout(hideTimeout);
+      });
+
+      // 鼠标离开下拉面板
+      dropdown.addEventListener('mouseleave', () => {
+        hideTimeout = setTimeout(() => {
+          dropdown.style.opacity = '0';
+          dropdown.style.visibility = 'hidden';
+          dropdown.style.pointerEvents = 'none';
+        }, 150);
+      });
+    });
+  };
+
   // Initialize on DOM ready
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => {
       initMobileMenu();
       initNavbarScroll();
       initActiveSection();
+      initDropdownInteraction();
     });
   } else {
     initMobileMenu();
     initNavbarScroll();
     initActiveSection();
+    initDropdownInteraction();
   }
 })();
 </script>
