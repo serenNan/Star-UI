@@ -46,9 +46,8 @@
 
 /* 卡片网格 */
 .workflow__cards {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap:27px; /* 减少卡片间距 */
+  display: flex;
+  gap: 27px; /* 减少卡片间距 */
   max-width: 1400px; /* 增加最大宽度，让卡片变宽，文字描述能一行显示更多 */
   margin: 0 auto;
   padding: 0 var(--spacing-lg);
@@ -57,16 +56,25 @@
 /* 单个卡片 */
 .workflow__card {
   position: relative;
+  flex: 1 1 0; /* 默认平均分配空间 */
   aspect-ratio: 3 / 6.1;
   border-radius: 20px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform var(--transition);
+  transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* 只过渡flex属性 */
   background: #000000;
+  will-change: flex; /* 性能优化 */
 }
 
+/* 悬浮状态：只增加宽度 */
 .workflow__card:hover {
-  transform: translateY(-8px);
+  flex: 2.5 1 0; /* 悬浮时占据更多宽度空间 */
+  z-index: 10; /* 确保悬浮卡片在最上层 */
+}
+
+/* 当有卡片悬浮时，其他卡片收缩 */
+.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
+  flex: 0.6 1 0; /* 未悬浮卡片收缩宽度 */
 }
 
 /* 卡片图片 */
@@ -111,6 +119,18 @@
     transparent 100%
   );
   z-index: 1;
+  opacity: 1;
+  transition: opacity 0.3s ease; /* 淡出过渡 */
+}
+
+/* 悬浮时叠加层消失 */
+.workflow__card:hover .workflow__card-overlay {
+  opacity: 0;
+}
+
+/* 当有卡片悬浮时，所有未悬浮卡片的叠加层也淡出 */
+.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-overlay {
+  opacity: 0;
 }
 
 /* 文字内容区域 */
@@ -121,6 +141,20 @@
   right: 0;
   padding: var(--spacing-lg);
   z-index: 2;
+  opacity: 1;
+  transition: opacity 0.3s ease; /* 淡出过渡 */
+}
+
+/* 悬浮时文字消失 */
+.workflow__card:hover .workflow__card-content {
+  opacity: 0;
+  pointer-events: none; /* 禁用交互 */
+}
+
+/* 当有卡片悬浮时，所有未悬浮卡片的文字也淡出 */
+.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-content {
+  opacity: 0;
+  pointer-events: none; /* 禁用交互 */
 }
 
 .workflow__card-title {
@@ -153,7 +187,21 @@
   }
 
   .workflow__cards {
+    display: grid; /* 平板端恢复grid布局 */
     grid-template-columns: repeat(2, 1fr);
+    height: auto; /* 取消固定高度 */
+  }
+
+  /* 平板端取消悬浮动画 */
+  .workflow__card {
+    flex: none;
+    height: auto; /* 取消固定高度 */
+    aspect-ratio: 3 / 6.1; /* 恢复原始比例 */
+  }
+
+  .workflow__card:hover {
+    flex: none;
+    transform: translateY(-8px); /* 简单的上移效果 */
   }
 }
 
@@ -319,6 +367,19 @@
     console.log('✅ Workflow module initialized');
 
     const cards = document.querySelectorAll('.workflow__card');
+
+    // 记录每张卡片的原始高度
+    const originalHeights = new Map();
+
+    // 等待布局稳定后记录高度
+    setTimeout(() => {
+      cards.forEach(card => {
+        const height = card.offsetHeight;
+        originalHeights.set(card, height);
+        // 设置固定高度为内联样式
+        card.style.height = `${height}px`;
+      });
+    }, 100);
 
     // 图片加载错误处理
     cards.forEach(card => {
