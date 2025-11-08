@@ -103,9 +103,17 @@
   overflow: hidden;
   aspect-ratio: 3 / 3.22; /* 稍微偏高一点 */
   cursor: pointer;
-  transition: opacity 0.25s ease, transform 0.25s ease; /* 只过渡需要的属性 */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); /* 使用缓动函数实现流畅动画 */
   opacity: 1;
   transform: scale(1);
+  z-index: 1; /* 默认层级 */
+}
+
+/* 悬浮时显著放大 */
+.use-cases__card:hover {
+  transform: scale(1.15); /* 放大 15% - 非常明显 */
+  z-index: 10; /* 提升层级，确保在其他卡片之上 */
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5); /* 添加阴影增强立体感 */
 }
 
 .use-cases__card.hidden {
