@@ -197,8 +197,8 @@
   top: 100%;
   left: 0;
   transform: translateY(10px);
-  width: 824px;
-  max-height: 370px;
+  width: 670px;
+  max-height: 400px;
   background: rgba(20, 20, 20, 0.98);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -306,6 +306,51 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.75rem;
+}
+
+/* ===== Solutions 下拉面板专属样式 ===== */
+.solutions-dropdown {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  height: 268px; /* 固定高度，匹配 Feature 的实际高度 */
+  overflow: hidden;
+}
+
+/* Solutions 描述文字独占一行 */
+.dropdown-desc-solo {
+  font-size: 13px;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 0.5rem 0;
+  text-align: left;
+}
+
+/* Solutions 卡片布局 - 4列 */
+.solutions-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0rem; /* 减少图片间距 */
+}
+
+/* Solutions 卡片尺寸 - 使用固定宽高 */
+.solutions-cards .dropdown-card {
+  width: 135px;
+  height: 190px;
+}
+
+/* Solutions 卡片标题样式 - 减小字体 */
+.solutions-cards .card-overlay h3 {
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.3;
+  margin: 0;
+  color: var(--color-text);
+}
+
+/* Solutions 卡片不显示副文字 */
+.solutions-cards .card-overlay p {
+  display: none;
 }
 
 .dropdown-card {
@@ -444,13 +489,50 @@
                 <p class="dropdown-subtitle">Create contents that resonates</p>
                 <a href="#" class="dropdown-cta">Start Engine</a>
                 <div class="dropdown-image">
-                  <img src="sections/adaptation/5.png" alt="Feature showcase">
+                  <img src="sections/navigation/5.png" alt="Feature showcase">
                 </div>
               </div>
             </div>
           </div>
         </li>
-        <li><a href="#solutions">Solutions</a></li>
+        <li class="nav-item-dropdown">
+          <a href="#solutions">Solutions</a>
+          <!-- Solutions 下拉面板 -->
+          <div class="nav-dropdown">
+            <div class="dropdown-container solutions-dropdown">
+              <!-- 描述文字 -->
+              <p class="dropdown-desc-solo">Treclipse unites artistry and intelligence to create cinematic visuals<br> that resonate.</p>
+
+              <!-- 四个解决方案卡片 -->
+              <div class="dropdown-cards solutions-cards">
+                <div class="dropdown-card">
+                  <img src="sections/navigation/1.png" alt="Brands & Marketers">
+                  <div class="card-overlay">
+                    <h3>Brands<br>& Marketers</h3>
+                  </div>
+                </div>
+                <div class="dropdown-card">
+                  <img src="sections/navigation/2.jpg" alt="Agencies & Enterprise">
+                  <div class="card-overlay">
+                    <h3>Agencies<br>& Enterprise</h3>
+                  </div>
+                </div>
+                <div class="dropdown-card">
+                  <img src="sections/navigation/4.png" alt="Creators & Filmmakers">
+                  <div class="card-overlay">
+                    <h3>Creators<br>& Filmmakers</h3>
+                  </div>
+                </div>
+                <div class="dropdown-card">
+                  <img src="sections/navigation/3.png" alt="Artists & Designers">
+                  <div class="card-overlay">
+                    <h3>Artists<br>& Designers</h3>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </li>
         <li><a href="#resources">Resources</a></li>
         <li><a href="#pricing">Pricing</a></li>
         <li><a href="#ai-studio" class="btn-style">Eclipse Engine</a></li>
