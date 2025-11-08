@@ -60,7 +60,7 @@
 /* 右侧列 - 一张大卡片 */
 .assistant-right {
   display: flex;
-  max-width: 465px;  /* 限制右侧卡片最大宽度，让它更窄 */
+  max-width: 720px;  /* 继续增加右侧卡片最大宽度 */
 }
 
 /* 强制左右卡片高度一致 */
@@ -107,7 +107,8 @@
 /* 右侧单卡片 - 包含一个功能项（内嵌样式）*/
 .assistant-card-single {
   padding-top: 32px;     /* 上边距 */
-  padding-left: 6px;    /* 左边距 */
+  padding-left: 40px;    /* 左边距 - 增加以居中图片 */
+  padding-right: 40px;   /* 右边距 - 增加以居中图片 */
   flex: 1;
 }
 
@@ -134,7 +135,8 @@
 
 /* 右侧单卡片图片 - 单独设置宽高 */
 .assistant-card-single .assistant-feature-visual {
-  width: 385px;  /* 固定右侧图片宽度 */
+  width: 100%;   /* 自适应容器宽度 */
+  max-width: 570px;  /* 增加最大宽度限制 */
   height: 250px;  /* 固定右侧图片高度 */
 }
 
