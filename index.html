@@ -512,9 +512,9 @@
   <div class="nav-container">
     <!-- 左侧区域：Logo + 导航菜单 -->
     <div class="nav-left">
-      <div class="nav-logo">
+      <a href="index.html" class="nav-logo">
         <img src="sections/navigation/logo.png" alt="TreClip" class="logo-img">
-      </div>
+      </a>
 
       <ul class="nav-menu">
         <li class="nav-item-dropdown">
@@ -566,7 +566,7 @@
           </div>
         </li>
         <li class="nav-item-dropdown">
-          <a href="#solutions">Solutions</a>
+          <a href="solutions.html">Solutions</a>
           <!-- Solutions 下拉面板 -->
           <div class="nav-dropdown">
             <div class="dropdown-container solutions-dropdown">
@@ -575,30 +575,30 @@
 
               <!-- 四个解决方案卡片 -->
               <div class="dropdown-cards solutions-cards">
-                <div class="dropdown-card">
+                <a href="solutions.html" class="dropdown-card">
                   <img src="sections/navigation/1.png" alt="Brands & Marketers">
                   <div class="card-overlay">
                     <h3>Brands<br>& Marketers</h3>
                   </div>
-                </div>
-                <div class="dropdown-card">
+                </a>
+                <a href="solutions.html" class="dropdown-card">
                   <img src="sections/navigation/2.jpg" alt="Agencies & Enterprise">
                   <div class="card-overlay">
                     <h3>Agencies<br>& Enterprise</h3>
                   </div>
-                </div>
-                <div class="dropdown-card">
+                </a>
+                <a href="solutions.html" class="dropdown-card">
                   <img src="sections/navigation/4.png" alt="Creators & Filmmakers">
                   <div class="card-overlay">
                     <h3>Creators<br>& Filmmakers</h3>
                   </div>
-                </div>
-                <div class="dropdown-card">
+                </a>
+                <a href="solutions.html" class="dropdown-card">
                   <img src="sections/navigation/3.png" alt="Artists & Designers">
                   <div class="card-overlay">
                     <h3>Artists<br>& Designers</h3>
                   </div>
-                </div>
+                </a>
               </div>
             </div>
           </div>
@@ -3215,7 +3215,7 @@
   display: block;
 }
 
-/* 步骤编号 - 移到标题左侧 */
+/* 步骤编号 - 固定在卡片底部左侧 */
 .workflow__card-title-wrapper {
   display: flex;
   align-items: center;
@@ -3228,8 +3228,20 @@
   font-weight: 700;
   color: rgba(255, 255, 255, 0.4);
   line-height: 1;
-  position: relative;
-  top: -4px;
+  position: absolute; /* 改为绝对定位 */
+  bottom: 80px; /* 增加距离底部的距离 */
+  left: 30px; /* 距离左侧固定距离 */
+  z-index: 3; /* 确保在所有层之上 */
+  transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              left 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* 丝滑过渡动画 */
+}
+
+/* 悬浮时数字颜色加深并稍微下移 */
+.workflow__card:hover .workflow__card-number {
+  color: rgba(255, 255, 255, 0.9); /* 加深到90%不透明度 */
+  bottom: 60px; /* 稍微下移一点 */
+  left: 30px; /* 保持左侧位置 */
 }
 
 /* 渐变叠加层 - 从透明到纯黑 */
@@ -3272,34 +3284,47 @@
   padding: var(--spacing-lg);
   z-index: 2;
   opacity: 1;
-  transition: opacity 0.3s ease; /* 淡出过渡 */
+  /* 不移动整个内容区域 */
 }
 
-/* 悬浮时文字消失 */
-.workflow__card:hover .workflow__card-content {
-  opacity: 0;
-  pointer-events: none; /* 禁用交互 */
-}
+/* 移除悬浮时文字消失的效果 */
+/* 文字在放大缩小动画时保持显示 */
 
-/* 当有卡片悬浮时，所有未悬浮卡片的文字也淡出 */
-.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-content {
-  opacity: 0;
-  pointer-events: none; /* 禁用交互 */
-}
-
+/* 标题样式 - 改为绝对定位 */
 .workflow__card-title {
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--color-text);
-  margin-bottom: 0.2rem;
-  margin-left: -8px;
+  position: absolute;
+  bottom: 80px; /* 和数字同一高度 */
+  left: 40px; /* 比数字多10px（数字30px + 10px） */
+  z-index: 3;
+  transition: opacity 0.3s ease,
+              bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+              left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* 悬浮时标题稍微下移 */
+.workflow__card:hover .workflow__card-title {
+  bottom: 60px; /* 和数字同步下移到60px */
+  left: 40px; /* 保持左边距 */
+}
+
+/* 描述文字样式 */
 .workflow__card-text {
   font-size: 0.875rem;
   line-height: 1.5;
   color: #727272;
   margin: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* 当有卡片悬浮时，只隐藏其他未悬浮卡片的标题和描述 */
+/* 被悬浮的卡片保留所有文字内容 */
+.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-title,
+.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-text {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* ========================================
