@@ -1,0 +1,311 @@
+<!-- ===== WORKFLOW_SL 模块 ===== -->
+<style>
+  /* Workflow SL Section Styles */
+  .workflow-sl {
+    padding: var(--spacing-3xl) 0;
+    background: var(--color-bg);
+  }
+
+  .workflow-sl-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
+
+  /* 标题区域 */
+  .workflow-sl-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
+
+  /* 顶部标签 "WORKFLOW" */
+  .workflow-sl-label {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  /* 主标题 */
+  .workflow-sl-title {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  /* 副标题/描述 */
+  .workflow-sl-description {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* 卡片网格容器 */
+  .workflow-sl-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* 单个卡片 */
+  .workflow-sl-card {
+    background: var(--color-bg-secondary);
+    border-radius: 20px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    transition: transform var(--transition), box-shadow var(--transition);
+    cursor: pointer;
+    position: relative;
+  }
+
+  .workflow-sl-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  /* 卡片图片容器 */
+  .workflow-sl-card-image-wrapper {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: #2a2a2a;
+    position: relative;
+  }
+
+  /* 卡片图片 */
+  .workflow-sl-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* 渐变叠加层 - 从半透明过渡到黑色 */
+  .workflow-sl-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.98) 0%,
+      rgba(0, 0, 0, 0.95) 15%,
+      rgba(0, 0, 0, 0.85) 35%,
+      rgba(0, 0, 0, 0.5) 60%,
+      rgba(0, 0, 0, 0.2) 80%,
+      transparent 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* 卡片内容区域 */
+  .workflow-sl-card-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--spacing-lg);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 卡片标题 */
+  .workflow-sl-card-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: 0.5rem;
+  }
+
+  /* 卡片描述 */
+  .workflow-sl-card-description {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 991px) {
+    .workflow-sl {
+      padding: var(--spacing-2xl) 0;
+    }
+
+    .workflow-sl-header {
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .workflow-sl-cards {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-md);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .workflow-sl {
+      padding: var(--spacing-xl) 0;
+    }
+
+    .workflow-sl-container {
+      padding: 0 var(--spacing-md);
+    }
+
+    .workflow-sl-header {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .workflow-sl-title {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+
+    .workflow-sl-description {
+      font-size: 0.9rem;
+      font-weight: 300;
+    }
+
+    .workflow-sl-cards {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+
+    .workflow-sl-card-image-wrapper {
+      aspect-ratio: 3 / 4;
+    }
+
+    .workflow-sl-card-content {
+      padding: var(--spacing-md);
+    }
+
+    .workflow-sl-card-title {
+      font-size: 1.25rem;
+    }
+
+    .workflow-sl-card-description {
+      font-size: 0.8rem;
+      font-weight: 300;
+    }
+  }
+</style>
+
+<!-- HTML 结构 -->
+<section class="workflow-sl" id="workflow-sl">
+  <div class="workflow-sl-container">
+    <!-- 标题区域 -->
+    <div class="workflow-sl-header">
+      <p class="workflow-sl-label">WORKFLOW</p>
+      <h2 class="workflow-sl-title">A Seamless Creative Workflow</h2>
+      <p class="workflow-sl-description">
+        Every step is connected through the Eclipse Engine and guided by an intelligent assistant built to enhance your process.
+      </p>
+    </div>
+
+    <!-- 卡片网格 -->
+    <div class="workflow-sl-cards">
+      <!-- 卡片 1: Generative -->
+      <div class="workflow-sl-card">
+        <div class="workflow-sl-card-image-wrapper">
+          <img
+            src="images/1.png"
+            alt="Generative"
+            class="workflow-sl-card-image"
+            loading="lazy"
+          >
+          <div class="workflow-sl-card-overlay"></div>
+          <div class="workflow-sl-card-content">
+            <h3 class="workflow-sl-card-title">Generative</h3>
+            <p class="workflow-sl-card-description">
+              Colors, fonts, lower thirds, logo safe-zones, intro/outro.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 卡片 2: Storyboard -->
+      <div class="workflow-sl-card">
+        <div class="workflow-sl-card-image-wrapper">
+          <img
+            src="images/2.jpg"
+            alt="Storyboard"
+            class="workflow-sl-card-image"
+            loading="lazy"
+          >
+          <div class="workflow-sl-card-overlay"></div>
+          <div class="workflow-sl-card-content">
+            <h3 class="workflow-sl-card-title">Storyboard</h3>
+            <p class="workflow-sl-card-description">
+              Captures tone, pacing, motion and composition preferences.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 卡片 3: Timeline -->
+      <div class="workflow-sl-card">
+        <div class="workflow-sl-card-image-wrapper">
+          <img
+            src="images/3.png"
+            alt="Timeline"
+            class="workflow-sl-card-image"
+            loading="lazy"
+          >
+          <div class="workflow-sl-card-overlay"></div>
+          <div class="workflow-sl-card-content">
+            <h3 class="workflow-sl-card-title">Timeline</h3>
+            <p class="workflow-sl-card-description">
+              Brand recipes prevent drift and keep every render consistent.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Workflow SL 模块交互逻辑
+  (function () {
+    'use strict';
+
+    const initWorkflowSL = () => {
+      // 可以在这里添加交互逻辑，如点击卡片展开详情等
+      const cards = document.querySelectorAll('.workflow-sl-card');
+      
+      cards.forEach(card => {
+        // 图片加载错误处理
+        const img = card.querySelector('.workflow-sl-card-image');
+        if (img) {
+          img.addEventListener('error', function() {
+            console.warn(`Failed to load image: ${this.src}`);
+          });
+        }
+      });
+    };
+
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initWorkflowSL);
+    } else {
+      initWorkflowSL();
+    }
+  })();
+</script>
+

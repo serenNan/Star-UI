@@ -11,9 +11,9 @@
   }
 
   .ai-solutions-container {
-    max-width: var(--container-width);
+    max-width: 100%;
     margin: 0 auto;
-    padding: 0 var(--spacing-lg);
+    padding: 0 3rem;
     width: 100%;
     display: flex;
     flex-direction: column;
@@ -23,7 +23,7 @@
   /* 标题区域 - 占页面约 3/10 (30vh) */
   .ai-solutions-header {
     text-align: center;
-    padding: var(--spacing-3xl) var(--spacing-lg) var(--spacing-md);
+    padding: var(--spacing-3xl) 0 var(--spacing-md);
     min-height: 30vh;
     display: flex;
     flex-direction: column;
@@ -34,14 +34,14 @@
   /* 像素风格字体 - Press Start 2P 字体已在全局 head 中引入 */
   .ai-solutions-title {
     font-family: 'Press Start 2P', cursive;
-    font-size: clamp(0.8rem, 3vw, 2.8rem);
+    font-size: clamp(1.2rem, 4vw, 2.5rem);
     font-weight: 400;
     color: var(--color-text);
-    line-height: 1.6;
-    margin-bottom: var(--spacing-md);
+    line-height: 1.8;
+    margin-bottom: var(--spacing-lg);
     text-align: center;
-    letter-spacing: 0.02em;
-    max-width: 100%;
+    letter-spacing: 0.05em;
+    max-width: 75%;
     margin-left: auto;
     margin-right: auto;
     /* 允许换行 */
@@ -54,8 +54,8 @@
   }
 
   .ai-solutions-subtitle {
-    font-family: var(--font-primary);
-    font-size: clamp(0.9rem, 1.5vw, 0.125rem);
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1rem, 1.8vw, 0.75rem);
     color: var(--color-text-secondary);
     line-height: 1.8;
     max-width: 50%;
@@ -69,18 +69,30 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-3xl);
     min-height: 70vh;
     flex: 1;
+    width: 100%;
   }
 
   .ai-solutions-image {
-    width: 120%;
-    max-width: 1400px;
+    width: 95%;
+    max-width: 100%;
     height: auto;
     object-fit: contain;
     border-radius: 12px;
     display: block;
+  }
+
+  /* 图片下方的信任文字 */
+  .ai-solutions-trust-text {
+    text-align: center;
+    padding: var(--spacing-2xl) 0 0;
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(0.7rem, 13.1vw, 0.9rem);
+    color: var(--color-text-secondary);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    font-weight: 500;
   }
 
   /* 响应式设计 */
@@ -91,29 +103,38 @@
 
     .ai-solutions-container {
       min-height: auto;
+      padding: 0 var(--spacing-md);
     }
 
     .ai-solutions-header {
       min-height: auto;
-      padding: var(--spacing-2xl) var(--spacing-lg) var(--spacing-sm);
+      padding: var(--spacing-2xl) 0 var(--spacing-sm);
     }
 
     .ai-solutions-title {
-      font-size: clamp(0.7rem, 4vw, 1.5rem);
-      max-width: 80%;
+      font-size: clamp(1rem, 5vw, 2rem);
+      max-width: 75%;
       white-space: normal;
-      margin-bottom: var(--spacing-sm);
+      margin-bottom: var(--spacing-md);
+      line-height: 1.6;
     }
 
     .ai-solutions-subtitle {
-      font-size: clamp(0.875rem, 2vw, 1rem);
-      max-width: 70%;
+      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+      max-width: 75%;
       padding: 0;
+      margin-top: var(--spacing-sm);
     }
 
     .ai-solutions-image-container {
       min-height: auto;
-      padding: var(--spacing-sm) var(--spacing-lg) var(--spacing-2xl);
+      padding: var(--spacing-sm) 0 var(--spacing-2xl);
+    }
+
+    .ai-solutions-trust-text {
+      padding: var(--spacing-xl) 0 var(--spacing-2xl);
+      font-size: clamp(0.65rem, 2vw, 0.75rem);
+      letter-spacing: 0.15em;
     }
   }
 
@@ -123,26 +144,34 @@
     }
 
     .ai-solutions-header {
-      padding: var(--spacing-xl) var(--spacing-md) var(--spacing-sm);
+      padding: var(--spacing-xl) 0 var(--spacing-sm);
     }
 
     .ai-solutions-title {
-      font-size: clamp(0.6rem, 5vw, 1.2rem);
-      max-width: 90%;
+      font-size: clamp(0.8rem, 6vw, 1.5rem);
+      max-width: 80%;
       white-space: normal;
-      line-height: 1.8;
-      margin-bottom: var(--spacing-xs);
+      line-height: 1.6;
+      margin-bottom: var(--spacing-sm);
+      letter-spacing: 0.03em;
     }
 
     .ai-solutions-subtitle {
-      font-size: 0.875rem;
-      line-height: 1.6;
+      font-size: clamp(0.85rem, 3vw, 1rem);
+      line-height: 1.7;
       max-width: 85%;
       padding: 0;
+      margin-top: var(--spacing-xs);
     }
 
     .ai-solutions-image-container {
-      padding: var(--spacing-xs) var(--spacing-md) var(--spacing-lg);
+      padding: var(--spacing-xs) 0 var(--spacing-lg);
+    }
+
+    .ai-solutions-trust-text {
+      padding: var(--spacing-lg) 0 var(--spacing-lg);
+      font-size: 0.65rem;
+      letter-spacing: 0.12em;
     }
   }
 </style>
@@ -153,7 +182,7 @@
     <!-- 标题区域 -->
     <div class="ai-solutions-header">
       <h1 class="ai-solutions-title">
-        AI Solutions For visionary Brands
+        AI Solutions For Visionary Brands
       </h1>
       <p class="ai-solutions-subtitle">
         Empower your brand with cinematic AI from video storytelling and visual design to consistent identity and
@@ -164,6 +193,11 @@
     <!-- 图片区域 -->
     <div class="ai-solutions-image-container">
       <img src="sections/ai_solutions/bg.jpg" alt="AI Solutions" class="ai-solutions-image">
+    </div>
+
+    <!-- 信任文字 -->
+    <div class="ai-solutions-trust-text">
+      TRUSTED BY LEADING BRANDS WORLDWIDE
     </div>
   </div>
 </section>

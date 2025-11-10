@@ -1,0 +1,267 @@
+<!-- ===== BRAND-CONTROL_CMPS 模块 ===== -->
+<style>
+  /* Brand Control CMPS Section Styles */
+  .brand-control-cmps {
+    padding: var(--spacing-3xl) 0;
+    background: var(--color-bg);
+  }
+
+  .brand-control-cmps-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
+
+  /* 标题区域 */
+  .brand-control-cmps-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
+
+  .brand-control-cmps-label {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .brand-control-cmps-title {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .brand-control-cmps-description {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* 卡片网格容器 */
+  .brand-control-cmps-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--spacing-lg);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* 单个卡片 */
+  .brand-control-cmps-card {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    transition: transform var(--transition);
+    cursor: pointer;
+  }
+
+  .brand-control-cmps-card:hover {
+    transform: translateY(-4px);
+  }
+
+  /* 卡片图片容器 - 长图 */
+  .brand-control-cmps-card-image-wrapper {
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    overflow: hidden;
+    background: #2a2a2a;
+    border-radius: 20px;
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .brand-control-cmps-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* 卡片内容区域 - 在图片外部下方 */
+  .brand-control-cmps-card-content {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+  }
+
+  /* 卡片标题 */
+  .brand-control-cmps-card-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  /* 卡片描述 */
+  .brand-control-cmps-card-description {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    margin: 0;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 991px) {
+    .brand-control-cmps {
+      padding: var(--spacing-2xl) 0;
+    }
+
+    .brand-control-cmps-header {
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .brand-control-cmps-cards {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-md);
+    }
+
+    .brand-control-cmps-card-image-wrapper {
+      aspect-ratio: 3 / 4;
+      margin-bottom: var(--spacing-md);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .brand-control-cmps-container {
+      padding: 0 var(--spacing-md);
+    }
+
+    .brand-control-cmps-header {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .brand-control-cmps-title {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+
+    .brand-control-cmps-description {
+      font-size: 0.9rem;
+    }
+
+    .brand-control-cmps-cards {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+    }
+
+    .brand-control-cmps-card-image-wrapper {
+      aspect-ratio: 3 / 4;
+      border-radius: 16px;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .brand-control-cmps-card-title {
+      font-size: 1.25rem;
+    }
+
+    .brand-control-cmps-card-description {
+      font-size: 0.8rem;
+    }
+  }
+</style>
+
+<!-- HTML 结构 -->
+<section class="brand-control-cmps" id="brand-control-cmps">
+  <div class="brand-control-cmps-container">
+    <!-- 标题区域 -->
+    <div class="brand-control-cmps-header">
+      <p class="brand-control-cmps-label">BRAND CONTROL</p>
+      <h2 class="brand-control-cmps-title">Always On-Brand, Automatically</h2>
+      <p class="brand-control-cmps-description">
+        Style DNA learns your palette, typography, pacing, and voice—then locks them across every output.
+      </p>
+    </div>
+
+    <!-- 卡片网格 -->
+    <div class="brand-control-cmps-cards">
+      <!-- 卡片 1: Ingest your kit -->
+      <div class="brand-control-cmps-card">
+        <div class="brand-control-cmps-card-image-wrapper">
+          <img
+            src="images/1.png"
+            alt="Ingest your kit"
+            class="brand-control-cmps-card-image"
+            loading="lazy"
+          >
+        </div>
+        <div class="brand-control-cmps-card-content">
+          <h3 class="brand-control-cmps-card-title">Ingest your kit</h3>
+          <p class="brand-control-cmps-card-description">
+            Colors, fonts, lower thirds, logo safe-zones, intro/outro.
+          </p>
+        </div>
+      </div>
+
+      <!-- 卡片 2: Style DNA -->
+      <div class="brand-control-cmps-card">
+        <div class="brand-control-cmps-card-image-wrapper">
+          <img
+            src="images/2.jpg"
+            alt="Style DNA"
+            class="brand-control-cmps-card-image"
+            loading="lazy"
+          >
+        </div>
+        <div class="brand-control-cmps-card-content">
+          <h3 class="brand-control-cmps-card-title">Style DNA</h3>
+          <p class="brand-control-cmps-card-description">
+            Captures tone, pacing, motion and composition preferences.
+          </p>
+        </div>
+      </div>
+
+      <!-- 卡片 3: Protected outputs -->
+      <div class="brand-control-cmps-card">
+        <div class="brand-control-cmps-card-image-wrapper">
+          <img
+            src="images/3.png"
+            alt="Protected outputs"
+            class="brand-control-cmps-card-image"
+            loading="lazy"
+          >
+        </div>
+        <div class="brand-control-cmps-card-content">
+          <h3 class="brand-control-cmps-card-title">Protected outputs</h3>
+          <p class="brand-control-cmps-card-description">
+            Brand recipes prevent drift and keep every render consistent.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Brand Control CMPS 模块交互逻辑
+  (function () {
+    'use strict';
+
+    const initBrandControlCmps = () => {
+      // 图片加载错误处理
+      const images = document.querySelectorAll('.brand-control-cmps-card-image');
+      images.forEach(img => {
+        img.addEventListener('error', function() {
+          console.warn(`Failed to load image: ${this.src}`);
+        });
+      });
+    };
+
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initBrandControlCmps);
+    } else {
+      initBrandControlCmps();
+    }
+  })();
+</script>

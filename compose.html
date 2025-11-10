@@ -765,226 +765,241 @@
 </script>
 
 
-  <!-- ===== AI_SOLUTIONS SECTION ===== -->
-<!-- ===== AI SOLUTIONS 模块 ===== -->
+  <!-- ===== COMPOSE SECTION ===== -->
+<!-- ===== COMPOSE 模块 ===== -->
 <style>
-  /* AI Solutions Section Styles */
-  .ai-solutions {
+  /* Compose Section Styles - Hero Section with Image Background */
+  .compose {
     padding: 0;
     background: var(--color-bg);
     position: relative;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
   }
 
-  .ai-solutions-container {
+  .compose-container {
     max-width: 100%;
     margin: 0 auto;
-    padding: 0 3rem;
+    padding: var(--spacing-lg) 3rem;
     width: 100%;
-    display: flex;
-    flex-direction: column;
+    position: relative;
     min-height: 100vh;
-  }
-
-  /* 标题区域 - 占页面约 3/10 (30vh) */
-  .ai-solutions-header {
-    text-align: center;
-    padding: var(--spacing-3xl) 0 var(--spacing-md);
-    min-height: 30vh;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
   }
 
-  /* 像素风格字体 - Press Start 2P 字体已在全局 head 中引入 */
-  .ai-solutions-title {
+  /* 背景图片容器 - 近乎全屏的圆角图片 */
+  .compose-background {
+    position: relative;
+    width: 95%;
+    max-width: 100%;
+    height: 90vh;
+    min-height: 600px;
+    border-radius: 24px;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .compose-background-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* 内容覆盖层 - 定位在左下角，减少空隙 */
+  .compose-content {
+    position: absolute;
+    bottom: var(--spacing-lg);
+    left: var(--spacing-lg);
+    z-index: 2;
+    max-width: 600px;
+  }
+
+  /* 文字区域 */
+  .compose-text-wrapper {
+    width: 146%;
+  }
+
+  /* 像素风格标题 - 放大字体，不换行，舒展 */
+  .compose-title {
     font-family: 'Press Start 2P', cursive;
     font-size: clamp(1.2rem, 4vw, 2.5rem);
     font-weight: 400;
     color: var(--color-text);
-    line-height: 1.8;
-    margin-bottom: var(--spacing-lg);
-    text-align: center;
-    letter-spacing: 0.05em;
-    max-width: 75%;
-    margin-left: auto;
-    margin-right: auto;
-    /* 允许换行 */
-    white-space: normal;
-    word-wrap: break-word;
+    line-height: 1.4;
+    margin-bottom: var(--spacing-md);
+    text-align: left;
+    letter-spacing: 0.15em;
     /* 像素字体特性 */
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
-  .ai-solutions-subtitle {
+  /* 描述文字 - Sora 细体，减小字号 */
+  .compose-description {
     font-family: 'Sora', sans-serif;
-    font-size: clamp(1rem, 1.8vw, 0.75rem);
-    color: var(--color-text-secondary);
-    line-height: 1.8;
-    max-width: 50%;
-    margin: 0 auto;
-    text-align: center;
-    font-weight: 400;
+    width: 48%;
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+    text-align: left;
   }
 
-  /* 图片区域 - 占页面约 7/10 (70vh) */
-  .ai-solutions-image-container {
-    display: flex;
+  /* START ENGINE 按钮 */
+  .compose-button {
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-height: 70vh;
-    flex: 1;
-    width: 100%;
-  }
-
-  .ai-solutions-image {
-    width: 95%;
-    max-width: 100%;
-    height: auto;
-    object-fit: contain;
-    border-radius: 12px;
-    display: block;
-  }
-
-  /* 图片下方的信任文字 */
-  .ai-solutions-trust-text {
-    text-align: center;
-    padding: var(--spacing-2xl) 0 0;
+    padding: var(--spacing-md) var(--spacing-xl);
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--color-bg);
     font-family: 'Sora', sans-serif;
-    font-size: clamp(0.7rem, 1.1vw, 1.8rem);
-    color: var(--color-text-secondary);
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    font-weight: 500;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all var(--transition);
+    border: none;
+    cursor: pointer;
+  }
+
+  .compose-button:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   }
 
   /* 响应式设计 */
   @media (max-width: 991px) {
-    .ai-solutions {
-      min-height: auto;
+    .compose-container {
+      padding: var(--spacing-md) var(--spacing-lg);
     }
 
-    .ai-solutions-container {
-      min-height: auto;
-      padding: 0 var(--spacing-md);
+    .compose-background {
+      width: 98%;
+      height: 85vh;
+      min-height: 500px;
     }
 
-    .ai-solutions-header {
-      min-height: auto;
-      padding: var(--spacing-2xl) 0 var(--spacing-sm);
+    .compose-content {
+      bottom: var(--spacing-md);
+      left: var(--spacing-md);
+      max-width: 80%;
     }
 
-    .ai-solutions-title {
-      font-size: clamp(1rem, 5vw, 2rem);
-      max-width: 75%;
-      white-space: normal;
+    .compose-title {
+      font-size: clamp(0.9rem, 5vw, 1.8rem);
+      letter-spacing: 0.12em;
+      margin-bottom: var(--spacing-sm);
+      white-space: nowrap;
+    }
+
+    .compose-description {
+      font-size: clamp(0.8rem, 2vw, 0.95rem);
       margin-bottom: var(--spacing-md);
-      line-height: 1.6;
-    }
-
-    .ai-solutions-subtitle {
-      font-size: clamp(0.9rem, 2.5vw, 1.1rem);
-      max-width: 75%;
-      padding: 0;
-      margin-top: var(--spacing-sm);
-    }
-
-    .ai-solutions-image-container {
-      min-height: auto;
-      padding: var(--spacing-sm) 0 var(--spacing-2xl);
-    }
-
-    .ai-solutions-trust-text {
-      padding: var(--spacing-xl) 0 var(--spacing-2xl);
-      font-size: clamp(0.65rem, 2vw, 0.75rem);
-      letter-spacing: 0.15em;
     }
   }
 
   @media (max-width: 767px) {
-    .ai-solutions-container {
-      padding: 0 var(--spacing-md);
+    .compose-container {
+      padding: var(--spacing-sm) var(--spacing-md);
     }
 
-    .ai-solutions-header {
-      padding: var(--spacing-xl) 0 var(--spacing-sm);
+    .compose-background {
+      width: 100%;
+      height: 80vh;
+      min-height: 400px;
+      border-radius: 16px;
     }
 
-    .ai-solutions-title {
-      font-size: clamp(0.8rem, 6vw, 1.5rem);
-      max-width: 80%;
-      white-space: normal;
-      line-height: 1.6;
-      margin-bottom: var(--spacing-sm);
-      letter-spacing: 0.03em;
-    }
-
-    .ai-solutions-subtitle {
-      font-size: clamp(0.85rem, 3vw, 1rem);
-      line-height: 1.7;
+    .compose-content {
+      bottom: var(--spacing-sm);
+      left: var(--spacing-sm);
       max-width: 85%;
-      padding: 0;
-      margin-top: var(--spacing-xs);
     }
 
-    .ai-solutions-image-container {
-      padding: var(--spacing-xs) 0 var(--spacing-lg);
+    .compose-title {
+      font-size: clamp(0.7rem, 6vw, 1.2rem);
+      letter-spacing: 0.1em;
+      line-height: 1.4;
+      margin-bottom: var(--spacing-xs);
+      white-space: nowrap;
     }
 
-    .ai-solutions-trust-text {
-      padding: var(--spacing-lg) 0 var(--spacing-lg);
-      font-size: 0.65rem;
-      letter-spacing: 0.12em;
+    .compose-description {
+      font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+      line-height: 1.5;
+      margin-bottom: var(--spacing-md);
+    }
+
+    .compose-button {
+      padding: var(--spacing-sm) var(--spacing-lg);
+      font-size: 0.9rem;
     }
   }
 </style>
 
 <!-- HTML 结构 -->
-<section class="ai-solutions" id="ai-solutions">
-  <div class="ai-solutions-container">
-    <!-- 标题区域 -->
-    <div class="ai-solutions-header">
-      <h1 class="ai-solutions-title">
-        AI Solutions For Visionary Brands
-      </h1>
-      <p class="ai-solutions-subtitle">
-        Empower your brand with cinematic AI from video storytelling and visual design to consistent identity and
-        audience resonance, all powered by the Eclipse Engine.
-      </p>
-    </div>
+<section class="compose" id="compose">
+  <div class="compose-container">
+    <!-- 背景图片容器 -->
+    <div class="compose-background">
+      <img src="sections/compose/bg.jpg" alt="Compose Background" class="compose-background-image" loading="eager">
 
-    <!-- 图片区域 -->
-    <div class="ai-solutions-image-container">
-      <img src="sections/ai_solutions/bg.jpg" alt="AI Solutions" class="ai-solutions-image">
-    </div>
+      <!-- 内容覆盖层 - 定位在左下角 -->
+      <div class="compose-content">
+        <div class="compose-text-wrapper">
+          <!-- 标题 -->
+          <h1 class="compose-title">
+            COMPOSE YOUR STORY
+          </h1>
 
-    <!-- 信任文字 -->
-    <div class="ai-solutions-trust-text">
-      TRUSTED BY LEADING BRANDS WORLDWIDE
+          <!-- 描述 -->
+          <p class="compose-description">
+            Bring ideas to life frame by frame — arrange scenes, refine pacing, and craft cinematic flow with the
+            Eclipse Engine.
+          </p>
+
+          <!-- 按钮 -->
+          <a href="#" class="compose-button">START ENGINE</a>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <script>
-  // AI Solutions 模块交互逻辑（如需要）
+  // Compose 模块交互逻辑
   (function () {
     'use strict';
 
-    const initAISolutions = () => {
-      // 可以在这里添加滚动动画、图片懒加载等功能
-      // 目前模块较为简单，暂不需要额外的 JavaScript 逻辑
+    const initCompose = () => {
+      // 图片加载错误处理
+      const bgImage = document.querySelector('.compose-background-image');
+      if (bgImage) {
+        bgImage.addEventListener('error', function () {
+          console.warn(`Failed to load background image: ${this.src}`);
+          // 可以设置默认背景色
+          this.style.display = 'none';
+        });
+      }
     };
 
     // DOM 加载后初始化
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initAISolutions);
+      document.addEventListener('DOMContentLoaded', initCompose);
     } else {
-      initAISolutions();
+      initCompose();
     }
   })();
 </script>
@@ -1098,590 +1113,28 @@
   </div>
 </section>
 
-  <!-- ===== AI_CREATIVE_SUITE SECTION ===== -->
-<!-- ===== AI CREATIVE SUITE 模块 ===== -->
+  <!-- ===== WORKFLOW_CMPS SECTION ===== -->
+<!-- ===== WORKFLOW_CMPS 模块 ===== -->
 <style>
-  /* AI Creative Suite Section Styles */
-  .ai-creative-suite-section {
+  /* Workflow CMPS Section Styles */
+  .workflow-cmps {
     padding: var(--spacing-3xl) 0;
     background: var(--color-bg);
-    position: relative;
   }
 
-  .ai-creative-suite-container {
+  .workflow-cmps-container {
     max-width: var(--container-width);
     margin: 0 auto;
     padding: 0 var(--spacing-lg);
   }
 
   /* 标题区域 */
-  .ai-creative-suite-header {
+  .workflow-cmps-header {
     text-align: center;
-    margin-bottom: var(--spacing-3xl);
+    margin-bottom: 3rem;
   }
 
-  .ai-creative-suite-label {
-    font-family: 'Sora', sans-serif;
-    font-size: 1.25rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-sm);
-    font-weight: 300;
-  }
-
-  .ai-creative-suite-title {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 700;
-    color: var(--color-text);
-    margin-bottom: var(--spacing-3xl);
-    line-height: 1.2;
-  }
-
-  /* 内容区域 - 左右布局，图片占比更大 */
-  .ai-creative-suite-content {
-    display: grid;
-    grid-template-columns: 2.5fr 1fr;
-    gap: var(--spacing-2xl);
-    align-items: center;
-  }
-
-  /* 左侧图片区域 */
-  .ai-creative-suite-image-wrapper {
-    position: relative;
-    width: 100%;
-    border-radius: 24px;
-    overflow: visible;
-    /* 允许badge超出图片边界 */
-  }
-
-  .ai-creative-suite-image {
-    width: 100%;
-    height: auto;
-    display: block;
-    border-radius: 24px;
-  }
-
-  /* 左下角挖空的圆角方块 - 完全贴合图片左下角 */
-  .ai-creative-suite-badge {
-    position: absolute;
-    bottom: 0;
-    /* 完全贴合底部 */
-    left: 0;
-    /* 完全贴合左边 */
-    background: var(--color-bg);
-    /* 与背景色重合 */
-    border-radius: 0 16px 0 0;
-    /* 只有右上角圆角，左下角直角贴合 */
-    padding: var(--spacing-lg);
-    min-width: 120px;
-    /* 完全贴合，不超出图片边界 */
-  }
-
-  .ai-creative-suite-badge-value {
-    font-family: 'Orbitron', sans-serif;
-    /* 使用 Orbitron 字体 */
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--color-text);
-    line-height: 1;
-    margin-bottom: var(--spacing-xs);
-    letter-spacing: 0.02em;
-  }
-
-  .ai-creative-suite-badge-label {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-
-  /* 右侧内容块 */
-  .ai-creative-suite-content-block {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-lg);
-  }
-
-  .ai-creative-suite-content-label {
-    font-family: 'Sora', sans-serif;
-    font-size: 1.2rem;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-text-secondary);
-    font-weight: 300;
-  }
-
-  .ai-creative-suite-content-title {
-    font-size: clamp(1.5rem, 3vw, 2.0rem);
-    font-weight: 700;
-    color: var(--color-text);
-    line-height: 1.3;
-  }
-
-  /* 按钮 - 更深灰色，白色字体，更大圆角，更大字体 */
-  .ai-creative-suite-button {
-    font-family: 'Sora', sans-serif;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-md) var(--spacing-xl);
-    background: #2a2a2a;
-    /* 更深的灰色 */
-    color: var(--color-text);
-    /* 白色字体 */
-    font-size: 1.125rem;
-    /* 更大的字体 */
-    font-weight: 300;
-    border-radius: 40px;
-    /* 更圆的角 */
-    text-decoration: none;
-    width: fit-content;
-    transition: all var(--transition);
-    border: none;
-    cursor: pointer;
-    margin-top: var(--spacing-2xl);
-    /* 与上方文字保持更大距离 */
-  }
-
-  .ai-creative-suite-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(42, 42, 42, 0.6);
-    background: #1f1f1f;
-    /* 悬停时更深 */
-  }
-
-  /* 响应式设计 */
-  @media (max-width: 991px) {
-    .ai-creative-suite-section {
-      padding: var(--spacing-2xl) 0;
-    }
-
-    .ai-creative-suite-header {
-      margin-bottom: var(--spacing-2xl);
-    }
-
-    .ai-creative-suite-content {
-      grid-template-columns: 1fr;
-      gap: var(--spacing-xl);
-    }
-
-    .ai-creative-suite-badge {
-      bottom: 0;
-      left: 0;
-      padding: var(--spacing-md);
-      min-width: 100px;
-    }
-
-    .ai-creative-suite-badge-value {
-      font-size: 2rem;
-    }
-  }
-
-  @media (max-width: 767px) {
-    .ai-creative-suite-section {
-      padding: var(--spacing-xl) 0;
-    }
-
-    .ai-creative-suite-header {
-      margin-bottom: var(--spacing-xl);
-    }
-
-    .ai-creative-suite-title {
-      font-size: clamp(1.5rem, 6vw, 2.5rem);
-    }
-
-    .ai-creative-suite-content {
-      gap: var(--spacing-lg);
-    }
-
-    .ai-creative-suite-badge {
-      bottom: 0;
-      left: 0;
-      padding: var(--spacing-sm);
-      min-width: 80px;
-    }
-
-    .ai-creative-suite-badge-value {
-      font-size: 1.5rem;
-    }
-
-    .ai-creative-suite-badge-label {
-      font-size: 0.75rem;
-    }
-
-    .ai-creative-suite-content-title {
-      font-size: clamp(1.25rem, 4vw, 2rem);
-    }
-
-    .ai-creative-suite-button {
-      width: 100%;
-      padding: var(--spacing-md);
-    }
-  }
-</style>
-
-<!-- AI Creative Suite Section -->
-<section class="ai-creative-suite-section" id="ai-creative-suite">
-  <div class="ai-creative-suite-container">
-    <!-- 标题 -->
-    <div class="ai-creative-suite-header">
-      <div class="ai-creative-suite-label">AI CREATIVE SUITE</div>
-      <h2 class="ai-creative-suite-title">Create on-Brand content In Minutes</h2>
-    </div>
-
-    <!-- 内容区域 - 左右布局 -->
-    <div class="ai-creative-suite-content">
-      <!-- 左侧：带挖空的图片 -->
-      <div class="ai-creative-suite-image-wrapper">
-        <img src="sections/ai_creative_suite/image.jpg" alt="AI Creative Suite" class="ai-creative-suite-image">
-        <!-- 左下角挖空的圆角方块 -->
-        <div class="ai-creative-suite-badge">
-          <div class="ai-creative-suite-badge-value">97%</div>
-          <div class="ai-creative-suite-badge-label">Real-Time</div>
-        </div>
-      </div>
-
-      <!-- 右侧：内容块 -->
-      <div class="ai-creative-suite-content-block">
-        <div class="ai-creative-suite-content-label">AI CREATIVE SUITE</div>
-        <h3 class="ai-creative-suite-content-title">
-          Four AI tools that keep every post consistent with your visual identity.
-        </h3>
-        <a href="#" class="ai-creative-suite-button">Experience it now</a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<script>
-  // AI Creative Suite 模块交互逻辑
-  (function () {
-    'use strict';
-
-    const initAICreativeSuite = () => {
-      // 可以在这里添加交互逻辑
-    };
-
-    // DOM 加载后初始化
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initAICreativeSuite);
-    } else {
-      initAICreativeSuite();
-    }
-  })();
-</script>
-
-  <!-- ===== ROI SECTION ===== -->
-<!-- ===== ROI 模块 ===== -->
-<style>
-/* ROI Section Styles */
-.roi-section {
-  padding: var(--spacing-3xl) 0;
-  background: var(--color-bg);
-  position: relative;
-}
-
-.roi-container {
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-}
-
-/* 标题区域 */
-.roi-header {
-  text-align: center;
-  margin-bottom: var(--spacing-3xl);
-}
-
-.roi-label {
-  font-family: 'Sora', sans-serif;
-  font-size: 1.25rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-sm);
-  font-weight: 300;
-}
-
-.roi-title {
-  font-family: 'Sora', sans-serif;
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 700;
-  color: var(--color-text);
-  margin-bottom: var(--spacing-md);
-  line-height: 1.2;
-}
-
-.roi-subtitle {
-  font-size: clamp(1rem, 2vw, 1.5rem);
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-/* 内容区域 - 9个卡片网格布局 */
-.roi-content {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--spacing-lg);
-  margin-top: var(--spacing-2xl);
-}
-
-/* ROI 指标卡片 */
-.roi-metric {
-  background: var(--color-bg-secondary);
-  border-radius: 16px;
-  padding: var(--spacing-lg);
-  position: relative;
-  transition: transform var(--transition);
-  min-height: 200px;
-  display: flex;
-  flex-direction: column;
-}
-
-.roi-metric:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-}
-
-/* 右上角图标 */
-.roi-metric-icon {
-  position: absolute;
-  top: var(--spacing-md);
-  right: var(--spacing-md);
-  width: 32px;
-  height: 32px;
-  opacity: 0.6;
-  transition: opacity var(--transition);
-}
-
-.roi-metric:hover .roi-metric-icon {
-  opacity: 1;
-}
-
-/* 左上角大数字 */
-.roi-metric-value {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--color-text);
-  margin-bottom: var(--spacing-xs);
-  line-height: 1;
-}
-
-/* 数字类型说明 */
-.roi-metric-label {
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-text);
-  margin-bottom: var(--spacing-sm);
-  line-height: 1.3;
-}
-
-/* 类型解释 */
-.roi-metric-description {
-  font-size: 0.875rem;
-  color: var(--color-text-secondary);
-  line-height: 1.5;
-  margin-top: auto;
-}
-
-/* 响应式设计 */
-@media (max-width: 991px) {
-  .roi-section {
-    padding: var(--spacing-2xl) 0;
-  }
-
-  .roi-header {
-    margin-bottom: var(--spacing-2xl);
-  }
-
-  .roi-content {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-md);
-  }
-  
-  .roi-metric {
-    min-height: 180px;
-    padding: var(--spacing-md);
-  }
-  
-  .roi-metric-value {
-    font-size: 2rem;
-  }
-}
-
-@media (max-width: 767px) {
-  .roi-section {
-    padding: var(--spacing-xl) 0;
-  }
-
-  .roi-header {
-    margin-bottom: var(--spacing-xl);
-  }
-
-  .roi-content {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-md);
-  }
-
-  .roi-metric {
-    min-height: 160px;
-    padding: var(--spacing-md);
-  }
-
-  .roi-metric-value {
-    font-size: 1.8rem;
-  }
-  
-  .roi-metric-icon {
-    width: 28px;
-    height: 28px;
-  }
-}
-</style>
-
-<!-- ROI Section -->
-<section class="roi-section" id="roi">
-  <div class="roi-container">
-    <div class="roi-header">
-      <div class="roi-label">ROI</div>
-      <h2 class="roi-title">Real ROI For All Media, Established or New</h2>
-    </div>
-
-    <div class="roi-content">
-      <!-- 9个 ROI 指标卡片 -->
-      <div class="roi-metric">
-        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <div class="roi-metric-value">300%</div>
-        <div class="roi-metric-label">Average ROI</div>
-        <div class="roi-metric-description">Return on investment across all projects</div>
-      </div>
-      <div class="roi-metric">
-        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2"/>
-          <polyline points="12 6 12 12 16 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <div class="roi-metric-value">50%</div>
-        <div class="roi-metric-label">Time Saved</div>
-        <div class="roi-metric-description">Reduction in production time</div>
-      </div>
-      <div class="roi-metric">
-        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <line x1="12" y1="1" x2="12" y2="23" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <div class="roi-metric-value">80%</div>
-        <div class="roi-metric-label">Cost Reduction</div>
-        <div class="roi-metric-description">Lower production costs</div>
-      </div>
-      <div class="roi-metric">
-        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="9" cy="7" r="4" stroke="currentColor" stroke-width="2"/>
-          <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <div class="roi-metric-value">10K+</div>
-        <div class="roi-metric-label">Active Users</div>
-        <div class="roi-metric-description">Growing community of creators</div>
-      </div>
-      <div class="roi-metric">
-        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <div class="roi-metric-value">5M+</div>
-        <div class="roi-metric-label">Videos Created</div>
-        <div class="roi-metric-description">Total videos generated</div>
-      </div>
-      <div class="roi-metric">
-        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <polyline points="3.27 6.96 12 12.01 20.73 6.96" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          <line x1="12" y1="22.08" x2="12" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <div class="roi-metric-value">95%</div>
-        <div class="roi-metric-label">Satisfaction Rate</div>
-        <div class="roi-metric-description">User satisfaction score</div>
-      </div>
-      <div class="roi-metric">
-        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <div class="roi-metric-value">24/7</div>
-        <div class="roi-metric-label">Support Available</div>
-        <div class="roi-metric-description">Round-the-clock assistance</div>
-      </div>
-      <div class="roi-metric">
-        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <rect x="2" y="3" width="20" height="14" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
-          <line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          <line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-        </svg>
-        <div class="roi-metric-value">4K</div>
-        <div class="roi-metric-label">Quality Output</div>
-        <div class="roi-metric-description">High-resolution video support</div>
-      </div>
-      <div class="roi-metric">
-        <svg class="roi-metric-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-        <div class="roi-metric-value">99.9%</div>
-        <div class="roi-metric-label">Uptime</div>
-        <div class="roi-metric-description">Reliable service availability</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<script>
-// ROI 模块交互逻辑
-(function() {
-  'use strict';
-
-  const initROI = () => {
-    // 可以在这里添加动画效果或数据可视化
-  };
-
-  // DOM 加载后初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initROI);
-  } else {
-    initROI();
-  }
-})();
-</script>
-
-
-
-  <!-- ===== WORKFLOW_SL SECTION ===== -->
-<!-- ===== WORKFLOW_SL 模块 ===== -->
-<style>
-  /* Workflow SL Section Styles */
-  .workflow-sl {
-    padding: var(--spacing-3xl) 0;
-    background: var(--color-bg);
-  }
-
-  .workflow-sl-container {
-    max-width: var(--container-width);
-    margin: 0 auto;
-    padding: 0 var(--spacing-lg);
-  }
-
-  /* 标题区域 */
-  .workflow-sl-header {
-    text-align: center;
-    margin-bottom: var(--spacing-3xl);
-  }
-
-  /* 顶部标签 "WORKFLOW" */
-  .workflow-sl-label {
+  .workflow-cmps-label {
     font-family: 'Sora', sans-serif;
     font-size: 1.2rem;
     font-weight: 300;
@@ -1691,8 +1144,7 @@
     margin-bottom: var(--spacing-sm);
   }
 
-  /* 主标题 */
-  .workflow-sl-title {
+  .workflow-cmps-title {
     font-family: 'Sora', sans-serif;
     font-size: clamp(2rem, 4vw, 2.8rem);
     font-weight: 700;
@@ -1701,8 +1153,7 @@
     margin-bottom: var(--spacing-lg);
   }
 
-  /* 副标题/描述 */
-  .workflow-sl-description {
+  .workflow-cmps-description {
     font-family: 'Sora', sans-serif;
     font-size: clamp(1rem, 1.5vw, 1.25rem);
     font-weight: 300;
@@ -1712,8 +1163,390 @@
     margin: 0 auto;
   }
 
+  /* 主内容区域 - 左右分栏，右侧图片更大，等高对齐 */
+  .workflow-cmps-content {
+    display: grid;
+    grid-template-columns: 1fr 2.2fr;
+    gap: var(--spacing-2xl);
+    align-items: stretch;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+
+  /* 左侧卡片区域 */
+  .workflow-cmps-cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  /* 单个卡片 - 图片占满，文字叠加，更高更宽 */
+  .workflow-cmps-card {
+    background: var(--color-bg-secondary);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    min-height: 180px;
+    width: 100%;
+    transition: transform var(--transition), box-shadow var(--transition);
+    cursor: pointer;
+  }
+
+  .workflow-cmps-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  /* 卡片图片区域 - 占满整个卡片 */
+  .workflow-cmps-card-image-wrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background: #2a2a2a;
+  }
+
+  .workflow-cmps-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* 渐变遮罩层 - 从透明到黑色，黑色比例更多 */
+  .workflow-cmps-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to top,
+        rgba(0, 0, 0, 0.98) 0%,
+        rgba(0, 0, 0, 0.96) 20%,
+        rgba(0, 0, 0, 0.9) 40%,
+        rgba(0, 0, 0, 0.7) 60%,
+        rgba(0, 0, 0, 0.4) 80%,
+        rgba(0, 0, 0, 0.15) 95%,
+        transparent 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* 卡片内容区域 - 绝对定位在图片上方，减少padding让文字更贴左上角 */
+  .workflow-cmps-card-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: var(--spacing-sm) var(--spacing-sm);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* 卡片上部分 - 左上角数字和标题 */
+  .workflow-cmps-card-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-sm);
+  }
+
+  .workflow-cmps-card-number {
+    font-family: 'Sora', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1;
+  }
+
+  .workflow-cmps-card-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1;
+  }
+
+  /* 卡片描述 - 在卡片下部，灰色细体 */
+  .workflow-cmps-card-description {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    margin: 0;
+    margin-top: auto;
+  }
+
+  /* 右侧大图区域 - 高度自动适配左侧卡片总高度 */
+  .workflow-cmps-visual {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #2a2a2a;
+  }
+
+  .workflow-cmps-visual-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 20px;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 991px) {
+    .workflow-cmps {
+      padding: var(--spacing-2xl) 0;
+    }
+
+    .workflow-cmps-header {
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .workflow-cmps-content {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-xl);
+      align-items: start;
+    }
+
+    .workflow-cmps-visual {
+      height: 600px;
+      min-height: 600px;
+      order: -1;
+    }
+
+    .workflow-cmps-card {
+      min-height: 150px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .workflow-cmps-container {
+      padding: 0 var(--spacing-md);
+    }
+
+    .workflow-cmps-header {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .workflow-cmps-title {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+
+    .workflow-cmps-description {
+      font-size: 0.9rem;
+    }
+
+    .workflow-cmps-content {
+      gap: var(--spacing-lg);
+      align-items: start;
+    }
+
+    .workflow-cmps-visual {
+      height: 500px;
+      min-height: 500px;
+      border-radius: 16px;
+    }
+
+    .workflow-cmps-visual-image {
+      border-radius: 16px;
+    }
+
+    .workflow-cmps-card {
+      min-height: 120px;
+    }
+
+    .workflow-cmps-card-number {
+      font-size: 1.5rem;
+    }
+
+    .workflow-cmps-card-title {
+      font-size: 1.2rem;
+    }
+
+    .workflow-cmps-card-description {
+      font-size: 0.75rem;
+    }
+  }
+</style>
+
+<!-- HTML 结构 -->
+<section class="workflow-cmps" id="workflow-cmps">
+  <div class="workflow-cmps-container">
+    <!-- 标题区域 -->
+    <div class="workflow-cmps-header">
+      <p class="workflow-cmps-label">WORKFLOW</p>
+      <h2 class="workflow-cmps-title">A Seamless Creative Workflow</h2>
+      <p class="workflow-cmps-description">
+        Every step is connected through the Eclipse Engine and guided by an intelligent assistant built to enhance your
+        process.
+      </p>
+    </div>
+
+    <!-- 主内容区域 - 左右分栏 -->
+    <div class="workflow-cmps-content">
+      <!-- 左侧卡片区域 -->
+      <div class="workflow-cmps-cards">
+        <!-- 卡片 1: Generative -->
+        <div class="workflow-cmps-card">
+          <div class="workflow-cmps-card-image-wrapper">
+            <img src="images/1.png" alt="Generative" class="workflow-cmps-card-image" loading="lazy">
+            <div class="workflow-cmps-card-overlay"></div>
+          </div>
+          <div class="workflow-cmps-card-content">
+            <div class="workflow-cmps-card-header">
+              <span class="workflow-cmps-card-number">1</span>
+              <h3 class="workflow-cmps-card-title">Generative</h3>
+            </div>
+            <p class="workflow-cmps-card-description">
+              Colors, fonts, lower thirds, logo safe-zones, intro/outro.
+            </p>
+          </div>
+        </div>
+
+        <!-- 卡片 2: Storyboard -->
+        <div class="workflow-cmps-card">
+          <div class="workflow-cmps-card-image-wrapper">
+            <img src="images/2.jpg" alt="Storyboard" class="workflow-cmps-card-image" loading="lazy">
+            <div class="workflow-cmps-card-overlay"></div>
+          </div>
+          <div class="workflow-cmps-card-content">
+            <div class="workflow-cmps-card-header">
+              <span class="workflow-cmps-card-number">2</span>
+              <h3 class="workflow-cmps-card-title">Storyboard</h3>
+            </div>
+            <p class="workflow-cmps-card-description">
+              Captures tone, pacing, motion and composition preferences.
+            </p>
+          </div>
+        </div>
+
+        <!-- 卡片 3: Timeline -->
+        <div class="workflow-cmps-card">
+          <div class="workflow-cmps-card-image-wrapper">
+            <img src="images/3.png" alt="Timeline" class="workflow-cmps-card-image" loading="lazy">
+            <div class="workflow-cmps-card-overlay"></div>
+          </div>
+          <div class="workflow-cmps-card-content">
+            <div class="workflow-cmps-card-header">
+              <span class="workflow-cmps-card-number">3</span>
+              <h3 class="workflow-cmps-card-title">Timeline</h3>
+            </div>
+            <p class="workflow-cmps-card-description">
+              Brand recipes prevent drift and keep every render consistent.
+            </p>
+          </div>
+        </div>
+
+        <!-- 卡片 4: Storyboard -->
+        <div class="workflow-cmps-card">
+          <div class="workflow-cmps-card-image-wrapper">
+            <img src="images/2.jpg" alt="Storyboard" class="workflow-cmps-card-image" loading="lazy">
+            <div class="workflow-cmps-card-overlay"></div>
+          </div>
+          <div class="workflow-cmps-card-content">
+            <div class="workflow-cmps-card-header">
+              <span class="workflow-cmps-card-number">4</span>
+              <h3 class="workflow-cmps-card-title">Storyboard</h3>
+            </div>
+            <p class="workflow-cmps-card-description">
+              Captures tone, pacing, motion and composition preferences.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧大图区域 -->
+      <div class="workflow-cmps-visual">
+        <img src="images/1.png" alt="Workflow Visual" class="workflow-cmps-visual-image" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Workflow CMPS 模块交互逻辑
+  (function () {
+    'use strict';
+
+    const initWorkflowCmps = () => {
+      // 图片加载错误处理
+      const images = document.querySelectorAll('.workflow-cmps-card-image, .workflow-cmps-visual-image');
+      images.forEach(img => {
+        img.addEventListener('error', function () {
+          console.warn(`Failed to load image: ${this.src}`);
+        });
+      });
+    };
+
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initWorkflowCmps);
+    } else {
+      initWorkflowCmps();
+    }
+  })();
+</script>
+
+  <!-- ===== BRAND-CONTROL_CMPS SECTION ===== -->
+<!-- ===== BRAND-CONTROL_CMPS 模块 ===== -->
+<style>
+  /* Brand Control CMPS Section Styles */
+  .brand-control-cmps {
+    padding: var(--spacing-3xl) 0;
+    background: var(--color-bg);
+  }
+
+  .brand-control-cmps-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
+
+  /* 标题区域 */
+  .brand-control-cmps-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
+
+  .brand-control-cmps-label {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .brand-control-cmps-title {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .brand-control-cmps-description {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
   /* 卡片网格容器 */
-  .workflow-sl-cards {
+  .brand-control-cmps-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: var(--spacing-lg);
@@ -1722,82 +1555,53 @@
   }
 
   /* 单个卡片 */
-  .workflow-sl-card {
-    background: var(--color-bg-secondary);
-    border-radius: 20px;
-    overflow: hidden;
+  .brand-control-cmps-card {
     display: flex;
     flex-direction: column;
-    transition: transform var(--transition), box-shadow var(--transition);
-    cursor: pointer;
     position: relative;
+    transition: transform var(--transition);
+    cursor: pointer;
   }
 
-  .workflow-sl-card:hover {
+  .brand-control-cmps-card:hover {
     transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
   }
 
-  /* 卡片图片容器 */
-  .workflow-sl-card-image-wrapper {
+  /* 卡片图片容器 - 长图 */
+  .brand-control-cmps-card-image-wrapper {
     width: 100%;
     aspect-ratio: 3 / 4;
     overflow: hidden;
     background: #2a2a2a;
-    position: relative;
+    border-radius: 20px;
+    margin-bottom: var(--spacing-lg);
   }
 
-  /* 卡片图片 */
-  .workflow-sl-card-image {
+  .brand-control-cmps-card-image {
     width: 100%;
     height: 100%;
     object-fit: cover;
     display: block;
   }
 
-  /* 渐变叠加层 - 从半透明过渡到黑色 */
-  .workflow-sl-card-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 50%;
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.98) 0%,
-      rgba(0, 0, 0, 0.95) 15%,
-      rgba(0, 0, 0, 0.85) 35%,
-      rgba(0, 0, 0, 0.5) 60%,
-      rgba(0, 0, 0, 0.2) 80%,
-      transparent 100%
-    );
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  /* 卡片内容区域 */
-  .workflow-sl-card-content {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: var(--spacing-lg);
-    z-index: 2;
+  /* 卡片内容区域 - 在图片外部下方 */
+  .brand-control-cmps-card-content {
     display: flex;
     flex-direction: column;
+    padding: 0;
   }
 
   /* 卡片标题 */
-  .workflow-sl-card-title {
+  .brand-control-cmps-card-title {
     font-family: 'Sora', sans-serif;
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--color-text);
-    margin-bottom: 0.5rem;
+    margin-bottom: var(--spacing-sm);
   }
 
   /* 卡片描述 */
-  .workflow-sl-card-description {
+  .brand-control-cmps-card-description {
     font-family: 'Sora', sans-serif;
     font-size: 0.875rem;
     font-weight: 300;
@@ -1808,134 +1612,128 @@
 
   /* 响应式设计 */
   @media (max-width: 991px) {
-    .workflow-sl {
+    .brand-control-cmps {
       padding: var(--spacing-2xl) 0;
     }
 
-    .workflow-sl-header {
+    .brand-control-cmps-header {
       margin-bottom: var(--spacing-2xl);
     }
 
-    .workflow-sl-cards {
+    .brand-control-cmps-cards {
       grid-template-columns: repeat(2, 1fr);
       gap: var(--spacing-md);
+    }
+
+    .brand-control-cmps-card-image-wrapper {
+      aspect-ratio: 3 / 4;
+      margin-bottom: var(--spacing-md);
     }
   }
 
   @media (max-width: 767px) {
-    .workflow-sl {
-      padding: var(--spacing-xl) 0;
-    }
-
-    .workflow-sl-container {
+    .brand-control-cmps-container {
       padding: 0 var(--spacing-md);
     }
 
-    .workflow-sl-header {
+    .brand-control-cmps-header {
       margin-bottom: var(--spacing-xl);
     }
 
-    .workflow-sl-title {
+    .brand-control-cmps-title {
       font-size: clamp(1.5rem, 5vw, 2rem);
     }
 
-    .workflow-sl-description {
+    .brand-control-cmps-description {
       font-size: 0.9rem;
-      font-weight: 300;
     }
 
-    .workflow-sl-cards {
+    .brand-control-cmps-cards {
       grid-template-columns: 1fr;
       gap: var(--spacing-md);
     }
 
-    .workflow-sl-card-image-wrapper {
+    .brand-control-cmps-card-image-wrapper {
       aspect-ratio: 3 / 4;
+      border-radius: 16px;
+      margin-bottom: var(--spacing-md);
     }
 
-    .workflow-sl-card-content {
-      padding: var(--spacing-md);
-    }
-
-    .workflow-sl-card-title {
+    .brand-control-cmps-card-title {
       font-size: 1.25rem;
     }
 
-    .workflow-sl-card-description {
+    .brand-control-cmps-card-description {
       font-size: 0.8rem;
-      font-weight: 300;
     }
   }
 </style>
 
 <!-- HTML 结构 -->
-<section class="workflow-sl" id="workflow-sl">
-  <div class="workflow-sl-container">
+<section class="brand-control-cmps" id="brand-control-cmps">
+  <div class="brand-control-cmps-container">
     <!-- 标题区域 -->
-    <div class="workflow-sl-header">
-      <p class="workflow-sl-label">WORKFLOW</p>
-      <h2 class="workflow-sl-title">A Seamless Creative Workflow</h2>
-      <p class="workflow-sl-description">
-        Every step is connected through the Eclipse Engine and guided by an intelligent assistant built to enhance your process.
+    <div class="brand-control-cmps-header">
+      <p class="brand-control-cmps-label">BRAND CONTROL</p>
+      <h2 class="brand-control-cmps-title">Always On-Brand, Automatically</h2>
+      <p class="brand-control-cmps-description">
+        Style DNA learns your palette, typography, pacing, and voice—then locks them across every output.
       </p>
     </div>
 
     <!-- 卡片网格 -->
-    <div class="workflow-sl-cards">
-      <!-- 卡片 1: Generative -->
-      <div class="workflow-sl-card">
-        <div class="workflow-sl-card-image-wrapper">
+    <div class="brand-control-cmps-cards">
+      <!-- 卡片 1: Ingest your kit -->
+      <div class="brand-control-cmps-card">
+        <div class="brand-control-cmps-card-image-wrapper">
           <img
             src="images/1.png"
-            alt="Generative"
-            class="workflow-sl-card-image"
+            alt="Ingest your kit"
+            class="brand-control-cmps-card-image"
             loading="lazy"
           >
-          <div class="workflow-sl-card-overlay"></div>
-          <div class="workflow-sl-card-content">
-            <h3 class="workflow-sl-card-title">Generative</h3>
-            <p class="workflow-sl-card-description">
-              Colors, fonts, lower thirds, logo safe-zones, intro/outro.
-            </p>
-          </div>
+        </div>
+        <div class="brand-control-cmps-card-content">
+          <h3 class="brand-control-cmps-card-title">Ingest your kit</h3>
+          <p class="brand-control-cmps-card-description">
+            Colors, fonts, lower thirds, logo safe-zones, intro/outro.
+          </p>
         </div>
       </div>
 
-      <!-- 卡片 2: Storyboard -->
-      <div class="workflow-sl-card">
-        <div class="workflow-sl-card-image-wrapper">
+      <!-- 卡片 2: Style DNA -->
+      <div class="brand-control-cmps-card">
+        <div class="brand-control-cmps-card-image-wrapper">
           <img
             src="images/2.jpg"
-            alt="Storyboard"
-            class="workflow-sl-card-image"
+            alt="Style DNA"
+            class="brand-control-cmps-card-image"
             loading="lazy"
           >
-          <div class="workflow-sl-card-overlay"></div>
-          <div class="workflow-sl-card-content">
-            <h3 class="workflow-sl-card-title">Storyboard</h3>
-            <p class="workflow-sl-card-description">
-              Captures tone, pacing, motion and composition preferences.
-            </p>
-          </div>
+        </div>
+        <div class="brand-control-cmps-card-content">
+          <h3 class="brand-control-cmps-card-title">Style DNA</h3>
+          <p class="brand-control-cmps-card-description">
+            Captures tone, pacing, motion and composition preferences.
+          </p>
         </div>
       </div>
 
-      <!-- 卡片 3: Timeline -->
-      <div class="workflow-sl-card">
-        <div class="workflow-sl-card-image-wrapper">
+      <!-- 卡片 3: Protected outputs -->
+      <div class="brand-control-cmps-card">
+        <div class="brand-control-cmps-card-image-wrapper">
           <img
             src="images/3.png"
-            alt="Timeline"
-            class="workflow-sl-card-image"
+            alt="Protected outputs"
+            class="brand-control-cmps-card-image"
             loading="lazy"
           >
-          <div class="workflow-sl-card-overlay"></div>
-          <div class="workflow-sl-card-content">
-            <h3 class="workflow-sl-card-title">Timeline</h3>
-            <p class="workflow-sl-card-description">
-              Brand recipes prevent drift and keep every render consistent.
-            </p>
-          </div>
+        </div>
+        <div class="brand-control-cmps-card-content">
+          <h3 class="brand-control-cmps-card-title">Protected outputs</h3>
+          <p class="brand-control-cmps-card-description">
+            Brand recipes prevent drift and keep every render consistent.
+          </p>
         </div>
       </div>
     </div>
@@ -1943,621 +1741,29 @@
 </section>
 
 <script>
-  // Workflow SL 模块交互逻辑
+  // Brand Control CMPS 模块交互逻辑
   (function () {
     'use strict';
 
-    const initWorkflowSL = () => {
-      // 可以在这里添加交互逻辑，如点击卡片展开详情等
-      const cards = document.querySelectorAll('.workflow-sl-card');
-      
-      cards.forEach(card => {
-        // 图片加载错误处理
-        const img = card.querySelector('.workflow-sl-card-image');
-        if (img) {
-          img.addEventListener('error', function() {
-            console.warn(`Failed to load image: ${this.src}`);
-          });
-        }
+    const initBrandControlCmps = () => {
+      // 图片加载错误处理
+      const images = document.querySelectorAll('.brand-control-cmps-card-image');
+      images.forEach(img => {
+        img.addEventListener('error', function() {
+          console.warn(`Failed to load image: ${this.src}`);
+        });
       });
     };
 
     // DOM 加载后初始化
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initWorkflowSL);
+      document.addEventListener('DOMContentLoaded', initBrandControlCmps);
     } else {
-      initWorkflowSL();
+      initBrandControlCmps();
     }
   })();
 </script>
 
-
-
-  <!-- ===== CALCULATOR SECTION ===== -->
-<!-- ===== CALCULATOR 模块 ===== -->
-<style>
-  /* Calculator Section Styles */
-  .calculator-section {
-    padding: var(--spacing-3xl) 0;
-    background: var(--color-bg);
-    position: relative;
-  }
-
-  .calculator-container {
-    max-width: var(--container-width);
-    margin: 0 auto;
-    padding: 0 var(--spacing-lg);
-  }
-
-  /* 标题区域 */
-  .calculator-header {
-    text-align: center;
-  }
-
-  .calculator-title {
-    font-size: clamp(2rem, 5vw, 3.5rem);
-    font-weight: 700;
-    color: var(--color-text);
-    margin-bottom: var(--spacing-md);
-    line-height: 1.2;
-  }
-
-  .calculator-subtitle {
-    font-family: 'Sora', sans-serif;
-    font-size: clamp(1rem, 2vw, 1.5rem);
-    font-weight: 300;
-    color: var(--color-text-secondary);
-    line-height: 1.6;
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-  /* 计算区域容器 - 无背景方块 */
-  .calculator-form-wrapper {
-    max-width: 1400px;
-    margin: 0;
-    background: transparent;
-    padding: var(--spacing-2xl) 0;
-  }
-
-  /* 输入区域 - 五个输入项一行，对齐 */
-  .calculator-form-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: var(--spacing-lg);
-    margin-bottom: var(--spacing-xl);
-    align-items: end;
-    /* 确保底部对齐 */
-  }
-
-  /* 确保所有输入组高度一致并底部对齐 */
-  .calculator-input-group {
-    display: flex;
-    flex-direction: column;
-    min-height: 100%;
-  }
-
-  /* 确保所有输入框底部对齐 */
-  .calculator-input-wrapper,
-  .calculator-select,
-  .calculator-platform-group {
-    margin-top: auto;
-  }
-
-  /* 平台选项容器对齐 - 确保按钮与输入框底部对齐 */
-  .calculator-platform-options {
-    display: flex;
-    align-items: stretch;
-    /* 确保按钮高度一致 */
-    min-height: 68px;
-    /* 与其他输入框高度一致 */
-  }
-
-  .calculator-label-text {
-    display: block;
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    margin-bottom: var(--spacing-sm);
-    font-weight: 500;
-  }
-
-  .calculator-input-wrapper {
-    position: relative;
-    display: flex;
-    align-items: center;
-  }
-
-  .calculator-input {
-    width: 100%;
-    padding: var(--spacing-md) 60px var(--spacing-md) var(--spacing-md);
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    color: var(--color-text);
-    font-size: 1rem;
-    transition: border-color var(--transition);
-    font-family: var(--font-primary);
-  }
-
-  .calculator-input:focus {
-    outline: none;
-    border-color: var(--color-text-secondary);
-  }
-
-  /* 输入框内的单位标签 */
-  .calculator-input-unit {
-    position: absolute;
-    right: var(--spacing-md);
-    color: var(--color-text-secondary);
-    font-size: 0.875rem;
-    pointer-events: none;
-    user-select: none;
-    z-index: 1;
-  }
-
-  /* Views 输入框的单位标签位置 */
-  .calculator-input-wrapper:has(#average-views) .calculator-input-unit {
-    right: var(--spacing-md);
-  }
-
-  /* Credits 输入框 - 文本类型，无上下箭头 */
-  .calculator-input#credits {
-    padding-right: 70px;
-    /* 为单位留出空间 */
-  }
-
-  /* 确保所有输入框高度一致 */
-  .calculator-input,
-  .calculator-select {
-    min-height: 48px;
-    box-sizing: border-box;
-  }
-
-  .calculator-platform-options {
-    min-height: 48px;
-  }
-
-  /* Views 输入框 - 移除上下箭头 */
-  .calculator-input#average-views {
-    appearance: textfield;
-    -moz-appearance: textfield;
-  }
-
-  /* 隐藏箭头 */
-  .calculator-input#average-views::-webkit-inner-spin-button,
-  .calculator-input#average-views::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    appearance: none;
-    margin: 0;
-    display: none;
-  }
-
-  /* 下拉框 - 科技感样式 */
-  .calculator-select {
-    width: 100%;
-    padding: var(--spacing-md);
-    background: linear-gradient(135deg,
-        var(--color-bg) 0%,
-        rgba(30, 30, 30, 0.8) 100%);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    color: var(--color-text);
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    font-family: var(--font-primary);
-    cursor: pointer;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.3);
-    position: relative;
-  }
-
-  .calculator-select:hover {
-    border-color: rgba(255, 255, 255, 0.2);
-    box-shadow:
-      inset 0 1px 3px rgba(0, 0, 0, 0.3),
-      0 0 10px rgba(255, 255, 255, 0.1);
-  }
-
-  .calculator-select:focus {
-    outline: none;
-    border-color: rgba(255, 255, 255, 0.3);
-    box-shadow:
-      inset 0 1px 3px rgba(0, 0, 0, 0.3),
-      0 0 15px rgba(255, 255, 255, 0.15),
-      0 0 5px rgba(100, 200, 255, 0.3);
-  }
-
-  /* 下拉框选项样式 */
-  .calculator-select option {
-    background: var(--color-bg);
-    color: var(--color-text);
-    padding: var(--spacing-sm);
-  }
-
-
-  /* 平台选择 - 按钮组，一行显示 */
-  .calculator-platform-group {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-xs);
-  }
-
-  .calculator-platform-options {
-    display: flex;
-    gap: var(--spacing-sm);
-    justify-content: space-between;
-  }
-
-  .calculator-platform-button {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-sm);
-    background: var(--color-bg);
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all var(--transition);
-    min-height: 48px;
-    /* 与其他输入框高度一致 */
-    box-sizing: border-box;
-    transform: translateY(-4px);
-    /* 向上移动4px */
-  }
-
-  .calculator-platform-button:hover {
-    border-color: var(--color-text-secondary);
-    background: var(--color-bg-secondary);
-  }
-
-  .calculator-platform-button.active {
-    background: var(--color-bg-secondary);
-    border-color: var(--color-text);
-  }
-
-  /* 平台图标 - 灰色 */
-  .calculator-platform-icon {
-    width: 24px;
-    height: 24px;
-    fill: var(--color-text-secondary);
-    transition: fill var(--transition);
-  }
-
-  .calculator-platform-button:hover .calculator-platform-icon {
-    fill: var(--color-text);
-  }
-
-  .calculator-platform-button.active .calculator-platform-icon {
-    fill: var(--color-text);
-  }
-
-  /* 计算按钮 - 与其他输入框对齐，字体更大 */
-  .calculator-submit-button {
-    width: 100%;
-    padding: var(--spacing-md);
-    background: var(--color-text);
-    color: var(--color-bg);
-    border: none;
-    border-radius: 8px;
-    font-size: 1.125rem;
-    /* 更大的字体 */
-    font-weight: 600;
-    cursor: pointer;
-    transition: all var(--transition);
-    min-height: 48px;
-    /* 与其他输入框高度一致 */
-    box-sizing: border-box;
-  }
-
-  .calculator-submit-button:hover {
-    background: rgba(255, 255, 255, 0.9);
-    transform: translateY(-2px);
-  }
-
-  /* 结果展示区域 - 六个卡片，贴近计算区域 */
-  .calculator-results {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-lg);
-    margin-top: 10px;
-    /* 与计算区域相距10px */
-  }
-
-  .calculator-result-card {
-    background: var(--color-bg-secondary);
-    border-radius: 16px;
-    padding: var(--spacing-xl);
-    text-align: center;
-    transition: transform var(--transition);
-  }
-
-  .calculator-result-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-  }
-
-  .calculator-result-value {
-    font-size: 3rem;
-    font-weight: 700;
-    color: var(--color-text);
-    margin-bottom: var(--spacing-sm);
-    line-height: 1;
-  }
-
-  .calculator-result-label {
-    font-size: 1rem;
-    color: var(--color-text-secondary);
-    line-height: 1.5;
-  }
-
-  /* 响应式设计 */
-  @media (max-width: 991px) {
-    .calculator-section {
-      padding: var(--spacing-2xl) 0;
-    }
-
-    .calculator-header {
-      margin-bottom: var(--spacing-2xl);
-    }
-
-    .calculator-form-wrapper {
-      padding: var(--spacing-xl);
-    }
-
-    .calculator-form-grid {
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--spacing-md);
-    }
-
-    .calculator-results {
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--spacing-md);
-    }
-  }
-
-  @media (max-width: 767px) {
-    .calculator-section {
-      padding: var(--spacing-xl) 0;
-    }
-
-    .calculator-header {
-      margin-bottom: var(--spacing-xl);
-    }
-
-    .calculator-form-wrapper {
-      padding: var(--spacing-lg);
-    }
-
-    .calculator-form-grid {
-      grid-template-columns: 1fr;
-      gap: var(--spacing-md);
-    }
-
-    .calculator-results {
-      grid-template-columns: 1fr;
-      gap: var(--spacing-md);
-    }
-
-    .calculator-result-value {
-      font-size: 2.5rem;
-    }
-  }
-</style>
-
-<!-- Calculator Section -->
-<section class="calculator-section" id="calculator">
-  <div class="calculator-container">
-    <div class="calculator-header">
-      <h2 class="calculator-title">Create & Grow Faster Calculator</h2>
-      <p class="calculator-subtitle">
-        Use this calculator to estimate how TreClip helps you save time, post more, and grow faster.
-      </p>
-    </div>
-
-    <!-- 计算区域 -->
-    <div class="calculator-form-wrapper">
-      <form id="calculator-form">
-        <div class="calculator-form-grid">
-          <!-- 1. How many credits do you need -->
-          <div class="calculator-input-group">
-            <label class="calculator-label-text" for="credits">
-              How many credits do you need
-            </label>
-            <div class="calculator-input-wrapper">
-              <input type="text" id="credits" class="calculator-input" placeholder="0" value="100" inputmode="numeric"
-                pattern="[0-9]*">
-              <span class="calculator-input-unit">credits</span>
-            </div>
-          </div>
-
-          <!-- 2. Average views of your clips -->
-          <div class="calculator-input-group">
-            <label class="calculator-label-text" for="average-views">
-              Average views of your clips
-            </label>
-            <div class="calculator-input-wrapper">
-              <input type="number" id="average-views" class="calculator-input" placeholder="0" min="0" value="1000"
-                step="100">
-              <span class="calculator-input-unit">views</span>
-            </div>
-          </div>
-
-          <!-- 3. What category? -->
-          <div class="calculator-input-group">
-            <label class="calculator-label-text" for="category">
-              What category?
-            </label>
-            <select id="category" class="calculator-select" name="category">
-              <option value="podcast" selected>Podcast</option>
-              <option value="education">Education</option>
-              <option value="motivation">Motivation</option>
-              <option value="finance">Finance</option>
-              <option value="webinar">Webinar</option>
-              <option value="vlog">Vlog</option>
-              <option value="coaching">Coaching</option>
-            </select>
-          </div>
-
-          <!-- 4. Which platform will you post to? -->
-          <div class="calculator-input-group">
-            <label class="calculator-label-text">
-              Which platform will you post to?
-            </label>
-            <div class="calculator-platform-group">
-              <div class="calculator-platform-options">
-                <button type="button" class="calculator-platform-button active" data-platform="tiktok"
-                  aria-label="TikTok">
-                  <svg class="calculator-platform-icon" viewBox="0 0 24 24" fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1-.1z" />
-                  </svg>
-                </button>
-                <button type="button" class="calculator-platform-button" data-platform="youtube" aria-label="YouTube">
-                  <svg class="calculator-platform-icon" viewBox="0 0 24 24" fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                  </svg>
-                </button>
-                <button type="button" class="calculator-platform-button" data-platform="instagram"
-                  aria-label="Instagram">
-                  <svg class="calculator-platform-icon" viewBox="0 0 24 24" fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z" />
-                  </svg>
-                </button>
-                <button type="button" class="calculator-platform-button" data-platform="facebook" aria-label="Facebook">
-                  <svg class="calculator-platform-icon" viewBox="0 0 24 24" fill="currentColor"
-                    xmlns="http://www.w3.org/2000/svg">
-                    <path
-                      d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- 5. Calculate Button -->
-          <div class="calculator-input-group">
-            <label class="calculator-label-text" style="opacity: 0;">
-              Calculate
-            </label>
-            <button type="submit" class="calculator-submit-button">
-              Calculate
-            </button>
-          </div>
-        </div>
-      </form>
-    </div>
-
-    <!-- 数据展示区域 - 六个卡片 -->
-    <div class="calculator-results" id="calculator-results">
-      <div class="calculator-result-card">
-        <div class="calculator-result-value" id="result-time-saved">0</div>
-        <div class="calculator-result-label">Hours Saved</div>
-      </div>
-      <div class="calculator-result-card">
-        <div class="calculator-result-value" id="result-posts">0</div>
-        <div class="calculator-result-label">Posts Created</div>
-      </div>
-      <div class="calculator-result-card">
-        <div class="calculator-result-value" id="result-reach">0</div>
-        <div class="calculator-result-label">Total Reach</div>
-      </div>
-      <div class="calculator-result-card">
-        <div class="calculator-result-value" id="result-growth">0%</div>
-        <div class="calculator-result-label">Growth Rate</div>
-      </div>
-      <div class="calculator-result-card">
-        <div class="calculator-result-value" id="result-efficiency">0%</div>
-        <div class="calculator-result-label">Efficiency Gain</div>
-      </div>
-      <div class="calculator-result-card">
-        <div class="calculator-result-value" id="result-engagement">0</div>
-        <div class="calculator-result-label">Engagement Rate</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<script>
-  // Calculator 模块交互逻辑
-  (function () {
-    'use strict';
-
-    const initCalculator = () => {
-      const form = document.getElementById('calculator-form');
-      const platformButtons = document.querySelectorAll('.calculator-platform-button');
-      let selectedPlatform = 'tiktok';
-
-      // 平台选择按钮
-      platformButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-          e.preventDefault();
-          platformButtons.forEach(btn => btn.classList.remove('active'));
-          button.classList.add('active');
-          selectedPlatform = button.dataset.platform;
-        });
-      });
-
-      // 表单提交
-      if (form) {
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-
-          const creditsInput = document.getElementById('credits').value;
-          const credits = parseFloat(creditsInput.replace(/[^0-9.]/g, '')) || 0;
-          const averageViews = parseFloat(document.getElementById('average-views').value) || 0;
-          const category = document.getElementById('category').value || 'podcast';
-
-          // 计算逻辑
-          // 假设每个 credit 可以创建 1 个视频
-          const postsCreated = credits;
-
-          // 假设每个视频平均节省 2 小时
-          const hoursSaved = postsCreated * 2;
-
-          // 总触达 = 视频数 × 平均观看数
-          const totalReach = postsCreated * averageViews;
-
-          // 增长率基于视频数量（简化计算）
-          const growthRate = Math.min(postsCreated * 5, 100);
-
-          // 效率提升（基于视频数量）
-          const efficiencyGain = Math.min(postsCreated * 10, 100);
-
-          // 参与度（基于平台，简化计算）
-          const engagementRates = {
-            tiktok: 8.5,
-            youtube: 4.2,
-            instagram: 3.8,
-            facebook: 2.5
-          };
-          const engagementRate = engagementRates[selectedPlatform] || 5.0;
-
-          // 更新结果
-          document.getElementById('result-time-saved').textContent = hoursSaved.toLocaleString();
-          document.getElementById('result-posts').textContent = postsCreated.toLocaleString();
-          document.getElementById('result-reach').textContent = totalReach.toLocaleString();
-          document.getElementById('result-growth').textContent = growthRate.toFixed(0) + '%';
-          document.getElementById('result-efficiency').textContent = efficiencyGain.toFixed(0) + '%';
-          document.getElementById('result-engagement').textContent = engagementRate.toFixed(1) + '%';
-        });
-      }
-
-      // 页面加载时不自动计算，等待用户点击 Calculate
-    };
-
-    // DOM 加载后初始化
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initCalculator);
-    } else {
-      initCalculator();
-    }
-  })();
-</script>
 
   <!-- ===== FOOTER SECTION ===== -->
 <style>
