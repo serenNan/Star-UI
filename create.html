@@ -894,7 +894,7 @@
 
   .create-container {
     max-width: 100%;
-    margin: 0 auto;
+    margin: 1.5rem auto;
     padding: var(--spacing-lg) 3rem;
     width: 100%;
     position: relative;
@@ -907,13 +907,14 @@
   /* 背景图片容器 - 近乎全屏的圆角图片 */
   .create-background {
     position: relative;
-    width: 95%;
+    width: 100%;
     max-width: 100%;
     height: 90vh;
     min-height: 600px;
     border-radius: 24px;
     overflow: hidden;
     z-index: 0;
+    box-sizing: border-box;
   }
 
   .create-background-image {
@@ -921,6 +922,7 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    box-sizing: border-box;
   }
 
   /* 内容覆盖层 - 定位在左上角 */
@@ -995,7 +997,7 @@
   /* 响应式设计 */
   @media (max-width: 991px) {
     .create-container {
-      padding: var(--spacing-md) var(--spacing-lg);
+      padding: var(--spacing-md) 3rem;
     }
 
     .create-background {
@@ -1025,7 +1027,7 @@
 
   @media (max-width: 767px) {
     .create-container {
-      padding: var(--spacing-sm) var(--spacing-md);
+      padding: var(--spacing-sm) 1.5rem;
     }
 
     .create-background {
@@ -1067,7 +1069,7 @@
   <div class="create-container">
     <!-- 背景图片容器 -->
     <div class="create-background">
-      <img src="sections/create/bg.jpg" alt="Create Background" class="create-background-image" loading="eager">
+      <img src="images/2.jpg" alt="Create Background" class="create-background-image" loading="eager">
 
       <!-- 内容覆盖层 - 定位在左上角 -->
       <div class="create-content">
@@ -1116,8 +1118,6 @@
     }
   })();
 </script>
-
-
 
   <!-- ===== LINKS SECTION ===== -->
 <!-- 社交媒体链接区域 -->
@@ -1306,28 +1306,28 @@
   <div class="pic-wall-container">
     <div class="pic-wall-grid">
       <div class="pic-wall-item">
-        <img src="sections/pic_wall/1.jpg" alt="Pic Wall 1" class="pic-wall-image" loading="lazy">
+        <img src="images/1.png" alt="Pic Wall 1" class="pic-wall-image" loading="lazy">
       </div>
       <div class="pic-wall-item">
-        <img src="sections/pic_wall/2.jpg" alt="Pic Wall 2" class="pic-wall-image" loading="lazy">
+        <img src="images/2.jpg" alt="Pic Wall 2" class="pic-wall-image" loading="lazy">
       </div>
       <div class="pic-wall-item">
-        <img src="sections/pic_wall/3.jpg" alt="Pic Wall 3" class="pic-wall-image" loading="lazy">
+        <img src="images/3.png" alt="Pic Wall 3" class="pic-wall-image" loading="lazy">
       </div>
       <div class="pic-wall-item">
-        <img src="sections/pic_wall/4.jpg" alt="Pic Wall 4" class="pic-wall-image" loading="lazy">
+        <img src="images/4.png" alt="Pic Wall 4" class="pic-wall-image" loading="lazy">
       </div>
       <div class="pic-wall-item">
-        <img src="sections/pic_wall/5.jpg" alt="Pic Wall 5" class="pic-wall-image" loading="lazy">
+        <img src="images/5.png" alt="Pic Wall 5" class="pic-wall-image" loading="lazy">
       </div>
       <div class="pic-wall-item">
-        <img src="sections/pic_wall/6.jpg" alt="Pic Wall 6" class="pic-wall-image" loading="lazy">
+        <img src="images/logo.jpg" alt="Pic Wall 6" class="pic-wall-image" loading="lazy">
       </div>
       <div class="pic-wall-item">
-        <img src="sections/pic_wall/7.jpg" alt="Pic Wall 7" class="pic-wall-image" loading="lazy">
+        <img src="images/1.png" alt="Pic Wall 7" class="pic-wall-image" loading="lazy">
       </div>
       <div class="pic-wall-item">
-        <img src="sections/pic_wall/8.jpg" alt="Pic Wall 8" class="pic-wall-image" loading="lazy">
+        <img src="images/2.jpg" alt="Pic Wall 8" class="pic-wall-image" loading="lazy">
       </div>
     </div>
   </div>
@@ -1385,14 +1385,21 @@
     font-size: 1.5rem;
     font-weight: 300;
   }
+
+  .built-for-speed-image {
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    border-radius: 16px;
+    margin: 0 auto;
+    display: block;
+  }
 </style>
 
 <!-- HTML 结构 -->
 <section class="built-for-speed" id="built-for-speed">
   <div class="built-for-speed-container">
-    <div class="built-for-speed-placeholder">
-      Built For Speed Module - 稍后细化
-    </div>
+    <img src="images/3.png" alt="Built For Speed" class="built-for-speed-image" loading="lazy">
   </div>
 </section>
 
@@ -1441,14 +1448,21 @@
     font-size: 1.5rem;
     font-weight: 300;
   }
+
+  .style-cea-image {
+    width: 100%;
+    max-width: 1200px;
+    height: auto;
+    border-radius: 16px;
+    margin: 0 auto;
+    display: block;
+  }
 </style>
 
 <!-- HTML 结构 -->
 <section class="style-cea" id="style-cea">
   <div class="style-cea-container">
-    <div class="style-cea-placeholder">
-      Style CEA Module - 稍后细化
-    </div>
+    <img src="images/4.png" alt="Style CEA" class="style-cea-image" loading="lazy">
   </div>
 </section>
 
@@ -1484,7 +1498,7 @@
   position: relative;
   max-width: 1520px;
   margin: 0 auto;
-  padding: 0 40px;
+  padding: 0 3rem;
 }
 
 /* 上方大框 */
@@ -1494,7 +1508,7 @@
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   padding: 110px 60px;
-  margin-top: 40px;      /* 整体下移 */
+  margin-top: 3rem;      /* 整体下移 */
   margin-bottom: 20px;
   overflow: hidden;
   width: 100%;           /* 宽度：可调整（100% 表示容器宽度）*/
@@ -1701,7 +1715,7 @@
 @media (max-width: 991px) {
   .footer-main {
     grid-template-columns: 1fr 1fr 1fr;
-    gap: 40px;
+    gap: 3rem;
   }
 
   .footer-brand {
@@ -1709,7 +1723,7 @@
   }
 
   .footer-main-box {
-    padding: 40px 30px;
+    padding: 3rem 30px;
   }
 
   .footer-bottom-box {
@@ -1719,16 +1733,16 @@
 
 @media (max-width: 767px) {
   .footer-section {
-    padding: 40px 0 0;
+    padding: 3rem 0 0;
   }
 
   .footer-container {
-    padding: 0 20px;
+    padding: 0 1.5rem;
   }
 
   .footer-main {
     grid-template-columns: 1fr;
-    gap: 40px;
+    gap: 3rem;
   }
 
   .footer-brand {
@@ -1746,7 +1760,7 @@
 
   .footer-bottom-box {
     padding: 20px;
-    margin-bottom: 40px;
+    margin-bottom: 3rem;
   }
 
   .footer-bottom {
