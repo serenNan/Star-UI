@@ -30,7 +30,7 @@ def generate_dynamic_sections():
 
     print("")
 
-def build():
+def build(config_file_path=None):
     print("🔨 Building Star-UI...")
     print("")
 
@@ -38,9 +38,12 @@ def build():
     generate_dynamic_sections()
 
     # Read configuration
-    config_file = Path('tools/build.config.json')
+    if config_file_path is None:
+        config_file = Path('tools/build.config.json')
+    else:
+        config_file = Path(config_file_path)
     if not config_file.exists():
-        print("❌ Error: tools/build.config.json not found!")
+        print(f"❌ Error: {config_file} not found!")
         return False
 
     with open(config_file, 'r', encoding='utf-8') as f:

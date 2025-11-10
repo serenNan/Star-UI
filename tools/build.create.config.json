@@ -1,0 +1,14 @@
+{
+  "sections": [
+    "navigation",
+    "create",
+    "links",
+    "pic_wall",
+    "built_for_speed",
+    "style_cea",
+    "footer"
+  ],
+  "output": "create.html",
+  "description": "Star-UI Build Configuration - Create page sections"
+}
+
