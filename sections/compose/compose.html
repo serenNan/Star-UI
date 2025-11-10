@@ -14,7 +14,7 @@
   .compose-container {
     max-width: 100%;
     margin: 0 auto;
-    padding: var(--spacing-lg) 40px;
+    padding: var(--spacing-lg) 3rem;
     width: 100%;
     position: relative;
     min-height: 100vh;
@@ -33,6 +33,7 @@
     border-radius: 24px;
     overflow: hidden;
     z-index: 0;
+    box-sizing: border-box;
   }
 
   .compose-background-image {
@@ -40,6 +41,7 @@
     height: 100%;
     object-fit: cover;
     display: block;
+    box-sizing: border-box;
   }
 
   /* 内容覆盖层 - 定位在左下角，减少空隙 */
@@ -114,7 +116,7 @@
   /* 响应式设计 */
   @media (max-width: 991px) {
     .compose-container {
-      padding: var(--spacing-md) 40px;
+      padding: var(--spacing-md) 3rem;
     }
 
     .compose-background {
@@ -144,7 +146,7 @@
 
   @media (max-width: 767px) {
     .compose-container {
-      padding: var(--spacing-sm) 20px;
+      padding: var(--spacing-sm) 1.5rem;
     }
 
     .compose-background {
