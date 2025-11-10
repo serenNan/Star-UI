@@ -1,0 +1,380 @@
+<!-- ===== WORKFLOW_CMPS 模块 ===== -->
+<style>
+  /* Workflow CMPS Section Styles */
+  .workflow-cmps {
+    padding: var(--spacing-3xl) 0;
+    background: var(--color-bg);
+  }
+
+  .workflow-cmps-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
+
+  /* 标题区域 */
+  .workflow-cmps-header {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .workflow-cmps-label {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .workflow-cmps-title {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .workflow-cmps-description {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1rem, 1.5vw, 1.25rem);
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* 主内容区域 - 左右分栏，右侧图片更大，等高对齐 */
+  .workflow-cmps-content {
+    display: grid;
+    grid-template-columns: 1fr 2.2fr;
+    gap: var(--spacing-2xl);
+    align-items: stretch;
+    max-width: 1800px;
+    margin: 0 auto;
+  }
+
+  /* 左侧卡片区域 */
+  .workflow-cmps-cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  /* 单个卡片 - 图片占满，文字叠加，更高更宽 */
+  .workflow-cmps-card {
+    background: var(--color-bg-secondary);
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    min-height: 180px;
+    width: 100%;
+    transition: transform var(--transition), box-shadow var(--transition);
+    cursor: pointer;
+  }
+
+  .workflow-cmps-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  /* 卡片图片区域 - 占满整个卡片 */
+  .workflow-cmps-card-image-wrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    background: #2a2a2a;
+  }
+
+  .workflow-cmps-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* 渐变遮罩层 - 从透明到黑色，黑色比例更多 */
+  .workflow-cmps-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to top,
+        rgba(0, 0, 0, 0.98) 0%,
+        rgba(0, 0, 0, 0.96) 20%,
+        rgba(0, 0, 0, 0.9) 40%,
+        rgba(0, 0, 0, 0.7) 60%,
+        rgba(0, 0, 0, 0.4) 80%,
+        rgba(0, 0, 0, 0.15) 95%,
+        transparent 100%);
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  /* 卡片内容区域 - 绝对定位在图片上方，减少padding让文字更贴左上角 */
+  .workflow-cmps-card-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: var(--spacing-sm) var(--spacing-sm);
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  /* 卡片上部分 - 左上角数字和标题 */
+  .workflow-cmps-card-header {
+    display: flex;
+    align-items: baseline;
+    gap: var(--spacing-sm);
+  }
+
+  .workflow-cmps-card-number {
+    font-family: 'Sora', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--color-text);
+    line-height: 1;
+  }
+
+  .workflow-cmps-card-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    line-height: 1;
+  }
+
+  /* 卡片描述 - 在卡片下部，灰色细体 */
+  .workflow-cmps-card-description {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 300;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+    margin: 0;
+    margin-top: auto;
+  }
+
+  /* 右侧大图区域 - 高度自动适配左侧卡片总高度 */
+  .workflow-cmps-visual {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    background: #2a2a2a;
+  }
+
+  .workflow-cmps-visual-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 20px;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 991px) {
+    .workflow-cmps {
+      padding: var(--spacing-2xl) 0;
+    }
+
+    .workflow-cmps-header {
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .workflow-cmps-content {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-xl);
+      align-items: start;
+    }
+
+    .workflow-cmps-visual {
+      height: 600px;
+      min-height: 600px;
+      order: -1;
+    }
+
+    .workflow-cmps-card {
+      min-height: 150px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .workflow-cmps-container {
+      padding: 0 var(--spacing-md);
+    }
+
+    .workflow-cmps-header {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .workflow-cmps-title {
+      font-size: clamp(1.5rem, 5vw, 2rem);
+    }
+
+    .workflow-cmps-description {
+      font-size: 0.9rem;
+    }
+
+    .workflow-cmps-content {
+      gap: var(--spacing-lg);
+      align-items: start;
+    }
+
+    .workflow-cmps-visual {
+      height: 500px;
+      min-height: 500px;
+      border-radius: 16px;
+    }
+
+    .workflow-cmps-visual-image {
+      border-radius: 16px;
+    }
+
+    .workflow-cmps-card {
+      min-height: 120px;
+    }
+
+    .workflow-cmps-card-number {
+      font-size: 1.5rem;
+    }
+
+    .workflow-cmps-card-title {
+      font-size: 1.2rem;
+    }
+
+    .workflow-cmps-card-description {
+      font-size: 0.75rem;
+    }
+  }
+</style>
+
+<!-- HTML 结构 -->
+<section class="workflow-cmps" id="workflow-cmps">
+  <div class="workflow-cmps-container">
+    <!-- 标题区域 -->
+    <div class="workflow-cmps-header">
+      <p class="workflow-cmps-label">WORKFLOW</p>
+      <h2 class="workflow-cmps-title">A Seamless Creative Workflow</h2>
+      <p class="workflow-cmps-description">
+        Every step is connected through the Eclipse Engine and guided by an intelligent assistant built to enhance your
+        process.
+      </p>
+    </div>
+
+    <!-- 主内容区域 - 左右分栏 -->
+    <div class="workflow-cmps-content">
+      <!-- 左侧卡片区域 -->
+      <div class="workflow-cmps-cards">
+        <!-- 卡片 1: Generative -->
+        <div class="workflow-cmps-card">
+          <div class="workflow-cmps-card-image-wrapper">
+            <img src="images/1.png" alt="Generative" class="workflow-cmps-card-image" loading="lazy">
+            <div class="workflow-cmps-card-overlay"></div>
+          </div>
+          <div class="workflow-cmps-card-content">
+            <div class="workflow-cmps-card-header">
+              <span class="workflow-cmps-card-number">1</span>
+              <h3 class="workflow-cmps-card-title">Generative</h3>
+            </div>
+            <p class="workflow-cmps-card-description">
+              Colors, fonts, lower thirds, logo safe-zones, intro/outro.
+            </p>
+          </div>
+        </div>
+
+        <!-- 卡片 2: Storyboard -->
+        <div class="workflow-cmps-card">
+          <div class="workflow-cmps-card-image-wrapper">
+            <img src="images/2.jpg" alt="Storyboard" class="workflow-cmps-card-image" loading="lazy">
+            <div class="workflow-cmps-card-overlay"></div>
+          </div>
+          <div class="workflow-cmps-card-content">
+            <div class="workflow-cmps-card-header">
+              <span class="workflow-cmps-card-number">2</span>
+              <h3 class="workflow-cmps-card-title">Storyboard</h3>
+            </div>
+            <p class="workflow-cmps-card-description">
+              Captures tone, pacing, motion and composition preferences.
+            </p>
+          </div>
+        </div>
+
+        <!-- 卡片 3: Timeline -->
+        <div class="workflow-cmps-card">
+          <div class="workflow-cmps-card-image-wrapper">
+            <img src="images/3.png" alt="Timeline" class="workflow-cmps-card-image" loading="lazy">
+            <div class="workflow-cmps-card-overlay"></div>
+          </div>
+          <div class="workflow-cmps-card-content">
+            <div class="workflow-cmps-card-header">
+              <span class="workflow-cmps-card-number">3</span>
+              <h3 class="workflow-cmps-card-title">Timeline</h3>
+            </div>
+            <p class="workflow-cmps-card-description">
+              Brand recipes prevent drift and keep every render consistent.
+            </p>
+          </div>
+        </div>
+
+        <!-- 卡片 4: Storyboard -->
+        <div class="workflow-cmps-card">
+          <div class="workflow-cmps-card-image-wrapper">
+            <img src="images/2.jpg" alt="Storyboard" class="workflow-cmps-card-image" loading="lazy">
+            <div class="workflow-cmps-card-overlay"></div>
+          </div>
+          <div class="workflow-cmps-card-content">
+            <div class="workflow-cmps-card-header">
+              <span class="workflow-cmps-card-number">4</span>
+              <h3 class="workflow-cmps-card-title">Storyboard</h3>
+            </div>
+            <p class="workflow-cmps-card-description">
+              Captures tone, pacing, motion and composition preferences.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧大图区域 -->
+      <div class="workflow-cmps-visual">
+        <img src="images/1.png" alt="Workflow Visual" class="workflow-cmps-visual-image" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Workflow CMPS 模块交互逻辑
+  (function () {
+    'use strict';
+
+    const initWorkflowCmps = () => {
+      // 图片加载错误处理
+      const images = document.querySelectorAll('.workflow-cmps-card-image, .workflow-cmps-visual-image');
+      images.forEach(img => {
+        img.addEventListener('error', function () {
+          console.warn(`Failed to load image: ${this.src}`);
+        });
+      });
+    };
+
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initWorkflowCmps);
+    } else {
+      initWorkflowCmps();
+    }
+  })();
+</script>

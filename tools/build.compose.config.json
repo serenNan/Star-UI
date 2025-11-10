@@ -1,0 +1,13 @@
+{
+  "sections": [
+    "navigation",
+    "compose",
+    "links",
+    "workflow_cmps",
+    "brand-control_cmps",
+    "footer"
+  ],
+  "output": "compose.html",
+  "description": "Star-UI Build Configuration - Compose page sections"
+}
+
