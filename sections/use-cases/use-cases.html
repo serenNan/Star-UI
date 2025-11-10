@@ -75,9 +75,7 @@
   width: 160px; /* 按钮宽度，稍微变长 */
 }
 
-.use-cases__category-btn:hover {
-  /* 悬停时无特殊效果 */
-}
+/* 移除空的 hover 规则，因为悬停时无特殊效果 */
 
 .use-cases__category-btn.active {
   background: rgba(255, 255, 255, 0.1); /* 选中时和悬停一样的背景色 */
@@ -132,9 +130,10 @@
   opacity: 1;
 }
 
-.use-cases__card[data-hover-video]:hover .use-cases__card-image {
+/* 悬浮时保持图片可见,不让它消失 */
+/* .use-cases__card[data-hover-video]:hover .use-cases__card-image {
   opacity: 0;
-}
+} */
 
 /* 卡片叠加层 */
 .use-cases__card-overlay {
@@ -149,7 +148,7 @@
     rgba(0, 0, 0, 0.2) 50%,
     rgba(0, 0, 0, 0.7) 100%
   );
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: var(--spacing-sm) 0; /* 移除左右 padding,只保留上下 padding */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -169,6 +168,7 @@
 .use-cases__card-label {
   display: inline-block;
   padding: 0;
+  padding-left: var(--spacing-md); /* 添加左边距,因为 overlay 已移除左右 padding */
   background: transparent;
   backdrop-filter: none;
   border-radius: 0;
@@ -178,19 +178,65 @@
   align-self: flex-start;
 }
 
-/* 卡片描述文本 */
+/* 卡片描述文本 - 与 banner 描述框样式一致 */
 .use-cases__card-description {
-  color: var(--color-text);
-  font-size: 0.875rem;
+  color: rgb(230, 229, 229); /* 与 banner 一致的文字颜色 */
+  font-size: 0.5rem; /* 与 banner 一致的字体大小 */
   line-height: 1.6;
+  padding: 20px 0 0 20px; /* 与 banner 一致的内边距：只要左边距和上边距 */
+  background: rgba(68, 68, 68, 0.451); /* 与 banner 一致的灰色半透明背景 */
+  border: none; /* 移除边框 */
+  border-radius: 20px 20px 20px 20px; /* 只有底部两个角有圆角,匹配卡片的 20px 圆角 */
+  backdrop-filter: blur(1px);
+  box-sizing: border-box;
   opacity: 0;
   transform: translateY(10px);
   transition: all 0.3s ease;
+  position: absolute; /* 绝对定位 */
+  bottom: 0; /* 底部对齐 */
+  left: 0; /* 左侧对齐 */
+  right: 0; /* 右侧对齐 */
+  width: 100%; /* 宽度100% */
+  min-height: 90px; /* 确保有足够高度 */
 }
 
 .use-cases__card:hover .use-cases__card-description {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* 卡片描述右下角生成按钮 */
+.use-cases__generate-btn {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 32px;
+  height: 32px;
+  background: rgba(32, 31, 31, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.use-cases__generate-btn:hover {
+  background: rgba(60, 60, 60, 0.9);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+.use-cases__generate-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: white;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* 响应式：平板端（991px 以下）*/
@@ -303,7 +349,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">TikTok creator</span>
-            <p class="use-cases__card-description">Create engaging educational content for TikTok with AI-powered short videos.</p>
+            <p class="use-cases__card-description">
+              Create engaging educational content for TikTok with AI-powered short videos.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -314,7 +369,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Creator</span>
-            <p class="use-cases__card-description">Transform your knowledge into compelling visual stories for all platforms.</p>
+            <p class="use-cases__card-description">
+              Transform your knowledge into compelling visual stories for all platforms.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -325,7 +389,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">YouTube small creator</span>
-            <p class="use-cases__card-description">Grow your YouTube channel with professional educational content.</p>
+            <p class="use-cases__card-description">
+              Grow your YouTube channel with professional educational content.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -336,7 +409,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Podcaster</span>
-            <p class="use-cases__card-description">Convert podcast episodes into engaging video clips for social media.</p>
+            <p class="use-cases__card-description">
+              Convert podcast episodes into engaging video clips for social media.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -347,7 +429,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">YouTube vlogger</span>
-            <p class="use-cases__card-description">Build educational content pages with stunning visual presentations.</p>
+            <p class="use-cases__card-description">
+              Build educational content pages with stunning visual presentations.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -358,7 +449,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Page</span>
-            <p class="use-cases__card-description">Stand out with professionally crafted educational videos for YouTube.</p>
+            <p class="use-cases__card-description">
+              Stand out with professionally crafted educational videos for YouTube.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -370,7 +470,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">TikTok creator</span>
-            <p class="use-cases__card-description">Inspirational content to boost daily motivation.</p>
+            <p class="use-cases__card-description">
+              Inspirational content to boost daily motivation.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -381,7 +490,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Creator</span>
-            <p class="use-cases__card-description">Success stories and achievement highlights.</p>
+            <p class="use-cases__card-description">
+              Success stories and achievement highlights.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -392,7 +510,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">YouTube small creator</span>
-            <p class="use-cases__card-description">Personal growth and mindset transformation.</p>
+            <p class="use-cases__card-description">
+              Personal growth and mindset transformation.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -403,7 +530,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Podcaster</span>
-            <p class="use-cases__card-description">Fitness and wellness motivational clips.</p>
+            <p class="use-cases__card-description">
+              Fitness and wellness motivational clips.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -414,7 +550,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">YouTube vlogger</span>
-            <p class="use-cases__card-description">Entrepreneurship and business inspiration.</p>
+            <p class="use-cases__card-description">
+              Entrepreneurship and business inspiration.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -425,7 +570,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Page</span>
-            <p class="use-cases__card-description">Daily affirmations and positive mindset content.</p>
+            <p class="use-cases__card-description">
+              Daily affirmations and positive mindset content.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -437,7 +591,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">TikTok creator</span>
-            <p class="use-cases__card-description">Investment strategies and market analysis.</p>
+            <p class="use-cases__card-description">
+              Investment strategies and market analysis.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -448,7 +611,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Creator</span>
-            <p class="use-cases__card-description">Personal budgeting and savings tips.</p>
+            <p class="use-cases__card-description">
+              Personal budgeting and savings tips.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -459,7 +631,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">YouTube small creator</span>
-            <p class="use-cases__card-description">Cryptocurrency and blockchain education.</p>
+            <p class="use-cases__card-description">
+              Cryptocurrency and blockchain education.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -470,7 +651,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Podcaster</span>
-            <p class="use-cases__card-description">Real estate investment guidance.</p>
+            <p class="use-cases__card-description">
+              Real estate investment guidance.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -481,7 +671,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">YouTube vlogger</span>
-            <p class="use-cases__card-description">Retirement planning and wealth management.</p>
+            <p class="use-cases__card-description">
+              Retirement planning and wealth management.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -492,7 +691,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Page</span>
-            <p class="use-cases__card-description">Tax optimization and financial planning.</p>
+            <p class="use-cases__card-description">
+              Tax optimization and financial planning.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -504,7 +712,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">TikTok creator</span>
-            <p class="use-cases__card-description">Professional online seminars and workshops.</p>
+            <p class="use-cases__card-description">
+              Professional online seminars and workshops.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -515,7 +732,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Creator</span>
-            <p class="use-cases__card-description">Industry expert panel discussions.</p>
+            <p class="use-cases__card-description">
+              Industry expert panel discussions.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -526,7 +752,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">YouTube small creator</span>
-            <p class="use-cases__card-description">Product demonstrations and launches.</p>
+            <p class="use-cases__card-description">
+              Product demonstrations and launches.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -537,7 +772,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Podcaster</span>
-            <p class="use-cases__card-description">Q&A sessions with thought leaders.</p>
+            <p class="use-cases__card-description">
+              Q&A sessions with thought leaders.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -548,7 +792,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">YouTube vlogger</span>
-            <p class="use-cases__card-description">Virtual conferences and networking events.</p>
+            <p class="use-cases__card-description">
+              Virtual conferences and networking events.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -559,7 +812,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Page</span>
-            <p class="use-cases__card-description">Training sessions and skill development.</p>
+            <p class="use-cases__card-description">
+              Training sessions and skill development.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -571,7 +833,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">TikTok creator</span>
-            <p class="use-cases__card-description">Daily life and lifestyle content.</p>
+            <p class="use-cases__card-description">
+              Daily life and lifestyle content.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -582,7 +853,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Creator</span>
-            <p class="use-cases__card-description">Travel adventures and destinations.</p>
+            <p class="use-cases__card-description">
+              Travel adventures and destinations.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -593,7 +873,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">YouTube small creator</span>
-            <p class="use-cases__card-description">Food and cooking experiences.</p>
+            <p class="use-cases__card-description">
+              Food and cooking experiences.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -604,7 +893,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Podcaster</span>
-            <p class="use-cases__card-description">Fashion and beauty tutorials.</p>
+            <p class="use-cases__card-description">
+              Fashion and beauty tutorials.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -615,7 +913,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">YouTube vlogger</span>
-            <p class="use-cases__card-description">Behind-the-scenes creator content.</p>
+            <p class="use-cases__card-description">
+              Behind-the-scenes creator content.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -626,7 +933,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Page</span>
-            <p class="use-cases__card-description">Personal storytelling and experiences.</p>
+            <p class="use-cases__card-description">
+              Personal storytelling and experiences.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -638,7 +954,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">TikTok creator</span>
-            <p class="use-cases__card-description">Interview-style podcast episodes.</p>
+            <p class="use-cases__card-description">
+              Interview-style podcast episodes.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -649,7 +974,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Creator</span>
-            <p class="use-cases__card-description">Solo commentary and insights.</p>
+            <p class="use-cases__card-description">
+              Solo commentary and insights.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -660,7 +994,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">YouTube small creator</span>
-            <p class="use-cases__card-description">True crime and mystery stories.</p>
+            <p class="use-cases__card-description">
+              True crime and mystery stories.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -671,7 +1014,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Podcaster</span>
-            <p class="use-cases__card-description">Technology and innovation discussions.</p>
+            <p class="use-cases__card-description">
+              Technology and innovation discussions.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -682,7 +1034,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">YouTube vlogger</span>
-            <p class="use-cases__card-description">Health and wellness conversations.</p>
+            <p class="use-cases__card-description">
+              Health and wellness conversations.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -693,7 +1054,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Page</span>
-            <p class="use-cases__card-description">Entertainment and pop culture reviews.</p>
+            <p class="use-cases__card-description">
+              Entertainment and pop culture reviews.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -705,7 +1075,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">TikTok creator</span>
-            <p class="use-cases__card-description">Life coaching and personal development.</p>
+            <p class="use-cases__card-description">
+              Life coaching and personal development.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -716,7 +1095,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Creator</span>
-            <p class="use-cases__card-description">Business and career coaching.</p>
+            <p class="use-cases__card-description">
+              Business and career coaching.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -727,7 +1115,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">YouTube small creator</span>
-            <p class="use-cases__card-description">Fitness and athletic performance training.</p>
+            <p class="use-cases__card-description">
+              Fitness and athletic performance training.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -738,7 +1135,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Podcaster</span>
-            <p class="use-cases__card-description">Relationship and communication coaching.</p>
+            <p class="use-cases__card-description">
+              Relationship and communication coaching.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -749,7 +1155,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">YouTube vlogger</span>
-            <p class="use-cases__card-description">Mindfulness and meditation guidance.</p>
+            <p class="use-cases__card-description">
+              Mindfulness and meditation guidance.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
 
@@ -760,7 +1175,16 @@
           </video>
           <div class="use-cases__card-overlay">
             <span class="use-cases__card-label">Page</span>
-            <p class="use-cases__card-description">Leadership and executive coaching.</p>
+            <p class="use-cases__card-description">
+              Leadership and executive coaching.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
         </div>
       </div>

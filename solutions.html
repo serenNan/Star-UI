@@ -1174,6 +1174,302 @@
   </div>
 </section>
 
+  <!-- ===== ADAPTATION SECTION ===== -->
+<style>
+/* Adaptation Section - 选择起点模块 */
+.adaptation-section {
+  background-color: var(--color-bg);
+  padding: 120px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.adaptation-container {
+  max-width: 1500px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* 顶部标签 */
+.adaptation-label {
+  font-size: 20px;
+  letter-spacing: 0px;
+  text-transform: uppercase;
+  color: #888888;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+/* 主标题 */
+.adaptation-title {
+  font-size: 42px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin-bottom: 16px;
+  line-height: 1.2;
+}
+
+/* 副标题 */
+.adaptation-subtitle {
+  font-size: 22px;
+  color: #999999;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* 外层包裹容器 - 类似 assistant 的 card 容器 */
+.adaptation-wrapper {
+  max-width: 1215px;
+  margin: 0 auto;
+}
+
+.adaptation-outer-card {
+  background: var(--color-bg-secondary);
+  border-radius: 24px;
+  padding: 43px 56px 48px;
+  min-height: 523px;
+  display: flex;
+  align-items: flex-start;
+  transition: all var(--transition);
+}
+
+.adaptation-outer-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* 卡片容器 - 三个功能项并排 */
+.adaptation-cards {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 72px;
+  align-items: stretch;
+  width: 100%;
+}
+
+/* 单个卡片 */
+.adaptation-card {
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  background: transparent;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+.adaptation-card:hover {
+  transform: translateY(-4px);
+}
+
+/* 卡片图片容器 */
+.adaptation-card-image-wrapper {
+  width: 100%;
+  overflow: hidden;
+  border-radius: 16px;
+  margin-bottom: 24px;
+}
+
+/* 卡片图片 */
+.adaptation-card-image {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.adaptation-card:hover .adaptation-card-image {
+  transform: scale(1.05);
+}
+
+/* 卡片内容区域（图片下方）*/
+.adaptation-card-content {
+  padding: 0 12px;
+  text-align: center;
+}
+
+/* 卡片标题 */
+.adaptation-card-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+/* 卡片描述 */
+.adaptation-card-description {
+  font-size: 21px;
+  color: #CCCCCC;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* 响应式设计 - 平板 */
+@media (max-width: 991px) {
+  .adaptation-section {
+    padding: 80px 20px;
+  }
+
+  .adaptation-title {
+    font-size: 36px;
+  }
+
+  .adaptation-subtitle {
+    font-size: 16px;
+    margin-bottom: 40px;
+  }
+
+  .adaptation-outer-card {
+    padding: 32px;
+  }
+
+  .adaptation-cards {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .adaptation-card-image {
+    height: 320px;
+  }
+}
+
+/* 响应式设计 - 手机 */
+@media (max-width: 767px) {
+  .adaptation-section {
+    padding: 60px 16px;
+  }
+
+  .adaptation-title {
+    font-size: 28px;
+    margin-bottom: 12px;
+  }
+
+  .adaptation-subtitle {
+    font-size: 15px;
+    margin-bottom: 32px;
+  }
+
+  .adaptation-outer-card {
+    padding: 24px;
+  }
+
+  .adaptation-cards {
+    gap: 28px;
+  }
+
+  .adaptation-card-image {
+    height: 280px;
+  }
+
+  .adaptation-card-title {
+    font-size: 20px;
+  }
+
+  .adaptation-card-description {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 479px) {
+  .adaptation-title {
+    font-size: 24px;
+  }
+
+  .adaptation-subtitle {
+    font-size: 14px;
+  }
+
+  .adaptation-card-image {
+    height: 240px;
+  }
+
+  .adaptation-card-title {
+    font-size: 18px;
+  }
+}
+</style>
+
+<!-- Adaptation Section -->
+<section class="adaptation-section">
+  <div class="adaptation-container">
+    <!-- 顶部标签 -->
+    <div class="adaptation-label">ADAPTATION</div>
+
+    <!-- 主标题 -->
+    <h2 class="adaptation-title">Choose Your Starting Point</h2>
+
+    <!-- 副标题 -->
+    <p class="adaptation-subtitle">
+      Begin your creative journey from any spark — Treeclipse adapts to how you create.
+    </p>
+
+    <!-- 外层包裹容器 -->
+    <div class="adaptation-wrapper">
+      <div class="adaptation-outer-card">
+        <!-- 三个卡片 -->
+        <div class="adaptation-cards">
+      <!-- 卡片 1: From A Script -->
+      <div class="adaptation-card">
+        <div class="adaptation-card-image-wrapper">
+          <img
+            src="sections/adaptation/1.png"
+            alt="From A Script"
+            class="adaptation-card-image"
+          >
+        </div>
+        <div class="adaptation-card-content">
+          <h3 class="adaptation-card-title">From A Script</h3>
+          <p class="adaptation-card-description">
+            Upload your script to instantly visualize scenes.
+          </p>
+        </div>
+      </div>
+
+      <!-- 卡片 2: From A Concept -->
+      <div class="adaptation-card">
+        <div class="adaptation-card-image-wrapper">
+          <img
+            src="sections/adaptation/2.jpg"
+            alt="From A Concept"
+            class="adaptation-card-image"
+          >
+        </div>
+        <div class="adaptation-card-content">
+          <h3 class="adaptation-card-title">From A Concept</h3>
+          <p class="adaptation-card-description">
+            Describe an idea and<br> explore directions, moods, <br>and visual possibilities with AI.
+          </p>
+        </div>
+      </div>
+
+      <!-- 卡片 3: From An Image -->
+      <div class="adaptation-card">
+        <div class="adaptation-card-image-wrapper">
+          <img
+            src="sections/adaptation/3.png"
+            alt="From An Image"
+            class="adaptation-card-image"
+          >
+        </div>
+        <div class="adaptation-card-content">
+          <h3 class="adaptation-card-title">From An Image</h3>
+          <p class="adaptation-card-description">
+            Use a single reference to build a cohesive visual narrative.
+          </p>
+        </div>
+      </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
   <!-- ===== AI_CREATIVE_SUITE SECTION ===== -->
 <!-- ===== AI CREATIVE SUITE 模块 ===== -->
 <style>
@@ -1730,384 +2026,1195 @@
 
 
 
-  <!-- ===== WORKFLOW SECTION ===== -->
+  <!-- ===== USE-CASES SECTION ===== -->
+<!-- ===== USE CASES 模块 ===== -->
 <style>
-/* ========================================
-   Workflow 模块样式
-   ======================================== */
-
-.workflow {
+/* Use Cases 主容器样式 */
+.use-cases {
   padding: var(--spacing-3xl) 0;
   background: var(--color-bg);
+  position: relative;
 }
 
 /* 标题区域 */
-.workflow__header {
+.use-cases__header {
   text-align: center;
-  max-width: 1120px; /* 增加宽度，减少换行 */
-  margin: 0 auto 45px auto; /* 水平居中，底部45px间距 */
+  margin-bottom: var(--spacing-xl); /* 缩小间距，让内容区域上移 */
 }
 
-/* 小标题 "WORKFLOW" */
-.workflow__subtitle {
+.use-cases__subtitle {
   font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-sm);
   text-transform: uppercase;
-  color: var(--color-text-secondary);
-  margin-bottom: 0.1rem; /* 减小与主标题的间距 */
 }
 
-/* 主标题 "A Seamless Creative Workflow" */
-.workflow__title {
-  font-size: 2.8rem;
+.use-cases__title {
+  font-size: 2.5rem;
   font-weight: 700;
-  line-height: 1.2;
   color: var(--color-text);
-  margin-bottom: var(--spacing-lg); /* 增加与描述的间距 */
+  margin-bottom: var(--spacing-md);
+  line-height: 1.2;
 }
 
-/* 描述文字 */
-.workflow__description {
-  font-size: 1.6rem;
-  line-height: 1.6;
+.use-cases__description {
+  font-size: 1.5rem;
   color: var(--color-text-secondary);
-  white-space: normal; /* 正常换行 */
-  word-break: keep-all; /* 尽量不在单词中间断行 */
-  word-wrap: break-word; /* 仅在必要时断词 */
-}
-
-/* 卡片网格 */
-.workflow__cards {
-  display: flex;
-  gap: 27px; /* 减少卡片间距 */
-  max-width: 1400px; /* 增加最大宽度，让卡片变宽，文字描述能一行显示更多 */
+  max-width: 800px;
   margin: 0 auto;
-  padding: 0 var(--spacing-lg);
+  white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 
-/* 单个卡片 */
-.workflow__card {
+/* 内容区域布局 */
+.use-cases__content {
+  display: flex;
+  gap: var(--spacing-xl);
+  align-items: flex-start;
+  justify-content: center; /* 让左右两部分整体居中 */
+  max-width: 1400px; /* 限制最大宽度 */
+  margin: 0 auto; /* 容器本身也居中 */
+}
+
+
+/* 左侧分类导航 */
+.use-cases__categories {
+  display: flex;
+  flex-direction: column;
+  gap: 16px; /* 缩小按钮间距 */
+  min-width: 260px; /* 从 220px 增加到 260px，整体更宽 */
+  align-items: flex-start; /* 按钮靠左对齐 */
+  margin-right: var(--spacing-2xl); /* 增加与卡片的间距，导航栏向左移 */
+}
+
+.use-cases__category-btn {
+  padding: 20px;
+  background: transparent; /* 未选中时无背景 */
+  border: none; /* 移除边框 */
+  border-radius: 50px;
+  color: var(--color-text); /* 白色文字 */
+  font-size: 1.25rem; /* 从 1.125rem 增加到 1.25rem (20px) */
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: center; /* 文字居中 */
+  white-space: nowrap;
+  width: 160px; /* 按钮宽度，稍微变长 */
+}
+
+/* 移除空的 hover 规则，因为悬停时无特殊效果 */
+
+.use-cases__category-btn.active {
+  background: rgba(255, 255, 255, 0.1); /* 选中时和悬停一样的背景色 */
+  color: var(--color-text); /* 选中时也保持白色文字 */
+  /* 移除 padding 和 width 设置，保持和未选中按钮一样的大小 */
+}
+
+/* 右侧卡片网格 */
+.use-cases__cards {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  column-gap: 52px; /* 左右间距 */
+  row-gap: 37.25px; /* 上下间距缩小为 34px（原来 48px 的一半）*/
+  max-width: 940px; /* 从 900px 增加到 940px，卡片变大 */
+  margin-left: -100px; /* 卡片向左移动 */
+}
+
+/* 单个卡片样式 */
+.use-cases__card {
   position: relative;
-  flex: 1 1 0; /* 默认平均分配空间 */
-  aspect-ratio: 3 / 6.1;
   border-radius: 20px;
   overflow: hidden;
+  aspect-ratio: 3 / 3.22; /* 稍微偏高一点 */
   cursor: pointer;
-  transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* 只过渡flex属性 */
-  background: #000000;
-  will-change: flex; /* 性能优化 */
+  transition: opacity 0.25s ease, transform 0.25s ease; /* 只过渡需要的属性 */
+  opacity: 1;
+  transform: scale(1);
 }
 
-/* 悬浮状态：只增加宽度 */
-.workflow__card:hover {
-  flex: 2.5 1 0; /* 悬浮时占据更多宽度空间 */
-  z-index: 10; /* 确保悬浮卡片在最上层 */
+.use-cases__card.hidden {
+  display: none; /* 完全移除，不占用空间 */
 }
 
-/* 当有卡片悬浮时，其他卡片收缩 */
-.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
-  flex: 0.6 1 0; /* 未悬浮卡片收缩宽度 */
-}
-
-/* 卡片图片 */
-.workflow__card-image {
+.use-cases__card-image,
+.use-cases__card-video {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-/* 步骤编号 - 固定在卡片底部左侧 */
-.workflow__card-title-wrapper {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  margin-top: -5px;
-}
-
-.workflow__card-number {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.4);
-  line-height: 1;
-  position: absolute; /* 改为绝对定位 */
-  bottom: 80px; /* 增加距离底部的距离 */
-  left: 30px; /* 距离左侧固定距离 */
-  z-index: 3; /* 确保在所有层之上 */
-  transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              left 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* 丝滑过渡动画 */
-}
-
-/* 悬浮时数字颜色加深并稍微下移 */
-.workflow__card:hover .workflow__card-number {
-  color: rgba(255, 255, 255, 0.9); /* 加深到90%不透明度 */
-  bottom: 60px; /* 稍微下移一点 */
-  left: 30px; /* 保持左侧位置 */
-}
-
-/* 渐变叠加层 - 从透明到纯黑 */
-.workflow__card-overlay {
+.use-cases__card-video {
   position: absolute;
-  bottom: 0;
+  top: 0;
   left: 0;
-  right: 0;
-  height: 60%;
-  background: linear-gradient(
-    to top,
-    #000000 0%,
-    rgba(0, 0, 0, 0.95) 15%,
-    rgba(0, 0, 0, 0.85) 30%,
-    rgba(0, 0, 0, 0.6) 50%,
-    rgba(0, 0, 0, 0.3) 70%,
-    transparent 100%
-  );
-  z-index: 1;
-  opacity: 1;
-  transition: opacity 0.3s ease; /* 淡出过渡 */
-}
-
-/* 悬浮时叠加层消失 */
-.workflow__card:hover .workflow__card-overlay {
   opacity: 0;
-}
-
-/* 当有卡片悬浮时，所有未悬浮卡片的叠加层也淡出 */
-.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-overlay {
-  opacity: 0;
-}
-
-/* 文字内容区域 */
-.workflow__card-content {
-  position: absolute;
-  bottom: -25px;
-  left: -15px;
-  right: 0;
-  padding: var(--spacing-lg);
-  z-index: 2;
-  opacity: 1;
-  /* 不移动整个内容区域 */
-}
-
-/* 移除悬浮时文字消失的效果 */
-/* 文字在放大缩小动画时保持显示 */
-
-/* 标题样式 - 改为绝对定位 */
-.workflow__card-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--color-text);
-  position: absolute;
-  bottom: 80px; /* 和数字同一高度 */
-  left: 40px; /* 比数字多10px（数字30px + 10px） */
-  z-index: 3;
-  transition: opacity 0.3s ease,
-              bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* 悬浮时标题稍微下移 */
-.workflow__card:hover .workflow__card-title {
-  bottom: 60px; /* 和数字同步下移到60px */
-  left: 40px; /* 保持左边距 */
-}
-
-/* 描述文字样式 */
-.workflow__card-text {
-  font-size: 0.875rem;
-  line-height: 1.5;
-  color: #727272;
-  margin: 0;
   transition: opacity 0.3s ease;
 }
 
-/* 当有卡片悬浮时，只隐藏其他未悬浮卡片的标题和描述 */
-/* 被悬浮的卡片保留所有文字内容 */
-.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-title,
-.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-text {
-  opacity: 0;
-  pointer-events: none;
+.use-cases__card[data-hover-video]:hover .use-cases__card-video {
+  opacity: 1;
 }
 
-/* ========================================
-   响应式设计
-   ======================================== */
+/* 悬浮时保持图片可见,不让它消失 */
+/* .use-cases__card[data-hover-video]:hover .use-cases__card-image {
+  opacity: 0;
+} */
 
-/* 平板端 */
+/* 卡片叠加层 */
+.use-cases__card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.2) 50%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+  padding: var(--spacing-sm) 0; /* 移除左右 padding,只保留上下 padding */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: background 0.3s ease;
+}
+
+.use-cases__card:hover .use-cases__card-overlay {
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+}
+
+/* 卡片标签 */
+.use-cases__card-label {
+  display: inline-block;
+  padding: 0;
+  padding-left: var(--spacing-md); /* 添加左边距,因为 overlay 已移除左右 padding */
+  background: transparent;
+  backdrop-filter: none;
+  border-radius: 0;
+  color: var(--color-text);
+  font-size: 1.125rem;
+  font-weight: 500;
+  align-self: flex-start;
+}
+
+/* 卡片描述文本 - 与 banner 描述框样式一致 */
+.use-cases__card-description {
+  color: rgb(230, 229, 229); /* 与 banner 一致的文字颜色 */
+  font-size: 0.5rem; /* 与 banner 一致的字体大小 */
+  line-height: 1.6;
+  padding: 20px 0 0 20px; /* 与 banner 一致的内边距：只要左边距和上边距 */
+  background: rgba(68, 68, 68, 0.451); /* 与 banner 一致的灰色半透明背景 */
+  border: none; /* 移除边框 */
+  border-radius: 20px 20px 20px 20px; /* 只有底部两个角有圆角,匹配卡片的 20px 圆角 */
+  backdrop-filter: blur(1px);
+  box-sizing: border-box;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  position: absolute; /* 绝对定位 */
+  bottom: 0; /* 底部对齐 */
+  left: 0; /* 左侧对齐 */
+  right: 0; /* 右侧对齐 */
+  width: 100%; /* 宽度100% */
+  min-height: 90px; /* 确保有足够高度 */
+}
+
+.use-cases__card:hover .use-cases__card-description {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 卡片描述右下角生成按钮 */
+.use-cases__generate-btn {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  width: 32px;
+  height: 32px;
+  background: rgba(32, 31, 31, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.use-cases__generate-btn:hover {
+  background: rgba(60, 60, 60, 0.9);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+.use-cases__generate-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: white;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* 响应式：平板端（991px 以下）*/
 @media (max-width: 991px) {
-  .workflow {
+  .use-cases__title {
+    font-size: 2.5rem;
+  }
+
+  .use-cases__content {
+    flex-direction: column;
+    gap: var(--spacing-xl);
+  }
+
+  .use-cases__categories {
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-width: 100%;
+    position: static;
+  }
+
+  .use-cases__category-btn {
+    flex: 0 0 auto;
+  }
+
+  .use-cases__cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* 响应式：移动端（767px 以下）*/
+@media (max-width: 767px) {
+  .use-cases {
     padding: var(--spacing-2xl) 0;
   }
 
-  .workflow__title {
-    font-size: 2.5rem;
-  }
-
-  .workflow__cards {
-    display: grid; /* 平板端恢复grid布局 */
-    grid-template-columns: repeat(2, 1fr);
-    height: auto; /* 取消固定高度 */
-  }
-
-  /* 平板端取消悬浮动画 */
-  .workflow__card {
-    flex: none;
-    height: auto; /* 取消固定高度 */
-    aspect-ratio: 3 / 6.1; /* 恢复原始比例 */
-  }
-
-  .workflow__card:hover {
-    flex: none;
-    transform: translateY(-8px); /* 简单的上移效果 */
-  }
-}
-
-/* 移动端 */
-@media (max-width: 767px) {
-  .workflow {
-    padding: var(--spacing-xl) 0;
-  }
-
-  .workflow__header {
-    margin-bottom: var(--spacing-xl);
-  }
-
-  .workflow__title {
+  .use-cases__title {
     font-size: 2rem;
   }
 
-  .workflow__description {
+  .use-cases__description {
     font-size: 1rem;
   }
 
-  .workflow__cards {
+  .use-cases__content {
+    gap: var(--spacing-lg);
+  }
+
+  .use-cases__categories {
+    gap: var(--spacing-xs);
+  }
+
+  .use-cases__category-btn {
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.875rem;
+  }
+
+  .use-cases__cards {
     grid-template-columns: 1fr;
     gap: var(--spacing-md);
-  }
-
-  .workflow__card {
-    aspect-ratio: 3 / 3.5;
-  }
-
-  .workflow__card-number {
-    font-size: 2.5rem;
-    top: var(--spacing-sm);
-    left: var(--spacing-sm);
-  }
-
-  .workflow__card-content {
-    padding: var(--spacing-md);
-  }
-
-  .workflow__card-title {
-    font-size: 1.25rem;
-  }
-}
-
-/* 小屏手机 */
-@media (max-width: 479px) {
-  .workflow__title {
-    font-size: 1.75rem;
-  }
-
-  .workflow__card-number {
-    font-size: 2rem;
   }
 }
 </style>
 
-<section class="workflow" id="workflow">
+<!-- HTML 结构 -->
+<section class="use-cases" id="use-cases">
   <div class="container">
     <!-- 标题区域 -->
-    <div class="workflow__header">
-      <p class="workflow__subtitle">WORKFLOW</p>
-      <h2 class="workflow__title">A Seamless Creative Workflow</h2>
-      <p class="workflow__description">
-        Every step is connected through the CLIP Engine and tracked by an
-        intelligent assistant built to enhance your process.
+    <div class="use-cases__header">
+      <div class="use-cases__subtitle">USE CASES</div>
+      <h2 class="use-cases__title">See Treclipse In Action</h2>
+      <p class="use-cases__description">
+        Real results across creators, brands, and media teams.
       </p>
     </div>
 
-    <!-- 卡片网格 -->
-    <div class="workflow__cards">
-      <!-- 卡片 1: Generative -->
-      <div class="workflow__card" data-step="generative">
-        <img
-          src="sections/workflow/1.png"
-          alt="Generative AI"
-          class="workflow__card-image"
-          loading="lazy"
-        >
-        <div class="workflow__card-overlay"></div>
-        <div class="workflow__card-content">
-          <div class="workflow__card-title-wrapper">
-            <span class="workflow__card-number">1</span>
-            <h3 class="workflow__card-title">Generative</h3>
-          </div>
-          <p class="workflow__card-text">
-            Colors, fonts, lower thirds, logo safe-zones, intro/outro.
-          </p>
-        </div>
+    <!-- 内容区域 -->
+    <div class="use-cases__content">
+      <!-- 左侧分类导航（移除 All 标签）-->
+      <div class="use-cases__categories">
+        <button class="use-cases__category-btn active" data-category="education">
+          Education
+        </button>
+        <button class="use-cases__category-btn" data-category="motivation">
+          Motivation
+        </button>
+        <button class="use-cases__category-btn" data-category="finance">
+          Finance
+        </button>
+        <button class="use-cases__category-btn" data-category="webinar">
+          Webinar
+        </button>
+        <button class="use-cases__category-btn" data-category="vlog">
+          Vlog
+        </button>
+        <button class="use-cases__category-btn" data-category="podcast">
+          Podcast
+        </button>
+        <button class="use-cases__category-btn" data-category="coaching">
+          Coaching
+        </button>
       </div>
 
-      <!-- 卡片 2: Storyboard -->
-      <div class="workflow__card" data-step="storyboard">
-        <img
-          src="sections/workflow/2.jpg"
-          alt="Storyboard"
-          class="workflow__card-image"
-          loading="lazy"
-        >
-        <div class="workflow__card-overlay"></div>
-        <div class="workflow__card-content">
-          <div class="workflow__card-title-wrapper">
-            <span class="workflow__card-number">2</span>
-            <h3 class="workflow__card-title">Storyboard</h3>
+      <!-- 右侧卡片网格 -->
+      <div class="use-cases__cards">
+        <!-- Education 分类（6张卡片）-->
+        <div class="use-cases__card" data-hover-video data-categories="education">
+          <img src="sections/use-cases/1.png" alt="Education 1" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-1.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">TikTok creator</span>
+            <p class="use-cases__card-description">
+              Create engaging educational content for TikTok with AI-powered short videos.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
-          <p class="workflow__card-text">
-            Captures tone, pacing, motion and composition preferences.
-          </p>
         </div>
-      </div>
 
-      <!-- 卡片 3: Timeline -->
-      <div class="workflow__card" data-step="timeline">
-        <img
-          src="sections/workflow/3.png"
-          alt="Timeline"
-          class="workflow__card-image"
-          loading="lazy"
-        >
-        <div class="workflow__card-overlay"></div>
-        <div class="workflow__card-content">
-          <div class="workflow__card-title-wrapper">
-            <span class="workflow__card-number">3</span>
-            <h3 class="workflow__card-title">Timeline</h3>
+        <div class="use-cases__card" data-hover-video data-categories="education">
+          <img src="sections/use-cases/2.png" alt="Education 2" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-2.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Creator</span>
+            <p class="use-cases__card-description">
+              Transform your knowledge into compelling visual stories for all platforms.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
-          <p class="workflow__card-text">
-            Brand recipes prevent drift and keep every render consistent.
-          </p>
         </div>
-      </div>
 
-      <!-- 卡片 4: Assistant -->
-      <div class="workflow__card" data-step="assistant">
-        <img
-          src="sections/workflow/4.png"
-          alt="Assistant"
-          class="workflow__card-image"
-          loading="lazy"
-        >
-        <div class="workflow__card-overlay"></div>
-        <div class="workflow__card-content">
-          <div class="workflow__card-title-wrapper">
-            <span class="workflow__card-number">4</span>
-            <h3 class="workflow__card-title">Assistant</h3>
+        <div class="use-cases__card" data-hover-video data-categories="education">
+          <img src="sections/use-cases/3.png" alt="Education 3" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-3.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">YouTube small creator</span>
+            <p class="use-cases__card-description">
+              Grow your YouTube channel with professional educational content.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
           </div>
-          <p class="workflow__card-text">
-            Brand recipes prevent drift and keep every render consistent.
-          </p>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="education">
+          <img src="sections/use-cases/4.png" alt="Education 4" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-4.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Podcaster</span>
+            <p class="use-cases__card-description">
+              Convert podcast episodes into engaging video clips for social media.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="education">
+          <img src="sections/use-cases/5.jpg" alt="Education 5" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-5.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">YouTube vlogger</span>
+            <p class="use-cases__card-description">
+              Build educational content pages with stunning visual presentations.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="education">
+          <img src="sections/use-cases/6.png" alt="Education 6" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-6.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Page</span>
+            <p class="use-cases__card-description">
+              Stand out with professionally crafted educational videos for YouTube.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <!-- Motivation 分类（6张卡片）-->
+        <div class="use-cases__card" data-hover-video data-categories="motivation">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Motivation 1" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-1.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">TikTok creator</span>
+            <p class="use-cases__card-description">
+              Inspirational content to boost daily motivation.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="motivation">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Motivation 2" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-2.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Creator</span>
+            <p class="use-cases__card-description">
+              Success stories and achievement highlights.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="motivation">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Motivation 3" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-3.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">YouTube small creator</span>
+            <p class="use-cases__card-description">
+              Personal growth and mindset transformation.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="motivation">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Motivation 4" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-4.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Podcaster</span>
+            <p class="use-cases__card-description">
+              Fitness and wellness motivational clips.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="motivation">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Motivation 5" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-5.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">YouTube vlogger</span>
+            <p class="use-cases__card-description">
+              Entrepreneurship and business inspiration.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="motivation">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Motivation 6" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-6.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Page</span>
+            <p class="use-cases__card-description">
+              Daily affirmations and positive mindset content.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <!-- Finance 分类（6张卡片）-->
+        <div class="use-cases__card" data-hover-video data-categories="finance">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Finance 1" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-1.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">TikTok creator</span>
+            <p class="use-cases__card-description">
+              Investment strategies and market analysis.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="finance">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Finance 2" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-2.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Creator</span>
+            <p class="use-cases__card-description">
+              Personal budgeting and savings tips.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="finance">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Finance 3" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-3.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">YouTube small creator</span>
+            <p class="use-cases__card-description">
+              Cryptocurrency and blockchain education.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="finance">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Finance 4" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-4.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Podcaster</span>
+            <p class="use-cases__card-description">
+              Real estate investment guidance.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="finance">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Finance 5" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-5.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">YouTube vlogger</span>
+            <p class="use-cases__card-description">
+              Retirement planning and wealth management.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="finance">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Finance 6" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-6.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Page</span>
+            <p class="use-cases__card-description">
+              Tax optimization and financial planning.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <!-- Webinar 分类（6张卡片）-->
+        <div class="use-cases__card" data-hover-video data-categories="webinar">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Webinar 1" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-1.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">TikTok creator</span>
+            <p class="use-cases__card-description">
+              Professional online seminars and workshops.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="webinar">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Webinar 2" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-2.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Creator</span>
+            <p class="use-cases__card-description">
+              Industry expert panel discussions.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="webinar">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Webinar 3" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-3.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">YouTube small creator</span>
+            <p class="use-cases__card-description">
+              Product demonstrations and launches.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="webinar">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Webinar 4" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-4.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Podcaster</span>
+            <p class="use-cases__card-description">
+              Q&A sessions with thought leaders.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="webinar">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Webinar 5" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-5.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">YouTube vlogger</span>
+            <p class="use-cases__card-description">
+              Virtual conferences and networking events.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="webinar">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Webinar 6" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-6.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Page</span>
+            <p class="use-cases__card-description">
+              Training sessions and skill development.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <!-- Vlog 分类（6张卡片）-->
+        <div class="use-cases__card" data-hover-video data-categories="vlog">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Vlog 1" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-1.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">TikTok creator</span>
+            <p class="use-cases__card-description">
+              Daily life and lifestyle content.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="vlog">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Vlog 2" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-2.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Creator</span>
+            <p class="use-cases__card-description">
+              Travel adventures and destinations.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="vlog">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Vlog 3" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-3.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">YouTube small creator</span>
+            <p class="use-cases__card-description">
+              Food and cooking experiences.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="vlog">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Vlog 4" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-4.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Podcaster</span>
+            <p class="use-cases__card-description">
+              Fashion and beauty tutorials.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="vlog">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Vlog 5" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-5.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">YouTube vlogger</span>
+            <p class="use-cases__card-description">
+              Behind-the-scenes creator content.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="vlog">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Vlog 6" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-6.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Page</span>
+            <p class="use-cases__card-description">
+              Personal storytelling and experiences.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <!-- Podcast 分类（6张卡片）-->
+        <div class="use-cases__card" data-hover-video data-categories="podcast">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Podcast 1" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-1.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">TikTok creator</span>
+            <p class="use-cases__card-description">
+              Interview-style podcast episodes.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="podcast">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Podcast 2" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-2.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Creator</span>
+            <p class="use-cases__card-description">
+              Solo commentary and insights.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="podcast">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Podcast 3" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-3.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">YouTube small creator</span>
+            <p class="use-cases__card-description">
+              True crime and mystery stories.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="podcast">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Podcast 4" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-4.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Podcaster</span>
+            <p class="use-cases__card-description">
+              Technology and innovation discussions.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="podcast">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Podcast 5" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-5.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">YouTube vlogger</span>
+            <p class="use-cases__card-description">
+              Health and wellness conversations.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="podcast">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Podcast 6" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-6.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Page</span>
+            <p class="use-cases__card-description">
+              Entertainment and pop culture reviews.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <!-- Coaching 分类（6张卡片）-->
+        <div class="use-cases__card" data-hover-video data-categories="coaching">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Coaching 1" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-1.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">TikTok creator</span>
+            <p class="use-cases__card-description">
+              Life coaching and personal development.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="coaching">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Coaching 2" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-2.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Creator</span>
+            <p class="use-cases__card-description">
+              Business and career coaching.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="coaching">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Coaching 3" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-3.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">YouTube small creator</span>
+            <p class="use-cases__card-description">
+              Fitness and athletic performance training.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="coaching">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Coaching 4" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-4.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Podcaster</span>
+            <p class="use-cases__card-description">
+              Relationship and communication coaching.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="coaching">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Coaching 5" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-5.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">YouTube vlogger</span>
+            <p class="use-cases__card-description">
+              Mindfulness and meditation guidance.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="use-cases__card" data-hover-video data-categories="coaching">
+          <img src="assets/images/use-case-placeholder.jpg" alt="Coaching 6" class="use-cases__card-image">
+          <video class="use-cases__card-video" muted loop>
+            <source src="assets/videos/gallery-6.mp4" type="video/mp4">
+          </video>
+          <div class="use-cases__card-overlay">
+            <span class="use-cases__card-label">Page</span>
+            <p class="use-cases__card-description">
+              Leadership and executive coaching.
+              <button class="use-cases__generate-btn" title="Generate new description">
+                <svg viewBox="0 0 24 24">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                  <path d="M12 8v8M8 12h8"></path>
+                  <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
+                </svg>
+              </button>
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -2115,61 +3222,96 @@
 </section>
 
 <script>
+// Use Cases 模块交互逻辑
 (function() {
   'use strict';
 
-  /**
-   * 初始化 Workflow 模块
-   */
-  const initWorkflow = () => {
-    console.log('✅ Workflow module initialized');
+  const initUseCases = () => {
+    // 获取所有分类按钮和卡片
+    const categoryButtons = document.querySelectorAll('.use-cases__category-btn');
+    const cards = document.querySelectorAll('.use-cases__card');
 
-    const cards = document.querySelectorAll('.workflow__card');
-
-    // 记录每张卡片的原始高度
-    const originalHeights = new Map();
-
-    // 等待布局稳定后记录高度
-    setTimeout(() => {
+    // 分类过滤功能（优化版，添加淡入效果）
+    const filterCards = (category) => {
+      // 先隐藏所有不匹配的卡片
       cards.forEach(card => {
-        const height = card.offsetHeight;
-        originalHeights.set(card, height);
-        // 设置固定高度为内联样式
-        card.style.height = `${height}px`;
+        const cardCategories = card.dataset.categories;
+
+        if (cardCategories !== category) {
+          card.style.opacity = '0';
+          card.style.transform = 'scale(0.98)';
+          // 延迟后完全隐藏
+          setTimeout(() => {
+            if (card.dataset.categories !== category) {
+              card.classList.add('hidden');
+            }
+          }, 250);
+        }
       });
-    }, 100);
 
-    // 图片加载错误处理
-    cards.forEach(card => {
-      const img = card.querySelector('.workflow__card-image');
+      // 显示匹配的卡片（带淡入效果）
+      setTimeout(() => {
+        cards.forEach(card => {
+          const cardCategories = card.dataset.categories;
 
-      if (img) {
-        img.addEventListener('error', function() {
-          console.warn(`Failed to load image: ${this.src}`);
-          // 可以在这里设置占位图或处理逻辑
+          if (cardCategories === category) {
+            card.classList.remove('hidden');
+            // 强制重排以触发过渡
+            card.offsetHeight;
+            card.style.opacity = '1';
+            card.style.transform = 'scale(1)';
+          }
+        });
+      }, 50);
+    };
+
+    // 为每个分类按钮添加点击事件
+    categoryButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        const category = button.dataset.category;
+
+        // 更新按钮激活状态
+        categoryButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        // 过滤卡片
+        filterCards(category);
+      });
+    });
+
+    // 初始化：显示第一个分类（Education）的卡片，并激活第一个按钮
+    if (categoryButtons.length > 0) {
+      categoryButtons[0].classList.add('active');
+    }
+    filterCards('education');
+
+    // 视频悬浮播放功能（复用 gallery 模块逻辑）
+    const videoCards = document.querySelectorAll('.use-cases__card[data-hover-video]');
+
+    videoCards.forEach(card => {
+      const video = card.querySelector('video');
+
+      if (video) {
+        card.addEventListener('mouseenter', () => {
+          video.currentTime = 0;
+          video.play().catch(err => {
+            console.log('Video play prevented:', err);
+          });
+        });
+
+        card.addEventListener('mouseleave', () => {
+          video.pause();
+          video.currentTime = 0;
         });
       }
     });
-
-    // 预留：未来可添加视频悬浮播放功能
-    // 参考 gallery 模块的实现
-    // const initVideoHover = () => { ... };
-
-    // 预留：未来可添加点击展开详情功能
-    // cards.forEach(card => {
-    //   card.addEventListener('click', () => {
-    //     const step = card.dataset.step;
-    //     console.log(`Clicked on ${step}`);
-    //     // 处理点击事件
-    //   });
-    // });
   };
 
-  // DOM Ready 检测
+  // DOM 加载后初始化
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initWorkflow);
+    document.addEventListener('DOMContentLoaded', initUseCases);
   } else {
-    initWorkflow();
+    initUseCases();
   }
 })();
 </script>
