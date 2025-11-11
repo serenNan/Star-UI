@@ -26,4 +26,28 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/images/favicon.png">
+
+  <!-- 隐藏滚动条样式 -->
+  <style>
+    /* 隐藏所有浏览器的滚动条 */
+    html {
+      overflow-x: hidden;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+
+    body {
+      overflow-x: hidden;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+
+    /* 隐藏 Webkit 浏览器的滚动条 (Chrome, Safari, Opera) */
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+  </style>
 </head>
