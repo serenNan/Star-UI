@@ -35,7 +35,6 @@
   color: var(--color-text-secondary);
   max-width: 800px;
   margin: 0 auto;
-  white-space: nowrap;
   letter-spacing: 0.02em;
 }
 
@@ -239,34 +238,78 @@
   stroke-linejoin: round;
 }
 
-/* 响应式：平板端（991px 以下）*/
+/* ========================================
+   平板/移动端适配
+   ======================================== */
 @media (max-width: 991px) {
+  /* 容器改为垂直居中布局 */
+  .use-cases {
+    overflow-x: hidden;      /* 防止横向滚动 */
+  }
+
   .use-cases__title {
     font-size: 2.5rem;
   }
 
-  .use-cases__content {
-    flex-direction: column;
-    gap: var(--spacing-xl);
+  .use-cases__description {
+    font-size: 1.25rem;       /* 移动端稍微缩小描述文字 */
+    max-width: 90%;           /* 限制宽度,避免过长 */
   }
 
+  /* 内容区域垂直布局 + 居中 */
+  .use-cases__content {
+    flex-direction: column;   /* 改为垂直排列 */
+    align-items: center;      /* 🔑 子元素水平居中 */
+    gap: var(--spacing-xl);
+    max-width: 100%;
+  }
+
+  /* 分类导航横向排列 + 居中 */
   .use-cases__categories {
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;  /* 🔑 按钮居中对齐 */
     min-width: 100%;
-    position: static;
+    max-width: 100%;
+    margin-right: 0;          /* 移除右侧边距 */
+    gap: 12px;                /* 按钮间距 */
   }
 
   .use-cases__category-btn {
     flex: 0 0 auto;
+    width: auto;              /* 自动宽度 */
+    min-width: 120px;         /* 最小宽度 */
+    padding: 16px 20px;       /* 增大触摸区域 */
   }
 
+  /* 卡片网格 2 列 + 居中 */
   .use-cases__cards {
     grid-template-columns: repeat(2, 1fr);
+    justify-items: center;    /* 🔑 网格项居中 */
+    max-width: 700px;         /* 限制最大宽度 */
+    margin-left: 0;           /* 移除左侧偏移 */
+    gap: var(--spacing-lg);
+  }
+
+  .use-cases__card {
+    width: 100%;              /* 卡片占满网格单元 */
+    max-width: 320px;         /* 限制卡片最大宽度 */
+  }
+
+  /* 卡片标签文字大小调整 */
+  .use-cases__card-label {
+    font-size: 1rem;
+  }
+
+  /* 卡片描述文字大小调整 */
+  .use-cases__card-description {
+    font-size: 0.875rem;
+    padding: 16px 0 0 16px;
+    min-height: 80px;
   }
 }
 
-/* 响应式：移动端（767px 以下）*/
+/* 响应式:移动端(767px 以下)*/
 @media (max-width: 767px) {
   .use-cases {
     padding: var(--spacing-2xl) 0;
@@ -278,24 +321,94 @@
 
   .use-cases__description {
     font-size: 1rem;
+    max-width: 95%;           /* 移动端进一步限制宽度 */
   }
 
   .use-cases__content {
     gap: var(--spacing-lg);
   }
 
+  /* 分类按钮更紧凑 */
   .use-cases__categories {
     gap: var(--spacing-xs);
+    justify-content: center;  /* 保持居中 */
   }
 
   .use-cases__category-btn {
     padding: var(--spacing-sm) var(--spacing-md);
     font-size: 0.875rem;
+    min-width: 100px;         /* 减小最小宽度 */
+    min-height: 44px;         /* 🔑 iOS 最小触摸标准 */
   }
 
+  /* 卡片网格单列 + 居中 */
   .use-cases__cards {
     grid-template-columns: 1fr;
+    justify-items: center;    /* 🔑 单列居中 */
     gap: var(--spacing-md);
+    max-width: 400px;         /* 限制单列宽度 */
+  }
+
+  .use-cases__card {
+    max-width: 100%;          /* 占满容器 */
+  }
+
+  /* 卡片标签和描述进一步缩小 */
+  .use-cases__card-label {
+    font-size: 0.875rem;
+  }
+
+  .use-cases__card-description {
+    font-size: 0.75rem;
+    padding: 12px 0 0 12px;
+    min-height: 70px;
+  }
+
+  /* 生成按钮在移动端稍小 */
+  .use-cases__generate-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .use-cases__generate-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* 触摸设备优化 - 禁用悬浮效果 */
+@media (hover: none) {
+  .use-cases__card:hover .use-cases__card-video {
+    opacity: 0;             /* 触摸设备不自动播放视频 */
+  }
+
+  .use-cases__card:hover .use-cases__card-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.5) 0%,
+      rgba(0, 0, 0, 0.2) 50%,
+      rgba(0, 0, 0, 0.7) 100%
+    );                      /* 保持原始背景 */
+  }
+
+  .use-cases__card:hover .use-cases__card-description {
+    opacity: 0;             /* 触摸设备不显示描述 */
+  }
+}
+
+/* 移动端触摸反馈 */
+@media (max-width: 991px) {
+  .use-cases__category-btn:active {
+    transform: scale(0.95);   /* 按下缩小 */
+    transition: transform 0.1s ease;
+  }
+
+  .use-cases__card:active {
+    transform: scale(0.98);   /* 卡片按下缩小 */
+  }
+
+  .use-cases__generate-btn:active {
+    transform: scale(0.9);    /* 按钮按下缩小 */
   }
 }
 </style>
