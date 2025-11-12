@@ -1,42 +1,201 @@
 <!-- ===== BUILT FOR SPEED 模块 ===== -->
 <style>
-  /* Built For Speed Section Styles - 占位模块 */
+  /* Built For Speed Section Styles */
   .built-for-speed {
-    padding: var(--spacing-2xl) 3rem;
+    padding: var(--spacing-3xl) 3rem;
     background: var(--color-bg);
     position: relative;
-    min-height: 400px;
+    min-height: 600px;
   }
 
   .built-for-speed-container {
     max-width: 1400px;
     margin: 0 auto;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-2xl);
   }
 
-  .built-for-speed-placeholder {
+  /* 顶部标题区域 - 居中 */
+  .built-for-speed-header-section {
     text-align: center;
-    padding: var(--spacing-2xl) 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  /* 主要内容区域 - 两列布局 */
+  .built-for-speed-main {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: var(--spacing-xl);
+    align-items: center;
+  }
+
+  /* 左侧文本内容 */
+  .built-for-speed-content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+  }
+
+  .built-for-speed-header {
     color: var(--color-text-secondary);
     font-family: 'Sora', sans-serif;
-    font-size: 1.5rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
+  }
+
+  .built-for-speed-title {
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0;
+  }
+
+  /* 标题区域样式 */
+  .built-for-speed-header-section .built-for-speed-header {
+    color: var(--color-text-secondary);
+  }
+
+  .built-for-speed-header-section .built-for-speed-title {
+    color: var(--color-text);
+  }
+
+  .built-for-speed-subtitle {
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.125rem, 2vw, 1.5rem);
+    font-weight: 400;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+
+  .built-for-speed-description {
+    color: var(--color-text-secondary);
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
     font-weight: 300;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* 功能徽章 - 合并为一个按钮，上下分布 */
+  .built-for-speed-badge {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    text-align: center;
+    width: fit-content;
+    transition: all var(--transition);
+    margin-top: var(--spacing-md);
+    gap: var(--spacing-xs);
+  }
+
+  .built-for-speed-badge:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .built-for-speed-badge-item {
+    display: block;
+    line-height: 1.4;
+  }
+
+  /* 右侧图片 */
+  .built-for-speed-image-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 500px;
   }
 
   .built-for-speed-image {
     width: 100%;
-    max-width: 1200px;
-    height: auto;
-    border-radius: 16px;
-    margin: 0 auto;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
     display: block;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 991px) {
+    .built-for-speed {
+      padding: var(--spacing-2xl) var(--spacing-lg);
+    }
+
+    .built-for-speed-main {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-xl);
+    }
+
+    .built-for-speed-image-wrapper {
+      min-height: 400px;
+      order: -1;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .built-for-speed {
+      padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .built-for-speed-content {
+      gap: var(--spacing-md);
+    }
+
+    .built-for-speed-image-wrapper {
+      min-height: 300px;
+    }
   }
 </style>
 
 <!-- HTML 结构 -->
 <section class="built-for-speed" id="built-for-speed">
   <div class="built-for-speed-container">
-    <img src="images/3.png" alt="Built For Speed" class="built-for-speed-image" loading="lazy">
+    <!-- 顶部标题 - 居中 -->
+    <div class="built-for-speed-header-section">
+      <h3 class="built-for-speed-header">BUILT FOR SPEED</h3>
+      <h2 class="built-for-speed-title">Create Viral Content 10× Faster</h2>
+    </div>
+
+    <!-- 主要内容区域 -->
+    <div class="built-for-speed-main">
+      <!-- 左侧文本内容 -->
+      <div class="built-for-speed-content">
+        <p class="built-for-speed-subtitle">
+          Auto-editing, brand styles, and one-click exports keep you shipping daily—without creative drift.
+        </p>
+        <p class="built-for-speed-description">
+          Start with a link, script, or asset folder. TreClip does the rest—hooks, pacing, captions, layouts, and publishing.
+        </p>
+        <span class="built-for-speed-badge">
+          <span class="built-for-speed-badge-item">Webflow Ready</span>
+          <span class="built-for-speed-badge-item">Figma Friendly</span>
+        </span>
+      </div>
+
+      <!-- 右侧图片 -->
+      <div class="built-for-speed-image-wrapper">
+        <img src="images/3.png" alt="Built For Speed" class="built-for-speed-image" loading="lazy">
+      </div>
+    </div>
   </div>
 </section>
 
@@ -46,7 +205,14 @@
     'use strict';
 
     const initBuiltForSpeed = () => {
-      // 占位模块，稍后添加具体逻辑
+      // 图片加载错误处理
+      const image = document.querySelector('.built-for-speed-image');
+      if (image) {
+        image.addEventListener('error', function () {
+          console.warn(`Failed to load image: ${this.src}`);
+          this.style.display = 'none';
+        });
+      }
     };
 
     // DOM 加载后初始化
@@ -57,4 +223,3 @@
     }
   })();
 </script>
-

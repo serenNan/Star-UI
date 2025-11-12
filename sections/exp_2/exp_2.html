@@ -1,0 +1,259 @@
+<!-- ===== EXP_2 模块 ===== -->
+<style>
+  /* Exp 2 Section Styles */
+  .exp-2 {
+    padding: 0 3rem;
+    background: var(--color-bg);
+    position: relative;
+  }
+
+  .exp-2-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* 分类选择容器 */
+  .exp-2-category-container {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .exp-2-category-label {
+    color: var(--color-text-secondary);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .exp-2-category-buttons {
+    display: flex;
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
+  }
+
+  .exp-2-category-button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--color-text-secondary);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+  }
+
+  .exp-2-category-button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .exp-2-category-button.active {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: var(--color-text);
+  }
+
+  /* 子分类选择 */
+  .exp-2-subcategory {
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .exp-2-subcategory-label {
+    color: var(--color-text-secondary);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .exp-2-subcategory-buttons {
+    display: flex;
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .exp-2-subcategory-button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--color-text-secondary);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+  }
+
+  .exp-2-subcategory-button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  /* 主要内容区域 */
+  .exp-2-main {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-xl) 0;
+  }
+
+  .exp-2-title {
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 var(--spacing-sm) 0;
+  }
+
+  .exp-2-subtitle {
+    color: var(--color-text-secondary);
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.6;
+    margin: 0 0 var(--spacing-lg) 0;
+  }
+
+  .exp-2-button {
+    display: inline-block;
+    padding: var(--spacing-sm) var(--spacing-xl);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .exp-2-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .exp-2-link {
+    display: block;
+    color: var(--color-text-secondary);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 300;
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .exp-2-link:hover {
+    color: var(--color-text);
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 991px) {
+    .exp-2 {
+      padding: var(--spacing-2xl) var(--spacing-lg);
+    }
+
+    .exp-2-category-buttons,
+    .exp-2-subcategory-buttons {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .exp-2 {
+      padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .exp-2-main {
+      padding: var(--spacing-2xl) 0;
+    }
+  }
+</style>
+
+<!-- HTML 结构 -->
+<section class="exp-2" id="exp-2">
+  <div class="exp-2-container">
+    <!-- 分类选择容器 -->
+    <div class="exp-2-category-container">
+      <div class="exp-2-category-label">Select Category To Explore</div>
+      <div class="exp-2-category-buttons">
+        <button class="exp-2-category-button">All</button>
+        <button class="exp-2-category-button active">Pre-Edited Videos</button>
+        <button class="exp-2-category-button">Videos</button>
+        <button class="exp-2-category-button">Images</button>
+      </div>
+    </div>
+
+    <!-- 子分类选择 -->
+    <div class="exp-2-subcategory">
+      <div class="exp-2-subcategory-label">Select Subcategory</div>
+      <div class="exp-2-subcategory-buttons">
+        <button class="exp-2-subcategory-button">Brand Films</button>
+        <button class="exp-2-subcategory-button">Stories</button>
+        <button class="exp-2-subcategory-button">Artistic Film</button>
+        <button class="exp-2-subcategory-button">Music Visuals</button>
+        <button class="exp-2-subcategory-button">Social Ads</button>
+        <button class="exp-2-subcategory-button">Cinema</button>
+      </div>
+    </div>
+
+    <!-- 主要内容区域 -->
+    <div class="exp-2-main">
+      <h2 class="exp-2-title">Enhance What You've Already Made</h2>
+      <p class="exp-2-subtitle">
+        Give your existing videos new life through cinematic AI enhancement.
+      </p>
+      <button class="exp-2-button">Start Engine</button>
+      <a href="#" class="exp-2-link">Click To Preview</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Exp 2 模块交互逻辑
+  (function () {
+    'use strict';
+
+    const initExp2 = () => {
+      // 分类按钮切换
+      const categoryButtons = document.querySelectorAll('.exp-2-category-button');
+      categoryButtons.forEach((button) => {
+        button.addEventListener('click', function () {
+          categoryButtons.forEach((btn) => btn.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+
+      // 子分类按钮切换
+      const subcategoryButtons = document.querySelectorAll('.exp-2-subcategory-button');
+      subcategoryButtons.forEach((button) => {
+        button.addEventListener('click', function () {
+          subcategoryButtons.forEach((btn) => btn.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+    };
+
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initExp2);
+    } else {
+      initExp2();
+    }
+  })();
+</script>

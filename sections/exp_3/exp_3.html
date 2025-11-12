@@ -1,0 +1,485 @@
+<!-- ===== EXP_3 模块 ===== -->
+<style>
+  /* Exp 3 Section Styles */
+  .exp-3 {
+    padding: 0 3rem;
+    background: var(--color-bg);
+    position: relative;
+  }
+
+  .exp-3-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* 列布局 - 5列，每列不同比例 */
+  .exp-3-columns {
+    display: flex;
+    gap: var(--spacing-md);
+    width: 100%;
+    margin-bottom: var(--spacing-2xl);
+    align-items: stretch;
+    height: 900px;
+  }
+
+  .exp-3-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    flex: 1;
+    height: 100%;
+    min-width: 0;
+  }
+
+  /* 单个图片卡片 */
+  .exp-3-card {
+    position: relative;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--color-bg-secondary);
+    flex-shrink: 0;
+    min-height: 0;
+    display: flex;
+  }
+
+  /* 第一列：2张图片各占50%高度，文本卡片放在第一张图片内部下方 */
+  .exp-3-column:nth-child(1) .exp-3-card:nth-child(1) {
+    flex: 0 0 50%;
+    min-height: 0;
+    position: relative;
+  }
+
+  .exp-3-column:nth-child(1) .exp-3-card:nth-child(2) {
+    flex: 0 0 50%;
+    min-height: 0;
+  }
+
+  /* 文本卡片放在第一张图片内部下方 */
+  .exp-3-column:nth-child(1) .exp-3-card-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    margin: 0;
+    flex: none;
+    min-height: auto;
+    max-height: none;
+  }
+
+  /* 第二列：3张图片，分别占30%、30%、40% */
+  .exp-3-column:nth-child(2) .exp-3-card:nth-child(1) {
+    flex: 0 0 30%;
+    min-height: 0;
+  }
+
+  .exp-3-column:nth-child(2) .exp-3-card:nth-child(2) {
+    flex: 0 0 30%;
+    min-height: 0;
+  }
+
+  .exp-3-column:nth-child(2) .exp-3-card:nth-child(3) {
+    flex: 0 0 40%;
+    min-height: 0;
+  }
+
+  /* 第三列：3张图片，分别占20%、30%、50% */
+  .exp-3-column:nth-child(3) .exp-3-card:nth-child(1) {
+    flex: 0 0 20%;
+    min-height: 0;
+  }
+
+  .exp-3-column:nth-child(3) .exp-3-card:nth-child(2) {
+    flex: 0 0 30%;
+    min-height: 0;
+  }
+
+  .exp-3-column:nth-child(3) .exp-3-card:nth-child(3) {
+    flex: 0 0 50%;
+    min-height: 0;
+  }
+
+  /* 第四列：3张图片，分别占50%、20%、30% */
+  .exp-3-column:nth-child(4) .exp-3-card:nth-child(1) {
+    flex: 0 0 50%;
+    min-height: 0;
+  }
+
+  .exp-3-column:nth-child(4) .exp-3-card:nth-child(2) {
+    flex: 0 0 20%;
+    min-height: 0;
+  }
+
+  .exp-3-column:nth-child(4) .exp-3-card:nth-child(3) {
+    flex: 0 0 30%;
+    min-height: 0;
+  }
+
+  /* 第五列：3张图片，分别占20%、30%、50% */
+  .exp-3-column:nth-child(5) .exp-3-card:nth-child(1) {
+    flex: 0 0 20%;
+    min-height: 0;
+  }
+
+  .exp-3-column:nth-child(5) .exp-3-card:nth-child(2) {
+    flex: 0 0 30%;
+    min-height: 0;
+  }
+
+  .exp-3-column:nth-child(5) .exp-3-card:nth-child(3) {
+    flex: 0 0 50%;
+    min-height: 0;
+  }
+
+  .exp-3-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition);
+    flex-shrink: 0;
+  }
+
+  .exp-3-card:hover .exp-3-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 文本卡片（用于提示词） */
+  .exp-3-card-text {
+    background: rgba(128, 128, 128, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: var(--spacing-sm);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    max-height: 30%;
+    overflow: hidden;
+  }
+
+  .exp-3-card-text-content {
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 300;
+    line-height: 1.4;
+    margin: 0;
+    flex: 1;
+  }
+
+  .exp-3-card-text-icon {
+    align-self: flex-end;
+    margin-top: var(--spacing-xs);
+    width: 12px;
+    height: 12px;
+    opacity: 0.8;
+    color: var(--color-text);
+  }
+
+  /* Load More 按钮 */
+  .exp-3-load-more {
+    text-align: center;
+  }
+
+  .exp-3-load-more-button {
+    display: inline-block;
+    padding: var(--spacing-md) var(--spacing-2xl);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .exp-3-load-more-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 1200px) {
+    .exp-3-columns {
+      height: 800px;
+    }
+  }
+
+  @media (max-width: 991px) {
+    .exp-3 {
+      padding: var(--spacing-2xl) var(--spacing-lg);
+    }
+
+    .exp-3-columns {
+      height: auto;
+      min-height: 600px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+
+    .exp-3-column {
+      flex: 0 0 calc(50% - var(--spacing-md) / 2);
+      min-width: 0;
+    }
+
+    /* 平板：2列布局，保持原有的图片比例 */
+    /* 第一列：2张图片各占50% */
+    .exp-3-column:nth-child(1) .exp-3-card:nth-child(1) {
+      flex: 0 0 50%;
+    }
+
+    .exp-3-column:nth-child(1) .exp-3-card:nth-child(2) {
+      flex: 0 0 50%;
+    }
+
+    /* 第二列：3张图片，分别占30%、30%、40% */
+    .exp-3-column:nth-child(2) .exp-3-card:nth-child(1) {
+      flex: 0 0 30%;
+    }
+
+    .exp-3-column:nth-child(2) .exp-3-card:nth-child(2) {
+      flex: 0 0 30%;
+    }
+
+    .exp-3-column:nth-child(2) .exp-3-card:nth-child(3) {
+      flex: 0 0 40%;
+    }
+
+    /* 第三列：3张图片，分别占20%、30%、50% */
+    .exp-3-column:nth-child(3) .exp-3-card:nth-child(1) {
+      flex: 0 0 20%;
+    }
+
+    .exp-3-column:nth-child(3) .exp-3-card:nth-child(2) {
+      flex: 0 0 30%;
+    }
+
+    .exp-3-column:nth-child(3) .exp-3-card:nth-child(3) {
+      flex: 0 0 50%;
+    }
+
+    /* 第四列：3张图片，分别占50%、20%、30% */
+    .exp-3-column:nth-child(4) .exp-3-card:nth-child(1) {
+      flex: 0 0 50%;
+    }
+
+    .exp-3-column:nth-child(4) .exp-3-card:nth-child(2) {
+      flex: 0 0 20%;
+    }
+
+    .exp-3-column:nth-child(4) .exp-3-card:nth-child(3) {
+      flex: 0 0 30%;
+    }
+
+    /* 第五列：3张图片，分别占20%、30%、50% */
+    .exp-3-column:nth-child(5) .exp-3-card:nth-child(1) {
+      flex: 0 0 20%;
+    }
+
+    .exp-3-column:nth-child(5) .exp-3-card:nth-child(2) {
+      flex: 0 0 30%;
+    }
+
+    .exp-3-column:nth-child(5) .exp-3-card:nth-child(3) {
+      flex: 0 0 50%;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .exp-3 {
+      padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .exp-3-columns {
+      flex-direction: column;
+      height: auto;
+      min-height: auto;
+    }
+
+    .exp-3-column {
+      flex: 1;
+      width: 100%;
+      min-height: 400px;
+    }
+
+    /* 手机：单列布局，所有图片统一高度 */
+    .exp-3-column:nth-child(1) .exp-3-card:nth-child(1),
+    .exp-3-column:nth-child(1) .exp-3-card:nth-child(2),
+    .exp-3-column:nth-child(2) .exp-3-card:nth-child(1),
+    .exp-3-column:nth-child(2) .exp-3-card:nth-child(2),
+    .exp-3-column:nth-child(2) .exp-3-card:nth-child(3),
+    .exp-3-column:nth-child(3) .exp-3-card:nth-child(1),
+    .exp-3-column:nth-child(3) .exp-3-card:nth-child(2),
+    .exp-3-column:nth-child(3) .exp-3-card:nth-child(3),
+    .exp-3-column:nth-child(4) .exp-3-card:nth-child(1),
+    .exp-3-column:nth-child(4) .exp-3-card:nth-child(2),
+    .exp-3-column:nth-child(4) .exp-3-card:nth-child(3),
+    .exp-3-column:nth-child(5) .exp-3-card:nth-child(1),
+    .exp-3-column:nth-child(5) .exp-3-card:nth-child(2),
+    .exp-3-column:nth-child(5) .exp-3-card:nth-child(3) {
+      flex: 1;
+      min-height: 200px;
+    }
+
+    /* 文本卡片在手机上调整 */
+    .exp-3-column:nth-child(1) .exp-3-card-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: var(--spacing-sm);
+    }
+
+    .exp-3-card-text-content {
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .exp-3 {
+      padding: var(--spacing-lg) var(--spacing-sm);
+    }
+
+    .exp-3-columns {
+      gap: var(--spacing-sm);
+    }
+
+    .exp-3-column {
+      gap: var(--spacing-sm);
+      min-height: 300px;
+    }
+
+    .exp-3-card {
+      border-radius: 8px;
+    }
+  }
+</style>
+
+<!-- HTML 结构 -->
+<section class="exp-3" id="exp-3">
+  <div class="exp-3-container">
+    <!-- 列布局 -->
+    <div class="exp-3-columns">
+      <!-- 第一列 -->
+      <div class="exp-3-column">
+        <div class="exp-3-card">
+          <img src="images/4.png" alt="Explore 1" class="exp-3-card-image" loading="lazy">
+          <div class="exp-3-card exp-3-card-text">
+            <p class="exp-3-card-text-content">
+              a cinematic 8k video of a lone astronaut walking slowly across the surface of the moon under deep space
+              darkness. the camera circles gently, capturing the texture of the dusty lunar ground and the intricate
+              folds of the astronaut's suit.
+            </p>
+            <svg class="exp-3-card-text-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M7 7h10v10" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </div>
+        <div class="exp-3-card">
+          <img src="images/logo.jpg" alt="Explore 2" class="exp-3-card-image" loading="lazy">
+        </div>
+      </div>
+
+      <!-- 第二列 -->
+      <div class="exp-3-column">
+        <div class="exp-3-card">
+          <img src="images/1.png" alt="Explore 3" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="images/5.png" alt="Explore 4" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="images/2.jpg" alt="Explore 5" class="exp-3-card-image" loading="lazy">
+        </div>
+      </div>
+
+      <!-- 第三列 -->
+      <div class="exp-3-column">
+        <div class="exp-3-card">
+          <img src="images/3.png" alt="Explore 6" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="images/4.png" alt="Explore 7" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="images/logo.jpg" alt="Explore 8" class="exp-3-card-image" loading="lazy">
+        </div>
+      </div>
+
+      <!-- 第四列 -->
+      <div class="exp-3-column">
+        <div class="exp-3-card">
+          <img src="images/1.png" alt="Explore 9" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="images/3.png" alt="Explore 10" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="images/5.png" alt="Explore 11" class="exp-3-card-image" loading="lazy">
+        </div>
+      </div>
+
+      <!-- 第五列 -->
+      <div class="exp-3-column">
+        <div class="exp-3-card">
+          <img src="images/2.jpg" alt="Explore 12" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="images/4.png" alt="Explore 13" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="images/1.png" alt="Explore 14" class="exp-3-card-image" loading="lazy">
+        </div>
+      </div>
+    </div>
+
+    <!-- Load More 按钮 -->
+    <div class="exp-3-load-more">
+      <button class="exp-3-load-more-button">Load More</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Exp 3 模块交互逻辑
+  (function () {
+    'use strict';
+
+    const initExp3 = () => {
+      // 图片加载错误处理
+      const images = document.querySelectorAll('.exp-3-card-image');
+      images.forEach((img) => {
+        img.addEventListener('error', function () {
+          console.warn(`Failed to load image: ${this.src}`);
+          this.style.display = 'none';
+        });
+      });
+
+      // Load More 按钮功能
+      const loadMoreButton = document.querySelector('.exp-3-load-more-button');
+      if (loadMoreButton) {
+        loadMoreButton.addEventListener('click', function () {
+          // 这里可以添加加载更多内容的逻辑
+          console.log('Load more clicked');
+        });
+      }
+    };
+
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initExp3);
+    } else {
+      initExp3();
+    }
+  })();
+</script>

@@ -878,834 +878,40 @@
 </script>
 
 
-  <!-- ===== CREATE SECTION ===== -->
-<!-- ===== CREATE 模块 ===== -->
+  <!-- ===== EXP_1 SECTION ===== -->
+<!-- ===== EXP_1 模块 ===== -->
 <style>
-  /* Create Section Styles - Hero Section with Image Background */
-  .create {
-    padding: 0;
-    background: var(--color-bg);
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-  }
-
-  .create-container {
-    max-width: 100%;
-    margin: 1.5rem auto;
-    padding: var(--spacing-lg) 3rem;
-    width: 100%;
-    position: relative;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* 背景图片容器 - 近乎全屏的圆角图片 */
-  .create-background {
-    position: relative;
-    width: 100%;
-    max-width: 100%;
-    height: 90vh;
-    min-height: 600px;
-    border-radius: 24px;
-    overflow: hidden;
-    z-index: 0;
-    box-sizing: border-box;
-  }
-
-  .create-background-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    box-sizing: border-box;
-  }
-
-  /* 内容覆盖层 - 定位在左上角 */
-  .create-content {
-    position: absolute;
-    top: var(--spacing-lg);
-    left: var(--spacing-lg);
-    z-index: 2;
-    max-width: 600px;
-  }
-
-  /* 文字区域 */
-  .create-text-wrapper {
-    width: 146%;
-  }
-
-  /* 像素风格标题 - 放大字体，不换行，舒展 */
-  .create-title {
-    font-family: 'Press Start 2P', cursive;
-    font-size: clamp(1.2rem, 4vw, 2.5rem);
-    font-weight: 400;
-    color: var(--color-text);
-    line-height: 1.4;
-    margin-bottom: var(--spacing-md);
-    text-align: left;
-    letter-spacing: 0.15em;
-    /* 像素字体特性 */
-    image-rendering: pixelated;
-    image-rendering: -moz-crisp-edges;
-    image-rendering: crisp-edges;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* 描述文字 - Sora 细体，减小字号 */
-  .create-description {
-    font-family: 'Sora', sans-serif;
-    width: 48%;
-    font-size: clamp(0.85rem, 1.5vw, 1rem);
-    font-weight: 300;
-    line-height: 1.6;
-    color: var(--color-text);
-    margin-bottom: var(--spacing-lg);
-    text-align: left;
-  }
-
-  /* START ENGINE 按钮 */
-  .create-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-md) var(--spacing-xl);
-    background: rgba(255, 255, 255, 0.9);
-    color: var(--color-bg);
-    font-family: 'Sora', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 8px;
-    text-decoration: none;
-    transition: all var(--transition);
-    border: none;
-    cursor: pointer;
-  }
-
-  .create-button:hover {
-    background: rgba(255, 255, 255, 1);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  }
-
-  /* 响应式设计 */
-  @media (max-width: 991px) {
-    .create-container {
-      padding: var(--spacing-md) 3rem;
-    }
-
-    .create-background {
-      width: 98%;
-      height: 85vh;
-      min-height: 500px;
-    }
-
-    .create-content {
-      top: var(--spacing-md);
-      left: var(--spacing-md);
-      max-width: 80%;
-    }
-
-    .create-title {
-      font-size: clamp(0.9rem, 5vw, 1.8rem);
-      letter-spacing: 0.12em;
-      margin-bottom: var(--spacing-sm);
-      white-space: nowrap;
-    }
-
-    .create-description {
-      font-size: clamp(0.8rem, 2vw, 0.95rem);
-      margin-bottom: var(--spacing-md);
-    }
-  }
-
-  @media (max-width: 767px) {
-    .create-container {
-      padding: var(--spacing-sm) 1.5rem;
-    }
-
-    .create-background {
-      width: 100%;
-      height: 80vh;
-      min-height: 400px;
-      border-radius: 16px;
-    }
-
-    .create-content {
-      top: var(--spacing-sm);
-      left: var(--spacing-sm);
-      max-width: 85%;
-    }
-
-    .create-title {
-      font-size: clamp(0.7rem, 6vw, 1.2rem);
-      letter-spacing: 0.1em;
-      line-height: 1.4;
-      margin-bottom: var(--spacing-xs);
-      white-space: nowrap;
-    }
-
-    .create-description {
-      font-size: clamp(0.75rem, 2.5vw, 0.85rem);
-      line-height: 1.5;
-      margin-bottom: var(--spacing-md);
-    }
-
-    .create-button {
-      padding: var(--spacing-sm) var(--spacing-lg);
-      font-size: 0.9rem;
-    }
-  }
-</style>
-
-<!-- HTML 结构 -->
-<section class="create" id="create">
-  <div class="create-container">
-    <!-- 背景图片容器 -->
-    <div class="create-background">
-      <img src="images/2.jpg" alt="Create Background" class="create-background-image" loading="eager">
-
-      <!-- 内容覆盖层 - 定位在左上角 -->
-      <div class="create-content">
-        <div class="create-text-wrapper">
-          <!-- 标题 -->
-          <h1 class="create-title">
-            CREATE YOUR STORY
-          </h1>
-
-          <!-- 描述 -->
-          <p class="create-description">
-            Bring ideas to life frame by frame — arrange scenes, refine pacing, and craft cinematic flow with the
-            Eclipse Engine.
-          </p>
-
-          <!-- 按钮 -->
-          <a href="#" class="create-button">START ENGINE</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<script>
-  // Create 模块交互逻辑
-  (function () {
-    'use strict';
-
-    const initCreate = () => {
-      // 图片加载错误处理
-      const bgImage = document.querySelector('.create-background-image');
-      if (bgImage) {
-        bgImage.addEventListener('error', function () {
-          console.warn(`Failed to load background image: ${this.src}`);
-          // 可以设置默认背景色
-          this.style.display = 'none';
-        });
-      }
-    };
-
-    // DOM 加载后初始化
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initCreate);
-    } else {
-      initCreate();
-    }
-  })();
-</script>
-
-  <!-- ===== LINKS SECTION ===== -->
-<!-- 社交媒体链接区域 -->
-<!-- 此文件由 tools/generate-social-links.py 自动生成 -->
-<!-- 请勿手动编辑! 修改 tools/social-links.config.json 然后重新运行构建 -->
-
-<style>
-.social-links {
-  padding: var(--spacing-xl) 0;
-  background: var(--color-bg);
-}
-
-.social-links-container {
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 2rem;
-}
-
-.social-link {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  text-decoration: none;
-  transition: all var(--transition);
-  opacity: 0.8;
-}
-
-.social-link:hover {
-  opacity: 1;
-  transform: translateY(-2px);
-}
-
-.social-link-icon {
-  width: 32px;
-  height: 32px;
-  fill: var(--color-text);
-  flex-shrink: 0;
-}
-
-.social-link-text {
-  color: var(--color-text);
-  font-size: 1rem;
-  font-weight: 500;
-  white-space: nowrap;
-}
-
-/* 响应式设计 */
-@media (max-width: 991px) {
-  .social-links-container {
-    justify-content: center;
-    gap: 1.5rem;
-  }
-}
-
-@media (max-width: 767px) {
-  .social-links-container {
-    gap: 1rem;
-  }
-  
-  .social-link-icon {
-    width: 28px;
-    height: 28px;
-  }
-  
-  .social-link-text {
-    font-size: 0.9rem;
-  }
-}
-</style>
-
-<section class="social-links">
-  <div class="social-links-container">
-    <a href="https://linkedin.com/company/yourcompany" class="social-link" target="_blank" rel="noopener noreferrer">
-      <svg class="social-link-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-      </svg>
-      <span class="social-link-text">LinkedIn</span>
-    </a>
-    <a href="https://youtube.com/@yourhandle" class="social-link" target="_blank" rel="noopener noreferrer">
-      <svg class="social-link-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
-      </svg>
-      <span class="social-link-text">YouTube</span>
-    </a>
-    <a href="https://instagram.com/yourhandle" class="social-link" target="_blank" rel="noopener noreferrer">
-      <svg class="social-link-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/>
-      </svg>
-      <span class="social-link-text">Instagram</span>
-    </a>
-    <a href="https://tiktok.com/@yourhandle" class="social-link" target="_blank" rel="noopener noreferrer">
-      <svg class="social-link-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
-      </svg>
-      <span class="social-link-text">TikTok</span>
-    </a>
-    <a href="https://facebook.com/yourhandle" class="social-link" target="_blank" rel="noopener noreferrer">
-      <svg class="social-link-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-      </svg>
-      <span class="social-link-text">Facebook</span>
-    </a>
-  </div>
-</section>
-
-  <!-- ===== PIC_WALL SECTION ===== -->
-<!-- ===== PIC WALL 模块 ===== -->
-<style>
-  /* Pic Wall Section Styles - 8个正方形图片，2行4列 */
-  .pic-wall {
-    padding: var(--spacing-2xl) 3rem;
-    background: var(--color-bg);
-    position: relative;
-  }
-
-  .pic-wall-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    width: 100%;
-  }
-
-  /* 图片网格 - 2行4列 */
-  .pic-wall-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: var(--spacing-lg);
-    width: 100%;
-  }
-
-  /* 单个图片卡片 */
-  .pic-wall-item {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    border-radius: 16px;
-    overflow: hidden;
-    background: var(--color-bg-secondary);
-  }
-
-  .pic-wall-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    transition: transform var(--transition);
-  }
-
-  .pic-wall-item:hover .pic-wall-image {
-    transform: scale(1.05);
-  }
-
-  /* 底部遮罩和文字标签 */
-  .pic-wall-label-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: var(--spacing-md) var(--spacing-sm);
-    /* 添加模糊背景效果 - 先模糊图片 */
-    backdrop-filter: blur(12px) saturate(1.2);
-    -webkit-backdrop-filter: blur(12px) saturate(1.2);
-    /* 然后添加渐变遮罩，降低不透明度以显示模糊背景 */
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.75) 0%,
-      rgba(0, 0, 0, 0.6) 50%,
-      rgba(0, 0, 0, 0.3) 80%,
-      transparent 100%
-    );
-    z-index: 1;
-    pointer-events: none;
-  }
-
-  .pic-wall-label {
-    color: var(--color-text);
-    font-family: 'Sora', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1.4;
-    text-align: left;
-    margin: 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  /* 响应式设计 */
-  @media (max-width: 991px) {
-    .pic-wall {
-      padding: var(--spacing-xl) var(--spacing-lg);
-    }
-
-    .pic-wall-grid {
-      grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(3, 1fr);
-      gap: var(--spacing-md);
-    }
-
-    .pic-wall-label {
-      font-size: 0.8125rem;
-    }
-
-    .pic-wall-label-overlay {
-      padding: var(--spacing-sm) var(--spacing-xs);
-    }
-  }
-
-  @media (max-width: 767px) {
-    .pic-wall {
-      padding: var(--spacing-lg) var(--spacing-md);
-    }
-
-    .pic-wall-grid {
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(4, 1fr);
-      gap: var(--spacing-sm);
-    }
-
-    .pic-wall-label {
-      font-size: 0.75rem;
-    }
-
-    .pic-wall-label-overlay {
-      padding: var(--spacing-xs);
-    }
-  }
-</style>
-
-<!-- HTML 结构 -->
-<section class="pic-wall" id="pic-wall">
-  <div class="pic-wall-container">
-    <div class="pic-wall-grid">
-      <div class="pic-wall-item">
-        <img src="images/1.png" alt="AI Clipper" class="pic-wall-image" loading="lazy">
-        <div class="pic-wall-label-overlay">
-          <p class="pic-wall-label">AI Clipper</p>
-        </div>
-      </div>
-      <div class="pic-wall-item">
-        <img src="images/2.jpg" alt="Content Generator" class="pic-wall-image" loading="lazy">
-        <div class="pic-wall-label-overlay">
-          <p class="pic-wall-label">Content Generator</p>
-        </div>
-      </div>
-      <div class="pic-wall-item">
-        <img src="images/3.png" alt="AI Avatar" class="pic-wall-image" loading="lazy">
-        <div class="pic-wall-label-overlay">
-          <p class="pic-wall-label">AI Avatar</p>
-        </div>
-      </div>
-      <div class="pic-wall-item">
-        <img src="images/4.png" alt="Product Shots" class="pic-wall-image" loading="lazy">
-        <div class="pic-wall-label-overlay">
-          <p class="pic-wall-label">Product Shots</p>
-        </div>
-      </div>
-      <div class="pic-wall-item">
-        <img src="images/5.png" alt="Clipper" class="pic-wall-image" loading="lazy">
-        <div class="pic-wall-label-overlay">
-          <p class="pic-wall-label">Clipper</p>
-        </div>
-      </div>
-      <div class="pic-wall-item">
-        <img src="images/logo.jpg" alt="Caption Generation" class="pic-wall-image" loading="lazy">
-        <div class="pic-wall-label-overlay">
-          <p class="pic-wall-label">Caption Generation</p>
-        </div>
-      </div>
-      <div class="pic-wall-item">
-        <img src="images/1.png" alt="AI Voiceover" class="pic-wall-image" loading="lazy">
-        <div class="pic-wall-label-overlay">
-          <p class="pic-wall-label">AI Voiceover</p>
-        </div>
-      </div>
-      <div class="pic-wall-item">
-        <img src="images/2.jpg" alt="Youtube Thumbnails" class="pic-wall-image" loading="lazy">
-        <div class="pic-wall-label-overlay">
-          <p class="pic-wall-label">Youtube Thumbnails</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<script>
-  // Pic Wall 模块交互逻辑
-  (function () {
-    'use strict';
-
-    const initPicWall = () => {
-      // 图片加载错误处理
-      const images = document.querySelectorAll('.pic-wall-image');
-      images.forEach((img) => {
-        img.addEventListener('error', function () {
-          console.warn(`Failed to load image: ${this.src}`);
-          this.style.display = 'none';
-        });
-      });
-    };
-
-    // DOM 加载后初始化
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initPicWall);
-    } else {
-      initPicWall();
-    }
-  })();
-</script>
-
-
-
-  <!-- ===== BUILT_FOR_SPEED SECTION ===== -->
-<!-- ===== BUILT FOR SPEED 模块 ===== -->
-<style>
-  /* Built For Speed Section Styles */
-  .built-for-speed {
-    padding: var(--spacing-3xl) 3rem;
-    background: var(--color-bg);
-    position: relative;
-    min-height: 600px;
-  }
-
-  .built-for-speed-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-2xl);
-  }
-
-  /* 顶部标题区域 - 居中 */
-  .built-for-speed-header-section {
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-sm);
-    margin-bottom: var(--spacing-lg);
-  }
-
-  /* 主要内容区域 - 两列布局 */
-  .built-for-speed-main {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr;
-    gap: var(--spacing-xl);
-    align-items: center;
-  }
-
-  /* 左侧文本内容 */
-  .built-for-speed-content {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-lg);
-  }
-
-  .built-for-speed-header {
-    color: var(--color-text-secondary);
-    font-family: 'Sora', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin: 0;
-  }
-
-  .built-for-speed-title {
-    color: var(--color-text);
-    font-family: 'Sora', sans-serif;
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 700;
-    line-height: 1.2;
-    margin: 0;
-  }
-
-  /* 标题区域样式 */
-  .built-for-speed-header-section .built-for-speed-header {
-    color: var(--color-text-secondary);
-  }
-
-  .built-for-speed-header-section .built-for-speed-title {
-    color: var(--color-text);
-  }
-
-  .built-for-speed-subtitle {
-    color: var(--color-text);
-    font-family: 'Sora', sans-serif;
-    font-size: clamp(1.125rem, 2vw, 1.5rem);
-    font-weight: 400;
-    line-height: 1.6;
-    margin: 0;
-  }
-
-
-  .built-for-speed-description {
-    color: var(--color-text-secondary);
-    font-family: 'Sora', sans-serif;
-    font-size: 1rem;
-    font-weight: 300;
-    line-height: 1.6;
-    margin: 0;
-  }
-
-  /* 功能徽章 - 合并为一个按钮，上下分布 */
-  .built-for-speed-badge {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    padding: var(--spacing-sm) var(--spacing-lg);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 8px;
-    color: var(--color-text);
-    font-family: 'Sora', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    text-align: center;
-    width: fit-content;
-    transition: all var(--transition);
-    margin-top: var(--spacing-md);
-    gap: var(--spacing-xs);
-  }
-
-  .built-for-speed-badge:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-  }
-
-  .built-for-speed-badge-item {
-    display: block;
-    line-height: 1.4;
-  }
-
-  /* 右侧图片 */
-  .built-for-speed-image-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    min-height: 500px;
-  }
-
-  .built-for-speed-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 20px;
-    display: block;
-  }
-
-  /* 响应式设计 */
-  @media (max-width: 991px) {
-    .built-for-speed {
-      padding: var(--spacing-2xl) var(--spacing-lg);
-    }
-
-    .built-for-speed-main {
-      grid-template-columns: 1fr;
-      gap: var(--spacing-xl);
-    }
-
-    .built-for-speed-image-wrapper {
-      min-height: 400px;
-      order: -1;
-    }
-  }
-
-  @media (max-width: 767px) {
-    .built-for-speed {
-      padding: var(--spacing-xl) var(--spacing-md);
-    }
-
-    .built-for-speed-content {
-      gap: var(--spacing-md);
-    }
-
-    .built-for-speed-image-wrapper {
-      min-height: 300px;
-    }
-  }
-</style>
-
-<!-- HTML 结构 -->
-<section class="built-for-speed" id="built-for-speed">
-  <div class="built-for-speed-container">
-    <!-- 顶部标题 - 居中 -->
-    <div class="built-for-speed-header-section">
-      <h3 class="built-for-speed-header">BUILT FOR SPEED</h3>
-      <h2 class="built-for-speed-title">Create Viral Content 10× Faster</h2>
-    </div>
-
-    <!-- 主要内容区域 -->
-    <div class="built-for-speed-main">
-      <!-- 左侧文本内容 -->
-      <div class="built-for-speed-content">
-        <p class="built-for-speed-subtitle">
-          Auto-editing, brand styles, and one-click exports keep you shipping daily—without creative drift.
-        </p>
-        <p class="built-for-speed-description">
-          Start with a link, script, or asset folder. TreClip does the rest—hooks, pacing, captions, layouts, and publishing.
-        </p>
-        <span class="built-for-speed-badge">
-          <span class="built-for-speed-badge-item">Webflow Ready</span>
-          <span class="built-for-speed-badge-item">Figma Friendly</span>
-        </span>
-      </div>
-
-      <!-- 右侧图片 -->
-      <div class="built-for-speed-image-wrapper">
-        <img src="images/3.png" alt="Built For Speed" class="built-for-speed-image" loading="lazy">
-      </div>
-    </div>
-  </div>
-</section>
-
-<script>
-  // Built For Speed 模块交互逻辑
-  (function () {
-    'use strict';
-
-    const initBuiltForSpeed = () => {
-      // 图片加载错误处理
-      const image = document.querySelector('.built-for-speed-image');
-      if (image) {
-        image.addEventListener('error', function () {
-          console.warn(`Failed to load image: ${this.src}`);
-          this.style.display = 'none';
-        });
-      }
-    };
-
-    // DOM 加载后初始化
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initBuiltForSpeed);
-    } else {
-      initBuiltForSpeed();
-    }
-  })();
-</script>
-
-
-  <!-- ===== STYLE_CEA SECTION ===== -->
-<!-- ===== STYLE CEA 模块 ===== -->
-<style>
-  /* Style CEA Section Styles */
-  .style-cea {
+  /* Exp 1 Section Styles */
+  .exp-1 {
     padding: var(--spacing-3xl) 3rem;
     background: var(--color-bg);
     position: relative;
   }
 
-  .style-cea-container {
+  .exp-1-container {
     max-width: 1400px;
     margin: 0 auto;
     width: 100%;
   }
 
   /* 顶部标题区域 - 居中 */
-  .style-cea-header {
+  .exp-1-header {
     text-align: center;
     margin-bottom: var(--spacing-3xl);
   }
 
-  .style-cea-header-label {
-    color: var(--color-text-secondary);
-    font-family: 'Sora', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin: 0 0 var(--spacing-sm) 0;
-  }
-
-  .style-cea-title {
+  .exp-1-title {
     color: var(--color-text);
-    font-family: 'Sora', sans-serif;
-    font-size: clamp(2rem, 4vw, 3rem);
-    font-weight: 700;
-    line-height: 1.2;
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 400;
+    line-height: 1.4;
     margin: 0 0 var(--spacing-md) 0;
+    letter-spacing: 0.05em;
   }
 
-  .style-cea-subtitle {
-    color: var(--color-text-secondary);
+  .exp-1-subtitle {
+    color: var(--color-text);
     font-family: 'Sora', sans-serif;
     font-size: 1rem;
     font-weight: 300;
@@ -1716,26 +922,87 @@
     margin-right: auto;
   }
 
-  /* 卡片网格 - 3x2 */
-  .style-cea-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+  /* 列布局 */
+  .exp-1-columns {
+    display: flex;
     gap: var(--spacing-lg);
     width: 100%;
+    align-items: stretch;
+    min-height: 600px;
   }
 
-  /* 单个卡片 */
-  .style-cea-card {
+  .exp-1-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    align-items: stretch;
+  }
+
+  /* 第一列：25% */
+  .exp-1-column-left {
+    width: 25%;
+    flex-shrink: 0;
+    height: 100%;
+  }
+
+  /* 第一列权重：上 30%，下 70% */
+  .exp-1-column-left .exp-1-panel-top {
+    flex: 0 0 30%;
+    min-height: 180px;
+  }
+
+  .exp-1-column-left .exp-1-panel-bottom {
+    flex: 0 0 70%;
+    min-height: 420px;
+  }
+
+  /* 第二列：40% */
+  .exp-1-column-center {
+    width: 40%;
+    flex-shrink: 0;
+    height: 100%;
+    gap: 0;
+  }
+
+  /* 第三列：25% */
+  .exp-1-column-right {
+    width: 25%;
+    flex-shrink: 0;
+    height: 100%;
+  }
+
+  /* 第三列权重：上 70%，下 30% */
+  .exp-1-column-right .exp-1-panel-top {
+    flex: 0 0 70%;
+    min-height: 420px;
+  }
+
+  .exp-1-column-right .exp-1-panel-bottom {
+    flex: 0 0 30%;
+    min-height: 180px;
+  }
+
+  /* 单个图片面板 */
+  .exp-1-panel {
     position: relative;
     width: 100%;
-    aspect-ratio: 4 / 3;
     border-radius: 16px;
     overflow: hidden;
     background: var(--color-bg-secondary);
   }
 
-  .style-cea-card-image {
+  /* 中央列单图 - 填充整个列高度，等于左右两列的总高度（包括gap） */
+  .exp-1-column-center .exp-1-panel {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    min-height: 632px;
+  }
+
+  .exp-1-panel-image {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -1743,155 +1010,121 @@
     transition: transform var(--transition);
   }
 
-  .style-cea-card:hover .style-cea-card-image {
+  .exp-1-panel:hover .exp-1-panel-image {
     transform: scale(1.05);
-  }
-
-  /* 卡片底部文字覆盖层 */
-  .style-cea-card-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: var(--spacing-md) var(--spacing-md);
-    background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, 0.9) 0%,
-      rgba(0, 0, 0, 0.7) 50%,
-      rgba(0, 0, 0, 0.4) 80%,
-      transparent 100%
-    );
-    z-index: 1;
-    pointer-events: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    min-height: 35%;
-  }
-
-  .style-cea-card-title {
-    color: var(--color-text);
-    font-family: 'Sora', sans-serif;
-    font-size: 1rem;
-    font-weight: 700;
-    line-height: 1.4;
-    margin: 0 0 var(--spacing-xs) 0;
-    text-align: left;
-  }
-
-  .style-cea-card-description {
-    color: var(--color-text-secondary);
-    font-family: 'Sora', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 300;
-    line-height: 1.5;
-    margin: 0;
-    text-align: left;
   }
 
   /* 响应式设计 */
   @media (max-width: 991px) {
-    .style-cea {
+    .exp-1 {
       padding: var(--spacing-2xl) var(--spacing-lg);
     }
 
-    .style-cea-header {
+    .exp-1-header {
       margin-bottom: var(--spacing-2xl);
     }
 
-    .style-cea-grid {
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(3, 1fr);
+    .exp-1-columns {
+      flex-direction: column;
       gap: var(--spacing-md);
+    }
+
+    .exp-1-column-left,
+    .exp-1-column-center,
+    .exp-1-column-right {
+      width: 100%;
+      height: auto;
+    }
+
+    .exp-1-column-left,
+    .exp-1-column-right {
+      flex-direction: row;
+    }
+
+    .exp-1-column-left .exp-1-panel-top,
+    .exp-1-column-left .exp-1-panel-bottom,
+    .exp-1-column-right .exp-1-panel-top,
+    .exp-1-column-right .exp-1-panel-bottom {
+      flex: 1;
+      min-height: 300px;
+    }
+
+    .exp-1-column-center .exp-1-panel {
+      min-height: 400px;
     }
   }
 
   @media (max-width: 767px) {
-    .style-cea {
+    .exp-1 {
       padding: var(--spacing-xl) var(--spacing-md);
     }
 
-    .style-cea-header {
+    .exp-1-header {
       margin-bottom: var(--spacing-xl);
     }
 
-    .style-cea-grid {
-      grid-template-columns: 1fr;
-      grid-template-rows: repeat(6, 1fr);
+    .exp-1-columns {
+      flex-direction: column;
       gap: var(--spacing-sm);
     }
 
-    .style-cea-card {
-      aspect-ratio: 16 / 9;
+    .exp-1-column-left,
+    .exp-1-column-right {
+      flex-direction: column;
+    }
+
+    .exp-1-column-left .exp-1-panel-top,
+    .exp-1-column-left .exp-1-panel-bottom,
+    .exp-1-column-right .exp-1-panel-top,
+    .exp-1-column-right .exp-1-panel-bottom {
+      flex: 1;
+      min-height: 250px;
+    }
+
+    .exp-1-column-center .exp-1-panel {
+      min-height: 300px;
     }
   }
 </style>
 
 <!-- HTML 结构 -->
-<section class="style-cea" id="style-cea">
-  <div class="style-cea-container">
+<section class="exp-1" id="exp-1">
+  <div class="exp-1-container">
     <!-- 顶部标题区域 -->
-    <div class="style-cea-header">
-      <h3 class="style-cea-header-label">STYLE</h3>
-      <h2 class="style-cea-title">Select A Visual Style</h2>
-      <p class="style-cea-subtitle">
-        Set the atmosphere and aesthetic for your video or image — crafted through Treclipse's cinematic style engine.
+    <div class="exp-1-header">
+      <h2 class="exp-1-title">Explore The World Of Treclipse</h2>
+      <p class="exp-1-subtitle">
+        Discover cinematic creations, featured artists, and the latest AI-powered visuals shaping the future of
+        storytelling.
       </p>
     </div>
 
-    <!-- 卡片网格 -->
-    <div class="style-cea-grid">
-      <!-- Card 1 -->
-      <div class="style-cea-card">
-        <img src="images/1.png" alt="Ingest your kit" class="style-cea-card-image" loading="lazy">
-        <div class="style-cea-card-overlay">
-          <h4 class="style-cea-card-title">Ingest your kit</h4>
-          <p class="style-cea-card-description">Colors, fonts, lower thirds, logo safe zones, intro/outro.</p>
+    <!-- 列布局 -->
+    <div class="exp-1-columns">
+      <!-- 第一列：25%，上30%，下70% -->
+      <div class="exp-1-column exp-1-column-left">
+        <div class="exp-1-panel exp-1-panel-top">
+          <img src="images/1.png" alt="Explore 1" class="exp-1-panel-image" loading="lazy">
+        </div>
+        <div class="exp-1-panel exp-1-panel-bottom">
+          <img src="images/2.jpg" alt="Explore 2" class="exp-1-panel-image" loading="lazy">
         </div>
       </div>
 
-      <!-- Card 2 -->
-      <div class="style-cea-card">
-        <img src="images/2.jpg" alt="Style DNA" class="style-cea-card-image" loading="lazy">
-        <div class="style-cea-card-overlay">
-          <h4 class="style-cea-card-title">Style DNA</h4>
-          <p class="style-cea-card-description">Captures tone, pacing, motion and composition preferences.</p>
+      <!-- 第二列：40%，单图 -->
+      <div class="exp-1-column exp-1-column-center">
+        <div class="exp-1-panel">
+          <img src="images/3.png" alt="Explore 3" class="exp-1-panel-image" loading="lazy">
         </div>
       </div>
 
-      <!-- Card 3 -->
-      <div class="style-cea-card">
-        <img src="images/3.png" alt="Protected outputs" class="style-cea-card-image" loading="lazy">
-        <div class="style-cea-card-overlay">
-          <h4 class="style-cea-card-title">Protected outputs</h4>
-          <p class="style-cea-card-description">Brand recipes prevent drift and keep every render consistent.</p>
+      <!-- 第三列：25%，上70%，下30% -->
+      <div class="exp-1-column exp-1-column-right">
+        <div class="exp-1-panel exp-1-panel-top">
+          <img src="images/4.png" alt="Explore 4" class="exp-1-panel-image" loading="lazy">
         </div>
-      </div>
-
-      <!-- Card 4 -->
-      <div class="style-cea-card">
-        <img src="images/4.png" alt="Ingest your kit" class="style-cea-card-image" loading="lazy">
-        <div class="style-cea-card-overlay">
-          <h4 class="style-cea-card-title">Ingest your kit</h4>
-          <p class="style-cea-card-description">Colors, fonts, lower thirds, logo safe zones, intro/outro.</p>
-        </div>
-      </div>
-
-      <!-- Card 5 -->
-      <div class="style-cea-card">
-        <img src="images/5.png" alt="Style DNA" class="style-cea-card-image" loading="lazy">
-        <div class="style-cea-card-overlay">
-          <h4 class="style-cea-card-title">Style DNA</h4>
-          <p class="style-cea-card-description">Captures tone, pacing, motion and composition preferences.</p>
-        </div>
-      </div>
-
-      <!-- Card 6 -->
-      <div class="style-cea-card">
-        <img src="images/logo.jpg" alt="Protected outputs" class="style-cea-card-image" loading="lazy">
-        <div class="style-cea-card-overlay">
-          <h4 class="style-cea-card-title">Protected outputs</h4>
-          <p class="style-cea-card-description">Brand recipes prevent drift and keep every render consistent.</p>
+        <div class="exp-1-panel exp-1-panel-bottom">
+          <img src="images/5.png" alt="Explore 5" class="exp-1-panel-image" loading="lazy">
         </div>
       </div>
     </div>
@@ -1899,13 +1132,13 @@
 </section>
 
 <script>
-  // Style CEA 模块交互逻辑
+  // Exp 1 模块交互逻辑
   (function () {
     'use strict';
 
-    const initStyleCea = () => {
+    const initExp1 = () => {
       // 图片加载错误处理
-      const images = document.querySelectorAll('.style-cea-card-image');
+      const images = document.querySelectorAll('.exp-1-panel-image');
       images.forEach((img) => {
         img.addEventListener('error', function () {
           console.warn(`Failed to load image: ${this.src}`);
@@ -1916,13 +1149,760 @@
 
     // DOM 加载后初始化
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', initStyleCea);
+      document.addEventListener('DOMContentLoaded', initExp1);
     } else {
-      initStyleCea();
+      initExp1();
     }
   })();
 </script>
 
+  <!-- ===== EXP_2 SECTION ===== -->
+<!-- ===== EXP_2 模块 ===== -->
+<style>
+  /* Exp 2 Section Styles */
+  .exp-2 {
+    padding: 0 3rem;
+    background: var(--color-bg);
+    position: relative;
+  }
+
+  .exp-2-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* 分类选择容器 */
+  .exp-2-category-container {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: var(--spacing-sm) var(--spacing-md);
+    margin-bottom: var(--spacing-lg);
+  }
+
+  .exp-2-category-label {
+    color: var(--color-text-secondary);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    margin-bottom: var(--spacing-xs);
+  }
+
+  .exp-2-category-buttons {
+    display: flex;
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
+  }
+
+  .exp-2-category-button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--color-text-secondary);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+  }
+
+  .exp-2-category-button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  .exp-2-category-button.active {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: var(--color-text);
+  }
+
+  /* 子分类选择 */
+  .exp-2-subcategory {
+    text-align: center;
+    margin-bottom: var(--spacing-md);
+  }
+
+  .exp-2-subcategory-label {
+    color: var(--color-text-secondary);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .exp-2-subcategory-buttons {
+    display: flex;
+    gap: var(--spacing-xs);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .exp-2-subcategory-button {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    color: var(--color-text-secondary);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+  }
+
+  .exp-2-subcategory-button:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+
+  /* 主要内容区域 */
+  .exp-2-main {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-xl) 0;
+  }
+
+  .exp-2-title {
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 var(--spacing-sm) 0;
+  }
+
+  .exp-2-subtitle {
+    color: var(--color-text-secondary);
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.6;
+    margin: 0 0 var(--spacing-lg) 0;
+  }
+
+  .exp-2-button {
+    display: inline-block;
+    padding: var(--spacing-sm) var(--spacing-xl);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+    margin-bottom: var(--spacing-sm);
+  }
+
+  .exp-2-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .exp-2-link {
+    display: block;
+    color: var(--color-text-secondary);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 300;
+    text-decoration: none;
+    transition: color var(--transition);
+  }
+
+  .exp-2-link:hover {
+    color: var(--color-text);
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 991px) {
+    .exp-2 {
+      padding: var(--spacing-2xl) var(--spacing-lg);
+    }
+
+    .exp-2-category-buttons,
+    .exp-2-subcategory-buttons {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .exp-2 {
+      padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .exp-2-main {
+      padding: var(--spacing-2xl) 0;
+    }
+  }
+</style>
+
+<!-- HTML 结构 -->
+<section class="exp-2" id="exp-2">
+  <div class="exp-2-container">
+    <!-- 分类选择容器 -->
+    <div class="exp-2-category-container">
+      <div class="exp-2-category-label">Select Category To Explore</div>
+      <div class="exp-2-category-buttons">
+        <button class="exp-2-category-button">All</button>
+        <button class="exp-2-category-button active">Pre-Edited Videos</button>
+        <button class="exp-2-category-button">Videos</button>
+        <button class="exp-2-category-button">Images</button>
+      </div>
+    </div>
+
+    <!-- 子分类选择 -->
+    <div class="exp-2-subcategory">
+      <div class="exp-2-subcategory-label">Select Subcategory</div>
+      <div class="exp-2-subcategory-buttons">
+        <button class="exp-2-subcategory-button">Brand Films</button>
+        <button class="exp-2-subcategory-button">Stories</button>
+        <button class="exp-2-subcategory-button">Artistic Film</button>
+        <button class="exp-2-subcategory-button">Music Visuals</button>
+        <button class="exp-2-subcategory-button">Social Ads</button>
+        <button class="exp-2-subcategory-button">Cinema</button>
+      </div>
+    </div>
+
+    <!-- 主要内容区域 -->
+    <div class="exp-2-main">
+      <h2 class="exp-2-title">Enhance What You've Already Made</h2>
+      <p class="exp-2-subtitle">
+        Give your existing videos new life through cinematic AI enhancement.
+      </p>
+      <button class="exp-2-button">Start Engine</button>
+      <a href="#" class="exp-2-link">Click To Preview</a>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Exp 2 模块交互逻辑
+  (function () {
+    'use strict';
+
+    const initExp2 = () => {
+      // 分类按钮切换
+      const categoryButtons = document.querySelectorAll('.exp-2-category-button');
+      categoryButtons.forEach((button) => {
+        button.addEventListener('click', function () {
+          categoryButtons.forEach((btn) => btn.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+
+      // 子分类按钮切换
+      const subcategoryButtons = document.querySelectorAll('.exp-2-subcategory-button');
+      subcategoryButtons.forEach((button) => {
+        button.addEventListener('click', function () {
+          subcategoryButtons.forEach((btn) => btn.classList.remove('active'));
+          this.classList.add('active');
+        });
+      });
+    };
+
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initExp2);
+    } else {
+      initExp2();
+    }
+  })();
+</script>
+
+  <!-- ===== EXP_3 SECTION ===== -->
+<!-- ===== EXP_3 模块 ===== -->
+<style>
+  /* Exp 3 Section Styles */
+  .exp-3 {
+    padding: 0 3rem;
+    background: var(--color-bg);
+    position: relative;
+  }
+
+  .exp-3-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* 列布局 - 5列，每列不同比例 */
+  .exp-3-columns {
+    display: flex;
+    gap: var(--spacing-md);
+    width: 100%;
+    margin-bottom: var(--spacing-2xl);
+    align-items: stretch;
+    height: 900px;
+  }
+
+  .exp-3-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    flex: 1;
+    height: 100%;
+    min-width: 0;
+  }
+
+  /* 单个图片卡片 */
+  .exp-3-card {
+    position: relative;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--color-bg-secondary);
+    flex-shrink: 0;
+    min-height: 0;
+    display: flex;
+  }
+
+  /* 第一列：2张图片各占50%高度，文本卡片放在第一张图片内部下方 */
+  .exp-3-column:nth-child(1) .exp-3-card:nth-child(1) {
+    flex: 0 0 50%;
+    min-height: 0;
+    position: relative;
+  }
+
+  .exp-3-column:nth-child(1) .exp-3-card:nth-child(2) {
+    flex: 0 0 50%;
+    min-height: 0;
+  }
+
+  /* 文本卡片放在第一张图片内部下方 */
+  .exp-3-column:nth-child(1) .exp-3-card-text {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    margin: 0;
+    flex: none;
+    min-height: auto;
+    max-height: none;
+  }
+
+  /* 第二列：3张图片，分别占30%、30%、40% */
+  .exp-3-column:nth-child(2) .exp-3-card:nth-child(1) {
+    flex: 0 0 30%;
+    min-height: 0;
+  }
+
+  .exp-3-column:nth-child(2) .exp-3-card:nth-child(2) {
+    flex: 0 0 30%;
+    min-height: 0;
+  }
+
+  .exp-3-column:nth-child(2) .exp-3-card:nth-child(3) {
+    flex: 0 0 40%;
+    min-height: 0;
+  }
+
+  /* 第三列：3张图片，分别占20%、30%、50% */
+  .exp-3-column:nth-child(3) .exp-3-card:nth-child(1) {
+    flex: 0 0 20%;
+    min-height: 0;
+  }
+
+  .exp-3-column:nth-child(3) .exp-3-card:nth-child(2) {
+    flex: 0 0 30%;
+    min-height: 0;
+  }
+
+  .exp-3-column:nth-child(3) .exp-3-card:nth-child(3) {
+    flex: 0 0 50%;
+    min-height: 0;
+  }
+
+  /* 第四列：3张图片，分别占50%、20%、30% */
+  .exp-3-column:nth-child(4) .exp-3-card:nth-child(1) {
+    flex: 0 0 50%;
+    min-height: 0;
+  }
+
+  .exp-3-column:nth-child(4) .exp-3-card:nth-child(2) {
+    flex: 0 0 20%;
+    min-height: 0;
+  }
+
+  .exp-3-column:nth-child(4) .exp-3-card:nth-child(3) {
+    flex: 0 0 30%;
+    min-height: 0;
+  }
+
+  /* 第五列：3张图片，分别占20%、30%、50% */
+  .exp-3-column:nth-child(5) .exp-3-card:nth-child(1) {
+    flex: 0 0 20%;
+    min-height: 0;
+  }
+
+  .exp-3-column:nth-child(5) .exp-3-card:nth-child(2) {
+    flex: 0 0 30%;
+    min-height: 0;
+  }
+
+  .exp-3-column:nth-child(5) .exp-3-card:nth-child(3) {
+    flex: 0 0 50%;
+    min-height: 0;
+  }
+
+  .exp-3-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition);
+    flex-shrink: 0;
+  }
+
+  .exp-3-card:hover .exp-3-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 文本卡片（用于提示词） */
+  .exp-3-card-text {
+    background: rgba(128, 128, 128, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: var(--spacing-sm);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: none;
+    max-height: 30%;
+    overflow: hidden;
+  }
+
+  .exp-3-card-text-content {
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 300;
+    line-height: 1.4;
+    margin: 0;
+    flex: 1;
+  }
+
+  .exp-3-card-text-icon {
+    align-self: flex-end;
+    margin-top: var(--spacing-xs);
+    width: 12px;
+    height: 12px;
+    opacity: 0.8;
+    color: var(--color-text);
+  }
+
+  /* Load More 按钮 */
+  .exp-3-load-more {
+    text-align: center;
+  }
+
+  .exp-3-load-more-button {
+    display: inline-block;
+    padding: var(--spacing-md) var(--spacing-2xl);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+
+  .exp-3-load-more-button:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 1200px) {
+    .exp-3-columns {
+      height: 800px;
+    }
+  }
+
+  @media (max-width: 991px) {
+    .exp-3 {
+      padding: var(--spacing-2xl) var(--spacing-lg);
+    }
+
+    .exp-3-columns {
+      height: auto;
+      min-height: 600px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+
+    .exp-3-column {
+      flex: 0 0 calc(50% - var(--spacing-md) / 2);
+      min-width: 0;
+    }
+
+    /* 平板：2列布局，保持原有的图片比例 */
+    /* 第一列：2张图片各占50% */
+    .exp-3-column:nth-child(1) .exp-3-card:nth-child(1) {
+      flex: 0 0 50%;
+    }
+
+    .exp-3-column:nth-child(1) .exp-3-card:nth-child(2) {
+      flex: 0 0 50%;
+    }
+
+    /* 第二列：3张图片，分别占30%、30%、40% */
+    .exp-3-column:nth-child(2) .exp-3-card:nth-child(1) {
+      flex: 0 0 30%;
+    }
+
+    .exp-3-column:nth-child(2) .exp-3-card:nth-child(2) {
+      flex: 0 0 30%;
+    }
+
+    .exp-3-column:nth-child(2) .exp-3-card:nth-child(3) {
+      flex: 0 0 40%;
+    }
+
+    /* 第三列：3张图片，分别占20%、30%、50% */
+    .exp-3-column:nth-child(3) .exp-3-card:nth-child(1) {
+      flex: 0 0 20%;
+    }
+
+    .exp-3-column:nth-child(3) .exp-3-card:nth-child(2) {
+      flex: 0 0 30%;
+    }
+
+    .exp-3-column:nth-child(3) .exp-3-card:nth-child(3) {
+      flex: 0 0 50%;
+    }
+
+    /* 第四列：3张图片，分别占50%、20%、30% */
+    .exp-3-column:nth-child(4) .exp-3-card:nth-child(1) {
+      flex: 0 0 50%;
+    }
+
+    .exp-3-column:nth-child(4) .exp-3-card:nth-child(2) {
+      flex: 0 0 20%;
+    }
+
+    .exp-3-column:nth-child(4) .exp-3-card:nth-child(3) {
+      flex: 0 0 30%;
+    }
+
+    /* 第五列：3张图片，分别占20%、30%、50% */
+    .exp-3-column:nth-child(5) .exp-3-card:nth-child(1) {
+      flex: 0 0 20%;
+    }
+
+    .exp-3-column:nth-child(5) .exp-3-card:nth-child(2) {
+      flex: 0 0 30%;
+    }
+
+    .exp-3-column:nth-child(5) .exp-3-card:nth-child(3) {
+      flex: 0 0 50%;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .exp-3 {
+      padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .exp-3-columns {
+      flex-direction: column;
+      height: auto;
+      min-height: auto;
+    }
+
+    .exp-3-column {
+      flex: 1;
+      width: 100%;
+      min-height: 400px;
+    }
+
+    /* 手机：单列布局，所有图片统一高度 */
+    .exp-3-column:nth-child(1) .exp-3-card:nth-child(1),
+    .exp-3-column:nth-child(1) .exp-3-card:nth-child(2),
+    .exp-3-column:nth-child(2) .exp-3-card:nth-child(1),
+    .exp-3-column:nth-child(2) .exp-3-card:nth-child(2),
+    .exp-3-column:nth-child(2) .exp-3-card:nth-child(3),
+    .exp-3-column:nth-child(3) .exp-3-card:nth-child(1),
+    .exp-3-column:nth-child(3) .exp-3-card:nth-child(2),
+    .exp-3-column:nth-child(3) .exp-3-card:nth-child(3),
+    .exp-3-column:nth-child(4) .exp-3-card:nth-child(1),
+    .exp-3-column:nth-child(4) .exp-3-card:nth-child(2),
+    .exp-3-column:nth-child(4) .exp-3-card:nth-child(3),
+    .exp-3-column:nth-child(5) .exp-3-card:nth-child(1),
+    .exp-3-column:nth-child(5) .exp-3-card:nth-child(2),
+    .exp-3-column:nth-child(5) .exp-3-card:nth-child(3) {
+      flex: 1;
+      min-height: 200px;
+    }
+
+    /* 文本卡片在手机上调整 */
+    .exp-3-column:nth-child(1) .exp-3-card-text {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: var(--spacing-sm);
+    }
+
+    .exp-3-card-text-content {
+      font-size: 0.75rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .exp-3 {
+      padding: var(--spacing-lg) var(--spacing-sm);
+    }
+
+    .exp-3-columns {
+      gap: var(--spacing-sm);
+    }
+
+    .exp-3-column {
+      gap: var(--spacing-sm);
+      min-height: 300px;
+    }
+
+    .exp-3-card {
+      border-radius: 8px;
+    }
+  }
+</style>
+
+<!-- HTML 结构 -->
+<section class="exp-3" id="exp-3">
+  <div class="exp-3-container">
+    <!-- 列布局 -->
+    <div class="exp-3-columns">
+      <!-- 第一列 -->
+      <div class="exp-3-column">
+        <div class="exp-3-card">
+          <img src="images/4.png" alt="Explore 1" class="exp-3-card-image" loading="lazy">
+          <div class="exp-3-card exp-3-card-text">
+            <p class="exp-3-card-text-content">
+              a cinematic 8k video of a lone astronaut walking slowly across the surface of the moon under deep space
+              darkness. the camera circles gently, capturing the texture of the dusty lunar ground and the intricate
+              folds of the astronaut's suit.
+            </p>
+            <svg class="exp-3-card-text-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M7 17L17 7M7 7h10v10" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </div>
+        </div>
+        <div class="exp-3-card">
+          <img src="images/logo.jpg" alt="Explore 2" class="exp-3-card-image" loading="lazy">
+        </div>
+      </div>
+
+      <!-- 第二列 -->
+      <div class="exp-3-column">
+        <div class="exp-3-card">
+          <img src="images/1.png" alt="Explore 3" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="images/5.png" alt="Explore 4" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="images/2.jpg" alt="Explore 5" class="exp-3-card-image" loading="lazy">
+        </div>
+      </div>
+
+      <!-- 第三列 -->
+      <div class="exp-3-column">
+        <div class="exp-3-card">
+          <img src="images/3.png" alt="Explore 6" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="images/4.png" alt="Explore 7" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="images/logo.jpg" alt="Explore 8" class="exp-3-card-image" loading="lazy">
+        </div>
+      </div>
+
+      <!-- 第四列 -->
+      <div class="exp-3-column">
+        <div class="exp-3-card">
+          <img src="images/1.png" alt="Explore 9" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="images/3.png" alt="Explore 10" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="images/5.png" alt="Explore 11" class="exp-3-card-image" loading="lazy">
+        </div>
+      </div>
+
+      <!-- 第五列 -->
+      <div class="exp-3-column">
+        <div class="exp-3-card">
+          <img src="images/2.jpg" alt="Explore 12" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="images/4.png" alt="Explore 13" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="images/1.png" alt="Explore 14" class="exp-3-card-image" loading="lazy">
+        </div>
+      </div>
+    </div>
+
+    <!-- Load More 按钮 -->
+    <div class="exp-3-load-more">
+      <button class="exp-3-load-more-button">Load More</button>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Exp 3 模块交互逻辑
+  (function () {
+    'use strict';
+
+    const initExp3 = () => {
+      // 图片加载错误处理
+      const images = document.querySelectorAll('.exp-3-card-image');
+      images.forEach((img) => {
+        img.addEventListener('error', function () {
+          console.warn(`Failed to load image: ${this.src}`);
+          this.style.display = 'none';
+        });
+      });
+
+      // Load More 按钮功能
+      const loadMoreButton = document.querySelector('.exp-3-load-more-button');
+      if (loadMoreButton) {
+        loadMoreButton.addEventListener('click', function () {
+          // 这里可以添加加载更多内容的逻辑
+          console.log('Load more clicked');
+        });
+      }
+    };
+
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initExp3);
+    } else {
+      initExp3();
+    }
+  })();
+</script>
 
   <!-- ===== FOOTER SECTION ===== -->
 <style>

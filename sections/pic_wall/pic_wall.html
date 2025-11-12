@@ -44,6 +44,41 @@
     transform: scale(1.05);
   }
 
+  /* 底部遮罩和文字标签 */
+  .pic-wall-label-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--spacing-md) var(--spacing-sm);
+    /* 添加模糊背景效果 - 先模糊图片 */
+    backdrop-filter: blur(12px) saturate(1.2);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
+    /* 然后添加渐变遮罩，降低不透明度以显示模糊背景 */
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.75) 0%,
+      rgba(0, 0, 0, 0.6) 50%,
+      rgba(0, 0, 0, 0.3) 80%,
+      transparent 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .pic-wall-label {
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    line-height: 1.4;
+    text-align: left;
+    margin: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   /* 响应式设计 */
   @media (max-width: 991px) {
     .pic-wall {
@@ -54,6 +89,14 @@
       grid-template-columns: repeat(3, 1fr);
       grid-template-rows: repeat(3, 1fr);
       gap: var(--spacing-md);
+    }
+
+    .pic-wall-label {
+      font-size: 0.8125rem;
+    }
+
+    .pic-wall-label-overlay {
+      padding: var(--spacing-sm) var(--spacing-xs);
     }
   }
 
@@ -67,6 +110,14 @@
       grid-template-rows: repeat(4, 1fr);
       gap: var(--spacing-sm);
     }
+
+    .pic-wall-label {
+      font-size: 0.75rem;
+    }
+
+    .pic-wall-label-overlay {
+      padding: var(--spacing-xs);
+    }
   }
 </style>
 
@@ -75,28 +126,52 @@
   <div class="pic-wall-container">
     <div class="pic-wall-grid">
       <div class="pic-wall-item">
-        <img src="images/1.png" alt="Pic Wall 1" class="pic-wall-image" loading="lazy">
+        <img src="images/1.png" alt="AI Clipper" class="pic-wall-image" loading="lazy">
+        <div class="pic-wall-label-overlay">
+          <p class="pic-wall-label">AI Clipper</p>
+        </div>
       </div>
       <div class="pic-wall-item">
-        <img src="images/2.jpg" alt="Pic Wall 2" class="pic-wall-image" loading="lazy">
+        <img src="images/2.jpg" alt="Content Generator" class="pic-wall-image" loading="lazy">
+        <div class="pic-wall-label-overlay">
+          <p class="pic-wall-label">Content Generator</p>
+        </div>
       </div>
       <div class="pic-wall-item">
-        <img src="images/3.png" alt="Pic Wall 3" class="pic-wall-image" loading="lazy">
+        <img src="images/3.png" alt="AI Avatar" class="pic-wall-image" loading="lazy">
+        <div class="pic-wall-label-overlay">
+          <p class="pic-wall-label">AI Avatar</p>
+        </div>
       </div>
       <div class="pic-wall-item">
-        <img src="images/4.png" alt="Pic Wall 4" class="pic-wall-image" loading="lazy">
+        <img src="images/4.png" alt="Product Shots" class="pic-wall-image" loading="lazy">
+        <div class="pic-wall-label-overlay">
+          <p class="pic-wall-label">Product Shots</p>
+        </div>
       </div>
       <div class="pic-wall-item">
-        <img src="images/5.png" alt="Pic Wall 5" class="pic-wall-image" loading="lazy">
+        <img src="images/5.png" alt="Clipper" class="pic-wall-image" loading="lazy">
+        <div class="pic-wall-label-overlay">
+          <p class="pic-wall-label">Clipper</p>
+        </div>
       </div>
       <div class="pic-wall-item">
-        <img src="images/logo.jpg" alt="Pic Wall 6" class="pic-wall-image" loading="lazy">
+        <img src="images/logo.jpg" alt="Caption Generation" class="pic-wall-image" loading="lazy">
+        <div class="pic-wall-label-overlay">
+          <p class="pic-wall-label">Caption Generation</p>
+        </div>
       </div>
       <div class="pic-wall-item">
-        <img src="images/1.png" alt="Pic Wall 7" class="pic-wall-image" loading="lazy">
+        <img src="images/1.png" alt="AI Voiceover" class="pic-wall-image" loading="lazy">
+        <div class="pic-wall-label-overlay">
+          <p class="pic-wall-label">AI Voiceover</p>
+        </div>
       </div>
       <div class="pic-wall-item">
-        <img src="images/2.jpg" alt="Pic Wall 8" class="pic-wall-image" loading="lazy">
+        <img src="images/2.jpg" alt="Youtube Thumbnails" class="pic-wall-image" loading="lazy">
+        <div class="pic-wall-label-overlay">
+          <p class="pic-wall-label">Youtube Thumbnails</p>
+        </div>
       </div>
     </div>
   </div>
