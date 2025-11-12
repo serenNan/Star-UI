@@ -49,7 +49,7 @@
 }
 
 
-/* 左侧分类导航 */
+/* 左侧分类导航（桌面端垂直布局）*/
 .use-cases__categories {
   display: flex;
   flex-direction: column;
@@ -82,7 +82,7 @@
   /* 移除 padding 和 width 设置，保持和未选中按钮一样的大小 */
 }
 
-/* 右侧卡片网格 */
+/* 右侧卡片网格（桌面端）*/
 .use-cases__cards {
   flex: 1;
   display: grid;
@@ -239,12 +239,12 @@
 }
 
 /* ========================================
-   平板/移动端适配
+   平板/移动端适配 - 顶部横向导航 + 3 列卡片
    ======================================== */
 @media (max-width: 991px) {
-  /* 容器改为垂直居中布局 */
   .use-cases {
-    overflow-x: hidden;      /* 防止横向滚动 */
+    overflow-x: hidden;
+    padding: var(--spacing-2xl) 0;
   }
 
   .use-cases__title {
@@ -252,11 +252,11 @@
   }
 
   .use-cases__description {
-    font-size: 1.25rem;       /* 移动端稍微缩小描述文字 */
-    max-width: 90%;           /* 限制宽度,避免过长 */
+    font-size: 1.25rem;
+    max-width: 90%;
   }
 
-  /* 内容区域垂直布局 + 居中 */
+  /* 内容区域改为垂直布局 + 居中 */
   .use-cases__content {
     flex-direction: column;   /* 改为垂直排列 */
     align-items: center;      /* 🔑 子元素水平居中 */
@@ -264,7 +264,7 @@
     max-width: 100%;
   }
 
-  /* 分类导航横向排列 + 居中 */
+  /* 分类导航改为横向排列 + 居中 */
   .use-cases__categories {
     flex-direction: row;
     flex-wrap: wrap;
@@ -282,13 +282,15 @@
     padding: 16px 20px;       /* 增大触摸区域 */
   }
 
-  /* 卡片网格 2 列 + 居中 */
+  /* 卡片网格保持 3 列，减小间距 + 居中 */
   .use-cases__cards {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr); /* 保持 3 列 */
     justify-items: center;    /* 🔑 网格项居中 */
-    max-width: 700px;         /* 限制最大宽度 */
+    column-gap: 24px;         /* 减小左右间距 */
+    row-gap: 24px;            /* 减小上下间距 */
+    max-width: 100%;
     margin-left: 0;           /* 移除左侧偏移 */
-    gap: var(--spacing-lg);
+    padding: 0 var(--spacing-md);
   }
 
   .use-cases__card {
@@ -296,64 +298,7 @@
     max-width: 320px;         /* 限制卡片最大宽度 */
   }
 
-  /* 卡片标签文字大小调整 */
-  .use-cases__card-label {
-    font-size: 1rem;
-  }
-
-  /* 卡片描述文字大小调整 */
-  .use-cases__card-description {
-    font-size: 0.875rem;
-    padding: 16px 0 0 16px;
-    min-height: 80px;
-  }
-}
-
-/* 响应式:移动端(767px 以下)*/
-@media (max-width: 767px) {
-  .use-cases {
-    padding: var(--spacing-2xl) 0;
-  }
-
-  .use-cases__title {
-    font-size: 2rem;
-  }
-
-  .use-cases__description {
-    font-size: 1rem;
-    max-width: 95%;           /* 移动端进一步限制宽度 */
-  }
-
-  .use-cases__content {
-    gap: var(--spacing-lg);
-  }
-
-  /* 分类按钮更紧凑 */
-  .use-cases__categories {
-    gap: var(--spacing-xs);
-    justify-content: center;  /* 保持居中 */
-  }
-
-  .use-cases__category-btn {
-    padding: var(--spacing-sm) var(--spacing-md);
-    font-size: 0.875rem;
-    min-width: 100px;         /* 减小最小宽度 */
-    min-height: 44px;         /* 🔑 iOS 最小触摸标准 */
-  }
-
-  /* 卡片网格单列 + 居中 */
-  .use-cases__cards {
-    grid-template-columns: 1fr;
-    justify-items: center;    /* 🔑 单列居中 */
-    gap: var(--spacing-md);
-    max-width: 400px;         /* 限制单列宽度 */
-  }
-
-  .use-cases__card {
-    max-width: 100%;          /* 占满容器 */
-  }
-
-  /* 卡片标签和描述进一步缩小 */
+  /* 卡片标签和描述缩小 */
   .use-cases__card-label {
     font-size: 0.875rem;
   }
@@ -363,16 +308,74 @@
     padding: 12px 0 0 12px;
     min-height: 70px;
   }
+}
 
-  /* 生成按钮在移动端稍小 */
+/* 移动端适配 - 保持 3 列，进一步优化 */
+@media (max-width: 767px) {
+  .use-cases {
+    padding: var(--spacing-xl) 0;
+  }
+
+  .use-cases__title {
+    font-size: 2rem;
+  }
+
+  .use-cases__description {
+    font-size: 1rem;
+    max-width: 95%;
+  }
+
+  /* 分类按钮更紧凑 */
+  .use-cases__categories {
+    gap: 8px;
+    justify-content: center;  /* 保持居中 */
+  }
+
+  .use-cases__category-btn {
+    padding: 12px 16px;
+    font-size: 0.875rem;
+    min-width: 100px;
+    min-height: 44px; /* iOS 触摸标准 */
+  }
+
+  /* 卡片网格保持 3 列，最小间距 + 居中 */
+  .use-cases__cards {
+    grid-template-columns: repeat(3, 1fr); /* 保持 3 列 */
+    justify-items: center;    /* 🔑 居中对齐 */
+    column-gap: 12px;         /* 最小左右间距 */
+    row-gap: 12px;            /* 最小上下间距 */
+    max-width: 100%;
+    padding: 0 var(--spacing-sm);
+  }
+
+  .use-cases__card {
+    width: 100%;
+    max-width: 100%;          /* 占满网格单元 */
+  }
+
+  /* 卡片元素进一步缩小 */
+  .use-cases__card-label {
+    font-size: 0.75rem;
+    padding-left: var(--spacing-sm);
+  }
+
+  .use-cases__card-description {
+    font-size: 0.65rem;
+    padding: 8px 0 0 8px;
+    min-height: 60px;
+  }
+
+  /* 生成按钮缩小 */
   .use-cases__generate-btn {
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
+    bottom: 3px;
+    right: 3px;
   }
 
   .use-cases__generate-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
   }
 }
 
