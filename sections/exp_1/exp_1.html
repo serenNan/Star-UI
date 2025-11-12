@@ -1,0 +1,276 @@
+<!-- ===== EXP_1 模块 ===== -->
+<style>
+  /* Exp 1 Section Styles */
+  .exp-1 {
+    padding: var(--spacing-3xl) 3rem;
+    background: var(--color-bg);
+    position: relative;
+  }
+
+  .exp-1-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  /* 顶部标题区域 - 居中 */
+  .exp-1-header {
+    text-align: center;
+    margin-bottom: var(--spacing-3xl);
+  }
+
+  .exp-1-title {
+    color: var(--color-text);
+    font-family: 'Press Start 2P', monospace;
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 400;
+    line-height: 1.4;
+    margin: 0 0 var(--spacing-md) 0;
+    letter-spacing: 0.05em;
+  }
+
+  .exp-1-subtitle {
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* 列布局 */
+  .exp-1-columns {
+    display: flex;
+    gap: var(--spacing-lg);
+    width: 100%;
+    align-items: stretch;
+    min-height: 600px;
+  }
+
+  .exp-1-column {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+    align-items: stretch;
+  }
+
+  /* 第一列：25% */
+  .exp-1-column-left {
+    width: 25%;
+    flex-shrink: 0;
+    height: 100%;
+  }
+
+  /* 第一列权重：上 30%，下 70% */
+  .exp-1-column-left .exp-1-panel-top {
+    flex: 0 0 30%;
+    min-height: 180px;
+  }
+
+  .exp-1-column-left .exp-1-panel-bottom {
+    flex: 0 0 70%;
+    min-height: 420px;
+  }
+
+  /* 第二列：40% */
+  .exp-1-column-center {
+    width: 40%;
+    flex-shrink: 0;
+    height: 100%;
+    gap: 0;
+  }
+
+  /* 第三列：25% */
+  .exp-1-column-right {
+    width: 25%;
+    flex-shrink: 0;
+    height: 100%;
+  }
+
+  /* 第三列权重：上 70%，下 30% */
+  .exp-1-column-right .exp-1-panel-top {
+    flex: 0 0 70%;
+    min-height: 420px;
+  }
+
+  .exp-1-column-right .exp-1-panel-bottom {
+    flex: 0 0 30%;
+    min-height: 180px;
+  }
+
+  /* 单个图片面板 */
+  .exp-1-panel {
+    position: relative;
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    background: var(--color-bg-secondary);
+  }
+
+  /* 中央列单图 - 填充整个列高度，等于左右两列的总高度（包括gap） */
+  .exp-1-column-center .exp-1-panel {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+    min-height: 632px;
+  }
+
+  .exp-1-panel-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition);
+  }
+
+  .exp-1-panel:hover .exp-1-panel-image {
+    transform: scale(1.05);
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 991px) {
+    .exp-1 {
+      padding: var(--spacing-2xl) var(--spacing-lg);
+    }
+
+    .exp-1-header {
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .exp-1-columns {
+      flex-direction: column;
+      gap: var(--spacing-md);
+    }
+
+    .exp-1-column-left,
+    .exp-1-column-center,
+    .exp-1-column-right {
+      width: 100%;
+      height: auto;
+    }
+
+    .exp-1-column-left,
+    .exp-1-column-right {
+      flex-direction: row;
+    }
+
+    .exp-1-column-left .exp-1-panel-top,
+    .exp-1-column-left .exp-1-panel-bottom,
+    .exp-1-column-right .exp-1-panel-top,
+    .exp-1-column-right .exp-1-panel-bottom {
+      flex: 1;
+      min-height: 300px;
+    }
+
+    .exp-1-column-center .exp-1-panel {
+      min-height: 400px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .exp-1 {
+      padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .exp-1-header {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .exp-1-columns {
+      flex-direction: column;
+      gap: var(--spacing-sm);
+    }
+
+    .exp-1-column-left,
+    .exp-1-column-right {
+      flex-direction: column;
+    }
+
+    .exp-1-column-left .exp-1-panel-top,
+    .exp-1-column-left .exp-1-panel-bottom,
+    .exp-1-column-right .exp-1-panel-top,
+    .exp-1-column-right .exp-1-panel-bottom {
+      flex: 1;
+      min-height: 250px;
+    }
+
+    .exp-1-column-center .exp-1-panel {
+      min-height: 300px;
+    }
+  }
+</style>
+
+<!-- HTML 结构 -->
+<section class="exp-1" id="exp-1">
+  <div class="exp-1-container">
+    <!-- 顶部标题区域 -->
+    <div class="exp-1-header">
+      <h2 class="exp-1-title">Explore The World Of Treclipse</h2>
+      <p class="exp-1-subtitle">
+        Discover cinematic creations, featured artists, and the latest AI-powered visuals shaping the future of
+        storytelling.
+      </p>
+    </div>
+
+    <!-- 列布局 -->
+    <div class="exp-1-columns">
+      <!-- 第一列：25%，上30%，下70% -->
+      <div class="exp-1-column exp-1-column-left">
+        <div class="exp-1-panel exp-1-panel-top">
+          <img src="images/1.png" alt="Explore 1" class="exp-1-panel-image" loading="lazy">
+        </div>
+        <div class="exp-1-panel exp-1-panel-bottom">
+          <img src="images/2.jpg" alt="Explore 2" class="exp-1-panel-image" loading="lazy">
+        </div>
+      </div>
+
+      <!-- 第二列：40%，单图 -->
+      <div class="exp-1-column exp-1-column-center">
+        <div class="exp-1-panel">
+          <img src="images/3.png" alt="Explore 3" class="exp-1-panel-image" loading="lazy">
+        </div>
+      </div>
+
+      <!-- 第三列：25%，上70%，下30% -->
+      <div class="exp-1-column exp-1-column-right">
+        <div class="exp-1-panel exp-1-panel-top">
+          <img src="images/4.png" alt="Explore 4" class="exp-1-panel-image" loading="lazy">
+        </div>
+        <div class="exp-1-panel exp-1-panel-bottom">
+          <img src="images/5.png" alt="Explore 5" class="exp-1-panel-image" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Exp 1 模块交互逻辑
+  (function () {
+    'use strict';
+
+    const initExp1 = () => {
+      // 图片加载错误处理
+      const images = document.querySelectorAll('.exp-1-panel-image');
+      images.forEach((img) => {
+        img.addEventListener('error', function () {
+          console.warn(`Failed to load image: ${this.src}`);
+          this.style.display = 'none';
+        });
+      });
+    };
+
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initExp1);
+    } else {
+      initExp1();
+    }
+  })();
+</script>

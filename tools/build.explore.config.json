@@ -1,0 +1,12 @@
+{
+  "sections": [
+    "navigation",
+    "exp_1",
+    "exp_2",
+    "exp_3",
+    "footer"
+  ],
+  "output": "explore.html",
+  "description": "Star-UI Build Configuration - Explore page sections"
+}
+
