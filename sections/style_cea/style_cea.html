@@ -1,11 +1,10 @@
 <!-- ===== STYLE CEA 模块 ===== -->
 <style>
-  /* Style CEA Section Styles - 占位模块 */
+  /* Style CEA Section Styles */
   .style-cea {
-    padding: var(--spacing-2xl) 3rem;
+    padding: var(--spacing-3xl) 3rem;
     background: var(--color-bg);
     position: relative;
-    min-height: 400px;
   }
 
   .style-cea-container {
@@ -14,29 +13,222 @@
     width: 100%;
   }
 
-  .style-cea-placeholder {
+  /* 顶部标题区域 - 居中 */
+  .style-cea-header {
     text-align: center;
-    padding: var(--spacing-2xl) 0;
-    color: var(--color-text-secondary);
-    font-family: 'Sora', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 300;
+    margin-bottom: var(--spacing-3xl);
   }
 
-  .style-cea-image {
+  .style-cea-header-label {
+    color: var(--color-text-secondary);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 var(--spacing-sm) 0;
+  }
+
+  .style-cea-title {
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin: 0 0 var(--spacing-md) 0;
+  }
+
+  .style-cea-subtitle {
+    color: var(--color-text-secondary);
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* 卡片网格 - 3x2 */
+  .style-cea-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: var(--spacing-lg);
     width: 100%;
-    max-width: 1200px;
-    height: auto;
+  }
+
+  /* 单个卡片 */
+  .style-cea-card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4 / 3;
     border-radius: 16px;
-    margin: 0 auto;
+    overflow: hidden;
+    background: var(--color-bg-secondary);
+  }
+
+  .style-cea-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
     display: block;
+    transition: transform var(--transition);
+  }
+
+  .style-cea-card:hover .style-cea-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 卡片底部文字覆盖层 */
+  .style-cea-card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: var(--spacing-md) var(--spacing-md);
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.9) 0%,
+      rgba(0, 0, 0, 0.7) 50%,
+      rgba(0, 0, 0, 0.4) 80%,
+      transparent 100%
+    );
+    z-index: 1;
+    pointer-events: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 35%;
+  }
+
+  .style-cea-card-title {
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1.4;
+    margin: 0 0 var(--spacing-xs) 0;
+    text-align: left;
+  }
+
+  .style-cea-card-description {
+    color: var(--color-text-secondary);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 300;
+    line-height: 1.5;
+    margin: 0;
+    text-align: left;
+  }
+
+  /* 响应式设计 */
+  @media (max-width: 991px) {
+    .style-cea {
+      padding: var(--spacing-2xl) var(--spacing-lg);
+    }
+
+    .style-cea-header {
+      margin-bottom: var(--spacing-2xl);
+    }
+
+    .style-cea-grid {
+      grid-template-columns: repeat(2, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: var(--spacing-md);
+    }
+  }
+
+  @media (max-width: 767px) {
+    .style-cea {
+      padding: var(--spacing-xl) var(--spacing-md);
+    }
+
+    .style-cea-header {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .style-cea-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: repeat(6, 1fr);
+      gap: var(--spacing-sm);
+    }
+
+    .style-cea-card {
+      aspect-ratio: 16 / 9;
+    }
   }
 </style>
 
 <!-- HTML 结构 -->
 <section class="style-cea" id="style-cea">
   <div class="style-cea-container">
-    <img src="images/4.png" alt="Style CEA" class="style-cea-image" loading="lazy">
+    <!-- 顶部标题区域 -->
+    <div class="style-cea-header">
+      <h3 class="style-cea-header-label">STYLE</h3>
+      <h2 class="style-cea-title">Select A Visual Style</h2>
+      <p class="style-cea-subtitle">
+        Set the atmosphere and aesthetic for your video or image — crafted through Treclipse's cinematic style engine.
+      </p>
+    </div>
+
+    <!-- 卡片网格 -->
+    <div class="style-cea-grid">
+      <!-- Card 1 -->
+      <div class="style-cea-card">
+        <img src="images/1.png" alt="Ingest your kit" class="style-cea-card-image" loading="lazy">
+        <div class="style-cea-card-overlay">
+          <h4 class="style-cea-card-title">Ingest your kit</h4>
+          <p class="style-cea-card-description">Colors, fonts, lower thirds, logo safe zones, intro/outro.</p>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="style-cea-card">
+        <img src="images/2.jpg" alt="Style DNA" class="style-cea-card-image" loading="lazy">
+        <div class="style-cea-card-overlay">
+          <h4 class="style-cea-card-title">Style DNA</h4>
+          <p class="style-cea-card-description">Captures tone, pacing, motion and composition preferences.</p>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="style-cea-card">
+        <img src="images/3.png" alt="Protected outputs" class="style-cea-card-image" loading="lazy">
+        <div class="style-cea-card-overlay">
+          <h4 class="style-cea-card-title">Protected outputs</h4>
+          <p class="style-cea-card-description">Brand recipes prevent drift and keep every render consistent.</p>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="style-cea-card">
+        <img src="images/4.png" alt="Ingest your kit" class="style-cea-card-image" loading="lazy">
+        <div class="style-cea-card-overlay">
+          <h4 class="style-cea-card-title">Ingest your kit</h4>
+          <p class="style-cea-card-description">Colors, fonts, lower thirds, logo safe zones, intro/outro.</p>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="style-cea-card">
+        <img src="images/5.png" alt="Style DNA" class="style-cea-card-image" loading="lazy">
+        <div class="style-cea-card-overlay">
+          <h4 class="style-cea-card-title">Style DNA</h4>
+          <p class="style-cea-card-description">Captures tone, pacing, motion and composition preferences.</p>
+        </div>
+      </div>
+
+      <!-- Card 6 -->
+      <div class="style-cea-card">
+        <img src="images/logo.jpg" alt="Protected outputs" class="style-cea-card-image" loading="lazy">
+        <div class="style-cea-card-overlay">
+          <h4 class="style-cea-card-title">Protected outputs</h4>
+          <p class="style-cea-card-description">Brand recipes prevent drift and keep every render consistent.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -46,7 +238,14 @@
     'use strict';
 
     const initStyleCea = () => {
-      // 占位模块，稍后添加具体逻辑
+      // 图片加载错误处理
+      const images = document.querySelectorAll('.style-cea-card-image');
+      images.forEach((img) => {
+        img.addEventListener('error', function () {
+          console.warn(`Failed to load image: ${this.src}`);
+          this.style.display = 'none';
+        });
+      });
     };
 
     // DOM 加载后初始化
@@ -57,4 +256,3 @@
     }
   })();
 </script>
-
