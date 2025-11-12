@@ -198,42 +198,86 @@
   transform: translateY(-4px);
 }
 
-/* 响应式设计 - 平板 */
+/* 响应式设计 - 平板 (768px - 991px) */
 @media (max-width: 991px) {
   .explore-more {
     padding: 80px 0;
+    margin-top: -120px; /* 缩小负边距 */
   }
 
   .explore-title {
     font-size: 36px;
   }
 
-  .explore-grid {
-    min-height: auto; /* 取消固定高度 */
+  .explore-label {
+    font-size: 16px;
   }
 
-  /* 平板端: 恢复相对定位，垂直堆叠 */
-  .explore-card {
-    position: relative !important;
-    width: 100% !important;
-    height: auto !important;
-    top: auto !important;
-    left: auto !important;
-    aspect-ratio: 4 / 5; /* 恢复宽高比 */
-    margin-bottom: 20px;
+  /* 平板端: 缩小布局 60%，保持三卡一排 */
+  .explore-grid {
+    min-height: 600px; /* 原1000px * 0.6 */
+  }
+
+  /* 卡片 1: CREATE - 左上角 (60% 缩放) */
+  .explore-card-1 {
+    top: 0;
+    left: calc(30px + var(--explore-row1-offset) * 0.6);
+    width: 297px;  /* 495 * 0.6 */
+    height: 270px; /* 450 * 0.6 */
+  }
+
+  /* 卡片 2: COMPOSE - 中上 (60% 缩放) */
+  .explore-card-2 {
+    top: 0;
+    left: calc(348px + var(--explore-row1-offset) * 0.6);
+    width: 297px;  /* 495 * 0.6 */
+    height: 270px; /* 450 * 0.6 */
+  }
+
+  /* 卡片 3: STUDIO - 右上角 (60% 缩放) */
+  .explore-card-3 {
+    top: 0;
+    left: calc(666px + var(--explore-row1-offset) * 0.6);
+    width: 297px;  /* 495 * 0.6 */
+    height: 270px; /* 450 * 0.6 */
+  }
+
+  /* 卡片 4: Brand Modeling - 左下 (60% 缩放) */
+  .explore-card-4 {
+    top: 300px;  /* 500 * 0.6 */
+    left: calc(30px - var(--explore-row2-offset) * 0.6);
+    width: 297px;  /* 495 * 0.6 */
+    height: 270px; /* 450 * 0.6 */
+  }
+
+  /* 卡片 5: Storytelling - 中下 (60% 缩放) */
+  .explore-card-5 {
+    top: 300px;  /* 500 * 0.6 */
+    left: calc(348px - var(--explore-row2-offset) * 0.6);
+    width: 297px;  /* 495 * 0.6 */
+    height: 270px; /* 450 * 0.6 */
+  }
+
+  /* 卡片 6: Entertainment - 右下角 (60% 缩放) */
+  .explore-card-6 {
+    top: 300px;  /* 500 * 0.6 */
+    left: calc(666px - var(--explore-row2-offset) * 0.6);
+    width: 297px;  /* 495 * 0.6 */
+    height: 270px; /* 450 * 0.6 */
   }
 
   .explore-card-label {
-    font-size: 16px;
-    bottom: 20px;
-    left: 20px;
+    font-size: 14px;
+    bottom: 16px;
+    left: 16px;
   }
 }
 
-/* 响应式设计 - 移动端 */
+/* 响应式设计 - 移动端 (480px - 767px) */
 @media (max-width: 767px) {
   .explore-more {
     padding: 60px 0;
+    margin-top: -80px; /* 进一步缩小负边距 */
   }
 
   .explore-more-container {
@@ -248,30 +292,142 @@
     font-size: 28px;
   }
 
-  .explore-card {
-    aspect-ratio: 16 / 9; /* 移动端使用更宽的比例 */
-    margin-bottom: 16px;
+  .explore-label {
+    font-size: 14px;
+  }
+
+  /* 移动端: 缩小布局 40%，保持三卡一排 */
+  .explore-grid {
+    min-height: 400px; /* 原1000px * 0.4 */
+  }
+
+  /* 卡片 1: CREATE - 左上角 (40% 缩放) */
+  .explore-card-1 {
+    top: 0;
+    left: calc(20px + var(--explore-row1-offset) * 0.4);
+    width: 198px;  /* 495 * 0.4 */
+    height: 180px; /* 450 * 0.4 */
+  }
+
+  /* 卡片 2: COMPOSE - 中上 (40% 缩放) */
+  .explore-card-2 {
+    top: 0;
+    left: calc(232px + var(--explore-row1-offset) * 0.4);
+    width: 198px;  /* 495 * 0.4 */
+    height: 180px; /* 450 * 0.4 */
+  }
+
+  /* 卡片 3: STUDIO - 右上角 (40% 缩放) */
+  .explore-card-3 {
+    top: 0;
+    left: calc(444px + var(--explore-row1-offset) * 0.4);
+    width: 198px;  /* 495 * 0.4 */
+    height: 180px; /* 450 * 0.4 */
+  }
+
+  /* 卡片 4: Brand Modeling - 左下 (40% 缩放) */
+  .explore-card-4 {
+    top: 200px;  /* 500 * 0.4 */
+    left: calc(20px - var(--explore-row2-offset) * 0.4);
+    width: 198px;  /* 495 * 0.4 */
+    height: 180px; /* 450 * 0.4 */
+  }
+
+  /* 卡片 5: Storytelling - 中下 (40% 缩放) */
+  .explore-card-5 {
+    top: 200px;  /* 500 * 0.4 */
+    left: calc(232px - var(--explore-row2-offset) * 0.4);
+    width: 198px;  /* 495 * 0.4 */
+    height: 180px; /* 450 * 0.4 */
+  }
+
+  /* 卡片 6: Entertainment - 右下角 (40% 缩放) */
+  .explore-card-6 {
+    top: 200px;  /* 500 * 0.4 */
+    left: calc(444px - var(--explore-row2-offset) * 0.4);
+    width: 198px;  /* 495 * 0.4 */
+    height: 180px; /* 450 * 0.4 */
   }
 
   .explore-card-label {
-    font-size: 14px;
-    bottom: 16px;
-    left: 16px;
+    font-size: 12px;
+    bottom: 12px;
+    left: 12px;
   }
 }
 
-/* 响应式设计 - 小屏手机 */
+/* 响应式设计 - 小屏手机 (≤479px) */
 @media (max-width: 479px) {
   .explore-more {
     padding: 50px 0;
+    margin-top: -60px;
   }
 
   .explore-title {
     font-size: 24px;
   }
 
+  .explore-label {
+    font-size: 12px;
+  }
+
+  /* 超小屏: 缩小布局 30%，保持三卡一排 */
+  .explore-grid {
+    min-height: 300px; /* 原1000px * 0.3 */
+  }
+
+  /* 卡片 1: CREATE - 左上角 (30% 缩放) */
+  .explore-card-1 {
+    top: 0;
+    left: calc(15px + var(--explore-row1-offset) * 0.3);
+    width: 149px;  /* 495 * 0.3 */
+    height: 135px; /* 450 * 0.3 */
+  }
+
+  /* 卡片 2: COMPOSE - 中上 (30% 缩放) */
+  .explore-card-2 {
+    top: 0;
+    left: calc(174px + var(--explore-row1-offset) * 0.3);
+    width: 149px;  /* 495 * 0.3 */
+    height: 135px; /* 450 * 0.3 */
+  }
+
+  /* 卡片 3: STUDIO - 右上角 (30% 缩放) */
+  .explore-card-3 {
+    top: 0;
+    left: calc(333px + var(--explore-row1-offset) * 0.3);
+    width: 149px;  /* 495 * 0.3 */
+    height: 135px; /* 450 * 0.3 */
+  }
+
+  /* 卡片 4: Brand Modeling - 左下 (30% 缩放) */
+  .explore-card-4 {
+    top: 150px;  /* 500 * 0.3 */
+    left: calc(15px - var(--explore-row2-offset) * 0.3);
+    width: 149px;  /* 495 * 0.3 */
+    height: 135px; /* 450 * 0.3 */
+  }
+
+  /* 卡片 5: Storytelling - 中下 (30% 缩放) */
+  .explore-card-5 {
+    top: 150px;  /* 500 * 0.3 */
+    left: calc(174px - var(--explore-row2-offset) * 0.3);
+    width: 149px;  /* 495 * 0.3 */
+    height: 135px; /* 450 * 0.3 */
+  }
+
+  /* 卡片 6: Entertainment - 右下角 (30% 缩放) */
+  .explore-card-6 {
+    top: 150px;  /* 500 * 0.3 */
+    left: calc(333px - var(--explore-row2-offset) * 0.3);
+    width: 149px;  /* 495 * 0.3 */
+    height: 135px; /* 450 * 0.3 */
+  }
+
   .explore-card-label {
-    font-size: 13px;
+    font-size: 10px;
+    bottom: 8px;
+    left: 8px;
   }
 }
 </style>
