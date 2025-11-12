@@ -211,22 +211,30 @@
     font-size: 2.5rem;
   }
 
+  /* 改用 flex 布局以保留横向放大动画 */
   .workflow__cards {
-    display: grid; /* 平板端恢复grid布局 */
-    grid-template-columns: repeat(2, 1fr);
-    height: auto; /* 取消固定高度 */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-lg);
   }
 
-  /* 平板端取消悬浮动画 */
+  /* 平板端保留动画，但略微减弱 */
   .workflow__card {
-    flex: none;
-    height: auto; /* 取消固定高度 */
-    aspect-ratio: 3 / 6.1; /* 恢复原始比例 */
+    flex: 1 1 calc(50% - var(--spacing-lg)); /* 2列宽度计算 */
+    min-width: 280px; /* 最小宽度保证 */
+    max-width: 400px; /* 最大宽度限制 */
   }
 
+  /* 保留放大动画，但倍数减弱到 2.0 */
   .workflow__card:hover {
-    flex: none;
-    transform: translateY(-8px); /* 简单的上移效果 */
+    flex: 2 1 calc(50% - var(--spacing-lg));
+    max-width: 600px;
+  }
+
+  /* 其他卡片略微收缩 */
+  .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
+    flex: 0.8 1 calc(50% - var(--spacing-lg));
   }
 }
 
@@ -238,6 +246,7 @@
 
   .workflow__header {
     margin-bottom: var(--spacing-xl);
+    padding: 0 var(--spacing-md); /* 添加左右内边距 */
   }
 
   .workflow__title {
@@ -246,40 +255,124 @@
 
   .workflow__description {
     font-size: 1rem;
+    padding: 0 var(--spacing-md); /* 防止超出 */
   }
 
+  /* 改为 2 列 flex 布局 + 动画支持 */
   .workflow__cards {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: var(--spacing-md);
+    padding: 0 var(--spacing-md); /* 左右留白 */
+    box-sizing: border-box;
   }
 
+  /* 2列布局，支持动画 */
   .workflow__card {
-    aspect-ratio: 3 / 3.5;
+    flex: 1 1 calc(50% - var(--spacing-md) / 2); /* 2列宽度 */
+    min-width: 160px; /* 移动端最小 */
+    max-width: 280px; /* 移动端最大 */
+    aspect-ratio: 3 / 4.5; /* 调整纵横比 */
   }
 
+  /* 移动端放大动画 - 极大效果 */
+  .workflow__card:hover {
+    flex: 5 1 calc(50% - var(--spacing-md) / 2); /* 从 3.5 增大到 5 */
+    max-width: 700px; /* 从 550px 增加到 700px */
+  }
+
+  .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
+    flex: 0.2 1 calc(50% - var(--spacing-md) / 2); /* 从 0.3 减小到 0.2，更明显 */
+  }
+
+  /* 修复卡片编号定位 - 使用 bottom 而非 top */
   .workflow__card-number {
-    font-size: 2.5rem;
-    top: var(--spacing-sm);
-    left: var(--spacing-sm);
+    font-size: 2rem;
+    bottom: 60px; /* 用 bottom 而非 top */
+    left: 20px; /* 减小移动端边距 */
+  }
+
+  /* 移除悬浮时数字的下移动画 */
+  .workflow__card:hover .workflow__card-number {
+    bottom: 60px; /* 保持不变，不下移 */
+  }
+
+  /* 调整标题位置 */
+  .workflow__card-title {
+    font-size: 1.25rem;
+    bottom: 60px;
+    left: 50px; /* 留出数字空间 */
+  }
+
+  /* 移除悬浮时标题的下移动画 */
+  .workflow__card:hover .workflow__card-title {
+    bottom: 60px; /* 保持不变，不下移 */
   }
 
   .workflow__card-content {
     padding: var(--spacing-md);
   }
-
-  .workflow__card-title {
-    font-size: 1.25rem;
-  }
 }
 
-/* 小屏手机 */
+/* 超小屏优化 */
 @media (max-width: 479px) {
   .workflow__title {
     font-size: 1.75rem;
   }
 
+  .workflow__description {
+    font-size: 0.9rem;
+  }
+
+  /* 调整卡片间距和内边距 */
+  .workflow__cards {
+    gap: var(--spacing-sm);
+    padding: 0 var(--spacing-sm);
+  }
+
+  /* 优化卡片尺寸 */
+  .workflow__card {
+    min-width: 140px;
+    max-width: 240px;
+    aspect-ratio: 3 / 5; /* 更竖长 */
+  }
+
+  .workflow__card:hover {
+    max-width: 320px;
+  }
+
+  /* 调整编号样式 */
   .workflow__card-number {
-    font-size: 2rem;
+    font-size: 1.8rem;
+    bottom: 50px;
+    left: 15px;
+  }
+
+  /* 移除悬浮时数字的下移动画 */
+  .workflow__card:hover .workflow__card-number {
+    bottom: 50px; /* 保持不变，不下移 */
+  }
+
+  /* 调整标题样式 */
+  .workflow__card-title {
+    font-size: 1.1rem;
+    left: 45px;
+    bottom: 50px;
+  }
+
+  /* 移除悬浮时标题的下移动画 */
+  .workflow__card:hover .workflow__card-title {
+    bottom: 50px; /* 保持不变，不下移 */
+  }
+
+  /* 调整描述文字 */
+  .workflow__card-text {
+    font-size: 0.75rem;
+  }
+
+  .workflow__card-content {
+    padding: var(--spacing-sm);
   }
 }
 </style>
@@ -396,15 +489,32 @@
     // 记录每张卡片的原始高度
     const originalHeights = new Map();
 
-    // 等待布局稳定后记录高度
+    // 等待布局稳定后记录高度（仅在桌面端）
     setTimeout(() => {
-      cards.forEach(card => {
-        const height = card.offsetHeight;
-        originalHeights.set(card, height);
-        // 设置固定高度为内联样式
-        card.style.height = `${height}px`;
-      });
+      // 只在桌面端（≥992px）设置固定高度
+      if (window.innerWidth >= 992) {
+        cards.forEach(card => {
+          const height = card.offsetHeight;
+          originalHeights.set(card, height);
+          // 设置固定高度为内联样式
+          card.style.height = `${height}px`;
+        });
+      }
     }, 100);
+
+    // 监听窗口大小变化，移除移动端的固定高度
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 992) {
+        cards.forEach(card => {
+          card.style.height = ''; // 移除固定高度，使用 aspect-ratio
+        });
+      } else if (window.innerWidth >= 992) {
+        cards.forEach(card => {
+          const height = card.offsetHeight;
+          card.style.height = `${height}px`; // 重新设置固定高度
+        });
+      }
+    });
 
     // 图片加载错误处理
     cards.forEach(card => {
