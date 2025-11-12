@@ -352,24 +352,95 @@
 
   .styles-container {
     padding: 0 var(--spacing-md);
-    gap: var(--spacing-lg);
+    gap: var(--spacing-2xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 所有内容居中 */
   }
 
-  /* 移动端：简化为2列网格 */
+  /* 移动端：简化为2列网格，保留旋转效果 */
   .styles-gallery {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-sm);
     transform: rotate(35deg);
-    padding: var(--spacing-sm);
+    padding: var(--spacing-md);
+    max-width: 500px; /* 限制最大宽度 */
+    margin: 0 auto; /* 居中 */
   }
 
   /* 移动端：重置交错布局，改为简单的2列排列 */
-  .styles-card:nth-child(1) { grid-column: 1 / 2; grid-row: 1; }
-  .styles-card:nth-child(2) { grid-column: 2 / 3; grid-row: 1; }
-  .styles-card:nth-child(3) { grid-column: 1 / 2; grid-row: 2; }
-  .styles-card:nth-child(4) { grid-column: 2 / 3; grid-row: 2; }
-  .styles-card:nth-child(5) { grid-column: 1 / 2; grid-row: 3; }
-  .styles-card:nth-child(6) { grid-column: 2 / 3; grid-row: 3; }
+  .styles-card:nth-child(1) {
+    grid-column: 1 / 2;
+    grid-row: 1;
+    transform: translate(0, 0); /* 重置transform */
+    width: 100%;
+    height: auto;
+  }
+
+  .styles-card:nth-child(2) {
+    grid-column: 2 / 3;
+    grid-row: 1;
+    transform: translate(0, 0);
+    width: 100%;
+    height: auto;
+  }
+
+  .styles-card:nth-child(3) {
+    grid-column: 1 / 2;
+    grid-row: 2;
+    transform: translate(0, 0);
+    width: 100%;
+    height: auto;
+  }
+
+  .styles-card:nth-child(4) {
+    grid-column: 2 / 3;
+    grid-row: 2;
+    transform: translate(0, 0);
+    width: 100%;
+    height: auto;
+  }
+
+  .styles-card:nth-child(5) {
+    grid-column: 1 / 2;
+    grid-row: 3;
+    transform: translate(0, 0);
+    width: 100%;
+    height: auto;
+  }
+
+  .styles-card:nth-child(6) {
+    grid-column: 2 / 3;
+    grid-row: 3;
+    transform: translate(0, 0);
+    width: 100%;
+    height: auto;
+  }
+
+  /* 移除单个卡片的动画，但保持显示 */
+  .styles-card {
+    opacity: 1 !important; /* 强制显示卡片 */
+    animation: none !important; /* 移除动画 */
+  }
+
+  .styles-card.animate-in {
+    animation: none;
+    opacity: 1;
+  }
+
+  /* 右侧内容区域 */
+  .styles-content {
+    margin-top: 0; /* 移除桌面端的 120px 偏移 */
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .styles-header {
+    width: 100%;
+  }
 
   .styles-title {
     font-size: 2rem;
@@ -377,16 +448,84 @@
 
   .styles-description {
     font-size: 1rem;
+    padding: 0 var(--spacing-sm);
   }
 
   /* 功能卡片垂直堆叠 */
   .styles-features {
     grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .styles-feature-card {
+    padding: var(--spacing-lg);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .styles-feature-title {
+    font-size: 1.25rem;
+  }
+
+  .styles-feature-description {
+    font-size: 1rem;
+  }
+
+  .styles-cta {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .styles-button {
+    width: 100%;
+    padding: 16px 24px;
+    transform: scale(1); /* 移除桌面端的 0.85 缩放 */
+  }
+
+  .styles-button:hover {
+    transform: scale(1) translateY(-2px);
+  }
+}
+
+/* 小屏移动端（≤ 479px）*/
+@media (max-width: 479px) {
+  .styles {
+    padding: var(--spacing-lg) 0;
+  }
+
+  .styles-container {
+    padding: 0 var(--spacing-sm);
+    gap: var(--spacing-xl);
+  }
+
+  .styles-title {
+    font-size: 1.75rem;
+  }
+
+  .styles-description {
+    font-size: 0.9rem;
+  }
+
+  .styles-gallery {
+    gap: 0.5rem;
+    padding: var(--spacing-sm);
+    max-width: 400px;
+  }
+
+  .styles-card {
+    opacity: 1 !important; /* 确保卡片可见 */
+  }
+
+  .styles-features {
     gap: var(--spacing-sm);
+    max-width: 400px;
   }
 
   .styles-feature-card {
     padding: var(--spacing-md);
+    min-height: auto;
   }
 
   .styles-feature-title {
@@ -397,20 +536,13 @@
     font-size: 0.875rem;
   }
 
+  .styles-cta {
+    max-width: 400px;
+  }
+
   .styles-button {
-    width: 100%;
-    padding: 14px 24px;
-  }
-}
-
-/* 小屏移动端（≤ 479px）*/
-@media (max-width: 479px) {
-  .styles-title {
-    font-size: 1.75rem;
-  }
-
-  .styles-gallery {
-    gap: 0.5rem;
+    padding: 14px 20px;
+    font-size: 1.1rem;
   }
 }
 </style>
