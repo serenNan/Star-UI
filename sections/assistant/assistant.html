@@ -245,53 +245,269 @@
 /* 已移除旧的右侧大卡片样式（.assistant-card-large, .assistant-content, .assistant-title, .assistant-description, .assistant-link）
    现在右侧也使用内嵌功能项样式 */
 
-/* 响应式布局 */
+/* ========================================
+   平板/移动端适配 (响应式指南)
+   ======================================== */
 @media (max-width: 991px) {
-  .assistant-grid {
-    grid-template-columns: 1fr;  /* 单列布局 */
+  /* 容器改为垂直流式布局 + 居中 */
+  .assistant-container {
+    overflow-x: hidden;      /* 防止横向滚动 */
+    overflow-y: visible;     /* 允许元素溢出(悬浮效果) */
   }
 
-  /* 移动端左侧卡片也改为垂直堆叠 */
+  /* 网格改为单列 + 居中对齐 */
+  .assistant-grid {
+    grid-template-columns: 1fr;  /* 单列布局 */
+    justify-content: center;     /* 整体居中 */
+    align-items: center;         /* 子元素居中 */
+  }
+
+  /* 左右列改为100%宽度 + 居中 */
+  .assistant-left,
+  .assistant-right {
+    width: 100%;
+    max-width: 600px;  /* 限制移动端最大宽度 */
+    margin: 0 auto;    /* 居中 */
+  }
+
+  /* 卡片高度改为自动 */
+  .assistant-card {
+    height: auto;      /* 🔑 核心改动：自动高度 */
+    min-height: auto;  /* 移除最小高度限制 */
+  }
+
+  /* 移动端左侧卡片改为垂直堆叠 + 居中 */
   .assistant-card-merged {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr;  /* 单列 */
+    align-items: center;         /* 子元素居中 */
+    padding: var(--spacing-lg);  /* 统一内边距 */
+  }
+
+  /* 移动端右侧卡片内边距调整 */
+  .assistant-card-single {
+    padding: var(--spacing-lg);  /* 统一内边距 */
+  }
+
+  /* 功能项垂直居中 */
+  .assistant-feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* 🔑 居中对齐 */
+    text-align: center;   /* 文字居中 */
   }
 
   .assistant-feature-item:not(:last-child) {
     border-bottom: 1px solid var(--color-border);
     padding-right: 0;
-    padding-bottom: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
   }
 
-  /* 移动端图片比例调整 - 所有功能项统一使用 16:9 */
+  /* 图片改为弹性尺寸 + 居中 */
   .assistant-feature-visual {
+    width: 100%;              /* 🔑 占满容器 */
+    max-width: 100%;          /* 不超过容器 */
+    height: auto;             /* 🔑 自动高度 */
+    aspect-ratio: 16/9;       /* 保持 16:9 比例 */
+    margin: 0 auto;           /* 居中 */
+  }
+
+  /* 右侧单卡片图片也改为弹性尺寸 */
+  .assistant-card-single .assistant-feature-visual {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
     aspect-ratio: 16/9;
+  }
+
+  /* 右侧独立样式图片也改为弹性尺寸 */
+  .assistant-feature-visual-right {
+    width: 100%;              /* 🔑 占满容器 */
+    max-width: 100%;          /* 不超过容器 */
+    height: auto;             /* 🔑 自动高度 */
+    aspect-ratio: 16/9;       /* 保持 16:9 比例 */
+    margin: 0 auto;           /* 居中 */
+  }
+
+  /* 右侧功能项也居中 */
+  .assistant-feature-item-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* 🔑 居中对齐 */
+    text-align: center;   /* 文字居中 */
+  }
+
+  /* 内容区域居中对齐 */
+  .assistant-feature-content,
+  .assistant-feature-content-right {
+    align-items: center;  /* 水平居中 */
+    text-align: center;   /* 文字居中 */
+    width: 100%;          /* 占满宽度 */
+    padding-top: var(--spacing-md);
+  }
+
+  /* 移除描述中的<br>标签效果 */
+  .assistant-feature-description br,
+  .assistant-feature-description-right br {
+    display: none;  /* 隐藏强制换行 */
+  }
+
+  /* 标题区域调整 */
+  .assistant-section .section-header-center {
+    margin-bottom: var(--spacing-xl);
+    padding: 0 var(--spacing-md);
+  }
+
+  /* 标题字体调整 */
+  .assistant-section .section-title-large {
+    font-size: 2rem;
+  }
+
+  .assistant-section .section-subtitle-large {
+    font-size: 1.125rem;
   }
 }
 
+/* ========================================
+   移动端进一步优化 (<768px)
+   ======================================== */
 @media (max-width: 767px) {
   .assistant-section {
     padding: var(--spacing-2xl) 0;
   }
 
   .section-header-center {
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    padding: 0 var(--spacing-sm);
   }
 
+  /* 标题进一步缩小 */
+  .assistant-section .section-title-large {
+    font-size: 1.75rem;
+  }
+
+  .assistant-section .section-subtitle-large {
+    font-size: 1rem;
+  }
+
+  .assistant-section .section-label {
+    font-size: 0.875rem;
+  }
+
+  /* 网格间距减小 */
   .assistant-grid {
-    gap: var(--spacing-lg);
+    gap: var(--spacing-md);
   }
 
-  .assistant-feature-item {
+  /* 卡片内边距减小 */
+  .assistant-card-merged,
+  .assistant-card-single {
     padding: var(--spacing-md);
   }
 
-  .assistant-feature-title {
+  /* 功能项间距减小 */
+  .assistant-feature-item {
+    padding: var(--spacing-sm) 0;
+  }
+
+  .assistant-feature-item:not(:last-child) {
+    padding-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* 功能项标题和描述字体缩小 */
+  .assistant-feature-title,
+  .assistant-feature-title-right {
+    font-size: 1.25rem;
+  }
+
+  .assistant-feature-description,
+  .assistant-feature-description-right {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+}
+
+/* ========================================
+   小屏手机优化 (<480px)
+   ======================================== */
+@media (max-width: 479px) {
+  .assistant-section {
+    padding: var(--spacing-xl) 0;
+  }
+
+  /* 左右列最大宽度调整 */
+  .assistant-left,
+  .assistant-right {
+    max-width: 100%;  /* 占满屏幕 */
+  }
+
+  /* 标题进一步缩小 */
+  .assistant-section .section-title-large {
+    font-size: 1.5rem;
+  }
+
+  .assistant-section .section-subtitle-large {
+    font-size: 0.875rem;
+  }
+
+  /* 功能项标题和描述更小 */
+  .assistant-feature-title,
+  .assistant-feature-title-right {
     font-size: 1.125rem;
   }
 
-  .assistant-feature-description {
-    font-size: 12px;
+  .assistant-feature-description,
+  .assistant-feature-description-right {
+    font-size: 0.8125rem;
+  }
+
+  /* 卡片内边距进一步缩小 */
+  .assistant-card-merged,
+  .assistant-card-single {
+    padding: var(--spacing-sm);
+  }
+}
+
+/* ========================================
+   触摸交互优化
+   ======================================== */
+
+/* 禁用悬浮效果 */
+@media (hover: none) {
+  .assistant-card:hover {
+    transform: none;          /* 移除悬浮效果 */
+    box-shadow: none;
+  }
+
+  .assistant-card:hover .assistant-feature-visual img,
+  .assistant-card:hover .assistant-feature-visual-right img {
+    transform: none;          /* 移除图片缩放 */
+  }
+}
+
+/* 触摸反馈 */
+@media (max-width: 991px) {
+  .assistant-card:active {
+    transform: scale(0.98);   /* 按下缩小 */
+    transition: transform 0.1s ease;
+  }
+
+  /* 增大卡片触摸区域 */
+  .assistant-card {
+    min-height: 44px;         /* iOS 最小触摸标准 */
+  }
+}
+
+/* ========================================
+   性能优化
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  .assistant-card,
+  .assistant-card:hover,
+  .assistant-feature-visual img {
+    animation: none !important;
+    transition: none !important;
   }
 }
 </style>

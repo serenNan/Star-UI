@@ -92,6 +92,47 @@
   position: relative;
 }
 
+/* ===== JS 控制的移动端保护样式（双保险） ===== */
+.tools-showcase--mobile .tools-showcase__side {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: none !important;
+}
+
+.tools-showcase--mobile .tools-showcase__carousel-wrapper {
+  padding: var(--spacing-xl) 0;
+  max-width: 480px;
+  margin: 0 auto 40px;
+  width: 100%;
+}
+
+.tools-showcase--mobile .tools-showcase__carousel {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  min-height: auto;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+.tools-showcase--mobile .tools-showcase__center {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.tools-showcase--mobile .tools-showcase__card--main {
+  width: min(90vw, 400px);
+  max-width: 400px;
+  min-height: 260px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  display: block;
+}
+
 /* ===== 左右两侧堆叠容器 - 负边距实现重叠 ===== */
 .tools-showcase__side {
   position: relative;
@@ -303,80 +344,233 @@
 @media (max-width: 767px) {
   .tools-showcase {
     padding: 60px 0;
+    overflow-x: hidden; /* 防止横向滚动 */
+    overflow-y: visible; /* 允许元素溢出(卡片缩放效果) */
+  }
+
+  /* 标题区域 - 居中对齐 */
+  .tools-showcase__header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 0 var(--spacing-md);
   }
 
   .tools-showcase__title {
     font-size: 2rem;
+    line-height: 1.2;
   }
 
   .tools-showcase__subtitle {
     font-size: 1rem;
+    margin-bottom: 12px;
   }
 
+  /* 标签栏 - 居中 + 增大触摸区域 */
   .tools-showcase__tabs {
     gap: 8px;
     margin-bottom: 40px;
+    padding: 0 var(--spacing-sm);
+    justify-content: center;
   }
 
   .tools-showcase__tab {
-    padding: 10px 20px;
+    padding: 12px 20px; /* 增大触摸区域 */
+    min-height: 44px; /* iOS 最小触摸标准 */
     font-size: 0.8125rem;
+    width: auto; /* 自适应宽度 */
+    flex: 0 0 auto;
   }
 
-  /* 隐藏左右堆叠，仅显示中央卡片 */
+  /* 标签栏触摸反馈 */
+  .tools-showcase__tab:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+  }
+
+  /* 🔑 强制隐藏左右堆叠，仅显示中央卡片 */
   .tools-showcase__side {
-    display: none;
+    display: none !important; /* 强制隐藏 */
+    visibility: hidden !important; /* 双重保险 */
+    opacity: 0 !important;
+    pointer-events: none !important;
+    position: absolute !important; /* 完全脱离文档流 */
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .tools-showcase__side.left,
+  .tools-showcase__side.right {
+    display: none !important; /* 强制隐藏左右侧 */
+  }
+
+  /* 轮播容器 - 完美居中 + 留出缩放空间 */
+  .tools-showcase__carousel-wrapper {
+    padding: var(--spacing-xl) 0; /* 上下留出缩放空间 */
+    overflow: visible; /* 允许卡片缩放时溢出 */
+    width: 100%;
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
   }
 
   .tools-showcase__carousel {
     gap: 0;
-    min-height: 400px;
-  }
-
-  .tools-showcase__card--main {
+    min-height: 500px; /* 增加最小高度,留出缩放空间 */
+    display: flex !important; /* 强制 flex 布局 */
+    flex-direction: column; /* 垂直布局 */
+    justify-content: center; /* 垂直居中 */
+    align-items: center; /* 水平居中 */
+    padding: var(--spacing-xl) var(--spacing-md); /* 四周留白 */
     width: 100%;
-    max-width: 400px;
-    height: 350px;
+    max-width: 100%; /* 确保不会超出父容器 */
+    margin: 0 auto; /* 容器本身也居中 */
   }
 
-  /* 移动端禁用扩散动画 */
-  .tools-showcase__carousel.expanded .tools-showcase__card--main {
-    transform: scale(1); /* 不放大 */
+  /* 中央容器 - 完美居中 */
+  .tools-showcase__center {
+    display: flex !important;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    width: 100%;
+    max-width: 100%;
+    margin: 0 !important; /* 移除 margin,完全依赖 flex 居中 */
+    position: relative;
+  }
+
+  /* 主卡片 - 弹性尺寸 + 完美居中 + 保留缩放效果 */
+  .tools-showcase__card--main {
+    width: 90%; /* 留出10%边距 */
+    max-width: 400px;
+    height: auto; /* 自动高度 */
+    min-height: 300px;
+    aspect-ratio: 16 / 9; /* 保持宽高比 */
+    margin: 0 !important; /* 移除 margin,完全依赖父容器的 flex 居中 */
+    display: block;
+    transform-origin: center center; /* 🔑 缩放中心点 */
+    position: relative;
+  }
+
+  /* 主卡片图片 - 保持宽高比 */
+  .tools-showcase__card--main .tools-showcase__card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* 🔑 移动端启用缩放动画(移除之前的禁用规则) */
+  /* 注意: 不再强制 scale(1),让 JavaScript 控制缩放 */
+
+  /* CTA 按钮 - 居中 + 增大触摸区域 */
+  .tools-showcase__cta {
+    margin-top: 0;
+    padding: 0 var(--spacing-md);
   }
 
   .tools-showcase__button {
     padding: 16px 40px;
+    min-height: 48px; /* 增大触摸区域 */
     font-size: 0.9375rem;
+    width: auto;
+    max-width: 100%;
+  }
+
+  /* 按钮触摸反馈 */
+  .tools-showcase__button:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
   }
 }
 
 /* ===== 小屏手机优化 ===== */
 @media (max-width: 479px) {
+  /* 标题进一步缩小 */
   .tools-showcase__title {
     font-size: 1.75rem;
+    padding: 0 var(--spacing-sm);
+  }
+
+  .tools-showcase__subtitle {
+    font-size: 0.9375rem;
+  }
+
+  /* 标签栏紧凑布局 */
+  .tools-showcase__tabs {
+    gap: 6px;
+    padding: 0 var(--spacing-xs);
+  }
+
+  .tools-showcase__tab {
+    padding: 10px 16px;
+    font-size: 0.75rem;
+    min-width: auto;
+  }
+
+  /* 🔑 小屏手机也强制隐藏左右卡片 */
+  .tools-showcase__side {
+    display: none !important;
+    visibility: hidden !important;
+    position: absolute !important; /* 完全脱离文档流 */
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* 轮播容器紧凑间距 + 留出缩放空间 */
+  .tools-showcase__carousel-wrapper {
+    padding: var(--spacing-lg) 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .tools-showcase__carousel {
-    min-height: 350px;
+    min-height: 450px; /* 增加高度,留出缩放空间 */
+    padding: var(--spacing-lg) var(--spacing-sm);
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
   }
 
+  .tools-showcase__center {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 !important; /* 移除 margin,完全依赖 flex 居中 */
+  }
+
+  /* 主卡片进一步缩小 + 完美居中 */
   .tools-showcase__card--main {
+    width: 90%; /* 留出10%边距 */
     max-width: 320px;
-    height: 300px;
+    min-height: 250px;
+    margin: 0 !important; /* 移除 margin,完全依赖父容器的 flex 居中 */
+    display: block;
+    transform-origin: center center;
+    position: relative;
   }
 
+  /* 按钮全宽布局 */
   .tools-showcase__button {
     width: 100%;
     max-width: 300px;
+    padding: 14px 32px;
+    font-size: 0.875rem;
   }
 }
 
 /* ===== 禁用触摸设备的悬浮效果 ===== */
 @media (hover: none) {
+  /* 禁用标签按钮悬浮效果 */
   .tools-showcase__tab:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--color-text-secondary);
-    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1); /* 保持基础样式 */
+    color: #FFFFFF;
   }
 
   .tools-showcase__tab--active:hover {
@@ -384,9 +578,24 @@
     color: black;
   }
 
+  /* 禁用 CTA 按钮悬浮效果 */
   .tools-showcase__button:hover {
     transform: none;
     box-shadow: none;
+    background: white;
+  }
+
+  /* 增强触摸激活状态 */
+  .tools-showcase__tab:active {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .tools-showcase__tab--active:active {
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .tools-showcase__button:active {
+    background: rgba(255, 255, 255, 0.9);
   }
 }
 </style>
@@ -514,9 +723,13 @@
   let consecutiveScrollCount = 0; // 连续滚动计数器（用于释放滚动）
   let lastScrollDirection = 0; // 上次滚动方向（1=向下, -1=向上）
 
-  const isMobile = window.innerWidth < 768; // 检测是否为移动设备
+  // 动态检测是否为移动设备（支持窗口大小变化）
+  function isMobileDevice() {
+    return window.innerWidth < 768;
+  }
 
   // ===== DOM 元素 =====
+  const showcaseSection = document.querySelector('.tools-showcase'); // 模块容器
   const carousel = document.getElementById('toolsCarousel'); // 轮播容器
   const mainCardContainer = document.getElementById('mainCard'); // 主卡片容器
   const mainCard = document.querySelector('#mainCard img'); // 主卡片图片
@@ -527,10 +740,20 @@
   const tabs = document.querySelectorAll('.tools-showcase__tab');
   const runBtn = document.getElementById('runGenerator');
 
+  if (!showcaseSection || !carousel || !mainCardContainer || !mainCard || !runBtn) {
+    console.warn('[tools-showcase] 必要的 DOM 节点缺失，已跳过脚本初始化。');
+    return;
+  }
+
+  let wheelListenerAttached = false;
+  let resizeRaf = null;
+
   // ===== 初始化 =====
   function init() {
     updateCardsDisplay();
+    updateResponsiveLayout();
     attachEventListeners();
+    updateScaleBasedOnScroll();
   }
 
   // ===== 获取可见卡片索引 =====
@@ -564,19 +787,65 @@
     rightStack[0].alt = currentCards[indices[3]].alt;
   }
 
+  // ===== 根据屏幕宽度切换布局（JS + CSS 双保险）=====
+  function updateResponsiveLayout() {
+    if (!showcaseSection) return;
+
+    const mobile = isMobileDevice();
+    showcaseSection.classList.toggle('tools-showcase--mobile', mobile);
+
+    if (leftSide) {
+      leftSide.hidden = mobile;
+      if (mobile) {
+        leftSide.setAttribute('aria-hidden', 'true');
+      } else {
+        leftSide.removeAttribute('aria-hidden');
+        leftSide.style.transform = '';
+      }
+    }
+
+    if (rightSide) {
+      rightSide.hidden = mobile;
+      if (mobile) {
+        rightSide.setAttribute('aria-hidden', 'true');
+      } else {
+        rightSide.removeAttribute('aria-hidden');
+        rightSide.style.transform = '';
+      }
+    }
+
+    // 🔧 修复: 移除手机端滚动时自动切换照片的逻辑
+    // 手机端保留:
+    // ✅ 缩放动画 (通过 updateScaleBasedOnScroll)
+    // ✅ 触摸滑动切换 (通过 handleTouchStart/End)
+    // ❌ 滚动切换照片 (已移除)
+
+    // 如果之前附加过 wheel 监听器,清理它
+    if (wheelListenerAttached) {
+      showcaseSection.removeEventListener('wheel', handleWheelMobile);
+      wheelListenerAttached = false;
+    }
+  }
+
   // ===== 应用缩放效果（平滑跟随滚动）=====
   function applyScaleTransform(scale) {
+    // 调试日志（生产环境可移除）
+    console.log('applyScaleTransform:', { scale, isMobile: isMobileDevice(), width: window.innerWidth });
+
     // 更新中央卡片缩放
     mainCardContainer.style.transform = `scale(${scale})`;
 
-    // 计算左右卡片的推开距离（线性映射）
-    // scale 1.0 → 0px, scale 1.5 → maxPushDistance
-    const progress = (scale - minScale) / (maxScale - minScale);
-    const pushDistance = progress * maxPushDistance;
+    // 桌面端才处理左右卡片的推开动画
+    if (!isMobileDevice() && leftSide && rightSide) {
+      // 计算左右卡片的推开距离（线性映射）
+      // scale 1.0 → 0px, scale 1.5 → maxPushDistance
+      const progress = (scale - minScale) / (maxScale - minScale);
+      const pushDistance = progress * maxPushDistance;
 
-    // 应用视差效果
-    leftSide.style.transform = `translateX(-${pushDistance}px)`;
-    rightSide.style.transform = `translateX(${pushDistance}px)`;
+      // 应用视差效果
+      leftSide.style.transform = `translateX(-${pushDistance}px)`;
+      rightSide.style.transform = `translateX(${pushDistance}px)`;
+    }
   }
 
   // ===== 使用 RAF 平滑更新缩放（性能优化）=====
@@ -625,8 +894,8 @@
 
   // ===== 基于滚动位置计算缩放（不劫持滚动）=====
   function updateScaleBasedOnScroll() {
-    const section = document.querySelector('.tools-showcase');
-    const rect = section.getBoundingClientRect();
+    if (!showcaseSection) return;
+    const rect = showcaseSection.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
 
     // 计算区域相对于视口的位置
@@ -695,6 +964,17 @@
     wheelTimeout = setTimeout(() => {
       wheelTimeout = null;
     }, 500);
+  }
+
+  // ===== 监听窗口尺寸变化，保持布局状态同步 =====
+  function handleResize() {
+    if (resizeRaf) return;
+
+    resizeRaf = requestAnimationFrame(() => {
+      resizeRaf = null;
+      updateResponsiveLayout();
+      updateScaleBasedOnScroll();
+    });
   }
 
   // ===== 标签切换 =====
@@ -789,12 +1069,7 @@
   function attachEventListeners() {
     // 监听页面滚动（被动式，不劫持）
     window.addEventListener('scroll', handleScroll, { passive: true });
-
-    // 移动端保留滚轮切换功能
-    if (isMobile) {
-      const section = document.querySelector('.tools-showcase');
-      section.addEventListener('wheel', handleWheelMobile, { passive: false });
-    }
+    window.addEventListener('resize', handleResize);
 
     // 标签切换
     tabs.forEach(tab => {
@@ -804,8 +1079,6 @@
     // 行动号召按钮
     runBtn.addEventListener('click', handleRunGenerator);
 
-    // 初始化时计算一次缩放
-    updateScaleBasedOnScroll();
   }
 
   // ===== 启动模块 =====

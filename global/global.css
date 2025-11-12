@@ -53,6 +53,15 @@ body {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* 隐藏滚动条但保持滚动功能 */
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+/* 隐藏 Webkit 浏览器的滚动条 (Chrome, Safari, Opera) */
+body::-webkit-scrollbar {
+  display: none;
 }
 
 img {
