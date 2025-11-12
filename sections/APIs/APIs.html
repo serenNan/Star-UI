@@ -184,19 +184,110 @@
 
 /* Responsive Design */
 @media (max-width: 991px) {
+  /* 平板端: 缩小布局，保持桌面端排列 */
   .apis-grid {
-    min-height: auto;
+    min-height: 1200px; /* 缩小后的容器高度 (原2000px * 0.6) */
+    padding: 0 var(--spacing-md);
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  /* 平板端: 垂直堆叠布局 */
-  .api-card {
-    position: relative !important;
-    width: 100% !important;
-    height: auto !important;
-    aspect-ratio: 16 / 10;
-    top: auto !important;
-    left: auto !important;
-    margin-bottom: var(--spacing-md);
+  .apis-header {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .apis-title {
+    font-size: 2rem;
+  }
+
+  .apis-description {
+    font-size: 1.2rem;
+  }
+
+  /* 所有卡片按比例缩小 60% */
+  .api-card:nth-child(1) {
+    top: 0;
+    left: 4.3125%;
+    width: 62.25%;
+    height: 169px;  /* 282 * 0.6 */
+  }
+
+  .api-card:nth-child(2) {
+    top: 0;
+    left: 68.5625%;
+    width: 27.125%;
+    height: 359px;  /* 598 * 0.6 */
+  }
+
+  .api-card:nth-child(3) {
+    top: 183px;
+    left: 4.3125%;
+    width: 22.875%;
+    height: 174px;  /* 290 * 0.6 */
+  }
+
+  .api-card:nth-child(4) {
+    top: 183px;
+    left: 29.4375%;
+    width: 37.375%;
+    height: 174px;  /* 290 * 0.6 */
+  }
+
+  .api-card:nth-child(5) {
+    top: 369px;
+    left: 4.3125%;
+    width: 40.875%;
+    height: 363px;  /* 605 * 0.6 */
+  }
+
+  .api-card:nth-child(6) {
+    top: 369px;
+    left: 47.0625%;
+    width: 48.625%;
+    height: 176px;  /* 293 * 0.6 */
+  }
+
+  .api-card:nth-child(7) {
+    top: 557px;
+    left: 47.0625%;
+    width: 22.875%;
+    height: 174px;  /* 290 * 0.6 */
+  }
+
+  .api-card:nth-child(8) {
+    top: 557px;
+    left: 71.8125%;
+    width: 23.875%;
+    height: 174px;  /* 290 * 0.6 */
+  }
+
+  .api-card:nth-child(9) {
+    top: 744px;
+    left: 4.3125%;
+    width: 48.25%;
+    height: 174px;  /* 290 * 0.6 */
+  }
+
+  .api-card:nth-child(10) {
+    top: 744px;
+    left: 54.3125%;
+    width: 41.5%;
+    height: 174px;  /* 290 * 0.6 */
+  }
+
+  /* 缩小文字 */
+  .api-title {
+    font-size: 1.2rem;
+  }
+
+  .api-description {
+    font-size: 1rem;
+  }
+
+  .api-overlay {
+    padding: var(--spacing-md);
   }
 }
 
@@ -205,9 +296,209 @@
     padding: var(--spacing-2xl) 0;
   }
 
-  /* 移动端: 单列布局 */
-  .api-card {
-    aspect-ratio: 1 / 1;
+  /* 移动端: 进一步缩小布局 40% */
+  .apis-grid {
+    min-height: 800px; /* 原2000px * 0.4 */
+    padding: 0 var(--spacing-sm);
+    width: 100%;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .apis-title {
+    font-size: 1.8rem;
+  }
+
+  .apis-description {
+    font-size: 1rem;
+  }
+
+  /* 所有卡片按比例缩小 40% */
+  .api-card:nth-child(1) {
+    top: 0;
+    left: 4.907%;
+    width: 61.481%;   /* 830 * 0.4 */
+    height: 113px;  /* 282 * 0.4 */
+  }
+
+  .api-card:nth-child(2) {
+    top: 0;
+    left: 68.426%;
+    width: 26.852%;   /* 362 * 0.4 */
+    height: 239px;  /* 598 * 0.4 */
+  }
+
+  .api-card:nth-child(3) {
+    top: 122px;
+    left: 4.907%;
+    width: 22.593%;   /* 305 * 0.4 */
+    height: 116px;  /* 290 * 0.4 */
+  }
+
+  .api-card:nth-child(4) {
+    top: 122px;
+    left: 29.722%;
+    width: 36.852%;   /* 498 * 0.4 */
+    height: 116px;  /* 290 * 0.4 */
+  }
+
+  .api-card:nth-child(5) {
+    top: 246px;
+    left: 4.907%;
+    width: 40.370%;   /* 545 * 0.4 */
+    height: 242px;  /* 605 * 0.4 */
+  }
+
+  .api-card:nth-child(6) {
+    top: 246px;
+    left: 47.13%;
+    width: 48.148%;   /* 649 * 0.4 */
+    height: 117px;  /* 293 * 0.4 */
+  }
+
+  .api-card:nth-child(7) {
+    top: 371px;
+    left: 47.13%;
+    width: 22.593%;   /* 305 * 0.4 */
+    height: 116px;  /* 290 * 0.4 */
+  }
+
+  .api-card:nth-child(8) {
+    top: 371px;
+    left: 71.574%;
+    width: 23.519%;   /* 318 * 0.4 */
+    height: 116px;  /* 290 * 0.4 */
+  }
+
+  .api-card:nth-child(9) {
+    top: 496px;
+    left: 4.907%;
+    width: 47.593%;   /* 643 * 0.4 */
+    height: 116px;  /* 290 * 0.4 */
+  }
+
+  .api-card:nth-child(10) {
+    top: 496px;
+    left: 54.167%;
+    width: 40.926%;   /* 553 * 0.4 */
+    height: 116px;  /* 290 * 0.4 */
+  }
+
+  /* 移动端文字进一步缩小 */
+  .api-title {
+    font-size: 0.9rem;
+  }
+
+  .api-description {
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .api-overlay {
+    padding: var(--spacing-sm);
+  }
+}
+
+@media (max-width: 479px) {
+  .apis-grid {
+    min-height: 620px;
+    padding: 0 0.75rem;
+    width: 100%;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .apis-title {
+    font-size: 1.6rem;
+  }
+
+  .apis-description {
+    font-size: 0.95rem;
+  }
+
+  .api-card:nth-child(1) {
+    top: 0;
+    left: 11.9065%;
+    width: 51.875%;
+    height: 85px;
+  }
+
+  .api-card:nth-child(2) {
+    top: 0;
+    left: 65.4685%;
+    width: 22.625%;
+    height: 179px;
+  }
+
+  .api-card:nth-child(3) {
+    top: 92px;
+    left: 11.9065%;
+    width: 19.062%;
+    height: 87px;
+  }
+
+  .api-card:nth-child(4) {
+    top: 92px;
+    left: 32.8435%;
+    width: 31.125%;
+    height: 87px;
+  }
+
+  .api-card:nth-child(5) {
+    top: 185px;
+    left: 11.9065%;
+    width: 34.062%;
+    height: 182px;
+  }
+
+  .api-card:nth-child(6) {
+    top: 185px;
+    left: 47.5315%;
+    width: 40.562%;
+    height: 88px;
+  }
+
+  .api-card:nth-child(7) {
+    top: 279px;
+    left: 47.5315%;
+    width: 19.062%;
+    height: 87px;
+  }
+
+  .api-card:nth-child(8) {
+    top: 279px;
+    left: 68.1565%;
+    width: 19.875%;
+    height: 87px;
+  }
+
+  .api-card:nth-child(9) {
+    top: 372px;
+    left: 11.9065%;
+    width: 40.188%;
+    height: 87px;
+  }
+
+  .api-card:nth-child(10) {
+    top: 372px;
+    left: 53.5315%;
+    width: 34.562%;
+    height: 87px;
+  }
+
+  .api-title {
+    font-size: 0.85rem;
+  }
+
+  .api-description {
+    font-size: 0.7rem;
+    line-height: 1.35;
+  }
+
+  .api-overlay {
+    padding: 0.6rem;
   }
 }
 
