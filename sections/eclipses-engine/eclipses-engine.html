@@ -671,41 +671,30 @@
   'use strict';
 
   // ===== 工具数据配置 =====
-  // 暂时使用占位图片，后续可替换为真实资源
+  // 使用当前模块目录内的 4 张主视觉图，并为不同分类调整顺序
+  const moduleImages = [
+    { url: 'sections/eclipses-engine/1.png', alt: 'Eclipses Engine Showcase 1' },
+    { url: 'sections/eclipses-engine/2.jpg', alt: 'Eclipses Engine Showcase 2' },
+    { url: 'sections/eclipses-engine/3.png', alt: 'Eclipses Engine Showcase 3' },
+    { url: 'sections/eclipses-engine/4.png', alt: 'Eclipses Engine Showcase 4' }
+  ];
+
+  const rotateImages = (offset = 0) =>
+    moduleImages.map((_, index) => {
+      const target = moduleImages[(index + offset) % moduleImages.length];
+      return { ...target };
+    });
+
   const toolsData = {
-    'image-generator': [
-      { url: 'sections/tools-showcase/images/image-gen-1.png', alt: 'AI Generated Image 1' },
-      { url: 'sections/tools-showcase/images/image-gen-2.jpg', alt: 'AI Generated Image 2' },
-      { url: 'sections/tools-showcase/images/image-gen-3.png', alt: 'AI Generated Image 3' },
-      { url: 'sections/tools-showcase/images/image-gen-4.png', alt: 'AI Generated Image 4' },
-      { url: 'sections/tools-showcase/images/image-gen-5.png', alt: 'AI Generated Image 5' }
-    ],
-    'video-generator': [
-      { url: 'sections/tools-showcase/images/video-gen-1.png', alt: 'AI Video Thumbnail 1' },
-      { url: 'sections/tools-showcase/images/video-gen-2.png', alt: 'AI Video Thumbnail 2' },
-      { url: 'sections/tools-showcase/images/video-gen-3.jpg', alt: 'AI Video Thumbnail 3' },
-      { url: 'sections/tools-showcase/images/video-gen-4.png', alt: 'AI Video Thumbnail 4' },
-      { url: 'sections/tools-showcase/images/video-gen-5.png', alt: 'AI Video Thumbnail 5' }
-    ],
-    'timeline-editor': [
-      { url: 'sections/tools-showcase/images/timeline-1.png', alt: 'Timeline Editor Screenshot 1' },
-      { url: 'sections/tools-showcase/images/timeline-2.png', alt: 'Timeline Editor Screenshot 2' },
-      { url: 'sections/tools-showcase/images/timeline-3.png', alt: 'Timeline Editor Screenshot 3' },
-      { url: 'sections/tools-showcase/images/timeline-4.png', alt: 'Timeline Editor Screenshot 4' },
-      { url: 'sections/tools-showcase/images/timeline-5.jpg', alt: 'Timeline Editor Screenshot 5' }
-    ],
-    'avatar': [
-      { url: 'sections/tools-showcase/images/avatar-1.png', alt: 'AI Generated Avatar 1' },
-      { url: 'sections/tools-showcase/images/avatar-2.png', alt: 'AI Generated Avatar 2' },
-      { url: 'sections/tools-showcase/images/avatar-3.png', alt: 'AI Generated Avatar 3' },
-      { url: 'sections/tools-showcase/images/avatar-4.png', alt: 'AI Generated Avatar 4' },
-      { url: 'sections/tools-showcase/images/avatar-5.jpg', alt: 'AI Generated Avatar 5' }
-    ]
+    'image-generator': rotateImages(0),
+    'video-generator': rotateImages(1),
+    'timeline-editor': rotateImages(2),
+    'avatar': rotateImages(3)
   };
 
   // ===== 状态管理 =====
   let currentTool = 'image-generator';
-  let currentIndex = 2; // 从中间开始（可见卡片索引：0,1,2,3,4）
+  let currentIndex = 2; // 从中间开始（可见卡片索引：0,1,2,3）
   let isAnimating = false;
   let currentCards = toolsData[currentTool];
 

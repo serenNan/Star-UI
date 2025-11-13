@@ -68,155 +68,140 @@
   position: relative;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--spacing-md); /* 减小内部间距 */
-  max-width: 550px; /* 减小最大宽度 */
-  margin-left: 1rem; /* 增加左边距，距离左边更远 */
+  max-width: 800px; /* 调整最大宽度 */
+  margin: 0 auto; /* 改为居中 */
+  margin-top: clamp(2.5rem, 5vw, 4.5rem); /* 中等幅度下移 */
+  text-align: center; /* 子元素文字居中 */
   z-index: 3;
 }
 
 .banner-title {
-  font-size: clamp(1.75rem, 3.5vw, 3rem); /* 减小字体：从 2.5-4.5rem 改为 2-3.5rem */
+  font-size: clamp(1.5rem, 3vw, 2.5rem); /* 减小字体：从 1.75-3rem 改为 1.5-2.5rem */
   font-weight: 700;
+  font-style: italic; /* 设置为斜体 */
   line-height: 1.2; /* 设置行高 */
   color: var(--color-text);
   margin: 0;
-  margin-bottom: var(--spacing-xs); /* 减小与下方元素的间距：从 lg 改为 md */
+  margin-bottom: -0.5rem; /* 负间距,让副标题向上移动 */
   letter-spacing: -0.02em;
-  max-width: 700px; /* 限制最大宽度，确保保持两行 */
+  max-width: 900px; /* 增大最大宽度：从 700px 改为 900px，减少换行 */
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .banner-subtitle {
   font-size: clamp(0.875rem, 1.5vw, 1rem);
   line-height: 1.6;
-  color: var(--color-text-secondary);
+  color: #FFFFFF; /* 改为白色：从 var(--color-text-secondary) 改为纯白 */
   margin: 0;
-  margin-bottom: var(--spacing-xs); /* 减小与按钮之间的间距：从 lg 改为 md */
+  margin-bottom: var(--spacing-xs);
   max-width: 500px;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* Start Creating 按钮 - 白色背景 + 黑色文字 */
-.btn-start {
+/* 搜索框区域 */
+.search-box-container {
+  position: relative;
+  width: 100%;
+  max-width: 550px; /* 减小宽度：从 700px 改为 550px */
+  margin: 0 auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 140px 10px 20px; /* 上下边距相等：都设为 10px，使文字垂直居中 */
+  background: rgba(0, 0, 0, 0.5); /* 改为黑色背景，透明度0.5 */
+  border: none !important; /* 强制去除边框 */
+  outline: none !important; /* 强制去除轮廓线 */
+  box-shadow: none !important; /* 强制去除阴影 */
+  border-radius: 25px; /* 增大圆角：从 10px 改为 25px */
+  color: var(--color-text);
+  font-size: 0.7rem; /* 进一步减小字体：从 0.75rem 改为 0.7rem */
+  font-family: inherit;
+  line-height: 1.4; /* 设置行高，便于多行显示 */
+  transition: all var(--transition);
+  backdrop-filter: blur(10px);
+  white-space: pre-wrap; /* 保留空格并允许换行 */
+  word-wrap: break-word; /* 强制长单词换行 */
+  overflow-wrap: break-word; /* 确保内容不溢出 */
+  min-height: 48px; /* 保持最小高度 48px */
+  resize: none; /* 如果是 textarea，禁止调整大小 */
+  vertical-align: middle; /* 垂直对齐 */
+}
+
+.search-input::placeholder {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.search-input:focus {
+  outline: none !important; /* 强制去除默认外边框 */
+  background: rgba(0, 0, 0, 0.6); /* 焦点时背景更深 */
+  box-shadow: none !important; /* 强制去除焦点时的阴影 */
+  border: none !important; /* 强制去除边框 */
+}
+
+.btn-run-engine {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: var(--spacing-sm) var(--spacing-md);
+  padding: 8px 16px; /* 减小内边距：从 12px 24px 改为 8px 16px */
   background: white;
   color: black;
-  font-size: 1rem;
+  font-size: 1rem; /* 字体保持不变 */
   font-weight: 600;
-  border-radius: 10px;
-  text-decoration: none;
-  width: fit-content;
-  transition: all var(--transition);
   border: none;
+  border-radius: 20px; /* 增大圆角：从 10px 改为 20px，与搜索框匹配 */
   cursor: pointer;
+  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+  white-space: nowrap;
 }
 
-.btn-start:hover {
-  transform: translateY(-2px);
+.btn-run-engine:hover {
+  transform: translateY(calc(-50% - 2px));
   box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
   background: rgba(255, 255, 255, 0.95);
 }
 
-/* 3. 右上角描述区 */
-.banner-right {
-  position: absolute; /* 相对于 banner-container 定位 */
-  bottom: calc(-22rem + 120px + 3rem); /* 下移描述框：从 4rem 改为 2rem */
-  right: 3rem; /* 距离浏览器右边缘固定距离 */
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-md); /* 减小内部间距 */
-  z-index: 3;
-}
-
-/* 描述文本框 - 灰色背景 + 白色文字 */
-.description-text {
-  font-size: 0.5rem; /* 减小字体：从 0.875rem (14px) 改为 0.75rem (12px) */
-  line-height: 1.6; /* 相应调整行高 */
-  color: rgb(230, 229, 229); /* 白色文字 */
-  margin: 0;
-  padding: 20px 0 0 20px; /* 只要左边距和上边距：上 右 下 左 */
-  background: rgba(68, 68, 68, 0.451); /* 灰色半透明背景 */
-  border: none; /* 移除边框 */
-  border-radius: 18px; /* 增加圆角：从 12px 改为 18px */
-  backdrop-filter: blur(1px);
-  width: 463px; /* 固定宽度 */
-  height: 113px; /* 固定高度 */
-  overflow-y: auto; /* 内容超出时显示滚动条 */
-  box-sizing: border-box;
-  position: relative; /* 为绝对定位的图标按钮提供参考 */
-}
-
-/* 右下角生成图标按钮 */
-.generate-icon-btn {
-  position: absolute;
-  bottom: 5px; /* 减少下边距：从 10px 改为 5px */
-  right: 5px; /* 减少右边距：从 10px 改为 5px */
-  width: 32px;
-  height: 32px;
-  background: rgba(32, 31, 31, 0.9); /* 更黑的背景：从 rgba(40, 40, 40, 0.8) 改为 rgba(20, 20, 20, 0.9) */
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px; /* 增大圆角：从 8px 改为 12px */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 10;
-}
-
-.generate-icon-btn:hover {
-  background: rgba(60, 60, 60, 0.9);
-  border-color: rgba(255, 255, 255, 0.4);
-  transform: scale(1.05);
-}
-
-.generate-icon-btn svg {
-  width: 18px;
-  height: 18px;
-  fill: none;
-  stroke: white;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-.tools-tags {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-sm);
-}
-
-.tools-tags span {
-  font-size: 0.75rem;
-  color: var(--color-text-muted);
-  padding-left: var(--spacing-xs);
-}
-
-/* 4. 右下角背景切换卡片区 - 水平排列不换行 */
+/* 3. 右下角背景切换卡片区 - 水平排列不换行 */
 .video-cards-container {
   position: absolute; /* 相对于 banner-container 定位 */
-  right: 3rem; /* 距离浏览器右边缘固定距离 */
-  bottom: -22rem; /* 距离浏览器底部固定距离 */
+  left: 50%; /* 居中定位 */
+  transform: translateX(-50%);
+  bottom: -29rem; /* 适度上移，避免遮挡 */
   z-index: 100; /* 提高层级,确保在所有内容之上 */
-  max-width: calc(100vw - 6rem); /* 限制最大宽度，防止卡片超出视口 */
+  overflow: hidden; /* 隐藏溢出部分 */
+  width: calc(5 * 81px + 4 * 1rem); /* 显示5张卡片及间距 */
+  padding: 1.25rem 0; /* 为放大卡片预留垂直空间 */
 }
 
 .video-cards-grid {
   display: flex;
-  gap: 0.88rem; /* 减小间距：从 0.75rem 改为 0.5rem */
+  gap: 1rem; /* 间距 16px */
   flex-wrap: nowrap; /* 禁止换行 */
-  align-items: flex-end; /* 标题和卡片底部对齐 */
+  align-items: center; /* 垂直居中对齐 */
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* 滑动动画 */
+  will-change: transform; /* 性能优化 */
 }
 
 /* 单个卡片包装器（包含标题）*/
 .video-card-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  align-items: center;
   flex-shrink: 0; /* 防止收缩 */
   position: relative; /* 为 z-index 生效创建定位上下文 */
   z-index: 10; /* 确保包装器也在高层级 */
+  --title-spacing: 0.5rem;
+  --title-opacity: 0.85;
 }
 
 /* 卡片标题（显示在卡片下方）*/
@@ -224,10 +209,33 @@
   font-size: 0.6rem; /* 减小字体：从 0.75rem 改为 0.65rem */
   font-weight: 600;
   color: var(--color-text);
-  text-align: left; /* 左侧对齐 */
+  text-align: center; /* 居中对齐 */
   letter-spacing: 0.05em;
   white-space: nowrap;
   order: 2; /* 标题排在后面 */
+  display: block;
+  width: 100%;
+  margin: 0;
+  margin-top: var(--title-spacing);
+  opacity: var(--title-opacity);
+  transition: margin-top 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: margin-top, opacity;
+}
+
+.video-card-wrapper.gap-small {
+  --title-spacing: 0.05rem; /* 最外侧：距离最近 */
+  --title-opacity: 0.55;
+}
+
+.video-card-wrapper.gap-medium {
+  --title-spacing: 0.95rem; /* 左右两侧：适中距离 */
+  --title-opacity: 0.85;
+}
+
+.video-card-wrapper.gap-large {
+  --title-spacing: 1.75rem; /* 中心卡片：距离最大 */
+  --title-opacity: 1;
 }
 
 /* 卡片主体 */
@@ -245,20 +253,40 @@
   cursor: pointer;
   background: var(--color-bg-secondary);
   border: 1px solid transparent; /* 默认透明边框 */
-  transition: all var(--transition);
-  z-index: 10; /* 确保卡片在最高层级,不被其他元素遮挡 */
+  transform: scale(0.7);
+  opacity: 0.6;
+  z-index: 1;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* 选中状态 - 外围白色边框 */
 .video-card.active {
+  transform: scale(1);
+  opacity: 1;
+  z-index: 3;
   outline: 1px solid white;
   outline-offset: 1.5px;
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
 }
 
 .video-card:hover {
-  transform: translateY(-4px);
+  transform: scale(0.74);
   z-index: 20; /* 悬浮时进一步提高层级 */
+}
+
+.video-card.adjacent:hover {
+  transform: scale(0.88);
+}
+
+.video-card.active:hover {
+  transform: scale(1.02);
+}
+
+/* 相邻卡片 - 第二层 */
+.video-card.adjacent {
+  transform: scale(0.85);
+  opacity: 0.8;
+  z-index: 2;
 }
 
 /* 卡片图片 */
@@ -295,6 +323,7 @@
   .banner-left {
     max-width: 100%;
     margin-left: 0;
+    margin-top: var(--spacing-xl);
     text-align: center;  /* 文字居中 */
     display: flex;
     flex-direction: column;
@@ -309,33 +338,12 @@
     margin-right: auto;
   }
 
-  /* 按钮居中 */
-  .btn-start {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  /* 右上描述区 - 改为静态定位(跟随文档流) */
-  .banner-right {
-    position: static;
-    width: 100%;
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-  /* 描述文本框 - 弹性宽高 */
-  .description-text {
-    width: 100%;
-    height: auto;
-    min-height: 113px;
-    max-width: 100%;
-    padding: 1.25rem;
-  }
-
   /* 卡片容器 - 改为静态定位 + 水平滚动,居中对齐 */
   .video-cards-container {
     position: static;
     right: auto;
+    left: auto;
+    transform: none;
     bottom: auto;
     max-width: 100%;
     width: 100%;
@@ -413,6 +421,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
+    margin-top: var(--spacing-lg);
   }
 
   .banner-title {
@@ -427,42 +436,20 @@
     text-align: center;
   }
 
-  /* 按钮 - 居中显示 */
-  .btn-start {
-    margin: 0 auto;
+  /* 搜索框 - 居中显示 */
+  .search-box-container {
+    max-width: 100%;
   }
 
-  /* 右侧描述区 - 确保居中 */
-  .banner-right {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+  .search-input {
+    padding: 12px 120px 12px 16px;
+    font-size: 0.9rem;
   }
 
-  /* 描述文本框 */
-  .description-text {
-    font-size: 0.8rem;
-    line-height: 1.6;
-    min-height: auto;
-    padding: 1rem;
-  }
-
-  /* 生成按钮 - 增大触摸区域 */
-  .generate-icon-btn {
-    width: 40px;
-    height: 40px;
-    bottom: 8px;
-    right: 8px;
-  }
-
-  .generate-icon-btn svg {
-    width: 20px;
-    height: 20px;
-  }
-
-  .tools-tags span {
-    font-size: 0.7rem;
+  .btn-run-engine {
+    padding: 10px 20px;
+    font-size: 0.9rem;
+    right: 4px;
   }
 
   /* 卡片 */
@@ -492,17 +479,14 @@
     text-align: center;
   }
 
-  .btn-start {
-    width: 100%;
-    max-width: 300px;
-    text-align: center;
-    margin: 0 auto;
+  .search-input {
+    padding: 12px 110px 12px 14px;
   }
 
-  .description-text {
-    font-size: 0.75rem;
-    padding: 0.875rem;
-    border-radius: 12px;
+  .btn-run-engine {
+    padding: 10px 16px;
+    font-size: 0.85rem;
+    right: 3px;
   }
 
   .video-card {
@@ -523,32 +507,28 @@
     transition: transform 0.1s ease;
   }
 
-  .btn-start:active {
-    transform: scale(0.98);
-  }
-
-  .generate-icon-btn:active {
-    transform: scale(0.9);
+  .btn-run-engine:active {
+    transform: translateY(-50%) scale(0.98);
   }
 }
 
 /* 禁用移动端悬浮效果 */
 @media (hover: none) {
   .video-card:hover {
-    transform: translateY(0);
+    transform: scale(0.7);
   }
 
-  .btn-start:hover {
-    transform: translateY(0);
+  .btn-run-engine:hover {
+    transform: translateY(-50%);
     box-shadow: none;
+    background: white;
   }
 }
 
 /* 性能优化 - 禁用动画偏好 */
 @media (prefers-reduced-motion: reduce) {
   .video-card,
-  .btn-start,
-  .generate-icon-btn {
+  .btn-run-engine {
     transition: none !important;
   }
 
@@ -564,32 +544,21 @@
     <!-- 左侧内容区 -->
     <div class="banner-left">
       <h1 class="banner-title">
-        AI SCROLL-STOPPING VIDEOS,<br>
-        DESIGNED LIKE ART
+        WHERE IMAGINATION ECLIPSES REALITY
       </h1>
 
       <p class="banner-subtitle">
-        SCROLL-STOPPING VIDEO CONTENT — REFINED, CONSISTENT, AND BUILT TO AMPLIFY YOUR BRAND IDENTITY.
+        Built For Brands, Artists, And Creators.
       </p>
 
-      <a href="#" class="btn-start">Start Creating</a>
-    </div>
-
-    <!-- 右上角描述区 -->
-    <div class="banner-right">
-      <p class="description-text" id="bannerDescription">
-        ultra-realistic close-up of an astronaut in a detailed white space suit, standing in the darkness of outerspace. the visor reflects a softly lit spacecraft with warm yellow-white highlights. intricate textures onthe suit folds, metallic connectors, and scuffed surfaces show wear and realism. the background is pitchblack, creating dramatic contrast and focus on the helmet reflection.
-
-        <!-- 右下角生成图标按钮 -->
-        <button class="generate-icon-btn" id="generateBtn" title="Generate new description">
-          <svg viewBox="0 0 24 24">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
-            <path d="M12 8v8M8 12h8"></path>
-            <circle cx="18" cy="6" r="3" fill="white" stroke="none"></circle>
-          </svg>
-        </button>
-      </p>
-
+      <div class="search-box-container">
+        <textarea
+          class="search-input"
+          rows="2"
+          placeholder="ultra-realistic close-up of an astronaut in a detailed white space suit, standing in the darkness of outer space..."
+        ></textarea>
+        <button class="btn-run-engine" type="button">Run Engine</button>
+      </div>
     </div>
 
     <!-- 右下角背景切换卡片 - 水平排列不换行 -->
@@ -634,6 +603,46 @@
           </div>
           <div class="card-title">AI SCROLL</div>
         </div>
+
+        <!-- 背景切换卡片 6 -->
+        <div class="video-card-wrapper">
+          <div class="video-card" data-bg-index="5">
+            <img src="sections/banner/6.png" alt="AI SCROLL Background">
+          </div>
+          <div class="card-title">AI SCROLL</div>
+        </div>
+
+        <!-- 背景切换卡片 7 -->
+        <div class="video-card-wrapper">
+          <div class="video-card" data-bg-index="6">
+            <img src="sections/banner/7.png" alt="AI SCROLL Background">
+          </div>
+          <div class="card-title">AI SCROLL</div>
+        </div>
+
+        <!-- 背景切换卡片 8 -->
+        <div class="video-card-wrapper">
+          <div class="video-card" data-bg-index="7">
+            <img src="sections/banner/8.png" alt="AI SCROLL Background">
+          </div>
+          <div class="card-title">AI SCROLL</div>
+        </div>
+
+        <!-- 背景切换卡片 9 -->
+        <div class="video-card-wrapper">
+          <div class="video-card" data-bg-index="8">
+            <img src="sections/banner/9.png" alt="AI SCROLL Background">
+          </div>
+          <div class="card-title">AI SCROLL</div>
+        </div>
+
+        <!-- 背景切换卡片 10 -->
+        <div class="video-card-wrapper">
+          <div class="video-card" data-bg-index="9">
+            <img src="sections/banner/10.png" alt="AI SCROLL Background">
+          </div>
+          <div class="card-title">AI SCROLL</div>
+        </div>
       </div>
     </div>
   </div>
@@ -644,141 +653,553 @@
 (function() {
   'use strict';
 
-  // 背景图片数组（对应5个卡片）
   const backgrounds = [
-    'sections/banner/1.png',  // 卡片 1
-    'sections/banner/2.jpg',  // 卡片 2
-    'sections/banner/3.png',  // 卡片 3
-    'sections/banner/4.png',  // 卡片 4
-    'sections/banner/5.png'   // 卡片 5
+    'sections/banner/1.png',
+    'sections/banner/2.jpg',
+    'sections/banner/3.png',
+    'sections/banner/4.png',
+    'sections/banner/5.png',
+    'sections/banner/6.png',
+    'sections/banner/7.png',
+    'sections/banner/8.png',
+    'sections/banner/9.png',
+    'sections/banner/10.png'
   ];
 
-  // 获取 Banner 元素和所有背景切换卡片
+  const DESKTOP_BREAKPOINT = 992;
+  const VISIBLE_COUNT = 5;
+  const CENTER_OFFSET = Math.floor(VISIBLE_COUNT / 2); // 2
+  const CLONE_COUNT = CENTER_OFFSET; // 2 个卡片缓存区
+  const TRANSITION_MS = 500;
+  const TRANSITION_EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
+
   const banner = document.querySelector('.banner');
-  const bgCards = document.querySelectorAll('.banner .video-card[data-bg-index]');
+  const cardsContainer = document.querySelector('.video-cards-container');
+  const grid = document.querySelector('.video-cards-grid');
+  if (!grid) {
+    initSearchBox();
+    return;
+  }
 
-  // 背景切换功能
-  bgCards.forEach((card) => {
-    card.addEventListener('click', function() {
-      const bgIndex = parseInt(this.getAttribute('data-bg-index'));
+  const originalWrappers = Array.from(grid.querySelectorAll('.video-card-wrapper'));
+  if (!originalWrappers.length) {
+    initSearchBox();
+    return;
+  }
 
-      // 切换背景图片
-      if (banner && backgrounds[bgIndex]) {
-        banner.style.backgroundImage = `url('${backgrounds[bgIndex]}')`;
-      }
-
-      // 移除所有卡片的 active 类并清除内联样式
-      bgCards.forEach(c => {
-        c.classList.remove('active');
-        c.style.borderColor = '';  // 清除悬浮时设置的内联样式
-      });
-
-      // 添加 active 类到当前点击的卡片
-      this.classList.add('active');
-    });
+  const templates = originalWrappers.map((wrapper, index) => {
+    const clone = wrapper.cloneNode(true);
+    clone.dataset.cardIndex = index;
+    const card = clone.querySelector('.video-card');
+    if (card) {
+      card.dataset.cardIndex = index;
+      card.classList.remove('active', 'adjacent'); // 清理所有状态类名
+    }
+    return clone;
   });
+  const totalCards = templates.length;
+  let stepSize = 0;
 
-  // 移动端触摸支持
-  if ('ontouchstart' in window) {
-    bgCards.forEach(card => {
-      card.addEventListener('touchstart', (e) => {
-        // 触摸设备上也触发点击事件
-        card.click();
+  let activeIndex = (() => {
+    const activeCard = grid.querySelector('.video-card.active');
+    if (activeCard) {
+      const idx = parseInt(activeCard.getAttribute('data-bg-index'), 10);
+      if (!Number.isNaN(idx)) return idx % totalCards;
+    }
+    return CENTER_OFFSET;
+  })();
+
+  let currentMode = null;
+  let isAnimating = false;
+  let isScrollHijacked = false;
+  let scrollHijackTimeout = null;
+  let backgroundUpdateTimeout = null; // 背景更新延迟定时器
+  const SCROLL_HIJACK_TIMEOUT = 500;
+  const BACKGROUND_UPDATE_DELAY = 300; // 滚动停止后延迟更新背景(毫秒)
+  const wheelBlockerOptions = { passive: false, capture: true };
+
+  function preventPageScroll(event) {
+    if (!isScrollHijacked) return;
+    event.preventDefault();
+  }
+
+  function activateScrollHijack() {
+    if (isScrollHijacked) return;
+    isScrollHijacked = true;
+    window.addEventListener('wheel', preventPageScroll, wheelBlockerOptions);
+  }
+
+  function releaseScrollHijack() {
+    if (!isScrollHijacked) return;
+    window.removeEventListener('wheel', preventPageScroll, wheelBlockerOptions);
+    isScrollHijacked = false;
+  }
+
+  function scheduleScrollHijackRelease() {
+    clearTimeout(scrollHijackTimeout);
+    scrollHijackTimeout = setTimeout(() => {
+      if (!isAnimating) {
+        releaseScrollHijack();
+      }
+    }, SCROLL_HIJACK_TIMEOUT);
+  }
+
+  function applyBackgroundByIndex(index, immediate = false) {
+    if (!banner) return;
+
+    // 清除之前的延迟定时器
+    if (backgroundUpdateTimeout) {
+      clearTimeout(backgroundUpdateTimeout);
+      backgroundUpdateTimeout = null;
+    }
+
+    // 实际应用背景的函数
+    const doApplyBackground = () => {
+      // 直接从当前激活的卡片中获取图片路径
+      const activeCard = grid.querySelector('.video-card.active img');
+      if (activeCard && activeCard.src) {
+        // 从完整 URL 中提取相对路径部分
+        const imgSrc = activeCard.src;
+        banner.style.backgroundImage = `url('${imgSrc}')`;
+      } else {
+        // Fallback: 使用索引(兼容旧逻辑)
+        const bg = backgrounds[index % backgrounds.length];
+        if (bg) {
+          banner.style.backgroundImage = `url('${bg}')`;
+        }
+      }
+    };
+
+    // 如果是立即应用(点击、初始化等),直接执行
+    if (immediate) {
+      doApplyBackground();
+    } else {
+      // 否则延迟应用(滚动时)
+      backgroundUpdateTimeout = setTimeout(doApplyBackground, BACKGROUND_UPDATE_DELAY);
+    }
+  }
+
+  function measureStepSize() {
+    const sample = grid.querySelector('.video-card-wrapper');
+    if (!sample) return;
+    const gap = parseFloat(window.getComputedStyle(grid).gap) || 0;
+    stepSize = sample.getBoundingClientRect().width + gap;
+  }
+
+  function buildCarouselGrid() {
+    grid.innerHTML = '';
+    const newCards = [];
+
+    for (let offset = -CLONE_COUNT; offset < totalCards + CLONE_COUNT; offset++) {
+      const idx = (activeIndex + offset + totalCards) % totalCards;
+      const node = templates[idx].cloneNode(true);
+      node.dataset.cardIndex = idx;
+      const card = node.querySelector('.video-card');
+      if (card) {
+        card.dataset.cardIndex = idx;
+
+        // ✨ 立即计算并应用最终状态，避免闪烁
+        card.classList.remove('active', 'adjacent');
+        node.classList.remove('gap-small', 'gap-medium', 'gap-large');
+
+        // 计算当前节点在可见区域的位置
+        const visibleStart = CLONE_COUNT;
+        const visibleEnd = CLONE_COUNT + VISIBLE_COUNT - 1;
+        const centerPos = visibleStart + CENTER_OFFSET;
+        const position = CLONE_COUNT + offset;
+
+        // 应用卡片状态类
+        if (position === centerPos) {
+          card.classList.add('active');
+        } else if (position === centerPos - 1 || position === centerPos + 1) {
+          card.classList.add('adjacent');
+        }
+
+        // 应用间距类（关键！避免闪烁）
+        if (position >= visibleStart && position <= visibleEnd) {
+          const visiblePosition = position - visibleStart;
+          if (visiblePosition === 0 || visiblePosition === VISIBLE_COUNT - 1) {
+            node.classList.add('gap-small');
+          } else if (visiblePosition === 1 || visiblePosition === VISIBLE_COUNT - 2) {
+            node.classList.add('gap-medium');
+          } else if (visiblePosition === CENTER_OFFSET) {
+            node.classList.add('gap-large');
+          }
+        }
+
+        card.style.transition = 'none'; // 禁用 transition
+        newCards.push(card);
+      }
+      grid.appendChild(node);
+    }
+
+    measureStepSize();
+    // updateCarouselClasses(); // 已在上面应用，此处可省略
+    resetCarouselTransform(); // 再重置 transform
+
+    // 强制 reflow 后重新启用 transition
+    grid.offsetHeight;
+    requestAnimationFrame(() => {
+      newCards.forEach(card => {
+        card.style.transition = ''; // 恢复 CSS 定义的 transition
       });
     });
 
-    // 移动端防止双击缩放
-    const banner = document.querySelector('.banner');
-    let lastTouchEnd = 0;
-
-    if (banner) {
-      banner.addEventListener('touchend', (e) => {
-        const now = Date.now();
-        if (now - lastTouchEnd <= 300) {
-          e.preventDefault();
-        }
-        lastTouchEnd = now;
-      }, false);
-    }
-
-    // 卡片滚动容器优化 - 自动滚动到选中卡片
-    const cardsContainer = document.querySelector('.video-cards-container');
-    if (cardsContainer && window.innerWidth < 992) {
-      const activeCard = cardsContainer.querySelector('.video-card.active');
-      if (activeCard) {
-        setTimeout(() => {
-          activeCard.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-        }, 100);
-      }
-    }
+    // 更新背景(延迟应用,滚动停止后才切换)
+    applyBackgroundByIndex(activeIndex, false);
   }
 
-  // ========================================
-  // 文字生成功能
-  // ========================================
+  function resetCarouselTransform() {
+    const base = -(CLONE_COUNT * stepSize);
+    grid.style.transition = 'none';
+    grid.style.transform = `translateX(${base}px)`;
+    grid.offsetHeight; // force reflow
+    grid.style.transition = `transform ${TRANSITION_MS}ms ${TRANSITION_EASING}`;
+  }
 
-  // 预设的描述文本数组
-  const descriptions = [
-    'ultra-realistic close-up of an astronaut in a detailed white space suit, standing in the darkness of outerspace. the visor reflects a softly lit spacecraft with warm yellow-white highlights. intricate textures onthe suit folds, metallic connectors, and scuffed surfaces show wear and realism. the background is pitchblack, creating dramatic contrast and focus on the helmet reflection.',
-    'A cinematic view of Earth from space, with swirling clouds and deep blue oceans. The curvature of the planet creates a stunning horizon line against the black void. City lights twinkle across the night side, while the day side glows with vibrant colors of land and sea.',
-    'An ethereal nebula with vibrant purples, pinks, and blues forming cosmic clouds. Stars of varying brightness dot the scene, creating depth and wonder. Wispy gas formations spiral elegantly through space, illuminated by distant stellar light.',
-    'A futuristic space station orbiting a distant planet. Solar panels extend like wings, catching starlight. Windows glow with warm interior lighting. The station\'s modular design shows advanced engineering against the backdrop of a ringed gas giant.',
-    'Deep space view showcasing countless galaxies, each a swirling collection of billions of stars. The vastness creates a humbling perspective, with spiral and elliptical galaxies visible at various distances. Cosmic dust creates subtle hazes between celestial bodies.'
-  ];
+  function updateCarouselClasses() {
+    const wrappers = Array.from(grid.children);
+    wrappers.forEach((wrapper, idx) => {
+      const card = wrapper.querySelector('.video-card');
+      if (!card) return;
+      card.classList.remove('active', 'adjacent');
+      wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
 
-  let currentDescIndex = 0;
-  let isGenerating = false;
+      const visibleStart = CLONE_COUNT;
+      const visibleEnd = CLONE_COUNT + VISIBLE_COUNT - 1;
+      const centerPos = visibleStart + CENTER_OFFSET;
 
-  // 获取生成按钮和描述文本元素
-  const generateBtn = document.getElementById('generateBtn');
-  const descriptionText = document.getElementById('bannerDescription');
+      if (idx >= visibleStart && idx <= visibleEnd) {
+        // 设置卡片激活状态
+        if (idx === centerPos) {
+          card.classList.add('active');
+        } else if (idx === centerPos - 1 || idx === centerPos + 1) {
+          card.classList.add('adjacent');
+        }
 
-  // 打字机效果函数
-  function typeWriter(text, element, speed = 20) {
+        const visiblePosition = idx - visibleStart;
+        if (visiblePosition === 0 || visiblePosition === VISIBLE_COUNT - 1) {
+          wrapper.classList.add('gap-small');
+        } else if (visiblePosition === 1 || visiblePosition === VISIBLE_COUNT - 2) {
+          wrapper.classList.add('gap-medium');
+        } else if (visiblePosition === CENTER_OFFSET) {
+          wrapper.classList.add('gap-large');
+        }
+      }
+    });
+    // 注意: updateCarouselClasses 当前未被使用,如需调用应根据场景决定 immediate 参数
+    // applyBackgroundByIndex(activeIndex);
+  }
+
+  function previewClassesForDirection(direction) {
+    const wrappers = Array.from(grid.children);
+    const centerPos = CLONE_COUNT + CENTER_OFFSET;
+    const nextCenter = centerPos + (direction === 'left' ? 1 : -1);
+
+    wrappers.forEach((wrapper, idx) => {
+      const card = wrapper.querySelector('.video-card');
+      if (!card) return;
+
+      // 修改卡片状态类
+      card.classList.remove('active', 'adjacent');
+      if (idx === nextCenter) {
+        card.classList.add('active');
+      } else if (idx === nextCenter - 1 || idx === nextCenter + 1) {
+        card.classList.add('adjacent');
+      }
+
+      // ✨ 提前计算并应用目标位置的间距类，实现斜向平滑过渡
+      wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
+
+      // 计算卡片在动画后的可见位置
+      const currentVisiblePos = idx - CLONE_COUNT;
+      const targetVisiblePos = direction === 'left'
+        ? currentVisiblePos - 1  // 左滑时，每个卡片向左移动一个位置
+        : currentVisiblePos + 1; // 右滑时，每个卡片向右移动一个位置
+
+      // 根据目标位置应用对应的间距类
+      if (targetVisiblePos >= 0 && targetVisiblePos < VISIBLE_COUNT) {
+        if (targetVisiblePos === 0 || targetVisiblePos === VISIBLE_COUNT - 1) {
+          wrapper.classList.add('gap-small');
+        } else if (targetVisiblePos === 1 || targetVisiblePos === VISIBLE_COUNT - 2) {
+          wrapper.classList.add('gap-medium');
+        } else if (targetVisiblePos === CENTER_OFFSET) {
+          wrapper.classList.add('gap-large');
+        }
+      }
+    });
+  }
+
+  function animateSlide(direction) {
     return new Promise((resolve) => {
-      let i = 0;
-      // 清空当前内容（保留按钮）
-      const button = element.querySelector('.generate-icon-btn');
-      element.textContent = '';
-      if (button) element.appendChild(button);
+      if (!stepSize) {
+        resolve();
+        return;
+      }
+      const base = -(CLONE_COUNT * stepSize);
+      const target = direction === 'left'
+        ? base - stepSize
+        : base + stepSize;
 
-      function type() {
-        if (i < text.length) {
-          // 在按钮前插入文字
-          const textNode = document.createTextNode(text.charAt(i));
-          element.insertBefore(textNode, button);
-          i++;
-          setTimeout(type, speed);
-        } else {
-          resolve();
+      previewClassesForDirection(direction);
+
+      const handleEnd = (event) => {
+        if (event.target !== grid) return;
+        grid.removeEventListener('transitionend', handleEnd);
+        resolve();
+      };
+
+      grid.addEventListener('transitionend', handleEnd);
+      requestAnimationFrame(() => {
+        grid.style.transform = `translateX(${target}px)`;
+      });
+    });
+  }
+
+  // 多步滑动动画（一次性到达目标，不显示中间状态）
+  function animateMultiStepSlide(direction, steps) {
+    return new Promise((resolve) => {
+      if (!stepSize || steps === 0) {
+        resolve();
+        return;
+      }
+
+      const base = -(CLONE_COUNT * stepSize);
+      const offset = stepSize * steps;
+      const target = direction === 'left' ? base - offset : base + offset;
+
+      // 提前预览最终状态的类名
+      previewMultiStepClasses(direction, steps);
+
+      const handleEnd = (event) => {
+        if (event.target !== grid) return;
+        grid.removeEventListener('transitionend', handleEnd);
+        resolve();
+      };
+
+      grid.addEventListener('transitionend', handleEnd);
+      requestAnimationFrame(() => {
+        grid.style.transform = `translateX(${target}px)`;
+      });
+    });
+  }
+
+  // 预览多步跳转后的最终状态类名
+  function previewMultiStepClasses(direction, steps) {
+    const wrappers = Array.from(grid.children);
+    const centerPos = CLONE_COUNT + CENTER_OFFSET;
+    const offset = direction === 'left' ? steps : -steps;
+    const nextCenter = centerPos + offset;
+
+    wrappers.forEach((wrapper, idx) => {
+      const card = wrapper.querySelector('.video-card');
+      if (!card) return;
+
+      // 修改卡片状态类
+      card.classList.remove('active', 'adjacent');
+      if (idx === nextCenter) {
+        card.classList.add('active');
+      } else if (idx === nextCenter - 1 || idx === nextCenter + 1) {
+        card.classList.add('adjacent');
+      }
+
+      // 提前应用目标位置的间距类
+      wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
+
+      const currentVisiblePos = idx - CLONE_COUNT;
+      const targetVisiblePos = currentVisiblePos - offset;
+
+      if (targetVisiblePos >= 0 && targetVisiblePos < VISIBLE_COUNT) {
+        if (targetVisiblePos === 0 || targetVisiblePos === VISIBLE_COUNT - 1) {
+          wrapper.classList.add('gap-small');
+        } else if (targetVisiblePos === 1 || targetVisiblePos === VISIBLE_COUNT - 2) {
+          wrapper.classList.add('gap-medium');
+        } else if (targetVisiblePos === CENTER_OFFSET) {
+          wrapper.classList.add('gap-large');
         }
       }
-      type();
     });
   }
 
-  // 生成按钮点击事件
-  if (generateBtn && descriptionText) {
-    generateBtn.addEventListener('click', async function(e) {
-      e.preventDefault();
+  async function slide(direction, steps) {
+    if (isAnimating || steps === 0) return;
+    isAnimating = true;
 
-      if (isGenerating) return; // 防止重复点击
+    // 计算最终目标索引
+    const indexChange = direction === 'left' ? steps : -steps;
+    const targetIndex = (activeIndex + indexChange + totalCards) % totalCards;
 
-      isGenerating = true;
-      generateBtn.style.opacity = '0.5';
-      generateBtn.style.pointerEvents = 'none';
+    // 一次性动画到目标位置（不显示中间状态）
+    await animateMultiStepSlide(direction, steps);
 
-      // 切换到下一个描述
-      currentDescIndex = (currentDescIndex + 1) % descriptions.length;
-      const newText = descriptions[currentDescIndex];
+    // 更新索引并重建DOM（仅一次）
+    activeIndex = targetIndex;
+    buildCarouselGrid();
 
-      // 执行打字机效果
-      await typeWriter(newText, descriptionText, 15);
-
-      isGenerating = false;
-      generateBtn.style.opacity = '1';
-      generateBtn.style.pointerEvents = 'auto';
-    });
+    isAnimating = false;
   }
+
+  function handleCarouselClick(event) {
+    const card = event.target.closest('.video-card');
+    if (!card || isAnimating) return;
+    const wrapper = card.closest('.video-card-wrapper');
+    const wrappers = Array.from(grid.children);
+    const targetPos = wrappers.indexOf(wrapper);
+    const centerPos = CLONE_COUNT + CENTER_OFFSET;
+    if (targetPos === -1 || targetPos === centerPos) {
+      applyBackgroundByIndex(activeIndex, true); // 点击已选中卡片,立即应用背景
+      return;
+    }
+    const direction = targetPos > centerPos ? 'left' : 'right';
+    const steps = Math.abs(targetPos - centerPos);
+    slide(direction, steps);
+  }
+
+
+  // 滚轮事件处理：无论纵向/横向，统一劫持并转为横向切换
+  function handleCarouselWheel(event) {
+    if (isAnimating) {
+      event.preventDefault();
+      event.stopPropagation();
+      activateScrollHijack();
+      scheduleScrollHijackRelease();
+      return;
+    }
+    event.preventDefault();
+    event.stopPropagation();
+
+    activateScrollHijack();
+
+    const absDeltaX = Math.abs(event.deltaX);
+    const absDeltaY = Math.abs(event.deltaY);
+    const primaryDelta = absDeltaX > absDeltaY ? event.deltaX : event.deltaY;
+
+    if (Math.abs(primaryDelta) < 1) {
+      scheduleScrollHijackRelease();
+      return;
+    }
+
+    // 🎯 持续滚动策略: 每次滚轮事件都切换一个卡片,不管滚动量大小
+    // 只要持续滚动,就持续切换
+    const direction = primaryDelta > 0 ? 'left' : 'right';
+    slide(direction, 1).finally(scheduleScrollHijackRelease);
+  }
+
+  function buildStaticGrid() {
+    grid.innerHTML = '';
+    templates.forEach((template) => {
+      const node = template.cloneNode(true);
+      node.dataset.cardIndex = template.dataset.cardIndex;
+      const card = node.querySelector('.video-card');
+      if (card) card.dataset.cardIndex = template.dataset.cardIndex;
+      grid.appendChild(node);
+    });
+    updateStaticClasses();
+  }
+
+  function updateStaticClasses() {
+    const wrappers = Array.from(grid.children);
+    wrappers.forEach((wrapper, idx) => {
+      const card = wrapper.querySelector('.video-card');
+      if (!card) return;
+      card.classList.remove('active', 'adjacent');
+      wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
+      const distance = Math.abs(idx - activeIndex);
+      if (distance === 0) {
+        card.classList.add('active');
+        wrapper.classList.add('gap-large');
+      } else if (distance === 1) {
+        card.classList.add('adjacent');
+        wrapper.classList.add('gap-medium');
+      } else if (distance === 2) {
+        wrapper.classList.add('gap-small');
+      }
+    });
+    applyBackgroundByIndex(activeIndex, true); // 移动端点击,立即应用背景
+  }
+
+  function handleStaticClick(event) {
+    const card = event.target.closest('.video-card');
+    if (!card) return;
+    const wrapper = card.closest('.video-card-wrapper');
+    const index = parseInt(wrapper.dataset.cardIndex, 10);
+    if (Number.isNaN(index)) return;
+    activeIndex = index;
+    updateStaticClasses();
+    if (cardsContainer) {
+      wrapper.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+  }
+
+  function initCarouselMode() {
+    grid.removeEventListener('click', handleStaticClick);
+    grid.addEventListener('click', handleCarouselClick);
+
+    // 添加滚轮监听（支持横向滚动切换卡片）
+    if (cardsContainer) {
+      cardsContainer.addEventListener('wheel', handleCarouselWheel, { passive: false });
+    }
+
+    buildCarouselGrid();
+  }
+
+  function initStaticMode() {
+    grid.removeEventListener('click', handleCarouselClick);
+
+    // 移除滚轮监听
+    if (cardsContainer) {
+      cardsContainer.removeEventListener('wheel', handleCarouselWheel);
+    }
+
+    grid.addEventListener('click', handleStaticClick);
+    buildStaticGrid();
+    releaseScrollHijack();
+  }
+
+  function handleResize() {
+    const nextMode = window.innerWidth >= DESKTOP_BREAKPOINT ? 'carousel' : 'static';
+    if (nextMode === currentMode) return;
+    currentMode = nextMode;
+    if (currentMode === 'carousel') {
+      initCarouselMode();
+    } else {
+      initStaticMode();
+    }
+  }
+
+  function initSearchBox() {
+    const searchInput = document.querySelector('.search-input');
+    const runEngineBtn = document.querySelector('.btn-run-engine');
+
+    if (searchInput && runEngineBtn) {
+      runEngineBtn.addEventListener('click', () => {
+        const query = searchInput.value.trim();
+        if (!query) {
+          searchInput.focus();
+          return;
+        }
+        console.log('Search query:', query);
+      });
+
+      searchInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          runEngineBtn.click();
+        }
+      });
+    }
+  }
+
+  function init() {
+    currentMode = window.innerWidth >= DESKTOP_BREAKPOINT ? 'carousel' : 'static';
+    if (currentMode === 'carousel') {
+      initCarouselMode();
+    } else {
+      initStaticMode();
+    }
+    window.addEventListener('resize', handleResize);
+    initSearchBox();
+  }
+
+  init();
 })();
 </script>
