@@ -14,8 +14,9 @@
 }
 
 .use-cases__subtitle {
-  font-size: 1.2rem;
-  font-weight: 500;
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 400;
   letter-spacing: 0.05em;
   color: var(--color-text-secondary);
   margin-bottom: var(--spacing-sm);
@@ -23,7 +24,8 @@
 }
 
 .use-cases__title {
-  font-size: 2.5rem;
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.75rem);
   font-weight: 700;
   color: var(--color-text);
   margin-bottom: var(--spacing-md);
@@ -31,7 +33,9 @@
 }
 
 .use-cases__description {
-  font-size: 1.5rem;
+  font-family: 'Sora', sans-serif;
+  font-size: clamp(1.125rem, 2vw, 1.75rem);
+  font-weight: 300;
   color: var(--color-text-secondary);
   max-width: 800px;
   margin: 0 auto;
@@ -165,22 +169,22 @@
 
 /* 卡片标签 */
 .use-cases__card-label {
-  display: inline-block;
+    font-family: 'Sora', sans-serif;display: inline-block;
   padding: 0;
   padding-left: var(--spacing-md); /* 添加左边距,因为 overlay 已移除左右 padding */
   background: transparent;
   backdrop-filter: none;
   border-radius: 0;
   color: var(--color-text);
-  font-size: 1.125rem;
-  font-weight: 500;
+  font-size: clamp(1rem, 2vw, 1.5rem);
+  font-weight: 400;
   align-self: flex-start;
 }
 
 /* 卡片描述文本 - 与 banner 描述框样式一致 */
 .use-cases__card-description {
-  color: rgb(230, 229, 229); /* 与 banner 一致的文字颜色 */
-  font-size: 0.5rem; /* 与 banner 一致的字体大小 */
+    font-family: 'Sora', sans-serif;color: rgb(230, 229, 229); /* 与 banner 一致的文字颜色 */
+  font-size: clamp(1.125rem, 2vw, 1.75rem); /* 与 banner 一致的字体大小 */
   line-height: 1.6;
   padding: 20px 0 0 20px; /* 与 banner 一致的内边距：只要左边距和上边距 */
   background: rgba(68, 68, 68, 0.451); /* 与 banner 一致的灰色半透明背景 */
@@ -200,7 +204,7 @@
 }
 
 .use-cases__card:hover .use-cases__card-description {
-  opacity: 1;
+    font-family: 'Sora', sans-serif;opacity: 1;
   transform: translateY(0);
 }
 
@@ -248,11 +252,11 @@
   }
 
   .use-cases__title {
-    font-size: 2.5rem;
+    font-family: 'Poppins', sans-serif;font-size: clamp(2rem, 5vw, 3.75rem);
   }
 
   .use-cases__description {
-    font-size: 1.25rem;
+    font-family: 'Sora', sans-serif;font-size: clamp(1.125rem, 2vw, 1.75rem);
     max-width: 90%;
   }
 
@@ -300,11 +304,11 @@
 
   /* 卡片标签和描述缩小 */
   .use-cases__card-label {
-    font-size: 0.875rem;
+    font-family: 'Sora', sans-serif;font-size: clamp(1rem, 2vw, 1.5rem);
   }
 
   .use-cases__card-description {
-    font-size: 0.75rem;
+    font-family: 'Sora', sans-serif;font-size: clamp(1.125rem, 2vw, 1.75rem);
     padding: 12px 0 0 12px;
     min-height: 70px;
   }
@@ -317,11 +321,11 @@
   }
 
   .use-cases__title {
-    font-size: 2rem;
+    font-family: 'Poppins', sans-serif;font-size: clamp(2rem, 5vw, 3.75rem);
   }
 
   .use-cases__description {
-    font-size: 1rem;
+    font-family: 'Sora', sans-serif;font-size: clamp(1.125rem, 2vw, 1.75rem);
     max-width: 95%;
   }
 
@@ -355,12 +359,12 @@
 
   /* 卡片元素进一步缩小 */
   .use-cases__card-label {
-    font-size: 0.75rem;
+    font-family: 'Sora', sans-serif;font-size: clamp(1rem, 2vw, 1.5rem);
     padding-left: var(--spacing-sm);
   }
 
   .use-cases__card-description {
-    font-size: 0.65rem;
+    font-family: 'Sora', sans-serif;font-size: clamp(1.125rem, 2vw, 1.75rem);
     padding: 8px 0 0 8px;
     min-height: 60px;
   }
@@ -395,7 +399,7 @@
   }
 
   .use-cases__card:hover .use-cases__card-description {
-    opacity: 0;             /* 触摸设备不显示描述 */
+    font-family: 'Sora', sans-serif;opacity: 0;             /* 触摸设备不显示描述 */
   }
 }
 
