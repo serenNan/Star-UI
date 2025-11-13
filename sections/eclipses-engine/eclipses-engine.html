@@ -805,16 +805,16 @@
   function updateCardsDisplay() {
     const data = currentData;
 
-    // 更新左侧堆叠（2个视频）
+    // 更新左侧堆叠(2个视频) - 悬浮播放,不自动播放
     const leftVideo1Source = leftStackVideos[0].querySelector('source');
     leftVideo1Source.src = data.sideVideos[0].url;
     leftStackVideos[0].load();
-    leftStackVideos[0].play().catch(err => console.log('Left video 1 play error:', err));
+    // 不自动播放,等待悬浮触发
 
     const leftVideo2Source = leftStackVideos[1].querySelector('source');
     leftVideo2Source.src = data.sideVideos[1].url;
     leftStackVideos[1].load();
-    leftStackVideos[1].play().catch(err => console.log('Left video 2 play error:', err));
+    // 不自动播放,等待悬浮触发
 
     // 更新中央视频（悬浮播放，不自动播放）
     const mainVideoSource = mainVideo.querySelector('source');
@@ -822,28 +822,59 @@
     mainVideo.load();
     mainCardContainer.classList.add('paused'); // 添加暂停状态
 
-    // 更新右侧卡片（1个视频）
+    // 更新右侧卡片(1个视频) - 悬浮播放,不自动播放
     const rightVideoSource = rightStackVideos[0].querySelector('source');
     rightVideoSource.src = data.sideVideos[2].url;
     rightStackVideos[0].load();
-    rightStackVideos[0].play().catch(err => console.log('Right video play error:', err));
+    // 不自动播放,等待悬浮触发
   }
 
   // ===== 悬浮播放控制 =====
   function initHoverVideoControl() {
-    if (!mainCardContainer || !mainVideo) return;
+    // 中央大卡片悬浮播放
+    if (mainCardContainer && mainVideo) {
+      // 鼠标进入 - 播放视频
+      mainCardContainer.addEventListener('mouseenter', () => {
+        mainCardContainer.classList.remove('paused');
+        mainVideo.play().catch(err => console.log('Main video play error:', err));
+      });
 
-    // 鼠标进入 - 播放视频
-    mainCardContainer.addEventListener('mouseenter', () => {
-      mainCardContainer.classList.remove('paused');
-      mainVideo.play().catch(err => console.log('Video play error:', err));
+      // 鼠标离开 - 暂停并重置到开头
+      mainCardContainer.addEventListener('mouseleave', () => {
+        mainCardContainer.classList.add('paused');
+        mainVideo.pause();
+        mainVideo.currentTime = 0; // 重置到开头
+      });
+    }
+
+    // 左侧小卡片悬浮播放
+    leftStackVideos.forEach((video, index) => {
+      const cardElement = video.closest('.tools-showcase__card');
+      if (cardElement) {
+        cardElement.addEventListener('mouseenter', () => {
+          video.play().catch(err => console.log(`Left video ${index + 1} play error:`, err));
+        });
+
+        cardElement.addEventListener('mouseleave', () => {
+          video.pause();
+          video.currentTime = 0; // 重置到开头
+        });
+      }
     });
 
-    // 鼠标离开 - 暂停并重置到开头
-    mainCardContainer.addEventListener('mouseleave', () => {
-      mainCardContainer.classList.add('paused');
-      mainVideo.pause();
-      mainVideo.currentTime = 0; // 重置到开头
+    // 右侧小卡片悬浮播放
+    rightStackVideos.forEach((video, index) => {
+      const cardElement = video.closest('.tools-showcase__card');
+      if (cardElement) {
+        cardElement.addEventListener('mouseenter', () => {
+          video.play().catch(err => console.log(`Right video ${index + 1} play error:`, err));
+        });
+
+        cardElement.addEventListener('mouseleave', () => {
+          video.pause();
+          video.currentTime = 0; // 重置到开头
+        });
+      }
     });
   }
 
