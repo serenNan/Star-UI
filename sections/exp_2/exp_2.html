@@ -20,6 +20,9 @@
     border-radius: 12px;
     padding: var(--spacing-sm) var(--spacing-md);
     margin-bottom: var(--spacing-lg);
+    margin-left: auto;
+    margin-right: auto;
+    max-width: fit-content;
   }
 
   .exp-2-category-label {
@@ -28,12 +31,14 @@
     font-size: 0.875rem;
     font-weight: 400;
     margin-bottom: var(--spacing-xs);
+    text-align: center;
   }
 
   .exp-2-category-buttons {
     display: flex;
     gap: var(--spacing-xs);
     flex-wrap: wrap;
+    justify-content: center;
   }
 
   .exp-2-category-button {
@@ -61,52 +66,14 @@
     color: var(--color-text);
   }
 
-  /* 子分类选择 */
-  .exp-2-subcategory {
-    text-align: center;
-    margin-bottom: var(--spacing-md);
-  }
 
-  .exp-2-subcategory-label {
-    color: var(--color-text-secondary);
-    font-family: 'Sora', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    margin-bottom: var(--spacing-sm);
-  }
-
-  .exp-2-subcategory-buttons {
-    display: flex;
-    gap: var(--spacing-xs);
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-
-  .exp-2-subcategory-button {
-    padding: var(--spacing-xs) var(--spacing-sm);
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 6px;
-    color: var(--color-text-secondary);
-    font-family: 'Sora', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    cursor: pointer;
-    transition: all var(--transition);
-    white-space: nowrap;
-  }
-
-  .exp-2-subcategory-button:hover {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: rgba(255, 255, 255, 0.2);
-  }
 
   /* 主要内容区域 */
   .exp-2-main {
     text-align: center;
     max-width: 800px;
     margin: 0 auto;
-    padding: var(--spacing-xl) 0;
+    padding-bottom: 1.5rem;
   }
 
   .exp-2-title {
@@ -168,8 +135,7 @@
       padding: var(--spacing-2xl) var(--spacing-lg);
     }
 
-    .exp-2-category-buttons,
-    .exp-2-subcategory-buttons {
+    .exp-2-category-buttons {
       justify-content: center;
     }
   }
@@ -199,18 +165,7 @@
       </div>
     </div>
 
-    <!-- 子分类选择 -->
-    <div class="exp-2-subcategory">
-      <div class="exp-2-subcategory-label">Select Subcategory</div>
-      <div class="exp-2-subcategory-buttons">
-        <button class="exp-2-subcategory-button">Brand Films</button>
-        <button class="exp-2-subcategory-button">Stories</button>
-        <button class="exp-2-subcategory-button">Artistic Film</button>
-        <button class="exp-2-subcategory-button">Music Visuals</button>
-        <button class="exp-2-subcategory-button">Social Ads</button>
-        <button class="exp-2-subcategory-button">Cinema</button>
-      </div>
-    </div>
+
 
     <!-- 主要内容区域 -->
     <div class="exp-2-main">
@@ -239,14 +194,7 @@
         });
       });
 
-      // 子分类按钮切换
-      const subcategoryButtons = document.querySelectorAll('.exp-2-subcategory-button');
-      subcategoryButtons.forEach((button) => {
-        button.addEventListener('click', function () {
-          subcategoryButtons.forEach((btn) => btn.classList.remove('active'));
-          this.classList.add('active');
-        });
-      });
+
     };
 
     // DOM 加载后初始化

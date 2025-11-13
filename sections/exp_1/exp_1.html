@@ -129,7 +129,21 @@
     transition: transform var(--transition);
   }
 
+  .exp-1-panel video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
   .exp-1-panel:hover .exp-1-panel-image {
+    transform: scale(1.05);
+  }
+
+  .exp-1-panel:hover video {
     transform: scale(1.05);
   }
 
@@ -223,27 +237,42 @@
       <!-- 第一列：25%，上30%，下70% -->
       <div class="exp-1-column exp-1-column-left">
         <div class="exp-1-panel exp-1-panel-top">
-          <img src="images/1.png" alt="Explore 1" class="exp-1-panel-image" loading="lazy">
+          <video class="exp-1-panel-image" muted loop playsinline>
+            <source src="videos/video_1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
         <div class="exp-1-panel exp-1-panel-bottom">
-          <img src="images/2.jpg" alt="Explore 2" class="exp-1-panel-image" loading="lazy">
+          <video class="exp-1-panel-image" muted loop playsinline>
+            <source src="videos/video_2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
 
       <!-- 第二列：40%，单图 -->
       <div class="exp-1-column exp-1-column-center">
         <div class="exp-1-panel">
-          <img src="images/3.png" alt="Explore 3" class="exp-1-panel-image" loading="lazy">
+          <video class="exp-1-panel-image" muted loop playsinline>
+            <source src="videos/总设计.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
 
       <!-- 第三列：25%，上70%，下30% -->
       <div class="exp-1-column exp-1-column-right">
         <div class="exp-1-panel exp-1-panel-top">
-          <img src="images/4.png" alt="Explore 4" class="exp-1-panel-image" loading="lazy">
+          <video class="exp-1-panel-image" muted loop playsinline>
+            <source src="videos/video_1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
         <div class="exp-1-panel exp-1-panel-bottom">
-          <img src="images/5.png" alt="Explore 5" class="exp-1-panel-image" loading="lazy">
+          <video class="exp-1-panel-image" muted loop playsinline>
+            <source src="videos/video_2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
     </div>
@@ -256,13 +285,27 @@
     'use strict';
 
     const initExp1 = () => {
-      // 图片加载错误处理
-      const images = document.querySelectorAll('.exp-1-panel-image');
-      images.forEach((img) => {
-        img.addEventListener('error', function () {
-          console.warn(`Failed to load image: ${this.src}`);
+      // 视频加载错误处理
+      const videos = document.querySelectorAll('.exp-1-panel video');
+      videos.forEach((video) => {
+        video.addEventListener('error', function () {
+          console.warn(`Failed to load video: ${this.querySelector('source').src}`);
           this.style.display = 'none';
         });
+
+        // 初始状态暂停视频
+        video.pause();
+
+        // 鼠标悬停时播放视频
+        const panel = video.closest('.exp-1-panel');
+        if (panel) {
+          panel.addEventListener('mouseenter', () => {
+            video.play();
+          });
+          panel.addEventListener('mouseleave', () => {
+            video.pause();
+          });
+        }
       });
     };
 
