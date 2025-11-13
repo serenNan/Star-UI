@@ -479,42 +479,72 @@
     <!-- 数据展示区域 - 六个卡片 -->
     <div class="calculator-results" id="calculator-results">
       <div class="calculator-result-card">
-        <div class="calculator-result-value" id="result-time-saved">0</div>
-        <div class="calculator-result-label">Hours Saved</div>
+        <div class="calculator-result-value" id="result-posts">0</div>
+        <div class="calculator-result-label">Number of clips you will get</div>
       </div>
       <div class="calculator-result-card">
-        <div class="calculator-result-value" id="result-posts">0</div>
-        <div class="calculator-result-label">Posts Created</div>
+        <div class="calculator-result-value" id="result-time-saved">0</div>
+        <div class="calculator-result-label">Time saved per week</div>
       </div>
       <div class="calculator-result-card">
         <div class="calculator-result-value" id="result-reach">0</div>
-        <div class="calculator-result-label">Total Reach</div>
+        <div class="calculator-result-label">Extra views gained</div>
       </div>
       <div class="calculator-result-card">
         <div class="calculator-result-value" id="result-growth">0%</div>
-        <div class="calculator-result-label">Growth Rate</div>
+        <div class="calculator-result-label">Watch time increase</div>
       </div>
       <div class="calculator-result-card">
-        <div class="calculator-result-value" id="result-efficiency">0%</div>
-        <div class="calculator-result-label">Efficiency Gain</div>
+        <div class="calculator-result-value" id="result-efficiency">$0</div>
+        <div class="calculator-result-label">Potential money saved per month</div>
       </div>
       <div class="calculator-result-card">
-        <div class="calculator-result-value" id="result-engagement">0</div>
-        <div class="calculator-result-label">Engagement Rate</div>
+        <div class="calculator-result-value" id="result-engagement">0%</div>
+        <div class="calculator-result-label">Estimated ROI (savings + rev. lift vs. monthly cost)</div>
       </div>
     </div>
   </div>
 </section>
 
 <script>
-  // Calculator 模块交互逻辑
+  // Calculator 模块交互逻辑（应用 ROI 计算公式）
   (function () {
     'use strict';
+
+    const CREDITS_PER_CLIP = 4;      // 600 credits -> 150 clips
+    const MIN_SAVED_PER_CLIP = 160;  // 每条节省分钟数
+    const HOURLY_RATE = 85;          // 时间价值 $/小时
+    const RPM = 2.0;                 // 每千次额外播放的收益
+    const MONTHLY_COST = 68;         // 订阅月费，用于 ROI 计算
+
+    // 类别带来的观看时长/传播提升（与 roi-calculator 对齐，未列出的用默认值）
+    const categoryLift = {
+      podcast: 0.18,
+      education: 0.15,
+      motivation: 0.12,
+      finance: 0.19,
+      webinar: 0.14,
+      vlog: 0.13,
+      coaching: 0.16
+    };
+
+    // 平台额外曝光乘子（映射现有平台按钮）
+    const platformLift = {
+      youtube: 1.0,
+      tiktok: 1.2,
+      instagram: 1.1, // 映射 reels
+      facebook: 0.9   // 近似 linkedin
+    };
+
+    const fmtInt = n => Math.round(n).toLocaleString();
+    const fmtMoney = n => '$' + Math.round(n).toLocaleString();
+    const fmtHrs = n => `${Math.round(n)} hr`;
+    const fmtPct = n => (n * 100).toFixed(2) + '%';
 
     const initCalculator = () => {
       const form = document.getElementById('calculator-form');
       const platformButtons = document.querySelectorAll('.calculator-platform-button');
-      let selectedPlatform = 'tiktok';
+      let selectedPlatform = (document.querySelector('.calculator-platform-button.active')?.dataset.platform) || 'tiktok';
 
       // 平台选择按钮
       platformButtons.forEach(button => {
@@ -526,52 +556,45 @@
         });
       });
 
-      // 表单提交
+      function calculate() {
+        const creditsInput = document.getElementById('credits').value;
+        const credits = parseFloat(String(creditsInput).replace(/[^0-9.]/g, '')) || 0;
+        const avgViews = Math.max(0, parseFloat(document.getElementById('average-views').value) || 0);
+        const category = document.getElementById('category').value || 'podcast';
+
+        // 基础计算（与 roi-calculator 一致）
+        const clips = Math.floor(credits / CREDITS_PER_CLIP);
+        const hoursSavedPerMonth = (clips * MIN_SAVED_PER_CLIP) / 60;
+        const hoursSavedPerWeek = hoursSavedPerMonth / 4;
+
+        const lift = categoryLift[category] ?? 0.15;
+        const pMul = platformLift[selectedPlatform] ?? 1.0;
+        const extraViews = clips * avgViews * lift * pMul;
+
+        const watchInc = lift;
+        const moneySaved = hoursSavedPerMonth * HOURLY_RATE;
+        const revenueLift = (extraViews / 1000) * RPM;
+        const roi = MONTHLY_COST > 0 ? ((moneySaved + revenueLift - MONTHLY_COST) / MONTHLY_COST) : 0;
+
+        // 输出到页面（复用现有卡片）
+        document.getElementById('result-posts').textContent = fmtInt(clips);
+        document.getElementById('result-time-saved').textContent = fmtHrs(hoursSavedPerWeek);
+        document.getElementById('result-reach').textContent = fmtInt(extraViews);
+        document.getElementById('result-growth').textContent = fmtPct(watchInc);
+        document.getElementById('result-efficiency').textContent = fmtMoney(moneySaved);
+        document.getElementById('result-engagement').textContent = (roi * 100).toFixed(1) + '%';
+      }
+
+      // 表单提交触发计算
       if (form) {
         form.addEventListener('submit', (e) => {
           e.preventDefault();
-
-          const creditsInput = document.getElementById('credits').value;
-          const credits = parseFloat(creditsInput.replace(/[^0-9.]/g, '')) || 0;
-          const averageViews = parseFloat(document.getElementById('average-views').value) || 0;
-          const category = document.getElementById('category').value || 'podcast';
-
-          // 计算逻辑
-          // 假设每个 credit 可以创建 1 个视频
-          const postsCreated = credits;
-
-          // 假设每个视频平均节省 2 小时
-          const hoursSaved = postsCreated * 2;
-
-          // 总触达 = 视频数 × 平均观看数
-          const totalReach = postsCreated * averageViews;
-
-          // 增长率基于视频数量（简化计算）
-          const growthRate = Math.min(postsCreated * 5, 100);
-
-          // 效率提升（基于视频数量）
-          const efficiencyGain = Math.min(postsCreated * 10, 100);
-
-          // 参与度（基于平台，简化计算）
-          const engagementRates = {
-            tiktok: 8.5,
-            youtube: 4.2,
-            instagram: 3.8,
-            facebook: 2.5
-          };
-          const engagementRate = engagementRates[selectedPlatform] || 5.0;
-
-          // 更新结果
-          document.getElementById('result-time-saved').textContent = hoursSaved.toLocaleString();
-          document.getElementById('result-posts').textContent = postsCreated.toLocaleString();
-          document.getElementById('result-reach').textContent = totalReach.toLocaleString();
-          document.getElementById('result-growth').textContent = growthRate.toFixed(0) + '%';
-          document.getElementById('result-efficiency').textContent = efficiencyGain.toFixed(0) + '%';
-          document.getElementById('result-engagement').textContent = engagementRate.toFixed(1) + '%';
+          calculate();
         });
       }
 
-      // 页面加载时不自动计算，等待用户点击 Calculate
+      // 初次加载自动计算一次
+      calculate();
     };
 
     // DOM 加载后初始化
