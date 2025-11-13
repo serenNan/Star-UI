@@ -1102,26 +1102,28 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start; /* 从顶部开始布局 */
   flex-shrink: 0; /* 防止收缩 */
   position: relative; /* 为 z-index 生效创建定位上下文 */
   z-index: 10; /* 确保包装器也在高层级 */
+  min-height: 150px; /* 设置最小高度,确保有足够空间 */
+  padding-top: 21px; /* 顶部padding = (150px - 108px) / 2,让卡片在包装器中垂直居中 */
   --title-spacing: 0.5rem;
   --title-opacity: 0.85;
 }
 
 /* 卡片标题（显示在卡片下方）*/
 .card-title {
-  font-size: 0.6rem; /* 减小字体：从 0.75rem 改为 0.65rem */
+  font-size: 0.7rem; /* 字体放大：从 0.6rem 改为 0.7rem */
   font-weight: 600;
   color: var(--color-text);
   text-align: center; /* 居中对齐 */
   letter-spacing: 0.05em;
   white-space: nowrap;
-  order: 2; /* 标题排在后面 */
   display: block;
   width: 100%;
   margin: 0;
-  margin-top: var(--title-spacing);
+  margin-top: var(--title-spacing); /* 保留动态间距效果 */
   opacity: var(--title-opacity);
   transition: margin-top 0.5s cubic-bezier(0.4, 0, 0.2, 1),
     opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
@@ -1143,10 +1145,7 @@
   --title-opacity: 1;
 }
 
-/* 卡片主体 */
-.video-card {
-  order: 1; /* 卡片排在前面 */
-}
+/* 卡片主体 - order属性已移除,因标题改为绝对定位 */
 
 /* 背景切换卡片 - 更长的高度 */
 .video-card {
@@ -1161,7 +1160,12 @@
   transform: scale(0.7);
   opacity: 0.6;
   z-index: 1;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-style: preserve-3d; /* 启用3D变换 */
+  perspective: 1000px; /* 3D透视距离 */
+  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform; /* 性能优化 */
 }
 
 /* 选中状态 - 外围白色边框 */
@@ -1172,19 +1176,6 @@
   outline: 1px solid white;
   outline-offset: 1.5px;
   box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
-}
-
-.video-card:hover {
-  transform: scale(0.74);
-  z-index: 20; /* 悬浮时进一步提高层级 */
-}
-
-.video-card.adjacent:hover {
-  transform: scale(0.88);
-}
-
-.video-card.active:hover {
-  transform: scale(1.02);
 }
 
 /* 相邻卡片 - 第二层 */
@@ -1199,6 +1190,42 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+/* ✨ 五个位置的倾斜样式(加入 translateY 让可见中心对齐) */
+/* 位置0 - 最左侧卡片,向左倾斜12度 */
+.video-card.position-0 {
+  transform: translateY(-16px) scale(0.7) rotateY(-12deg);
+  opacity: 0.5;
+  box-shadow: -5px 10px 25px rgba(0, 0, 0, 0.4);
+}
+
+/* 位置1 - 左侧卡片,向左倾斜6度 */
+.video-card.position-1 {
+  transform: translateY(-8px) scale(0.85) rotateY(-6deg);
+  opacity: 0.7;
+  box-shadow: -3px 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* 位置2 - 中间卡片,不倾斜(激活状态) */
+.video-card.position-2 {
+  transform: translateY(0px) scale(1) rotateY(0deg);
+  opacity: 1;
+  box-shadow: 0 15px 40px rgba(255, 255, 255, 0.2);
+}
+
+/* 位置3 - 右侧卡片,向右倾斜6度 */
+.video-card.position-3 {
+  transform: translateY(-8px) scale(0.85) rotateY(6deg);
+  opacity: 0.7;
+  box-shadow: 3px 8px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* 位置4 - 最右侧卡片,向右倾斜12度 */
+.video-card.position-4 {
+  transform: translateY(-16px) scale(0.7) rotateY(12deg);
+  opacity: 0.5;
+  box-shadow: 5px 10px 25px rgba(0, 0, 0, 0.4);
 }
 
 /* 5. 响应式样式 */
@@ -1417,18 +1444,25 @@
   }
 }
 
-/* 禁用移动端悬浮效果 */
-@media (hover: none) {
-  .video-card:hover {
-    transform: scale(0.7);
+/* 移动端禁用倾斜效果 - 保持简洁 */
+@media (max-width: 991px) {
+  /* 重置所有倾斜位置类,移除 rotateY 并保持视觉中心对齐 */
+  .video-card.position-0,
+  .video-card.position-4 {
+    transform: translateY(-16px) scale(0.7) rotateY(0deg) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
   }
 
-  .btn-run-engine:hover {
-    transform: translateY(-50%);
-    box-shadow: none;
-    background: white;
+  .video-card.position-1,
+  .video-card.position-3 {
+    transform: translateY(-8px) scale(0.85) rotateY(0deg) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
   }
-}
+
+  .video-card.position-2 {
+    transform: translateY(0px) scale(1) rotateY(0deg) !important;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
+  }
 
 /* 性能优化 - 禁用动画偏好 */
 @media (prefers-reduced-motion: reduce) {
@@ -1623,6 +1657,11 @@
   const BACKGROUND_UPDATE_DELAY = 300; // 滚动停止后延迟更新背景(毫秒)
   const wheelBlockerOptions = { passive: false, capture: true };
 
+  function applyPositionClass(card, positionIndex) {
+    const clamped = Math.max(0, Math.min(VISIBLE_COUNT - 1, positionIndex));
+    card.classList.add(`position-${clamped}`);
+  }
+
   function preventPageScroll(event) {
     if (!isScrollHijacked) return;
     event.preventDefault();
@@ -1704,7 +1743,7 @@
         card.dataset.cardIndex = idx;
 
         // ✨ 立即计算并应用最终状态，避免闪烁
-        card.classList.remove('active', 'adjacent');
+        card.classList.remove('active', 'adjacent', 'position-0', 'position-1', 'position-2', 'position-3', 'position-4');
         node.classList.remove('gap-small', 'gap-medium', 'gap-large');
 
         // 计算当前节点在可见区域的位置
@@ -1712,6 +1751,7 @@
         const visibleEnd = CLONE_COUNT + VISIBLE_COUNT - 1;
         const centerPos = visibleStart + CENTER_OFFSET;
         const position = CLONE_COUNT + offset;
+        const visiblePosition = position - visibleStart;
 
         // 应用卡片状态类
         if (position === centerPos) {
@@ -1720,9 +1760,11 @@
           card.classList.add('adjacent');
         }
 
-        // 应用间距类（关键！避免闪烁）
+        // 先根据目标位置应用倾斜位置类,隐藏卡片同样保持对齐
+        applyPositionClass(card, visiblePosition);
+
+        // 应用间距类（仅限可见区域）
         if (position >= visibleStart && position <= visibleEnd) {
-          const visiblePosition = position - visibleStart;
           if (visiblePosition === 0 || visiblePosition === VISIBLE_COUNT - 1) {
             node.classList.add('gap-small');
           } else if (visiblePosition === 1 || visiblePosition === VISIBLE_COUNT - 2) {
@@ -1806,14 +1848,14 @@
       if (!card) return;
 
       // 修改卡片状态类
-      card.classList.remove('active', 'adjacent');
+      card.classList.remove('active', 'adjacent', 'position-0', 'position-1', 'position-2', 'position-3', 'position-4');
       if (idx === nextCenter) {
         card.classList.add('active');
       } else if (idx === nextCenter - 1 || idx === nextCenter + 1) {
         card.classList.add('adjacent');
       }
 
-      // ✨ 提前计算并应用目标位置的间距类，实现斜向平滑过渡
+      // ✨ 提前计算并应用目标位置的间距类和倾斜类，实现斜向平滑过渡
       wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
 
       // 计算卡片在动画后的可见位置
@@ -1822,7 +1864,10 @@
         ? currentVisiblePos - 1  // 左滑时，每个卡片向左移动一个位置
         : currentVisiblePos + 1; // 右滑时，每个卡片向右移动一个位置
 
-      // 根据目标位置应用对应的间距类
+      // 隐藏卡片同样提前应用倾斜位置类,保持视觉对齐
+      applyPositionClass(card, targetVisiblePos);
+
+      // 根据目标位置应用对应的间距类（仅限可见区域）
       if (targetVisiblePos >= 0 && targetVisiblePos < VISIBLE_COUNT) {
         if (targetVisiblePos === 0 || targetVisiblePos === VISIBLE_COUNT - 1) {
           wrapper.classList.add('gap-small');
@@ -1901,18 +1946,21 @@
       if (!card) return;
 
       // 修改卡片状态类
-      card.classList.remove('active', 'adjacent');
+      card.classList.remove('active', 'adjacent', 'position-0', 'position-1', 'position-2', 'position-3', 'position-4');
       if (idx === nextCenter) {
         card.classList.add('active');
       } else if (idx === nextCenter - 1 || idx === nextCenter + 1) {
         card.classList.add('adjacent');
       }
 
-      // 提前应用目标位置的间距类
+      // 提前应用目标位置的间距类和倾斜位置类
       wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
 
       const currentVisiblePos = idx - CLONE_COUNT;
       const targetVisiblePos = currentVisiblePos - offset;
+
+      // 隐藏卡片同样应用倾斜位置类
+      applyPositionClass(card, targetVisiblePos);
 
       if (targetVisiblePos >= 0 && targetVisiblePos < VISIBLE_COUNT) {
         if (targetVisiblePos === 0 || targetVisiblePos === VISIBLE_COUNT - 1) {
@@ -3492,6 +3540,104 @@
   user-select: none;
 }
 
+/* ===== 对比容器样式 ===== */
+.compare-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  cursor: grab; /* 可抓取光标 */
+}
+
+.compare-container:active {
+  cursor: grabbing; /* 拖动中光标 */
+}
+
+/* 背景图 (After) */
+.compare-image--after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* 前景图 (Before) - 通过 clip-path 裁剪 */
+.compare-image--before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
+  pointer-events: none;
+  /* 默认显示左侧 50% */
+  clip-path: inset(0 50% 0 0);
+  transition: clip-path 0.05s ease-out;
+}
+
+/* ===== 对比滑块样式 ===== */
+.compare-slider {
+  position: absolute;
+  top: 0;
+  left: 50%; /* 默认位置 50% */
+  width: 1px;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateX(-50%);
+  pointer-events: none;
+  z-index: 10;
+  transition: left 0.05s ease-out;
+}
+
+/* 垂直线条 */
+.compare-slider__line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.35);
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+}
+
+/* 箭头容器 - 放在偏上方 */
+.compare-slider__handle {
+  position: absolute;
+  top: 30%; /* 偏上方位置 */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* 左右箭头 - 无背景 */
+.compare-slider__arrow {
+  color: white;
+  font-size: 14px;
+  font-weight: normal;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.5);
+  flex-shrink: 0;
+}
+
+/* 左箭头 */
+.compare-slider__arrow--left {
+  /* 无需额外样式 */
+}
+
+/* 右箭头 */
+.compare-slider__arrow--right {
+  /* 无需额外样式 */
+}
+
 /* 小卡片（左右两侧）*/
 .tools-showcase__card--small {
   opacity: 0.6;
@@ -3727,6 +3873,8 @@
     height: 100%;
     object-fit: cover;
   }
+
+  /* 移动端 - 滑块已隐藏,无需额外样式 */
 }
 
 /* ===== 小屏手机优化 ===== */
@@ -3861,24 +4009,64 @@
         <!-- 左侧堆叠（2张小卡片）-->
         <div class="tools-showcase__side left" id="compareLeftStack">
           <div class="tools-showcase__card tools-showcase__card--small">
-            <img src="" alt="" class="tools-showcase__card-image">
+            <div class="compare-container">
+              <img src="" alt="" class="compare-image compare-image--after">
+              <img src="" alt="" class="compare-image compare-image--before">
+              <div class="compare-slider">
+                <div class="compare-slider__line"></div>
+                <div class="compare-slider__handle">
+                  <div class="compare-slider__arrow compare-slider__arrow--left">&lt;</div>
+                  <div class="compare-slider__arrow compare-slider__arrow--right">&gt;</div>
+                </div>
+              </div>
+            </div>
           </div>
           <div class="tools-showcase__card tools-showcase__card--small">
-            <img src="" alt="" class="tools-showcase__card-image">
+            <div class="compare-container">
+              <img src="" alt="" class="compare-image compare-image--after">
+              <img src="" alt="" class="compare-image compare-image--before">
+              <div class="compare-slider">
+                <div class="compare-slider__line"></div>
+                <div class="compare-slider__handle">
+                  <div class="compare-slider__arrow compare-slider__arrow--left">&lt;</div>
+                  <div class="compare-slider__arrow compare-slider__arrow--right">&gt;</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- 中央大卡片 -->
         <div class="tools-showcase__center">
           <div class="tools-showcase__card tools-showcase__card--main" id="compareMainCard">
-            <img src="" alt="" class="tools-showcase__card-image">
+            <div class="compare-container">
+              <img src="" alt="" class="compare-image compare-image--after">
+              <img src="" alt="" class="compare-image compare-image--before">
+              <div class="compare-slider">
+                <div class="compare-slider__line"></div>
+                <div class="compare-slider__handle">
+                  <div class="compare-slider__arrow compare-slider__arrow--left">&lt;</div>
+                  <div class="compare-slider__arrow compare-slider__arrow--right">&gt;</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
         <!-- 右侧堆叠（1张竖向长方形卡片）-->
         <div class="tools-showcase__side right" id="compareRightStack">
           <div class="tools-showcase__card tools-showcase__card--small">
-            <img src="" alt="" class="tools-showcase__card-image">
+            <div class="compare-container">
+              <img src="" alt="" class="compare-image compare-image--after">
+              <img src="" alt="" class="compare-image compare-image--before">
+              <div class="compare-slider">
+                <div class="compare-slider__line"></div>
+                <div class="compare-slider__handle">
+                  <div class="compare-slider__arrow compare-slider__arrow--left">&lt;</div>
+                  <div class="compare-slider__arrow compare-slider__arrow--right">&gt;</div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -3892,39 +4080,39 @@
   'use strict';
 
   // ===== 工具数据配置 =====
-  // 使用当前模块目录内的图片资源
-  const moduleImages = [
-    { url: 'sections/compare/1.png', alt: 'Compare Showcase 1' },
-    { url: 'sections/compare/2.jpg', alt: 'Compare Showcase 2' },
-    { url: 'sections/compare/3.png', alt: 'Compare Showcase 3' },
-    { url: 'sections/compare/4.png', alt: 'Compare Showcase 4' }
-  ];
+  // 使用现有图片进行随机组合,展示前后对比效果
+  const moduleImages = {
+    card1: { before: 'sections/compare/1.png', after: 'sections/compare/2.jpg' },
+    card2: { before: 'sections/compare/3.png', after: 'sections/compare/4.png' },
+    card3: { before: 'sections/compare/2.jpg', after: 'sections/compare/1.png' },
+    card4: { before: 'sections/compare/4.png', after: 'sections/compare/3.png' }
+  };
 
-  // 不同分类只换主图片(中央卡片),保持其他图片不变
+  // 不同分类的卡片配置 (数组结构: [左上, 左下, 中央, 右侧])
   const toolsData = {
     'image-generator': [
-      moduleImages[0], // 左侧第一张
-      moduleImages[1], // 左侧第二张
-      moduleImages[0], // 中央卡片 - Image Generator 显示图片1
-      moduleImages[3]  // 右侧卡片
+      moduleImages.card1, // 左上: 1.png → 2.jpg
+      moduleImages.card2, // 左下: 3.png → 4.png
+      moduleImages.card3, // 中央: 2.jpg → 1.png
+      moduleImages.card4  // 右侧: 4.png → 3.png
     ],
     'video-generator': [
-      moduleImages[0], // 左侧第一张
-      moduleImages[1], // 左侧第二张
-      moduleImages[1], // 中央卡片 - Video Generator 显示图片2
-      moduleImages[3]  // 右侧卡片
+      moduleImages.card2, // 左上: 3.png → 4.png
+      moduleImages.card1, // 左下: 1.png → 2.jpg
+      moduleImages.card4, // 中央: 4.png → 3.png
+      moduleImages.card3  // 右侧: 2.jpg → 1.png
     ],
     'timeline-editor': [
-      moduleImages[0], // 左侧第一张
-      moduleImages[1], // 左侧第二张
-      moduleImages[2], // 中央卡片 - Timeline Editor 显示图片3
-      moduleImages[3]  // 右侧卡片
+      moduleImages.card3, // 左上: 2.jpg → 1.png
+      moduleImages.card4, // 左下: 4.png → 3.png
+      moduleImages.card1, // 中央: 1.png → 2.jpg
+      moduleImages.card2  // 右侧: 3.png → 4.png
     ],
     'avatar': [
-      moduleImages[0], // 左侧第一张
-      moduleImages[1], // 左侧第二张
-      moduleImages[3], // 中央卡片 - Avatar 显示图片4
-      moduleImages[3]  // 右侧卡片
+      moduleImages.card4, // 左上: 4.png → 3.png
+      moduleImages.card3, // 左下: 2.jpg → 1.png
+      moduleImages.card2, // 中央: 3.png → 4.png
+      moduleImages.card1  // 右侧: 1.png → 2.jpg
     ]
   };
 
@@ -3941,19 +4129,18 @@
   // ===== DOM 元素 =====
   const showcaseSection = document.getElementById('compareShowcase');
   const carousel = showcaseSection ? showcaseSection.querySelector('#compareCarousel') : null;
-  const mainCardContainer = showcaseSection ? showcaseSection.querySelector('#compareMainCard') : null;
-  const mainCard = showcaseSection ? showcaseSection.querySelector('#compareMainCard img') : null;
-  const leftSide = showcaseSection ? showcaseSection.querySelector('#compareLeftStack') : null;
-  const rightSide = showcaseSection ? showcaseSection.querySelector('#compareRightStack') : null;
-  const leftStack = leftSide ? leftSide.querySelectorAll('img') : [];
-  const rightStack = rightSide ? rightSide.querySelectorAll('img') : [];
   const tabs = showcaseSection ? showcaseSection.querySelectorAll('.tools-showcase__tab') : [];
 
-  if (!showcaseSection || !carousel || !mainCardContainer || !mainCard || leftStack.length < 2 || rightStack.length < 1) {
+  // 获取所有对比容器
+  const compareContainers = showcaseSection ? showcaseSection.querySelectorAll('.compare-container') : [];
+
+  if (!showcaseSection || !carousel || compareContainers.length < 4) {
     console.warn('[compare] 必要的 DOM 节点缺失，已跳过脚本初始化。');
     return;
   }
 
+  const leftSide = showcaseSection.querySelector('#compareLeftStack');
+  const rightSide = showcaseSection.querySelector('#compareRightStack');
   let resizeRaf = null;
 
   // ===== 初始化 =====
@@ -3961,24 +4148,27 @@
     updateCardsDisplay();
     updateResponsiveLayout();
     attachEventListeners();
+    initCompareSliders(); // 初始化对比滑块
   }
 
   // ===== 更新卡片显示 =====
   function updateCardsDisplay() {
-    // currentCards 数组结构: [左1, 左2, 中央, 右侧]
-    // 更新左侧堆叠（2张卡片）
-    leftStack[0].src = currentCards[0].url;
-    leftStack[0].alt = currentCards[0].alt;
-    leftStack[1].src = currentCards[1].url;
-    leftStack[1].alt = currentCards[1].alt;
+    // currentCards 数组结构: [左上, 左下, 中央, 右侧]
+    // 更新所有 4 张卡片的 before/after 图片
+    compareContainers.forEach((container, index) => {
+      if (index < currentCards.length) {
+        const imageData = currentCards[index];
+        const afterImg = container.querySelector('.compare-image--after');
+        const beforeImg = container.querySelector('.compare-image--before');
 
-    // 更新中央卡片
-    mainCard.src = currentCards[2].url;
-    mainCard.alt = currentCards[2].alt;
-
-    // 更新右侧卡片
-    rightStack[0].src = currentCards[3].url;
-    rightStack[0].alt = currentCards[3].alt;
+        if (afterImg && beforeImg && imageData) {
+          afterImg.src = imageData.after;
+          afterImg.alt = `After - Card ${index + 1}`;
+          beforeImg.src = imageData.before;
+          beforeImg.alt = `Before - Card ${index + 1}`;
+        }
+      }
+    });
   }
 
   // ===== 根据屏幕宽度切换布局（JS + CSS 双保险）=====
@@ -4018,6 +4208,89 @@
     });
   }
 
+  // ===== 对比滑块交互逻辑 =====
+  function initCompareSliders() {
+    // 为每张卡片设置不同的初始分割位置
+    // [左上, 左下, 中央, 右侧]
+    const initialPositions = [65, 45, 37, 58]; // 中央卡片 37%,其他卡片随机分布
+
+    compareContainers.forEach((container, index) => {
+      const slider = container.querySelector('.compare-slider');
+      const beforeImg = container.querySelector('.compare-image--before');
+
+      if (!slider || !beforeImg) return;
+
+      // 获取当前卡片的初始位置
+      const defaultPosition = initialPositions[index] || 50;
+      let isDragging = false;
+
+      // 更新滑块位置和图片裁剪
+      function updateSliderPosition(percentage) {
+        // 限制在 0-100% 之间
+        percentage = Math.max(0, Math.min(100, percentage));
+
+        // 更新滑块位置
+        slider.style.left = `${percentage}%`;
+
+        // 更新前景图裁剪 (clip-path: inset(top right bottom left))
+        // 右侧裁剪 = (100 - percentage)%
+        beforeImg.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+      }
+
+      // 从鼠标/触摸事件计算百分比
+      function getPercentageFromEvent(e) {
+        const rect = container.getBoundingClientRect();
+        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        const x = clientX - rect.left;
+        return (x / rect.width) * 100;
+      }
+
+      // 开始拖动
+      function startDrag(e) {
+        isDragging = true;
+        container.style.cursor = 'ew-resize';
+        e.preventDefault();
+      }
+
+      // 拖动中
+      function onDrag(e) {
+        if (!isDragging) return;
+        const percentage = getPercentageFromEvent(e);
+        updateSliderPosition(percentage);
+      }
+
+      // 结束拖动
+      function stopDrag() {
+        if (isDragging) {
+          isDragging = false;
+          container.style.cursor = '';
+        }
+      }
+
+      // 桌面端: 鼠标拖动
+      container.addEventListener('mousedown', startDrag);
+      document.addEventListener('mousemove', onDrag);
+      document.addEventListener('mouseup', stopDrag);
+
+      // 移动端: 触摸拖动
+      container.addEventListener('touchstart', (e) => {
+        startDrag(e);
+      });
+
+      container.addEventListener('touchmove', (e) => {
+        if (isDragging) {
+          e.preventDefault();
+          onDrag(e);
+        }
+      }, { passive: false });
+
+      document.addEventListener('touchend', stopDrag);
+
+      // 初始化为该卡片的默认位置
+      updateSliderPosition(defaultPosition);
+    });
+  }
+
   // ===== 标签切换 =====
   function handleTabClick(event) {
     const clickedTab = event.target.closest('.tools-showcase__tab');
@@ -4037,8 +4310,8 @@
     // 使用图片交叉淡入淡出
     isAnimating = true;
 
-    // 先将所有图片淡出
-    const allImages = carousel.querySelectorAll('.tools-showcase__card-image');
+    // 先将所有对比图片淡出
+    const allImages = carousel.querySelectorAll('.compare-image');
     allImages.forEach(img => {
       img.style.transition = 'opacity 0.2s ease';
       img.style.opacity = '0';
@@ -9407,7 +9680,7 @@
   right: 0;
   bottom: -20px;
   background-image: url('sections/footer/background.png');
-  background-size: 100% calc(100% + var(--footer-bottom-height) + 20px);
+  background-size: 100% auto;
   background-position: top left;
   background-repeat: no-repeat;
   opacity: 0.5;
@@ -9547,7 +9820,7 @@
   right: 0;
   bottom: 0;
   background-image: url('sections/footer/background.png');
-  background-size: 100% calc(var(--footer-main-height) + 100% + 20px);
+  background-size: 100% auto;
   background-position-x: left;
   background-position-y: calc(-1 * (var(--footer-main-height) + 20px));
   background-repeat: no-repeat;
