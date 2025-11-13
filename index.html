@@ -982,14 +982,15 @@
 }
 
 .banner-title {
-  font-size: clamp(1.75rem, 3.5vw, 3rem); /* 减小字体：从 2.5-4.5rem 改为 2-3.5rem */
+  font-size: clamp(1.5rem, 3vw, 2.5rem); /* 减小字体：从 1.75-3rem 改为 1.5-2.5rem */
   font-weight: 700;
+  font-style: italic; /* 设置为斜体 */
   line-height: 1.2; /* 设置行高 */
   color: var(--color-text);
   margin: 0;
-  margin-bottom: var(--spacing-xs); /* 减小与下方元素的间距：从 lg 改为 md */
+  margin-bottom: -0.5rem; /* 负间距,让副标题向上移动 */
   letter-spacing: -0.02em;
-  max-width: 700px; /* 限制最大宽度，确保保持两行 */
+  max-width: 900px; /* 增大最大宽度：从 700px 改为 900px，减少换行 */
   text-align: center;
   margin-left: auto;
   margin-right: auto;
@@ -998,7 +999,7 @@
 .banner-subtitle {
   font-size: clamp(0.875rem, 1.5vw, 1rem);
   line-height: 1.6;
-  color: var(--color-text-secondary);
+  color: #FFFFFF; /* 改为白色：从 var(--color-text-secondary) 改为纯白 */
   margin: 0;
   margin-bottom: var(--spacing-xs);
   max-width: 500px;
@@ -1011,21 +1012,30 @@
 .search-box-container {
   position: relative;
   width: 100%;
-  max-width: 700px;
+  max-width: 550px; /* 减小宽度：从 700px 改为 550px */
   margin: 0 auto;
 }
 
 .search-input {
   width: 100%;
-  padding: 14px 140px 14px 20px; /* 右侧留出按钮位置 */
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 10px;
+  padding: 10px 140px 10px 20px; /* 上下边距相等：都设为 10px，使文字垂直居中 */
+  background: rgba(0, 0, 0, 0.5); /* 改为黑色背景，透明度0.5 */
+  border: none !important; /* 强制去除边框 */
+  outline: none !important; /* 强制去除轮廓线 */
+  box-shadow: none !important; /* 强制去除阴影 */
+  border-radius: 25px; /* 增大圆角：从 10px 改为 25px */
   color: var(--color-text);
-  font-size: 0.95rem;
+  font-size: 0.7rem; /* 进一步减小字体：从 0.75rem 改为 0.7rem */
   font-family: inherit;
+  line-height: 1.4; /* 设置行高，便于多行显示 */
   transition: all var(--transition);
   backdrop-filter: blur(10px);
+  white-space: pre-wrap; /* 保留空格并允许换行 */
+  word-wrap: break-word; /* 强制长单词换行 */
+  overflow-wrap: break-word; /* 确保内容不溢出 */
+  min-height: 48px; /* 保持最小高度 48px */
+  resize: none; /* 如果是 textarea，禁止调整大小 */
+  vertical-align: middle; /* 垂直对齐 */
 }
 
 .search-input::placeholder {
@@ -1033,10 +1043,10 @@
 }
 
 .search-input:focus {
-  outline: none;
-  border-color: rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, 0.15);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.1);
+  outline: none !important; /* 强制去除默认外边框 */
+  background: rgba(0, 0, 0, 0.6); /* 焦点时背景更深 */
+  box-shadow: none !important; /* 强制去除焦点时的阴影 */
+  border: none !important; /* 强制去除边框 */
 }
 
 .btn-run-engine {
@@ -1047,13 +1057,13 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 24px;
+  padding: 8px 16px; /* 减小内边距：从 12px 24px 改为 8px 16px */
   background: white;
   color: black;
-  font-size: 1rem;
+  font-size: 1rem; /* 字体保持不变 */
   font-weight: 600;
   border: none;
-  border-radius: 10px;
+  border-radius: 20px; /* 增大圆角：从 10px 改为 20px，与搜索框匹配 */
   cursor: pointer;
   transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
   white-space: nowrap;
@@ -1070,7 +1080,7 @@
   position: absolute; /* 相对于 banner-container 定位 */
   left: 50%; /* 居中定位 */
   transform: translateX(-50%);
-  bottom: -22rem; /* 距离浏览器底部固定距离 */
+  bottom: -32rem; /* 向下移动：从 -22rem 改为 -35rem */
   z-index: 100; /* 提高层级,确保在所有内容之上 */
   overflow: hidden; /* 隐藏溢出部分 */
   width: calc(5 * 81px + 4 * 1rem); /* 显示5张卡片及间距 */
@@ -1090,10 +1100,12 @@
 .video-card-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  align-items: center;
   flex-shrink: 0; /* 防止收缩 */
   position: relative; /* 为 z-index 生效创建定位上下文 */
   z-index: 10; /* 确保包装器也在高层级 */
+  --title-spacing: 0.5rem;
+  --title-opacity: 0.85;
 }
 
 /* 卡片标题（显示在卡片下方）*/
@@ -1101,10 +1113,33 @@
   font-size: 0.6rem; /* 减小字体：从 0.75rem 改为 0.65rem */
   font-weight: 600;
   color: var(--color-text);
-  text-align: left; /* 左侧对齐 */
+  text-align: center; /* 居中对齐 */
   letter-spacing: 0.05em;
   white-space: nowrap;
   order: 2; /* 标题排在后面 */
+  display: block;
+  width: 100%;
+  margin: 0;
+  margin-top: var(--title-spacing);
+  opacity: var(--title-opacity);
+  transition: margin-top 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.35s ease;
+  will-change: margin-top, opacity;
+}
+
+.video-card-wrapper.gap-small {
+  --title-spacing: 0.05rem; /* 最外侧：距离最近 */
+  --title-opacity: 0.55;
+}
+
+.video-card-wrapper.gap-medium {
+  --title-spacing: 0.95rem; /* 左右两侧：适中距离 */
+  --title-opacity: 0.85;
+}
+
+.video-card-wrapper.gap-large {
+  --title-spacing: 1.75rem; /* 中心卡片：距离最大 */
+  --title-opacity: 1;
 }
 
 /* 卡片主体 */
@@ -1419,11 +1454,11 @@
       </p>
 
       <div class="search-box-container">
-        <input
-          type="text"
+        <textarea
           class="search-input"
+          rows="2"
           placeholder="ultra-realistic close-up of an astronaut in a detailed white space suit, standing in the darkness of outer space..."
-        >
+        ></textarea>
         <button class="btn-run-engine" type="button">Run Engine</button>
       </div>
     </div>
@@ -1433,7 +1468,7 @@
       <div class="video-cards-grid">
         <!-- 背景切换卡片 1 -->
         <div class="video-card-wrapper">
-          <div class="video-card" data-bg-index="0">
+          <div class="video-card active" data-bg-index="0">
             <img src="sections/banner/1.png" alt="AI SCROLL Background">
           </div>
           <div class="card-title">AI SCROLL</div>
@@ -1520,6 +1555,19 @@
 (function() {
   'use strict';
 
+  const backgrounds = [
+    'sections/banner/1.png',
+    'sections/banner/2.jpg',
+    'sections/banner/3.png',
+    'sections/banner/4.png',
+    'sections/banner/5.png',
+    'sections/banner/6.png',
+    'sections/banner/7.png',
+    'sections/banner/8.png',
+    'sections/banner/9.png',
+    'sections/banner/10.png'
+  ];
+
   const DESKTOP_BREAKPOINT = 992;
   const VISIBLE_COUNT = 5;
   const CENTER_OFFSET = Math.floor(VISIBLE_COUNT / 2); // 2
@@ -1549,39 +1597,38 @@
       card.dataset.cardIndex = index;
       card.classList.remove('active', 'adjacent'); // 清理所有状态类名
     }
-    const img = clone.querySelector('img');
-    backgroundSources[index] = img ? img.getAttribute('src') : null;
     return clone;
   });
   const totalCards = templates.length;
   let stepSize = 0;
 
-  let activeIndex = CENTER_OFFSET; // 2 (第3张卡片,正中央)
+  let activeIndex = (() => {
+    const activeCard = grid.querySelector('.video-card.active');
+    if (activeCard) {
+      const idx = parseInt(activeCard.getAttribute('data-bg-index'), 10);
+      if (!Number.isNaN(idx)) return idx % totalCards;
+    }
+    return CENTER_OFFSET;
+  })();
 
   let currentMode = null;
   let isAnimating = false;
 
-  const backgroundSources = [];
-
-  function resolveBackground(index) {
-    if (!backgroundSources.length) return null;
-    const normalized = ((index % backgroundSources.length) + backgroundSources.length) % backgroundSources.length;
-    const template = templates[normalized];
-    if (template) {
-      const card = template.querySelector('.video-card');
-      const dataIdx = card ? parseInt(card.getAttribute('data-bg-index'), 10) : NaN;
-      if (!Number.isNaN(dataIdx) && backgroundSources[dataIdx]) {
-        return backgroundSources[dataIdx];
-      }
-    }
-    return backgroundSources[normalized] || null;
-  }
-
   function applyBackgroundByIndex(index) {
     if (!banner) return;
-    const bg = resolveBackground(index);
-    if (bg) {
-      banner.style.backgroundImage = `url('${bg}')`;
+
+    // 直接从当前激活的卡片中获取图片路径
+    const activeCard = grid.querySelector('.video-card.active img');
+    if (activeCard && activeCard.src) {
+      // 从完整 URL 中提取相对路径部分
+      const imgSrc = activeCard.src;
+      banner.style.backgroundImage = `url('${imgSrc}')`;
+    } else {
+      // Fallback: 使用索引(兼容旧逻辑)
+      const bg = backgrounds[index % backgrounds.length];
+      if (bg) {
+        banner.style.backgroundImage = `url('${bg}')`;
+      }
     }
   }
 
@@ -1637,14 +1684,27 @@
       const card = wrapper.querySelector('.video-card');
       if (!card) return;
       card.classList.remove('active', 'adjacent');
+      wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
+
       const visibleStart = CLONE_COUNT;
       const visibleEnd = CLONE_COUNT + VISIBLE_COUNT - 1;
       const centerPos = visibleStart + CENTER_OFFSET;
+
       if (idx >= visibleStart && idx <= visibleEnd) {
+        // 设置卡片激活状态
         if (idx === centerPos) {
           card.classList.add('active');
         } else if (idx === centerPos - 1 || idx === centerPos + 1) {
           card.classList.add('adjacent');
+        }
+
+        const visiblePosition = idx - visibleStart;
+        if (visiblePosition === 0 || visiblePosition === VISIBLE_COUNT - 1) {
+          wrapper.classList.add('gap-small');
+        } else if (visiblePosition === 1 || visiblePosition === VISIBLE_COUNT - 2) {
+          wrapper.classList.add('gap-medium');
+        } else if (visiblePosition === CENTER_OFFSET) {
+          wrapper.classList.add('gap-large');
         }
       }
     });
@@ -1738,10 +1798,16 @@
       const card = wrapper.querySelector('.video-card');
       if (!card) return;
       card.classList.remove('active', 'adjacent');
-      if (idx === activeIndex) {
+      wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
+      const distance = Math.abs(idx - activeIndex);
+      if (distance === 0) {
         card.classList.add('active');
-      } else if (idx === activeIndex - 1 || idx === activeIndex + 1) {
+        wrapper.classList.add('gap-large');
+      } else if (distance === 1) {
         card.classList.add('adjacent');
+        wrapper.classList.add('gap-medium');
+      } else if (distance === 2) {
+        wrapper.classList.add('gap-small');
       }
     });
     applyBackgroundByIndex(activeIndex);
@@ -1930,7 +1996,7 @@
   </div>
 </section>
 
-  <!-- ===== TOOLS-SHOWCASE SECTION ===== -->
+  <!-- ===== ECLIPSES-ENGINE SECTION ===== -->
 <!-- ===================================
      Tools Showcase Module
      扑克牌堆叠效果 - 真正的居中堆叠交互
@@ -2604,41 +2670,30 @@
   'use strict';
 
   // ===== 工具数据配置 =====
-  // 暂时使用占位图片，后续可替换为真实资源
+  // 使用当前模块目录内的 4 张主视觉图，并为不同分类调整顺序
+  const moduleImages = [
+    { url: 'sections/eclipses-engine/1.png', alt: 'Eclipses Engine Showcase 1' },
+    { url: 'sections/eclipses-engine/2.jpg', alt: 'Eclipses Engine Showcase 2' },
+    { url: 'sections/eclipses-engine/3.png', alt: 'Eclipses Engine Showcase 3' },
+    { url: 'sections/eclipses-engine/4.png', alt: 'Eclipses Engine Showcase 4' }
+  ];
+
+  const rotateImages = (offset = 0) =>
+    moduleImages.map((_, index) => {
+      const target = moduleImages[(index + offset) % moduleImages.length];
+      return { ...target };
+    });
+
   const toolsData = {
-    'image-generator': [
-      { url: 'sections/tools-showcase/images/image-gen-1.png', alt: 'AI Generated Image 1' },
-      { url: 'sections/tools-showcase/images/image-gen-2.jpg', alt: 'AI Generated Image 2' },
-      { url: 'sections/tools-showcase/images/image-gen-3.png', alt: 'AI Generated Image 3' },
-      { url: 'sections/tools-showcase/images/image-gen-4.png', alt: 'AI Generated Image 4' },
-      { url: 'sections/tools-showcase/images/image-gen-5.png', alt: 'AI Generated Image 5' }
-    ],
-    'video-generator': [
-      { url: 'sections/tools-showcase/images/video-gen-1.png', alt: 'AI Video Thumbnail 1' },
-      { url: 'sections/tools-showcase/images/video-gen-2.png', alt: 'AI Video Thumbnail 2' },
-      { url: 'sections/tools-showcase/images/video-gen-3.jpg', alt: 'AI Video Thumbnail 3' },
-      { url: 'sections/tools-showcase/images/video-gen-4.png', alt: 'AI Video Thumbnail 4' },
-      { url: 'sections/tools-showcase/images/video-gen-5.png', alt: 'AI Video Thumbnail 5' }
-    ],
-    'timeline-editor': [
-      { url: 'sections/tools-showcase/images/timeline-1.png', alt: 'Timeline Editor Screenshot 1' },
-      { url: 'sections/tools-showcase/images/timeline-2.png', alt: 'Timeline Editor Screenshot 2' },
-      { url: 'sections/tools-showcase/images/timeline-3.png', alt: 'Timeline Editor Screenshot 3' },
-      { url: 'sections/tools-showcase/images/timeline-4.png', alt: 'Timeline Editor Screenshot 4' },
-      { url: 'sections/tools-showcase/images/timeline-5.jpg', alt: 'Timeline Editor Screenshot 5' }
-    ],
-    'avatar': [
-      { url: 'sections/tools-showcase/images/avatar-1.png', alt: 'AI Generated Avatar 1' },
-      { url: 'sections/tools-showcase/images/avatar-2.png', alt: 'AI Generated Avatar 2' },
-      { url: 'sections/tools-showcase/images/avatar-3.png', alt: 'AI Generated Avatar 3' },
-      { url: 'sections/tools-showcase/images/avatar-4.png', alt: 'AI Generated Avatar 4' },
-      { url: 'sections/tools-showcase/images/avatar-5.jpg', alt: 'AI Generated Avatar 5' }
-    ]
+    'image-generator': rotateImages(0),
+    'video-generator': rotateImages(1),
+    'timeline-editor': rotateImages(2),
+    'avatar': rotateImages(3)
   };
 
   // ===== 状态管理 =====
   let currentTool = 'image-generator';
-  let currentIndex = 2; // 从中间开始（可见卡片索引：0,1,2,3,4）
+  let currentIndex = 2; // 从中间开始（可见卡片索引：0,1,2,3）
   let isAnimating = false;
   let currentCards = toolsData[currentTool];
 
