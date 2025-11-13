@@ -50,8 +50,7 @@
     position: relative;
     width: 100%;
     border-radius: 24px;
-    overflow: visible;
-    /* 允许badge超出图片边界 */
+    overflow: hidden;
   }
 
   .ai-creative-suite-image {
@@ -59,40 +58,6 @@
     height: auto;
     display: block;
     border-radius: 24px;
-  }
-
-  /* 左下角挖空的圆角方块 - 完全贴合图片左下角 */
-  .ai-creative-suite-badge {
-    position: absolute;
-    bottom: 0;
-    /* 完全贴合底部 */
-    left: 0;
-    /* 完全贴合左边 */
-    background: var(--color-bg);
-    /* 与背景色重合 */
-    border-radius: 0 16px 0 0;
-    /* 只有右上角圆角，左下角直角贴合 */
-    padding: var(--spacing-lg);
-    min-width: 120px;
-    /* 完全贴合，不超出图片边界 */
-  }
-
-  .ai-creative-suite-badge-value {
-    font-family: 'Orbitron', sans-serif;
-    /* 使用 Orbitron 字体 */
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--color-text);
-    line-height: 1;
-    margin-bottom: var(--spacing-xs);
-    letter-spacing: 0.02em;
-  }
-
-  .ai-creative-suite-badge-label {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
   }
 
   /* 右侧内容块 */
@@ -164,17 +129,6 @@
       grid-template-columns: 1fr;
       gap: var(--spacing-xl);
     }
-
-    .ai-creative-suite-badge {
-      bottom: 0;
-      left: 0;
-      padding: var(--spacing-md);
-      min-width: 100px;
-    }
-
-    .ai-creative-suite-badge-value {
-      font-size: 2rem;
-    }
   }
 
   @media (max-width: 767px) {
@@ -192,21 +146,6 @@
 
     .ai-creative-suite-content {
       gap: var(--spacing-lg);
-    }
-
-    .ai-creative-suite-badge {
-      bottom: 0;
-      left: 0;
-      padding: var(--spacing-sm);
-      min-width: 80px;
-    }
-
-    .ai-creative-suite-badge-value {
-      font-size: 1.5rem;
-    }
-
-    .ai-creative-suite-badge-label {
-      font-size: 0.75rem;
     }
 
     .ai-creative-suite-content-title {
@@ -231,14 +170,9 @@
 
     <!-- 内容区域 - 左右布局 -->
     <div class="ai-creative-suite-content">
-      <!-- 左侧：带挖空的图片 -->
+      <!-- 左侧：图片 -->
       <div class="ai-creative-suite-image-wrapper">
         <img src="sections/ai_creative_suite/image.jpg" alt="AI Creative Suite" class="ai-creative-suite-image">
-        <!-- 左下角挖空的圆角方块 -->
-        <div class="ai-creative-suite-badge">
-          <div class="ai-creative-suite-badge-value">97%</div>
-          <div class="ai-creative-suite-badge-label">Real-Time</div>
-        </div>
       </div>
 
       <!-- 右侧：内容块 -->

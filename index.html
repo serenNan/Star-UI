@@ -1893,6 +1893,47 @@
   position: relative;
 }
 
+/* ===== JS 控制的移动端保护样式（双保险） ===== */
+.tools-showcase--mobile .tools-showcase__side {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transform: none !important;
+}
+
+.tools-showcase--mobile .tools-showcase__carousel-wrapper {
+  padding: var(--spacing-xl) 0;
+  max-width: 480px;
+  margin: 0 auto 40px;
+  width: 100%;
+}
+
+.tools-showcase--mobile .tools-showcase__carousel {
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  min-height: auto;
+  padding: var(--spacing-xl) var(--spacing-md);
+}
+
+.tools-showcase--mobile .tools-showcase__center {
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.tools-showcase--mobile .tools-showcase__card--main {
+  width: min(90vw, 400px);
+  max-width: 400px;
+  min-height: 260px;
+  margin: 0 auto;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  display: block;
+}
+
 /* ===== 左右两侧堆叠容器 - 负边距实现重叠 ===== */
 .tools-showcase__side {
   position: relative;
@@ -2104,80 +2145,233 @@
 @media (max-width: 767px) {
   .tools-showcase {
     padding: 60px 0;
+    overflow-x: hidden; /* 防止横向滚动 */
+    overflow-y: visible; /* 允许元素溢出(卡片缩放效果) */
+  }
+
+  /* 标题区域 - 居中对齐 */
+  .tools-showcase__header {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 0 var(--spacing-md);
   }
 
   .tools-showcase__title {
     font-size: 2rem;
+    line-height: 1.2;
   }
 
   .tools-showcase__subtitle {
     font-size: 1rem;
+    margin-bottom: 12px;
   }
 
+  /* 标签栏 - 居中 + 增大触摸区域 */
   .tools-showcase__tabs {
     gap: 8px;
     margin-bottom: 40px;
+    padding: 0 var(--spacing-sm);
+    justify-content: center;
   }
 
   .tools-showcase__tab {
-    padding: 10px 20px;
+    padding: 12px 20px; /* 增大触摸区域 */
+    min-height: 44px; /* iOS 最小触摸标准 */
     font-size: 0.8125rem;
+    width: auto; /* 自适应宽度 */
+    flex: 0 0 auto;
   }
 
-  /* 隐藏左右堆叠，仅显示中央卡片 */
+  /* 标签栏触摸反馈 */
+  .tools-showcase__tab:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
+  }
+
+  /* 🔑 强制隐藏左右堆叠，仅显示中央卡片 */
   .tools-showcase__side {
-    display: none;
+    display: none !important; /* 强制隐藏 */
+    visibility: hidden !important; /* 双重保险 */
+    opacity: 0 !important;
+    pointer-events: none !important;
+    position: absolute !important; /* 完全脱离文档流 */
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  .tools-showcase__side.left,
+  .tools-showcase__side.right {
+    display: none !important; /* 强制隐藏左右侧 */
+  }
+
+  /* 轮播容器 - 完美居中 + 留出缩放空间 */
+  .tools-showcase__carousel-wrapper {
+    padding: var(--spacing-xl) 0; /* 上下留出缩放空间 */
+    overflow: visible; /* 允许卡片缩放时溢出 */
+    width: 100%;
+    display: flex;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
   }
 
   .tools-showcase__carousel {
     gap: 0;
-    min-height: 400px;
-  }
-
-  .tools-showcase__card--main {
+    min-height: 500px; /* 增加最小高度,留出缩放空间 */
+    display: flex !important; /* 强制 flex 布局 */
+    flex-direction: column; /* 垂直布局 */
+    justify-content: center; /* 垂直居中 */
+    align-items: center; /* 水平居中 */
+    padding: var(--spacing-xl) var(--spacing-md); /* 四周留白 */
     width: 100%;
-    max-width: 400px;
-    height: 350px;
+    max-width: 100%; /* 确保不会超出父容器 */
+    margin: 0 auto; /* 容器本身也居中 */
   }
 
-  /* 移动端禁用扩散动画 */
-  .tools-showcase__carousel.expanded .tools-showcase__card--main {
-    transform: scale(1); /* 不放大 */
+  /* 中央容器 - 完美居中 */
+  .tools-showcase__center {
+    display: flex !important;
+    justify-content: center; /* 水平居中 */
+    align-items: center; /* 垂直居中 */
+    width: 100%;
+    max-width: 100%;
+    margin: 0 !important; /* 移除 margin,完全依赖 flex 居中 */
+    position: relative;
+  }
+
+  /* 主卡片 - 弹性尺寸 + 完美居中 + 保留缩放效果 */
+  .tools-showcase__card--main {
+    width: 90%; /* 留出10%边距 */
+    max-width: 400px;
+    height: auto; /* 自动高度 */
+    min-height: 300px;
+    aspect-ratio: 16 / 9; /* 保持宽高比 */
+    margin: 0 !important; /* 移除 margin,完全依赖父容器的 flex 居中 */
+    display: block;
+    transform-origin: center center; /* 🔑 缩放中心点 */
+    position: relative;
+  }
+
+  /* 主卡片图片 - 保持宽高比 */
+  .tools-showcase__card--main .tools-showcase__card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* 🔑 移动端启用缩放动画(移除之前的禁用规则) */
+  /* 注意: 不再强制 scale(1),让 JavaScript 控制缩放 */
+
+  /* CTA 按钮 - 居中 + 增大触摸区域 */
+  .tools-showcase__cta {
+    margin-top: 0;
+    padding: 0 var(--spacing-md);
   }
 
   .tools-showcase__button {
     padding: 16px 40px;
+    min-height: 48px; /* 增大触摸区域 */
     font-size: 0.9375rem;
+    width: auto;
+    max-width: 100%;
+  }
+
+  /* 按钮触摸反馈 */
+  .tools-showcase__button:active {
+    transform: scale(0.95);
+    transition: transform 0.1s ease;
   }
 }
 
 /* ===== 小屏手机优化 ===== */
 @media (max-width: 479px) {
+  /* 标题进一步缩小 */
   .tools-showcase__title {
     font-size: 1.75rem;
+    padding: 0 var(--spacing-sm);
+  }
+
+  .tools-showcase__subtitle {
+    font-size: 0.9375rem;
+  }
+
+  /* 标签栏紧凑布局 */
+  .tools-showcase__tabs {
+    gap: 6px;
+    padding: 0 var(--spacing-xs);
+  }
+
+  .tools-showcase__tab {
+    padding: 10px 16px;
+    font-size: 0.75rem;
+    min-width: auto;
+  }
+
+  /* 🔑 小屏手机也强制隐藏左右卡片 */
+  .tools-showcase__side {
+    display: none !important;
+    visibility: hidden !important;
+    position: absolute !important; /* 完全脱离文档流 */
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+  }
+
+  /* 轮播容器紧凑间距 + 留出缩放空间 */
+  .tools-showcase__carousel-wrapper {
+    padding: var(--spacing-lg) 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   .tools-showcase__carousel {
-    min-height: 350px;
+    min-height: 450px; /* 增加高度,留出缩放空间 */
+    padding: var(--spacing-lg) var(--spacing-sm);
+    display: flex !important;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto;
   }
 
+  .tools-showcase__center {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0 !important; /* 移除 margin,完全依赖 flex 居中 */
+  }
+
+  /* 主卡片进一步缩小 + 完美居中 */
   .tools-showcase__card--main {
+    width: 90%; /* 留出10%边距 */
     max-width: 320px;
-    height: 300px;
+    min-height: 250px;
+    margin: 0 !important; /* 移除 margin,完全依赖父容器的 flex 居中 */
+    display: block;
+    transform-origin: center center;
+    position: relative;
   }
 
+  /* 按钮全宽布局 */
   .tools-showcase__button {
     width: 100%;
     max-width: 300px;
+    padding: 14px 32px;
+    font-size: 0.875rem;
   }
 }
 
 /* ===== 禁用触摸设备的悬浮效果 ===== */
 @media (hover: none) {
+  /* 禁用标签按钮悬浮效果 */
   .tools-showcase__tab:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: var(--color-text-secondary);
-    border-color: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.1); /* 保持基础样式 */
+    color: #FFFFFF;
   }
 
   .tools-showcase__tab--active:hover {
@@ -2185,9 +2379,24 @@
     color: black;
   }
 
+  /* 禁用 CTA 按钮悬浮效果 */
   .tools-showcase__button:hover {
     transform: none;
     box-shadow: none;
+    background: white;
+  }
+
+  /* 增强触摸激活状态 */
+  .tools-showcase__tab:active {
+    background: rgba(255, 255, 255, 0.15);
+  }
+
+  .tools-showcase__tab--active:active {
+    background: rgba(255, 255, 255, 0.9);
+  }
+
+  .tools-showcase__button:active {
+    background: rgba(255, 255, 255, 0.9);
   }
 }
 </style>
@@ -2315,9 +2524,13 @@
   let consecutiveScrollCount = 0; // 连续滚动计数器（用于释放滚动）
   let lastScrollDirection = 0; // 上次滚动方向（1=向下, -1=向上）
 
-  const isMobile = window.innerWidth < 768; // 检测是否为移动设备
+  // 动态检测是否为移动设备（支持窗口大小变化）
+  function isMobileDevice() {
+    return window.innerWidth < 768;
+  }
 
   // ===== DOM 元素 =====
+  const showcaseSection = document.querySelector('.tools-showcase'); // 模块容器
   const carousel = document.getElementById('toolsCarousel'); // 轮播容器
   const mainCardContainer = document.getElementById('mainCard'); // 主卡片容器
   const mainCard = document.querySelector('#mainCard img'); // 主卡片图片
@@ -2328,10 +2541,20 @@
   const tabs = document.querySelectorAll('.tools-showcase__tab');
   const runBtn = document.getElementById('runGenerator');
 
+  if (!showcaseSection || !carousel || !mainCardContainer || !mainCard || !runBtn) {
+    console.warn('[tools-showcase] 必要的 DOM 节点缺失，已跳过脚本初始化。');
+    return;
+  }
+
+  let wheelListenerAttached = false;
+  let resizeRaf = null;
+
   // ===== 初始化 =====
   function init() {
     updateCardsDisplay();
+    updateResponsiveLayout();
     attachEventListeners();
+    updateScaleBasedOnScroll();
   }
 
   // ===== 获取可见卡片索引 =====
@@ -2365,19 +2588,65 @@
     rightStack[0].alt = currentCards[indices[3]].alt;
   }
 
+  // ===== 根据屏幕宽度切换布局（JS + CSS 双保险）=====
+  function updateResponsiveLayout() {
+    if (!showcaseSection) return;
+
+    const mobile = isMobileDevice();
+    showcaseSection.classList.toggle('tools-showcase--mobile', mobile);
+
+    if (leftSide) {
+      leftSide.hidden = mobile;
+      if (mobile) {
+        leftSide.setAttribute('aria-hidden', 'true');
+      } else {
+        leftSide.removeAttribute('aria-hidden');
+        leftSide.style.transform = '';
+      }
+    }
+
+    if (rightSide) {
+      rightSide.hidden = mobile;
+      if (mobile) {
+        rightSide.setAttribute('aria-hidden', 'true');
+      } else {
+        rightSide.removeAttribute('aria-hidden');
+        rightSide.style.transform = '';
+      }
+    }
+
+    // 🔧 修复: 移除手机端滚动时自动切换照片的逻辑
+    // 手机端保留:
+    // ✅ 缩放动画 (通过 updateScaleBasedOnScroll)
+    // ✅ 触摸滑动切换 (通过 handleTouchStart/End)
+    // ❌ 滚动切换照片 (已移除)
+
+    // 如果之前附加过 wheel 监听器,清理它
+    if (wheelListenerAttached) {
+      showcaseSection.removeEventListener('wheel', handleWheelMobile);
+      wheelListenerAttached = false;
+    }
+  }
+
   // ===== 应用缩放效果（平滑跟随滚动）=====
   function applyScaleTransform(scale) {
+    // 调试日志（生产环境可移除）
+    console.log('applyScaleTransform:', { scale, isMobile: isMobileDevice(), width: window.innerWidth });
+
     // 更新中央卡片缩放
     mainCardContainer.style.transform = `scale(${scale})`;
 
-    // 计算左右卡片的推开距离（线性映射）
-    // scale 1.0 → 0px, scale 1.5 → maxPushDistance
-    const progress = (scale - minScale) / (maxScale - minScale);
-    const pushDistance = progress * maxPushDistance;
+    // 桌面端才处理左右卡片的推开动画
+    if (!isMobileDevice() && leftSide && rightSide) {
+      // 计算左右卡片的推开距离（线性映射）
+      // scale 1.0 → 0px, scale 1.5 → maxPushDistance
+      const progress = (scale - minScale) / (maxScale - minScale);
+      const pushDistance = progress * maxPushDistance;
 
-    // 应用视差效果
-    leftSide.style.transform = `translateX(-${pushDistance}px)`;
-    rightSide.style.transform = `translateX(${pushDistance}px)`;
+      // 应用视差效果
+      leftSide.style.transform = `translateX(-${pushDistance}px)`;
+      rightSide.style.transform = `translateX(${pushDistance}px)`;
+    }
   }
 
   // ===== 使用 RAF 平滑更新缩放（性能优化）=====
@@ -2426,8 +2695,8 @@
 
   // ===== 基于滚动位置计算缩放（不劫持滚动）=====
   function updateScaleBasedOnScroll() {
-    const section = document.querySelector('.tools-showcase');
-    const rect = section.getBoundingClientRect();
+    if (!showcaseSection) return;
+    const rect = showcaseSection.getBoundingClientRect();
     const viewportHeight = window.innerHeight;
 
     // 计算区域相对于视口的位置
@@ -2496,6 +2765,17 @@
     wheelTimeout = setTimeout(() => {
       wheelTimeout = null;
     }, 500);
+  }
+
+  // ===== 监听窗口尺寸变化，保持布局状态同步 =====
+  function handleResize() {
+    if (resizeRaf) return;
+
+    resizeRaf = requestAnimationFrame(() => {
+      resizeRaf = null;
+      updateResponsiveLayout();
+      updateScaleBasedOnScroll();
+    });
   }
 
   // ===== 标签切换 =====
@@ -2590,12 +2870,7 @@
   function attachEventListeners() {
     // 监听页面滚动（被动式，不劫持）
     window.addEventListener('scroll', handleScroll, { passive: true });
-
-    // 移动端保留滚轮切换功能
-    if (isMobile) {
-      const section = document.querySelector('.tools-showcase');
-      section.addEventListener('wheel', handleWheelMobile, { passive: false });
-    }
+    window.addEventListener('resize', handleResize);
 
     // 标签切换
     tabs.forEach(tab => {
@@ -2605,8 +2880,6 @@
     // 行动号召按钮
     runBtn.addEventListener('click', handleRunGenerator);
 
-    // 初始化时计算一次缩放
-    updateScaleBasedOnScroll();
   }
 
   // ===== 启动模块 =====
@@ -2659,7 +2932,6 @@
   color: var(--color-text-secondary);
   max-width: 800px;
   margin: 0 auto;
-  white-space: nowrap;
   letter-spacing: 0.02em;
 }
 
@@ -2674,7 +2946,7 @@
 }
 
 
-/* 左侧分类导航 */
+/* 左侧分类导航（桌面端垂直布局）*/
 .use-cases__categories {
   display: flex;
   flex-direction: column;
@@ -2707,7 +2979,7 @@
   /* 移除 padding 和 width 设置，保持和未选中按钮一样的大小 */
 }
 
-/* 右侧卡片网格 */
+/* 右侧卡片网格（桌面端）*/
 .use-cases__cards {
   flex: 1;
   display: grid;
@@ -2863,37 +3135,82 @@
   stroke-linejoin: round;
 }
 
-/* 响应式：平板端（991px 以下）*/
+/* ========================================
+   平板/移动端适配 - 顶部横向导航 + 3 列卡片
+   ======================================== */
 @media (max-width: 991px) {
+  .use-cases {
+    overflow-x: hidden;
+    padding: var(--spacing-2xl) 0;
+  }
+
   .use-cases__title {
     font-size: 2.5rem;
   }
 
-  .use-cases__content {
-    flex-direction: column;
-    gap: var(--spacing-xl);
+  .use-cases__description {
+    font-size: 1.25rem;
+    max-width: 90%;
   }
 
+  /* 内容区域改为垂直布局 + 居中 */
+  .use-cases__content {
+    flex-direction: column;   /* 改为垂直排列 */
+    align-items: center;      /* 🔑 子元素水平居中 */
+    gap: var(--spacing-xl);
+    max-width: 100%;
+  }
+
+  /* 分类导航改为横向排列 + 居中 */
   .use-cases__categories {
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;  /* 🔑 按钮居中对齐 */
     min-width: 100%;
-    position: static;
+    max-width: 100%;
+    margin-right: 0;          /* 移除右侧边距 */
+    gap: 12px;                /* 按钮间距 */
   }
 
   .use-cases__category-btn {
     flex: 0 0 auto;
+    width: auto;              /* 自动宽度 */
+    min-width: 120px;         /* 最小宽度 */
+    padding: 16px 20px;       /* 增大触摸区域 */
   }
 
+  /* 卡片网格保持 3 列，减小间距 + 居中 */
   .use-cases__cards {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr); /* 保持 3 列 */
+    justify-items: center;    /* 🔑 网格项居中 */
+    column-gap: 24px;         /* 减小左右间距 */
+    row-gap: 24px;            /* 减小上下间距 */
+    max-width: 100%;
+    margin-left: 0;           /* 移除左侧偏移 */
+    padding: 0 var(--spacing-md);
+  }
+
+  .use-cases__card {
+    width: 100%;              /* 卡片占满网格单元 */
+    max-width: 320px;         /* 限制卡片最大宽度 */
+  }
+
+  /* 卡片标签和描述缩小 */
+  .use-cases__card-label {
+    font-size: 0.875rem;
+  }
+
+  .use-cases__card-description {
+    font-size: 0.75rem;
+    padding: 12px 0 0 12px;
+    min-height: 70px;
   }
 }
 
-/* 响应式：移动端（767px 以下）*/
+/* 移动端适配 - 保持 3 列，进一步优化 */
 @media (max-width: 767px) {
   .use-cases {
-    padding: var(--spacing-2xl) 0;
+    padding: var(--spacing-xl) 0;
   }
 
   .use-cases__title {
@@ -2902,24 +3219,96 @@
 
   .use-cases__description {
     font-size: 1rem;
+    max-width: 95%;
   }
 
-  .use-cases__content {
-    gap: var(--spacing-lg);
-  }
-
+  /* 分类按钮更紧凑 */
   .use-cases__categories {
-    gap: var(--spacing-xs);
+    gap: 8px;
+    justify-content: center;  /* 保持居中 */
   }
 
   .use-cases__category-btn {
-    padding: var(--spacing-sm) var(--spacing-md);
+    padding: 12px 16px;
     font-size: 0.875rem;
+    min-width: 100px;
+    min-height: 44px; /* iOS 触摸标准 */
   }
 
+  /* 卡片网格保持 3 列，最小间距 + 居中 */
   .use-cases__cards {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-md);
+    grid-template-columns: repeat(3, 1fr); /* 保持 3 列 */
+    justify-items: center;    /* 🔑 居中对齐 */
+    column-gap: 12px;         /* 最小左右间距 */
+    row-gap: 12px;            /* 最小上下间距 */
+    max-width: 100%;
+    padding: 0 var(--spacing-sm);
+  }
+
+  .use-cases__card {
+    width: 100%;
+    max-width: 100%;          /* 占满网格单元 */
+  }
+
+  /* 卡片元素进一步缩小 */
+  .use-cases__card-label {
+    font-size: 0.75rem;
+    padding-left: var(--spacing-sm);
+  }
+
+  .use-cases__card-description {
+    font-size: 0.65rem;
+    padding: 8px 0 0 8px;
+    min-height: 60px;
+  }
+
+  /* 生成按钮缩小 */
+  .use-cases__generate-btn {
+    width: 24px;
+    height: 24px;
+    bottom: 3px;
+    right: 3px;
+  }
+
+  .use-cases__generate-btn svg {
+    width: 14px;
+    height: 14px;
+  }
+}
+
+/* 触摸设备优化 - 禁用悬浮效果 */
+@media (hover: none) {
+  .use-cases__card:hover .use-cases__card-video {
+    opacity: 0;             /* 触摸设备不自动播放视频 */
+  }
+
+  .use-cases__card:hover .use-cases__card-overlay {
+    background: linear-gradient(
+      180deg,
+      rgba(0, 0, 0, 0.5) 0%,
+      rgba(0, 0, 0, 0.2) 50%,
+      rgba(0, 0, 0, 0.7) 100%
+    );                      /* 保持原始背景 */
+  }
+
+  .use-cases__card:hover .use-cases__card-description {
+    opacity: 0;             /* 触摸设备不显示描述 */
+  }
+}
+
+/* 移动端触摸反馈 */
+@media (max-width: 991px) {
+  .use-cases__category-btn:active {
+    transform: scale(0.95);   /* 按下缩小 */
+    transition: transform 0.1s ease;
+  }
+
+  .use-cases__card:active {
+    transform: scale(0.98);   /* 卡片按下缩小 */
+  }
+
+  .use-cases__generate-btn:active {
+    transform: scale(0.9);    /* 按钮按下缩小 */
   }
 }
 </style>
@@ -4126,22 +4515,30 @@
     font-size: 2.5rem;
   }
 
+  /* 改用 flex 布局以保留横向放大动画 */
   .workflow__cards {
-    display: grid; /* 平板端恢复grid布局 */
-    grid-template-columns: repeat(2, 1fr);
-    height: auto; /* 取消固定高度 */
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--spacing-lg);
   }
 
-  /* 平板端取消悬浮动画 */
+  /* 平板端保留动画，但略微减弱 */
   .workflow__card {
-    flex: none;
-    height: auto; /* 取消固定高度 */
-    aspect-ratio: 3 / 6.1; /* 恢复原始比例 */
+    flex: 1 1 calc(50% - var(--spacing-lg)); /* 2列宽度计算 */
+    min-width: 280px; /* 最小宽度保证 */
+    max-width: 400px; /* 最大宽度限制 */
   }
 
+  /* 保留放大动画，但倍数减弱到 2.0 */
   .workflow__card:hover {
-    flex: none;
-    transform: translateY(-8px); /* 简单的上移效果 */
+    flex: 2 1 calc(50% - var(--spacing-lg));
+    max-width: 600px;
+  }
+
+  /* 其他卡片略微收缩 */
+  .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
+    flex: 0.8 1 calc(50% - var(--spacing-lg));
   }
 }
 
@@ -4153,6 +4550,7 @@
 
   .workflow__header {
     margin-bottom: var(--spacing-xl);
+    padding: 0 var(--spacing-md); /* 添加左右内边距 */
   }
 
   .workflow__title {
@@ -4161,40 +4559,124 @@
 
   .workflow__description {
     font-size: 1rem;
+    padding: 0 var(--spacing-md); /* 防止超出 */
   }
 
+  /* 改为 2 列 flex 布局 + 动画支持 */
   .workflow__cards {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: var(--spacing-md);
+    padding: 0 var(--spacing-md); /* 左右留白 */
+    box-sizing: border-box;
   }
 
+  /* 2列布局，支持动画 */
   .workflow__card {
-    aspect-ratio: 3 / 3.5;
+    flex: 1 1 calc(50% - var(--spacing-md) / 2); /* 2列宽度 */
+    min-width: 160px; /* 移动端最小 */
+    max-width: 280px; /* 移动端最大 */
+    aspect-ratio: 3 / 4.5; /* 调整纵横比 */
   }
 
+  /* 移动端放大动画 - 极大效果 */
+  .workflow__card:hover {
+    flex: 5 1 calc(50% - var(--spacing-md) / 2); /* 从 3.5 增大到 5 */
+    max-width: 700px; /* 从 550px 增加到 700px */
+  }
+
+  .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
+    flex: 0.2 1 calc(50% - var(--spacing-md) / 2); /* 从 0.3 减小到 0.2，更明显 */
+  }
+
+  /* 修复卡片编号定位 - 使用 bottom 而非 top */
   .workflow__card-number {
-    font-size: 2.5rem;
-    top: var(--spacing-sm);
-    left: var(--spacing-sm);
+    font-size: 2rem;
+    bottom: 60px; /* 用 bottom 而非 top */
+    left: 20px; /* 减小移动端边距 */
+  }
+
+  /* 移除悬浮时数字的下移动画 */
+  .workflow__card:hover .workflow__card-number {
+    bottom: 60px; /* 保持不变，不下移 */
+  }
+
+  /* 调整标题位置 */
+  .workflow__card-title {
+    font-size: 1.25rem;
+    bottom: 60px;
+    left: 50px; /* 留出数字空间 */
+  }
+
+  /* 移除悬浮时标题的下移动画 */
+  .workflow__card:hover .workflow__card-title {
+    bottom: 60px; /* 保持不变，不下移 */
   }
 
   .workflow__card-content {
     padding: var(--spacing-md);
   }
-
-  .workflow__card-title {
-    font-size: 1.25rem;
-  }
 }
 
-/* 小屏手机 */
+/* 超小屏优化 */
 @media (max-width: 479px) {
   .workflow__title {
     font-size: 1.75rem;
   }
 
+  .workflow__description {
+    font-size: 0.9rem;
+  }
+
+  /* 调整卡片间距和内边距 */
+  .workflow__cards {
+    gap: var(--spacing-sm);
+    padding: 0 var(--spacing-sm);
+  }
+
+  /* 优化卡片尺寸 */
+  .workflow__card {
+    min-width: 140px;
+    max-width: 240px;
+    aspect-ratio: 3 / 5; /* 更竖长 */
+  }
+
+  .workflow__card:hover {
+    max-width: 320px;
+  }
+
+  /* 调整编号样式 */
   .workflow__card-number {
-    font-size: 2rem;
+    font-size: 1.8rem;
+    bottom: 50px;
+    left: 15px;
+  }
+
+  /* 移除悬浮时数字的下移动画 */
+  .workflow__card:hover .workflow__card-number {
+    bottom: 50px; /* 保持不变，不下移 */
+  }
+
+  /* 调整标题样式 */
+  .workflow__card-title {
+    font-size: 1.1rem;
+    left: 45px;
+    bottom: 50px;
+  }
+
+  /* 移除悬浮时标题的下移动画 */
+  .workflow__card:hover .workflow__card-title {
+    bottom: 50px; /* 保持不变，不下移 */
+  }
+
+  /* 调整描述文字 */
+  .workflow__card-text {
+    font-size: 0.75rem;
+  }
+
+  .workflow__card-content {
+    padding: var(--spacing-sm);
   }
 }
 </style>
@@ -4311,15 +4793,32 @@
     // 记录每张卡片的原始高度
     const originalHeights = new Map();
 
-    // 等待布局稳定后记录高度
+    // 等待布局稳定后记录高度（仅在桌面端）
     setTimeout(() => {
-      cards.forEach(card => {
-        const height = card.offsetHeight;
-        originalHeights.set(card, height);
-        // 设置固定高度为内联样式
-        card.style.height = `${height}px`;
-      });
+      // 只在桌面端（≥992px）设置固定高度
+      if (window.innerWidth >= 992) {
+        cards.forEach(card => {
+          const height = card.offsetHeight;
+          originalHeights.set(card, height);
+          // 设置固定高度为内联样式
+          card.style.height = `${height}px`;
+        });
+      }
     }, 100);
+
+    // 监听窗口大小变化，移除移动端的固定高度
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 992) {
+        cards.forEach(card => {
+          card.style.height = ''; // 移除固定高度，使用 aspect-ratio
+        });
+      } else if (window.innerWidth >= 992) {
+        cards.forEach(card => {
+          const height = card.offsetHeight;
+          card.style.height = `${height}px`; // 重新设置固定高度
+        });
+      }
+    });
 
     // 图片加载错误处理
     cards.forEach(card => {
@@ -4605,53 +5104,269 @@
 /* 已移除旧的右侧大卡片样式（.assistant-card-large, .assistant-content, .assistant-title, .assistant-description, .assistant-link）
    现在右侧也使用内嵌功能项样式 */
 
-/* 响应式布局 */
+/* ========================================
+   平板/移动端适配 (响应式指南)
+   ======================================== */
 @media (max-width: 991px) {
-  .assistant-grid {
-    grid-template-columns: 1fr;  /* 单列布局 */
+  /* 容器改为垂直流式布局 + 居中 */
+  .assistant-container {
+    overflow-x: hidden;      /* 防止横向滚动 */
+    overflow-y: visible;     /* 允许元素溢出(悬浮效果) */
   }
 
-  /* 移动端左侧卡片也改为垂直堆叠 */
+  /* 网格改为单列 + 居中对齐 */
+  .assistant-grid {
+    grid-template-columns: 1fr;  /* 单列布局 */
+    justify-content: center;     /* 整体居中 */
+    align-items: center;         /* 子元素居中 */
+  }
+
+  /* 左右列改为100%宽度 + 居中 */
+  .assistant-left,
+  .assistant-right {
+    width: 100%;
+    max-width: 600px;  /* 限制移动端最大宽度 */
+    margin: 0 auto;    /* 居中 */
+  }
+
+  /* 卡片高度改为自动 */
+  .assistant-card {
+    height: auto;      /* 🔑 核心改动：自动高度 */
+    min-height: auto;  /* 移除最小高度限制 */
+  }
+
+  /* 移动端左侧卡片改为垂直堆叠 + 居中 */
   .assistant-card-merged {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr;  /* 单列 */
+    align-items: center;         /* 子元素居中 */
+    padding: var(--spacing-lg);  /* 统一内边距 */
+  }
+
+  /* 移动端右侧卡片内边距调整 */
+  .assistant-card-single {
+    padding: var(--spacing-lg);  /* 统一内边距 */
+  }
+
+  /* 功能项垂直居中 */
+  .assistant-feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* 🔑 居中对齐 */
+    text-align: center;   /* 文字居中 */
   }
 
   .assistant-feature-item:not(:last-child) {
     border-bottom: 1px solid var(--color-border);
     padding-right: 0;
-    padding-bottom: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
   }
 
-  /* 移动端图片比例调整 - 所有功能项统一使用 16:9 */
+  /* 图片改为弹性尺寸 + 居中 */
   .assistant-feature-visual {
+    width: 100%;              /* 🔑 占满容器 */
+    max-width: 100%;          /* 不超过容器 */
+    height: auto;             /* 🔑 自动高度 */
+    aspect-ratio: 16/9;       /* 保持 16:9 比例 */
+    margin: 0 auto;           /* 居中 */
+  }
+
+  /* 右侧单卡片图片也改为弹性尺寸 */
+  .assistant-card-single .assistant-feature-visual {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
     aspect-ratio: 16/9;
+  }
+
+  /* 右侧独立样式图片也改为弹性尺寸 */
+  .assistant-feature-visual-right {
+    width: 100%;              /* 🔑 占满容器 */
+    max-width: 100%;          /* 不超过容器 */
+    height: auto;             /* 🔑 自动高度 */
+    aspect-ratio: 16/9;       /* 保持 16:9 比例 */
+    margin: 0 auto;           /* 居中 */
+  }
+
+  /* 右侧功能项也居中 */
+  .assistant-feature-item-right {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* 🔑 居中对齐 */
+    text-align: center;   /* 文字居中 */
+  }
+
+  /* 内容区域居中对齐 */
+  .assistant-feature-content,
+  .assistant-feature-content-right {
+    align-items: center;  /* 水平居中 */
+    text-align: center;   /* 文字居中 */
+    width: 100%;          /* 占满宽度 */
+    padding-top: var(--spacing-md);
+  }
+
+  /* 移除描述中的<br>标签效果 */
+  .assistant-feature-description br,
+  .assistant-feature-description-right br {
+    display: none;  /* 隐藏强制换行 */
+  }
+
+  /* 标题区域调整 */
+  .assistant-section .section-header-center {
+    margin-bottom: var(--spacing-xl);
+    padding: 0 var(--spacing-md);
+  }
+
+  /* 标题字体调整 */
+  .assistant-section .section-title-large {
+    font-size: 2rem;
+  }
+
+  .assistant-section .section-subtitle-large {
+    font-size: 1.125rem;
   }
 }
 
+/* ========================================
+   移动端进一步优化 (<768px)
+   ======================================== */
 @media (max-width: 767px) {
   .assistant-section {
     padding: var(--spacing-2xl) 0;
   }
 
   .section-header-center {
-    margin-bottom: var(--spacing-xl);
+    margin-bottom: var(--spacing-lg);
+    padding: 0 var(--spacing-sm);
   }
 
+  /* 标题进一步缩小 */
+  .assistant-section .section-title-large {
+    font-size: 1.75rem;
+  }
+
+  .assistant-section .section-subtitle-large {
+    font-size: 1rem;
+  }
+
+  .assistant-section .section-label {
+    font-size: 0.875rem;
+  }
+
+  /* 网格间距减小 */
   .assistant-grid {
-    gap: var(--spacing-lg);
+    gap: var(--spacing-md);
   }
 
-  .assistant-feature-item {
+  /* 卡片内边距减小 */
+  .assistant-card-merged,
+  .assistant-card-single {
     padding: var(--spacing-md);
   }
 
-  .assistant-feature-title {
+  /* 功能项间距减小 */
+  .assistant-feature-item {
+    padding: var(--spacing-sm) 0;
+  }
+
+  .assistant-feature-item:not(:last-child) {
+    padding-bottom: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+  }
+
+  /* 功能项标题和描述字体缩小 */
+  .assistant-feature-title,
+  .assistant-feature-title-right {
+    font-size: 1.25rem;
+  }
+
+  .assistant-feature-description,
+  .assistant-feature-description-right {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+}
+
+/* ========================================
+   小屏手机优化 (<480px)
+   ======================================== */
+@media (max-width: 479px) {
+  .assistant-section {
+    padding: var(--spacing-xl) 0;
+  }
+
+  /* 左右列最大宽度调整 */
+  .assistant-left,
+  .assistant-right {
+    max-width: 100%;  /* 占满屏幕 */
+  }
+
+  /* 标题进一步缩小 */
+  .assistant-section .section-title-large {
+    font-size: 1.5rem;
+  }
+
+  .assistant-section .section-subtitle-large {
+    font-size: 0.875rem;
+  }
+
+  /* 功能项标题和描述更小 */
+  .assistant-feature-title,
+  .assistant-feature-title-right {
     font-size: 1.125rem;
   }
 
-  .assistant-feature-description {
-    font-size: 12px;
+  .assistant-feature-description,
+  .assistant-feature-description-right {
+    font-size: 0.8125rem;
+  }
+
+  /* 卡片内边距进一步缩小 */
+  .assistant-card-merged,
+  .assistant-card-single {
+    padding: var(--spacing-sm);
+  }
+}
+
+/* ========================================
+   触摸交互优化
+   ======================================== */
+
+/* 禁用悬浮效果 */
+@media (hover: none) {
+  .assistant-card:hover {
+    transform: none;          /* 移除悬浮效果 */
+    box-shadow: none;
+  }
+
+  .assistant-card:hover .assistant-feature-visual img,
+  .assistant-card:hover .assistant-feature-visual-right img {
+    transform: none;          /* 移除图片缩放 */
+  }
+}
+
+/* 触摸反馈 */
+@media (max-width: 991px) {
+  .assistant-card:active {
+    transform: scale(0.98);   /* 按下缩小 */
+    transition: transform 0.1s ease;
+  }
+
+  /* 增大卡片触摸区域 */
+  .assistant-card {
+    min-height: 44px;         /* iOS 最小触摸标准 */
+  }
+}
+
+/* ========================================
+   性能优化
+   ======================================== */
+@media (prefers-reduced-motion: reduce) {
+  .assistant-card,
+  .assistant-card:hover,
+  .assistant-feature-visual img {
+    animation: none !important;
+    transition: none !important;
   }
 }
 </style>
@@ -5133,24 +5848,95 @@
 
   .styles-container {
     padding: 0 var(--spacing-md);
-    gap: var(--spacing-lg);
+    gap: var(--spacing-2xl);
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 所有内容居中 */
   }
 
-  /* 移动端：简化为2列网格 */
+  /* 移动端：简化为2列网格，保留旋转效果 */
   .styles-gallery {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--spacing-sm);
     transform: rotate(35deg);
-    padding: var(--spacing-sm);
+    padding: var(--spacing-md);
+    max-width: 500px; /* 限制最大宽度 */
+    margin: 0 auto; /* 居中 */
   }
 
   /* 移动端：重置交错布局，改为简单的2列排列 */
-  .styles-card:nth-child(1) { grid-column: 1 / 2; grid-row: 1; }
-  .styles-card:nth-child(2) { grid-column: 2 / 3; grid-row: 1; }
-  .styles-card:nth-child(3) { grid-column: 1 / 2; grid-row: 2; }
-  .styles-card:nth-child(4) { grid-column: 2 / 3; grid-row: 2; }
-  .styles-card:nth-child(5) { grid-column: 1 / 2; grid-row: 3; }
-  .styles-card:nth-child(6) { grid-column: 2 / 3; grid-row: 3; }
+  .styles-card:nth-child(1) {
+    grid-column: 1 / 2;
+    grid-row: 1;
+    transform: translate(0, 0); /* 重置transform */
+    width: 100%;
+    height: auto;
+  }
+
+  .styles-card:nth-child(2) {
+    grid-column: 2 / 3;
+    grid-row: 1;
+    transform: translate(0, 0);
+    width: 100%;
+    height: auto;
+  }
+
+  .styles-card:nth-child(3) {
+    grid-column: 1 / 2;
+    grid-row: 2;
+    transform: translate(0, 0);
+    width: 100%;
+    height: auto;
+  }
+
+  .styles-card:nth-child(4) {
+    grid-column: 2 / 3;
+    grid-row: 2;
+    transform: translate(0, 0);
+    width: 100%;
+    height: auto;
+  }
+
+  .styles-card:nth-child(5) {
+    grid-column: 1 / 2;
+    grid-row: 3;
+    transform: translate(0, 0);
+    width: 100%;
+    height: auto;
+  }
+
+  .styles-card:nth-child(6) {
+    grid-column: 2 / 3;
+    grid-row: 3;
+    transform: translate(0, 0);
+    width: 100%;
+    height: auto;
+  }
+
+  /* 移除单个卡片的动画，但保持显示 */
+  .styles-card {
+    opacity: 1 !important; /* 强制显示卡片 */
+    animation: none !important; /* 移除动画 */
+  }
+
+  .styles-card.animate-in {
+    animation: none;
+    opacity: 1;
+  }
+
+  /* 右侧内容区域 */
+  .styles-content {
+    margin-top: 0; /* 移除桌面端的 120px 偏移 */
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .styles-header {
+    width: 100%;
+  }
 
   .styles-title {
     font-size: 2rem;
@@ -5158,16 +5944,84 @@
 
   .styles-description {
     font-size: 1rem;
+    padding: 0 var(--spacing-sm);
   }
 
   /* 功能卡片垂直堆叠 */
   .styles-features {
     grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .styles-feature-card {
+    padding: var(--spacing-lg);
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .styles-feature-title {
+    font-size: 1.25rem;
+  }
+
+  .styles-feature-description {
+    font-size: 1rem;
+  }
+
+  .styles-cta {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .styles-button {
+    width: 100%;
+    padding: 16px 24px;
+    transform: scale(1); /* 移除桌面端的 0.85 缩放 */
+  }
+
+  .styles-button:hover {
+    transform: scale(1) translateY(-2px);
+  }
+}
+
+/* 小屏移动端（≤ 479px）*/
+@media (max-width: 479px) {
+  .styles {
+    padding: var(--spacing-lg) 0;
+  }
+
+  .styles-container {
+    padding: 0 var(--spacing-sm);
+    gap: var(--spacing-xl);
+  }
+
+  .styles-title {
+    font-size: 1.75rem;
+  }
+
+  .styles-description {
+    font-size: 0.9rem;
+  }
+
+  .styles-gallery {
+    gap: 0.5rem;
+    padding: var(--spacing-sm);
+    max-width: 400px;
+  }
+
+  .styles-card {
+    opacity: 1 !important; /* 确保卡片可见 */
+  }
+
+  .styles-features {
     gap: var(--spacing-sm);
+    max-width: 400px;
   }
 
   .styles-feature-card {
     padding: var(--spacing-md);
+    min-height: auto;
   }
 
   .styles-feature-title {
@@ -5178,20 +6032,13 @@
     font-size: 0.875rem;
   }
 
+  .styles-cta {
+    max-width: 400px;
+  }
+
   .styles-button {
-    width: 100%;
-    padding: 14px 24px;
-  }
-}
-
-/* 小屏移动端（≤ 479px）*/
-@media (max-width: 479px) {
-  .styles-title {
-    font-size: 1.75rem;
-  }
-
-  .styles-gallery {
-    gap: 0.5rem;
+    padding: 14px 20px;
+    font-size: 1.1rem;
   }
 }
 </style>
@@ -5801,19 +6648,110 @@
 
 /* Responsive Design */
 @media (max-width: 991px) {
+  /* 平板端: 缩小布局，保持桌面端排列 */
   .apis-grid {
-    min-height: auto;
+    min-height: 1200px; /* 缩小后的容器高度 (原2000px * 0.6) */
+    padding: 0 var(--spacing-md);
+    width: 100%;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
-  /* 平板端: 垂直堆叠布局 */
-  .api-card {
-    position: relative !important;
-    width: 100% !important;
-    height: auto !important;
-    aspect-ratio: 16 / 10;
-    top: auto !important;
-    left: auto !important;
-    margin-bottom: var(--spacing-md);
+  .apis-header {
+    margin-bottom: var(--spacing-xl);
+  }
+
+  .apis-title {
+    font-size: 2rem;
+  }
+
+  .apis-description {
+    font-size: 1.2rem;
+  }
+
+  /* 所有卡片按比例缩小 60% */
+  .api-card:nth-child(1) {
+    top: 0;
+    left: 4.3125%;
+    width: 62.25%;
+    height: 169px;  /* 282 * 0.6 */
+  }
+
+  .api-card:nth-child(2) {
+    top: 0;
+    left: 68.5625%;
+    width: 27.125%;
+    height: 359px;  /* 598 * 0.6 */
+  }
+
+  .api-card:nth-child(3) {
+    top: 183px;
+    left: 4.3125%;
+    width: 22.875%;
+    height: 174px;  /* 290 * 0.6 */
+  }
+
+  .api-card:nth-child(4) {
+    top: 183px;
+    left: 29.4375%;
+    width: 37.375%;
+    height: 174px;  /* 290 * 0.6 */
+  }
+
+  .api-card:nth-child(5) {
+    top: 369px;
+    left: 4.3125%;
+    width: 40.875%;
+    height: 363px;  /* 605 * 0.6 */
+  }
+
+  .api-card:nth-child(6) {
+    top: 369px;
+    left: 47.0625%;
+    width: 48.625%;
+    height: 176px;  /* 293 * 0.6 */
+  }
+
+  .api-card:nth-child(7) {
+    top: 557px;
+    left: 47.0625%;
+    width: 22.875%;
+    height: 174px;  /* 290 * 0.6 */
+  }
+
+  .api-card:nth-child(8) {
+    top: 557px;
+    left: 71.8125%;
+    width: 23.875%;
+    height: 174px;  /* 290 * 0.6 */
+  }
+
+  .api-card:nth-child(9) {
+    top: 744px;
+    left: 4.3125%;
+    width: 48.25%;
+    height: 174px;  /* 290 * 0.6 */
+  }
+
+  .api-card:nth-child(10) {
+    top: 744px;
+    left: 54.3125%;
+    width: 41.5%;
+    height: 174px;  /* 290 * 0.6 */
+  }
+
+  /* 缩小文字 */
+  .api-title {
+    font-size: 1.2rem;
+  }
+
+  .api-description {
+    font-size: 1rem;
+  }
+
+  .api-overlay {
+    padding: var(--spacing-md);
   }
 }
 
@@ -5822,9 +6760,209 @@
     padding: var(--spacing-2xl) 0;
   }
 
-  /* 移动端: 单列布局 */
-  .api-card {
-    aspect-ratio: 1 / 1;
+  /* 移动端: 进一步缩小布局 40% */
+  .apis-grid {
+    min-height: 800px; /* 原2000px * 0.4 */
+    padding: 0 var(--spacing-sm);
+    width: 100%;
+    max-width: 540px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .apis-title {
+    font-size: 1.8rem;
+  }
+
+  .apis-description {
+    font-size: 1rem;
+  }
+
+  /* 所有卡片按比例缩小 40% */
+  .api-card:nth-child(1) {
+    top: 0;
+    left: 4.907%;
+    width: 61.481%;   /* 830 * 0.4 */
+    height: 113px;  /* 282 * 0.4 */
+  }
+
+  .api-card:nth-child(2) {
+    top: 0;
+    left: 68.426%;
+    width: 26.852%;   /* 362 * 0.4 */
+    height: 239px;  /* 598 * 0.4 */
+  }
+
+  .api-card:nth-child(3) {
+    top: 122px;
+    left: 4.907%;
+    width: 22.593%;   /* 305 * 0.4 */
+    height: 116px;  /* 290 * 0.4 */
+  }
+
+  .api-card:nth-child(4) {
+    top: 122px;
+    left: 29.722%;
+    width: 36.852%;   /* 498 * 0.4 */
+    height: 116px;  /* 290 * 0.4 */
+  }
+
+  .api-card:nth-child(5) {
+    top: 246px;
+    left: 4.907%;
+    width: 40.370%;   /* 545 * 0.4 */
+    height: 242px;  /* 605 * 0.4 */
+  }
+
+  .api-card:nth-child(6) {
+    top: 246px;
+    left: 47.13%;
+    width: 48.148%;   /* 649 * 0.4 */
+    height: 117px;  /* 293 * 0.4 */
+  }
+
+  .api-card:nth-child(7) {
+    top: 371px;
+    left: 47.13%;
+    width: 22.593%;   /* 305 * 0.4 */
+    height: 116px;  /* 290 * 0.4 */
+  }
+
+  .api-card:nth-child(8) {
+    top: 371px;
+    left: 71.574%;
+    width: 23.519%;   /* 318 * 0.4 */
+    height: 116px;  /* 290 * 0.4 */
+  }
+
+  .api-card:nth-child(9) {
+    top: 496px;
+    left: 4.907%;
+    width: 47.593%;   /* 643 * 0.4 */
+    height: 116px;  /* 290 * 0.4 */
+  }
+
+  .api-card:nth-child(10) {
+    top: 496px;
+    left: 54.167%;
+    width: 40.926%;   /* 553 * 0.4 */
+    height: 116px;  /* 290 * 0.4 */
+  }
+
+  /* 移动端文字进一步缩小 */
+  .api-title {
+    font-size: 0.9rem;
+  }
+
+  .api-description {
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .api-overlay {
+    padding: var(--spacing-sm);
+  }
+}
+
+@media (max-width: 479px) {
+  .apis-grid {
+    min-height: 620px;
+    padding: 0 0.75rem;
+    width: 100%;
+    max-width: 480px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .apis-title {
+    font-size: 1.6rem;
+  }
+
+  .apis-description {
+    font-size: 0.95rem;
+  }
+
+  .api-card:nth-child(1) {
+    top: 0;
+    left: 11.9065%;
+    width: 51.875%;
+    height: 85px;
+  }
+
+  .api-card:nth-child(2) {
+    top: 0;
+    left: 65.4685%;
+    width: 22.625%;
+    height: 179px;
+  }
+
+  .api-card:nth-child(3) {
+    top: 92px;
+    left: 11.9065%;
+    width: 19.062%;
+    height: 87px;
+  }
+
+  .api-card:nth-child(4) {
+    top: 92px;
+    left: 32.8435%;
+    width: 31.125%;
+    height: 87px;
+  }
+
+  .api-card:nth-child(5) {
+    top: 185px;
+    left: 11.9065%;
+    width: 34.062%;
+    height: 182px;
+  }
+
+  .api-card:nth-child(6) {
+    top: 185px;
+    left: 47.5315%;
+    width: 40.562%;
+    height: 88px;
+  }
+
+  .api-card:nth-child(7) {
+    top: 279px;
+    left: 47.5315%;
+    width: 19.062%;
+    height: 87px;
+  }
+
+  .api-card:nth-child(8) {
+    top: 279px;
+    left: 68.1565%;
+    width: 19.875%;
+    height: 87px;
+  }
+
+  .api-card:nth-child(9) {
+    top: 372px;
+    left: 11.9065%;
+    width: 40.188%;
+    height: 87px;
+  }
+
+  .api-card:nth-child(10) {
+    top: 372px;
+    left: 53.5315%;
+    width: 34.562%;
+    height: 87px;
+  }
+
+  .api-title {
+    font-size: 0.85rem;
+  }
+
+  .api-description {
+    font-size: 0.7rem;
+    line-height: 1.35;
+  }
+
+  .api-overlay {
+    padding: 0.6rem;
   }
 }
 
@@ -6219,42 +7357,86 @@
   transform: translateY(-4px);
 }
 
-/* 响应式设计 - 平板 */
+/* 响应式设计 - 平板 (768px - 991px) */
 @media (max-width: 991px) {
   .explore-more {
     padding: 80px 0;
+    margin-top: -120px; /* 缩小负边距 */
   }
 
   .explore-title {
     font-size: 36px;
   }
 
-  .explore-grid {
-    min-height: auto; /* 取消固定高度 */
+  .explore-label {
+    font-size: 16px;
   }
 
-  /* 平板端: 恢复相对定位，垂直堆叠 */
-  .explore-card {
-    position: relative !important;
-    width: 100% !important;
-    height: auto !important;
-    top: auto !important;
-    left: auto !important;
-    aspect-ratio: 4 / 5; /* 恢复宽高比 */
-    margin-bottom: 20px;
+  /* 平板端: 缩小布局 60%，保持三卡一排 */
+  .explore-grid {
+    min-height: 600px; /* 原1000px * 0.6 */
+  }
+
+  /* 卡片 1: CREATE - 左上角 (60% 缩放) */
+  .explore-card-1 {
+    top: 0;
+    left: calc(30px + var(--explore-row1-offset) * 0.6);
+    width: 297px;  /* 495 * 0.6 */
+    height: 270px; /* 450 * 0.6 */
+  }
+
+  /* 卡片 2: COMPOSE - 中上 (60% 缩放) */
+  .explore-card-2 {
+    top: 0;
+    left: calc(348px + var(--explore-row1-offset) * 0.6);
+    width: 297px;  /* 495 * 0.6 */
+    height: 270px; /* 450 * 0.6 */
+  }
+
+  /* 卡片 3: STUDIO - 右上角 (60% 缩放) */
+  .explore-card-3 {
+    top: 0;
+    left: calc(666px + var(--explore-row1-offset) * 0.6);
+    width: 297px;  /* 495 * 0.6 */
+    height: 270px; /* 450 * 0.6 */
+  }
+
+  /* 卡片 4: Brand Modeling - 左下 (60% 缩放) */
+  .explore-card-4 {
+    top: 300px;  /* 500 * 0.6 */
+    left: calc(30px - var(--explore-row2-offset) * 0.6);
+    width: 297px;  /* 495 * 0.6 */
+    height: 270px; /* 450 * 0.6 */
+  }
+
+  /* 卡片 5: Storytelling - 中下 (60% 缩放) */
+  .explore-card-5 {
+    top: 300px;  /* 500 * 0.6 */
+    left: calc(348px - var(--explore-row2-offset) * 0.6);
+    width: 297px;  /* 495 * 0.6 */
+    height: 270px; /* 450 * 0.6 */
+  }
+
+  /* 卡片 6: Entertainment - 右下角 (60% 缩放) */
+  .explore-card-6 {
+    top: 300px;  /* 500 * 0.6 */
+    left: calc(666px - var(--explore-row2-offset) * 0.6);
+    width: 297px;  /* 495 * 0.6 */
+    height: 270px; /* 450 * 0.6 */
   }
 
   .explore-card-label {
-    font-size: 16px;
-    bottom: 20px;
-    left: 20px;
+    font-size: 14px;
+    bottom: 16px;
+    left: 16px;
   }
 }
 
-/* 响应式设计 - 移动端 */
+/* 响应式设计 - 移动端 (480px - 767px) */
 @media (max-width: 767px) {
   .explore-more {
     padding: 60px 0;
+    margin-top: -80px; /* 进一步缩小负边距 */
   }
 
   .explore-more-container {
@@ -6269,30 +7451,142 @@
     font-size: 28px;
   }
 
-  .explore-card {
-    aspect-ratio: 16 / 9; /* 移动端使用更宽的比例 */
-    margin-bottom: 16px;
+  .explore-label {
+    font-size: 14px;
+  }
+
+  /* 移动端: 缩小布局 40%，保持三卡一排 */
+  .explore-grid {
+    min-height: 400px; /* 原1000px * 0.4 */
+  }
+
+  /* 卡片 1: CREATE - 左上角 (40% 缩放) */
+  .explore-card-1 {
+    top: 0;
+    left: calc(20px + var(--explore-row1-offset) * 0.4);
+    width: 198px;  /* 495 * 0.4 */
+    height: 180px; /* 450 * 0.4 */
+  }
+
+  /* 卡片 2: COMPOSE - 中上 (40% 缩放) */
+  .explore-card-2 {
+    top: 0;
+    left: calc(232px + var(--explore-row1-offset) * 0.4);
+    width: 198px;  /* 495 * 0.4 */
+    height: 180px; /* 450 * 0.4 */
+  }
+
+  /* 卡片 3: STUDIO - 右上角 (40% 缩放) */
+  .explore-card-3 {
+    top: 0;
+    left: calc(444px + var(--explore-row1-offset) * 0.4);
+    width: 198px;  /* 495 * 0.4 */
+    height: 180px; /* 450 * 0.4 */
+  }
+
+  /* 卡片 4: Brand Modeling - 左下 (40% 缩放) */
+  .explore-card-4 {
+    top: 200px;  /* 500 * 0.4 */
+    left: calc(20px - var(--explore-row2-offset) * 0.4);
+    width: 198px;  /* 495 * 0.4 */
+    height: 180px; /* 450 * 0.4 */
+  }
+
+  /* 卡片 5: Storytelling - 中下 (40% 缩放) */
+  .explore-card-5 {
+    top: 200px;  /* 500 * 0.4 */
+    left: calc(232px - var(--explore-row2-offset) * 0.4);
+    width: 198px;  /* 495 * 0.4 */
+    height: 180px; /* 450 * 0.4 */
+  }
+
+  /* 卡片 6: Entertainment - 右下角 (40% 缩放) */
+  .explore-card-6 {
+    top: 200px;  /* 500 * 0.4 */
+    left: calc(444px - var(--explore-row2-offset) * 0.4);
+    width: 198px;  /* 495 * 0.4 */
+    height: 180px; /* 450 * 0.4 */
   }
 
   .explore-card-label {
-    font-size: 14px;
-    bottom: 16px;
-    left: 16px;
+    font-size: 12px;
+    bottom: 12px;
+    left: 12px;
   }
 }
 
-/* 响应式设计 - 小屏手机 */
+/* 响应式设计 - 小屏手机 (≤479px) */
 @media (max-width: 479px) {
   .explore-more {
     padding: 50px 0;
+    margin-top: -60px;
   }
 
   .explore-title {
     font-size: 24px;
   }
 
+  .explore-label {
+    font-size: 12px;
+  }
+
+  /* 超小屏: 缩小布局 30%，保持三卡一排 */
+  .explore-grid {
+    min-height: 300px; /* 原1000px * 0.3 */
+  }
+
+  /* 卡片 1: CREATE - 左上角 (30% 缩放) */
+  .explore-card-1 {
+    top: 0;
+    left: calc(15px + var(--explore-row1-offset) * 0.3);
+    width: 149px;  /* 495 * 0.3 */
+    height: 135px; /* 450 * 0.3 */
+  }
+
+  /* 卡片 2: COMPOSE - 中上 (30% 缩放) */
+  .explore-card-2 {
+    top: 0;
+    left: calc(174px + var(--explore-row1-offset) * 0.3);
+    width: 149px;  /* 495 * 0.3 */
+    height: 135px; /* 450 * 0.3 */
+  }
+
+  /* 卡片 3: STUDIO - 右上角 (30% 缩放) */
+  .explore-card-3 {
+    top: 0;
+    left: calc(333px + var(--explore-row1-offset) * 0.3);
+    width: 149px;  /* 495 * 0.3 */
+    height: 135px; /* 450 * 0.3 */
+  }
+
+  /* 卡片 4: Brand Modeling - 左下 (30% 缩放) */
+  .explore-card-4 {
+    top: 150px;  /* 500 * 0.3 */
+    left: calc(15px - var(--explore-row2-offset) * 0.3);
+    width: 149px;  /* 495 * 0.3 */
+    height: 135px; /* 450 * 0.3 */
+  }
+
+  /* 卡片 5: Storytelling - 中下 (30% 缩放) */
+  .explore-card-5 {
+    top: 150px;  /* 500 * 0.3 */
+    left: calc(174px - var(--explore-row2-offset) * 0.3);
+    width: 149px;  /* 495 * 0.3 */
+    height: 135px; /* 450 * 0.3 */
+  }
+
+  /* 卡片 6: Entertainment - 右下角 (30% 缩放) */
+  .explore-card-6 {
+    top: 150px;  /* 500 * 0.3 */
+    left: calc(333px - var(--explore-row2-offset) * 0.3);
+    width: 149px;  /* 495 * 0.3 */
+    height: 135px; /* 450 * 0.3 */
+  }
+
   .explore-card-label {
-    font-size: 13px;
+    font-size: 10px;
+    bottom: 8px;
+    left: 8px;
   }
 }
 </style>
@@ -6775,7 +8069,7 @@
 }
 
 .footer-logo {
-  width: 220px;
+  width: 180px;
   height: auto;
   margin-top: 0px;       /* logo 本身不需要边距，由 wrapper 控制 */
   margin-left: 0px;      /* logo 本身不需要边距，由 wrapper 控制 */
@@ -6807,12 +8101,12 @@
 
 .footer-cta-button {
   display: inline-block;
-  padding: 12px 30px;    /* 增加左右内边距，让按钮变宽 */
+  padding: 10px 22px;    /* 增加左右内边距，让按钮变宽 */
   background: #2A2A2A;   /* 暗灰色背景 */
   color: #FFFFFF;
   text-decoration: none;
   border-radius: 5px;    /* 调整按钮圆角 */
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   border: 1px solid rgba(255, 255, 255, 0.2);  /* 边框 */
   transition: all 0.3s ease;
@@ -6825,6 +8119,10 @@
 }
 
 /* 链接列 */
+.footer-links-grid {
+  display: contents;
+}
+
 .footer-links-column {
   display: flex;
   flex-direction: column;
@@ -6935,16 +8233,52 @@
 /* 响应式设计 */
 @media (max-width: 991px) {
   .footer-main {
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 3rem;
+    grid-template-columns: 1.4fr repeat(4, minmax(120px, 1fr));
+    gap: 2rem;
+    align-items: flex-start;
   }
 
   .footer-brand {
-    grid-column: span 3;
+    grid-column: span 1;
   }
 
   .footer-main-box {
-    padding: 3rem 30px;
+    padding: 60px 30px;
+    height: 380px;
+    min-height: 380px;
+  }
+
+  .footer-logo-wrapper {
+    margin-top: -80px;
+    margin-left: -20px;
+    margin-bottom: 0;
+  }
+
+  .footer-logo {
+    width: 150px;
+  }
+
+  .footer-links-column {
+    margin-top: -40px;
+    margin-right: -30px;
+  }
+
+  .footer-description {
+    font-size: 10px;
+  }
+
+  .footer-brand-name,
+  .footer-brand-subtitle {
+    font-size: 13px;
+  }
+
+  .footer-column-title {
+    font-size: 11px;
+  }
+
+  .footer-link,
+  .footer-legal-link {
+    font-size: 9px;
   }
 
   .footer-bottom-box {
@@ -6962,21 +8296,70 @@
   }
 
   .footer-main {
-    grid-template-columns: 1fr;
-    gap: 3rem;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 1.5rem;
+    align-items: flex-start;
   }
 
   .footer-brand {
-    grid-column: span 1;
+    grid-column: 1 / 2;
+  }
+
+  .footer-logo-wrapper {
+    margin: 0;
+    gap: 0.5rem;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+
+  .footer-logo {
+    width: 130px;
   }
 
   .footer-description {
     max-width: 100%;
+    margin-left: 0;
+    font-size: 12px;
+    line-height: 1.4;
   }
 
   .footer-main-box {
     padding: 30px 20px;
     margin-bottom: 15px;
+    height: 350px;
+    min-height: 350px;
+  }
+
+  .footer-links-column {
+    margin-top: 0;
+    margin-right: 0;
+    gap: 0.5rem;
+  }
+
+  .footer-links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+    grid-column: 2 / 3;
+    grid-row: 1;
+  }
+
+  .footer-links-list {
+    gap: 1px;
+  }
+
+  .footer-column-title {
+    font-size: 13px;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-link {
+    font-size: 12px;
+  }
+
+  .footer-cta-button {
+    padding: 8px 20px;
+    font-size: 9px;
   }
 
   .footer-bottom-box {
@@ -6991,7 +8374,61 @@
   }
 
   .footer-legal-links {
-    gap: 20px;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer-legal-links li:not(:last-child)::after {
+    display: none;
+  }
+
+  .footer-brand-name,
+  .footer-brand-subtitle {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 479px) {
+  .footer-links-grid {
+    gap: 0.2rem;
+  }
+
+  .footer-main-box {
+    padding: 25px 15px;
+    height: 350px;
+    min-height: 350px;
+  }
+
+  .footer-logo {
+    width: 100px;
+  }
+
+  .footer-description {
+    font-size: 10px;
+    display: none;
+  }
+
+  .footer-brand-name,
+  .footer-brand-subtitle {
+    font-size: 11px;
+  }
+
+  .footer-column-title {
+    font-size: 11px;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-links-list {
+    gap: 8px;
+  }
+
+  .footer-link,
+  .footer-legal-link {
+    font-size: 9px;
+  }
+
+  .footer-bottom {
+    gap: 15px;
   }
 }
 </style>
@@ -7016,46 +8453,48 @@
         <a href="#contact" class="footer-cta-button">Contact us</a>
       </div>
 
-      <!-- EXPLORE 列 -->
-      <div class="footer-links-column">
-        <h3 class="footer-column-title">EXPLORE</h3>
-        <ul class="footer-links-list">
-          <li><a href="#explore" class="footer-link">Explore</a></li>
-          <li><a href="#about" class="footer-link">About</a></li>
-          <li><a href="#contact" class="footer-link">Contact</a></li>
-        </ul>
-      </div>
+      <div class="footer-links-grid">
+        <!-- EXPLORE 列 -->
+        <div class="footer-links-column">
+          <h3 class="footer-column-title">EXPLORE</h3>
+          <ul class="footer-links-list">
+            <li><a href="#explore" class="footer-link">Explore</a></li>
+            <li><a href="#about" class="footer-link">About</a></li>
+            <li><a href="#contact" class="footer-link">Contact</a></li>
+          </ul>
+        </div>
 
-      <!-- FEATURES 列 -->
-      <div class="footer-links-column">
-        <h3 class="footer-column-title">FEATURES</h3>
-        <ul class="footer-links-list">
-          <li><a href="#create" class="footer-link">Create</a></li>
-          <li><a href="#edit" class="footer-link">Edit</a></li>
-          <li><a href="#avatar" class="footer-link">Avatar</a></li>
-        </ul>
-      </div>
+        <!-- FEATURES 列 -->
+        <div class="footer-links-column">
+          <h3 class="footer-column-title">FEATURES</h3>
+          <ul class="footer-links-list">
+            <li><a href="#create" class="footer-link">Create</a></li>
+            <li><a href="#edit" class="footer-link">Edit</a></li>
+            <li><a href="#avatar" class="footer-link">Avatar</a></li>
+          </ul>
+        </div>
 
-      <!-- SOLUTIONS 列 -->
-      <div class="footer-links-column">
-        <h3 class="footer-column-title">SOLUTIONS</h3>
-        <ul class="footer-links-list">
-          <li><a href="#brand-marketing" class="footer-link">Brand Marketing</a></li>
-          <li><a href="#storytelling" class="footer-link">Storytelling</a></li>
-          <li><a href="#sales" class="footer-link">Sales & Advertisment</a></li>
-          <li><a href="#media" class="footer-link">Media</a></li>
-        </ul>
-      </div>
+        <!-- SOLUTIONS 列 -->
+        <div class="footer-links-column">
+          <h3 class="footer-column-title">SOLUTIONS</h3>
+          <ul class="footer-links-list">
+            <li><a href="#brand-marketing" class="footer-link">Brand Marketing</a></li>
+            <li><a href="#storytelling" class="footer-link">Storytelling</a></li>
+            <li><a href="#sales" class="footer-link">Sales & Advertisment</a></li>
+            <li><a href="#media" class="footer-link">Media</a></li>
+          </ul>
+        </div>
 
-      <!-- AI SUITE 列 -->
-      <div class="footer-links-column">
-        <h3 class="footer-column-title">AI SUITE</h3>
-        <ul class="footer-links-list">
-          <li><a href="#content-generator" class="footer-link">Content generator</a></li>
-          <li><a href="#ai-avatar" class="footer-link">AI avatar.</a></li>
-          <li><a href="#product-shots" class="footer-link">Product shots</a></li>
-          <li><a href="#clipmaker" class="footer-link">Clipmaker</a></li>
-        </ul>
+        <!-- AI SUITE 列 -->
+        <div class="footer-links-column">
+          <h3 class="footer-column-title">AI SUITE</h3>
+          <ul class="footer-links-list">
+            <li><a href="#content-generator" class="footer-link">Content generator</a></li>
+            <li><a href="#ai-avatar" class="footer-link">AI avatar.</a></li>
+            <li><a href="#product-shots" class="footer-link">Product shots</a></li>
+            <li><a href="#clipmaker" class="footer-link">Clipmaker</a></li>
+          </ul>
+        </div>
       </div>
       </div>
     </div>

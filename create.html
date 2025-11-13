@@ -26,6 +26,30 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/images/favicon.png">
+
+  <!-- 隐藏滚动条样式 -->
+  <style>
+    /* 隐藏所有浏览器的滚动条 */
+    html {
+      overflow-x: hidden;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+
+    body {
+      overflow-x: hidden;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+
+    /* 隐藏 Webkit 浏览器的滚动条 (Chrome, Safari, Opera) */
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+  </style>
 </head>
 <body>
 
@@ -904,7 +928,7 @@
     justify-content: center;
   }
 
-  /* 背景图片容器 - 近乎全屏的圆角图片 */
+  /* 背景图片容器 - 改为视频背景 */
   .create-background {
     position: relative;
     width: 100%;
@@ -915,6 +939,74 @@
     overflow: hidden;
     z-index: 0;
     box-sizing: border-box;
+  }
+
+  /* 背景视频样式 */
+  .create-background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    z-index: 1;
+  }
+
+  /* 左下角文本框 */
+  .create-text-box {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    max-width: 50%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .create-text-content {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .create-text-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .create-copy-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: var(--color-text);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .create-copy-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .create-copy-icon {
+    width: 14px;
+    height: 14px;
   }
 
   .create-background-image {
@@ -939,7 +1031,7 @@
     width: 146%;
   }
 
-  /* 像素风格标题 - 放大字体，不换行，舒展 */
+  /* 像素风格标题 - 放大字体，支持换行，舒展 */
   .create-title {
     font-family: 'Press Start 2P', cursive;
     font-size: clamp(1.2rem, 4vw, 2.5rem);
@@ -953,9 +1045,8 @@
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   /* 描述文字 - Sora 细体，减小字号 */
@@ -1016,18 +1107,31 @@
       font-size: clamp(0.9rem, 5vw, 1.8rem);
       letter-spacing: 0.12em;
       margin-bottom: var(--spacing-sm);
-      white-space: nowrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
 
     .create-description {
       font-size: clamp(0.8rem, 2vw, 0.95rem);
       margin-bottom: var(--spacing-md);
     }
+
+    .create-text-box {
+      max-width: 300px;
+      bottom: 15px;
+      left: 15px;
+      padding: 12px;
+      font-size: 0.8rem;
+    }
+
+    .create-background-video {
+      object-fit: cover;
+    }
   }
 
   @media (max-width: 767px) {
     .create-container {
-      padding: var(--spacing-sm) 1.5rem;
+      padding: var(--spacing-xl) var(--spacing-md);
     }
 
     .create-background {
@@ -1048,7 +1152,8 @@
       letter-spacing: 0.1em;
       line-height: 1.4;
       margin-bottom: var(--spacing-xs);
-      white-space: nowrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
 
     .create-description {
@@ -1061,6 +1166,28 @@
       padding: var(--spacing-sm) var(--spacing-lg);
       font-size: 0.9rem;
     }
+
+    .create-text-box {
+      max-width: 250px;
+      bottom: 10px;
+      left: 10px;
+      padding: 10px;
+      font-size: 0.75rem;
+    }
+
+    .create-background-video {
+      object-fit: cover;
+    }
+
+    .create-copy-button {
+      padding: 6px 10px;
+      font-size: 0.7rem;
+    }
+
+    .create-copy-icon {
+      width: 12px;
+      height: 12px;
+    }
   }
 </style>
 
@@ -1069,24 +1196,48 @@
   <div class="create-container">
     <!-- 背景图片容器 -->
     <div class="create-background">
-      <img src="images/2.jpg" alt="Create Background" class="create-background-image" loading="eager">
+      <video class="create-background-video" autoplay muted loop playsinline>
+        <source src="videos/video_2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
 
       <!-- 内容覆盖层 - 定位在左上角 -->
       <div class="create-content">
         <div class="create-text-wrapper">
           <!-- 标题 -->
           <h1 class="create-title">
-            CREATE YOUR STORY
+            Create with the Eclipse Engine
           </h1>
 
           <!-- 描述 -->
           <p class="create-description">
-            Bring ideas to life frame by frame — arrange scenes, refine pacing, and craft cinematic flow with the
-            Eclipse Engine.
+            Experience the most advanced AI image and video generator — powered by cinematic intelligence that
+            resonates.
           </p>
 
           <!-- 按钮 -->
           <a href="#" class="create-button">START ENGINE</a>
+        </div>
+      </div>
+
+      <!-- 左下角文本框 -->
+      <div class="create-text-box">
+        <p class="create-text-content">
+          A cinematic 8K video of a lone astronaut walking slowly across the surface of the moon under deep space
+          darkness. The camera circles gently, capturing the texture of the dusty lunar ground and the intricate folds
+          of the astronaut's suit. Subtle reflections of distant stars glimmer across the helmet visor. Soft blue-gray
+          light from Earth bathes the scene, creating a quiet, ethereal atmosphere. The astronaut pauses, looks up
+          toward the horizon, and faint dust drifts upward with each step — conveying isolation, wonder, and the vast
+          silence of space.
+        </p>
+        <div class="create-text-actions">
+          <button class="create-copy-button" onclick="copyCreateText()">
+            <svg class="create-copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy
+          </button>
         </div>
       </div>
     </div>
@@ -1099,16 +1250,84 @@
     'use strict';
 
     const initCreate = () => {
-      // 图片加载错误处理
-      const bgImage = document.querySelector('.create-background-image');
-      if (bgImage) {
-        bgImage.addEventListener('error', function () {
-          console.warn(`Failed to load background image: ${this.src}`);
+      // 视频加载错误处理
+      const bgVideo = document.querySelector('.create-background-video');
+      if (bgVideo) {
+        bgVideo.addEventListener('error', function () {
+          console.warn(`Failed to load background video: ${this.querySelector('source').src}`);
           // 可以设置默认背景色
           this.style.display = 'none';
         });
+
+        // 确保视频能够自动播放
+        bgVideo.play().catch(function(error) {
+          console.warn('视频自动播放被阻止:', error);
+          // 可以在这里添加用户交互提示
+        });
       }
     };
+
+    // 复制文本功能
+    window.copyCreateText = function () {
+      const textContent = document.querySelector('.create-text-content').textContent;
+
+      // 使用现代的Clipboard API
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textContent).then(function () {
+          // 成功复制后的反馈
+          showCopyFeedback();
+        }).catch(function (err) {
+          console.error('复制失败:', err);
+          fallbackCopyText(textContent);
+        });
+      } else {
+        // 降级方案
+        fallbackCopyText(textContent);
+      }
+    };
+
+    // 降级复制方案
+    function fallbackCopyText(text) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        document.execCommand('copy');
+        showCopyFeedback();
+      } catch (err) {
+        console.error('复制失败:', err);
+      } finally {
+        document.body.removeChild(textArea);
+      }
+    }
+
+    // 显示复制成功反馈
+    function showCopyFeedback() {
+      const button = document.querySelector('.create-copy-button');
+      const originalText = button.innerHTML;
+
+      button.innerHTML = `
+        <svg class="create-copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        Copied!
+      `;
+
+      button.style.background = 'rgba(76, 175, 80, 0.2)';
+      button.style.borderColor = 'rgba(76, 175, 80, 0.4)';
+
+      setTimeout(function () {
+        button.innerHTML = originalText;
+        button.style.background = 'rgba(255, 255, 255, 0.1)';
+        button.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+      }, 2000);
+    }
 
     // DOM 加载后初始化
     if (document.readyState === 'loading') {
@@ -1271,7 +1490,17 @@
     transition: transform var(--transition);
   }
 
-  .pic-wall-item:hover .pic-wall-image {
+  .pic-wall-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition);
+    cursor: pointer;
+  }
+
+  .pic-wall-item:hover .pic-wall-image,
+  .pic-wall-item:hover .pic-wall-video {
     transform: scale(1.05);
   }
 
@@ -1308,6 +1537,54 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+
+  /* 视频预览模态框 */
+  .video-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+  }
+
+  .video-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    width: auto;
+    height: auto;
+  }
+
+  .video-modal video {
+    width: 100%;
+    height: 100%;
+    max-width: 80vw;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .video-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+    transition: color 0.3s ease;
+  }
+
+  .video-modal-close:hover {
+    color: #ccc;
   }
 
   /* 响应式设计 */
@@ -1357,49 +1634,65 @@
   <div class="pic-wall-container">
     <div class="pic-wall-grid">
       <div class="pic-wall-item">
-        <img src="images/1.png" alt="AI Clipper" class="pic-wall-image" loading="lazy">
+        <video class="pic-wall-video" muted loop playsinline data-video-src="videos/video_1.mp4">
+          <source src="videos/video_1.mp4" type="video/mp4">
+        </video>
         <div class="pic-wall-label-overlay">
           <p class="pic-wall-label">AI Clipper</p>
         </div>
       </div>
       <div class="pic-wall-item">
-        <img src="images/2.jpg" alt="Content Generator" class="pic-wall-image" loading="lazy">
+        <video class="pic-wall-video" muted loop playsinline data-video-src="videos/video_2.mp4">
+          <source src="videos/video_2.mp4" type="video/mp4">
+        </video>
         <div class="pic-wall-label-overlay">
           <p class="pic-wall-label">Content Generator</p>
         </div>
       </div>
       <div class="pic-wall-item">
-        <img src="images/3.png" alt="AI Avatar" class="pic-wall-image" loading="lazy">
+        <video class="pic-wall-video" muted loop playsinline data-video-src="videos/总设计.mp4">
+          <source src="videos/总设计.mp4" type="video/mp4">
+        </video>
         <div class="pic-wall-label-overlay">
           <p class="pic-wall-label">AI Avatar</p>
         </div>
       </div>
       <div class="pic-wall-item">
-        <img src="images/4.png" alt="Product Shots" class="pic-wall-image" loading="lazy">
+        <video class="pic-wall-video" muted loop playsinline data-video-src="videos/video_1.mp4">
+          <source src="videos/video_1.mp4" type="video/mp4">
+        </video>
         <div class="pic-wall-label-overlay">
           <p class="pic-wall-label">Product Shots</p>
         </div>
       </div>
       <div class="pic-wall-item">
-        <img src="images/5.png" alt="Clipper" class="pic-wall-image" loading="lazy">
+        <video class="pic-wall-video" muted loop playsinline data-video-src="videos/video_2.mp4">
+          <source src="videos/video_2.mp4" type="video/mp4">
+        </video>
         <div class="pic-wall-label-overlay">
           <p class="pic-wall-label">Clipper</p>
         </div>
       </div>
       <div class="pic-wall-item">
-        <img src="images/logo.jpg" alt="Caption Generation" class="pic-wall-image" loading="lazy">
+        <video class="pic-wall-video" muted loop playsinline data-video-src="videos/总设计.mp4">
+          <source src="videos/总设计.mp4" type="video/mp4">
+        </video>
         <div class="pic-wall-label-overlay">
           <p class="pic-wall-label">Caption Generation</p>
         </div>
       </div>
       <div class="pic-wall-item">
-        <img src="images/1.png" alt="AI Voiceover" class="pic-wall-image" loading="lazy">
+        <video class="pic-wall-video" muted loop playsinline data-video-src="videos/video_1.mp4">
+          <source src="videos/video_1.mp4" type="video/mp4">
+        </video>
         <div class="pic-wall-label-overlay">
           <p class="pic-wall-label">AI Voiceover</p>
         </div>
       </div>
       <div class="pic-wall-item">
-        <img src="images/2.jpg" alt="Youtube Thumbnails" class="pic-wall-image" loading="lazy">
+        <video class="pic-wall-video" muted loop playsinline data-video-src="videos/video_2.mp4">
+          <source src="videos/video_2.mp4" type="video/mp4">
+        </video>
         <div class="pic-wall-label-overlay">
           <p class="pic-wall-label">Youtube Thumbnails</p>
         </div>
@@ -1408,19 +1701,92 @@
   </div>
 </section>
 
+<!-- 视频预览模态框 -->
+<div id="picwall-video-modal" class="video-modal">
+  <span class="video-modal-close">&times;</span>
+  <div class="video-modal-content">
+    <video id="picwall-modal-video" controls>
+      <source src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
 <script>
   // Pic Wall 模块交互逻辑
   (function () {
     'use strict';
 
     const initPicWall = () => {
-      // 图片加载错误处理
-      const images = document.querySelectorAll('.pic-wall-image');
-      images.forEach((img) => {
-        img.addEventListener('error', function () {
-          console.warn(`Failed to load image: ${this.src}`);
+      // 视频加载错误处理
+      const videos = document.querySelectorAll('.pic-wall-video');
+      videos.forEach((video) => {
+        video.addEventListener('error', function () {
+          console.warn(`Failed to load video: ${this.querySelector('source').src}`);
           this.style.display = 'none';
         });
+
+        // 初始状态暂停视频
+        video.pause();
+
+        // 鼠标悬停时播放视频
+        const item = video.closest('.pic-wall-item');
+        if (item) {
+          item.addEventListener('mouseenter', () => {
+            video.play();
+          });
+          item.addEventListener('mouseleave', () => {
+            video.pause();
+            video.currentTime = 0; // 重置到开始位置
+          });
+
+          // 点击视频打开模态框预览
+          video.addEventListener('click', function () {
+            openVideoModal(this.querySelector('source').src);
+          });
+
+          // 添加鼠标样式提示可点击
+          video.style.cursor = 'pointer';
+        }
+      });
+
+      // 模态框功能
+      const modal = document.getElementById('picwall-video-modal');
+      const modalVideo = document.getElementById('picwall-modal-video');
+      const closeBtn = document.querySelector('#picwall-video-modal .video-modal-close');
+
+      function openVideoModal(videoSrc) {
+        modalVideo.src = videoSrc;
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // 防止背景滚动
+      }
+
+      function closeVideoModal() {
+        modal.style.display = 'none';
+        modalVideo.pause();
+        modalVideo.src = '';
+        document.body.style.overflow = ''; // 恢复滚动
+      }
+
+      // 关闭按钮事件
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeVideoModal);
+      }
+
+      // 点击模态框背景关闭
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) {
+            closeVideoModal();
+          }
+        });
+      }
+
+      // ESC键关闭模态框
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.style.display === 'block') {
+          closeVideoModal();
+        }
       });
     };
 
@@ -1572,6 +1938,63 @@
     display: block;
   }
 
+  .built-for-speed-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 20px;
+    display: block;
+    cursor: pointer;
+  }
+
+  /* 视频预览模态框 */
+  .video-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+  }
+
+  .video-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    width: auto;
+    height: auto;
+  }
+
+  .video-modal video {
+    width: 100%;
+    height: 100%;
+    max-width: 80vw;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .video-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+    transition: color 0.3s ease;
+  }
+
+  .video-modal-close:hover {
+    color: #ccc;
+  }
+
   /* 响应式设计 */
   @media (max-width: 991px) {
     .built-for-speed {
@@ -1629,13 +2052,27 @@
         </span>
       </div>
 
-      <!-- 右侧图片 -->
+      <!-- 右侧视频 -->
       <div class="built-for-speed-image-wrapper">
-        <img src="images/3.png" alt="Built For Speed" class="built-for-speed-image" loading="lazy">
+        <video class="built-for-speed-video" muted loop playsinline data-video-src="videos/video_2.mp4">
+          <source src="videos/video_2.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
       </div>
     </div>
   </div>
 </section>
+
+<!-- 视频预览模态框 -->
+<div id="builtforspeed-video-modal" class="video-modal">
+  <span class="video-modal-close">&times;</span>
+  <div class="video-modal-content">
+    <video id="builtforspeed-modal-video" controls>
+      <source src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
 
 <script>
   // Built For Speed 模块交互逻辑
@@ -1643,14 +2080,76 @@
     'use strict';
 
     const initBuiltForSpeed = () => {
-      // 图片加载错误处理
-      const image = document.querySelector('.built-for-speed-image');
-      if (image) {
-        image.addEventListener('error', function () {
-          console.warn(`Failed to load image: ${this.src}`);
+      // 视频加载错误处理
+      const video = document.querySelector('.built-for-speed-video');
+      if (video) {
+        video.addEventListener('error', function () {
+          console.warn(`Failed to load video: ${this.querySelector('source').src}`);
           this.style.display = 'none';
         });
+
+        // 初始状态暂停视频
+        video.pause();
+
+        // 鼠标悬停时播放视频
+        const wrapper = video.closest('.built-for-speed-image-wrapper');
+        if (wrapper) {
+          wrapper.addEventListener('mouseenter', () => {
+            video.play();
+          });
+          wrapper.addEventListener('mouseleave', () => {
+            video.pause();
+            video.currentTime = 0; // 重置到开始位置
+          });
+
+          // 点击视频打开模态框预览
+          video.addEventListener('click', function () {
+            openVideoModal(this.querySelector('source').src);
+          });
+
+          // 添加鼠标样式提示可点击
+          video.style.cursor = 'pointer';
+        }
       }
+
+      // 模态框功能
+      const modal = document.getElementById('builtforspeed-video-modal');
+      const modalVideo = document.getElementById('builtforspeed-modal-video');
+      const closeBtn = document.querySelector('#builtforspeed-video-modal .video-modal-close');
+
+      function openVideoModal(videoSrc) {
+        modalVideo.src = videoSrc;
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // 防止背景滚动
+      }
+
+      function closeVideoModal() {
+        modal.style.display = 'none';
+        modalVideo.pause();
+        modalVideo.src = '';
+        document.body.style.overflow = ''; // 恢复滚动
+      }
+
+      // 关闭按钮事件
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeVideoModal);
+      }
+
+      // 点击模态框背景关闭
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) {
+            closeVideoModal();
+          }
+        });
+      }
+
+      // ESC键关闭模态框
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.style.display === 'block') {
+          closeVideoModal();
+        }
+      });
     };
 
     // DOM 加载后初始化
@@ -1743,7 +2242,17 @@
     transition: transform var(--transition);
   }
 
-  .style-cea-card:hover .style-cea-card-image {
+  .style-cea-card-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition);
+    cursor: pointer;
+  }
+
+  .style-cea-card:hover .style-cea-card-image,
+  .style-cea-card:hover .style-cea-card-video {
     transform: scale(1.05);
   }
 
@@ -1787,6 +2296,54 @@
     line-height: 1.5;
     margin: 0;
     text-align: left;
+  }
+
+  /* 视频预览模态框 */
+  .video-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+  }
+
+  .video-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    width: auto;
+    height: auto;
+  }
+
+  .video-modal video {
+    width: 100%;
+    height: 100%;
+    max-width: 80vw;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .video-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+    transition: color 0.3s ease;
+  }
+
+  .video-modal-close:hover {
+    color: #ccc;
   }
 
   /* 响应式设计 */
@@ -1843,7 +2400,9 @@
     <div class="style-cea-grid">
       <!-- Card 1 -->
       <div class="style-cea-card">
-        <img src="images/1.png" alt="Ingest your kit" class="style-cea-card-image" loading="lazy">
+        <video class="style-cea-card-video" muted loop playsinline data-video-src="videos/video_1.mp4">
+          <source src="videos/video_1.mp4" type="video/mp4">
+        </video>
         <div class="style-cea-card-overlay">
           <h4 class="style-cea-card-title">Ingest your kit</h4>
           <p class="style-cea-card-description">Colors, fonts, lower thirds, logo safe zones, intro/outro.</p>
@@ -1852,7 +2411,9 @@
 
       <!-- Card 2 -->
       <div class="style-cea-card">
-        <img src="images/2.jpg" alt="Style DNA" class="style-cea-card-image" loading="lazy">
+        <video class="style-cea-card-video" muted loop playsinline data-video-src="videos/video_2.mp4">
+          <source src="videos/video_2.mp4" type="video/mp4">
+        </video>
         <div class="style-cea-card-overlay">
           <h4 class="style-cea-card-title">Style DNA</h4>
           <p class="style-cea-card-description">Captures tone, pacing, motion and composition preferences.</p>
@@ -1861,7 +2422,9 @@
 
       <!-- Card 3 -->
       <div class="style-cea-card">
-        <img src="images/3.png" alt="Protected outputs" class="style-cea-card-image" loading="lazy">
+        <video class="style-cea-card-video" muted loop playsinline data-video-src="videos/总设计.mp4">
+          <source src="videos/总设计.mp4" type="video/mp4">
+        </video>
         <div class="style-cea-card-overlay">
           <h4 class="style-cea-card-title">Protected outputs</h4>
           <p class="style-cea-card-description">Brand recipes prevent drift and keep every render consistent.</p>
@@ -1870,7 +2433,9 @@
 
       <!-- Card 4 -->
       <div class="style-cea-card">
-        <img src="images/4.png" alt="Ingest your kit" class="style-cea-card-image" loading="lazy">
+        <video class="style-cea-card-video" muted loop playsinline data-video-src="videos/video_1.mp4">
+          <source src="videos/video_1.mp4" type="video/mp4">
+        </video>
         <div class="style-cea-card-overlay">
           <h4 class="style-cea-card-title">Ingest your kit</h4>
           <p class="style-cea-card-description">Colors, fonts, lower thirds, logo safe zones, intro/outro.</p>
@@ -1879,7 +2444,9 @@
 
       <!-- Card 5 -->
       <div class="style-cea-card">
-        <img src="images/5.png" alt="Style DNA" class="style-cea-card-image" loading="lazy">
+        <video class="style-cea-card-video" muted loop playsinline data-video-src="videos/video_2.mp4">
+          <source src="videos/video_2.mp4" type="video/mp4">
+        </video>
         <div class="style-cea-card-overlay">
           <h4 class="style-cea-card-title">Style DNA</h4>
           <p class="style-cea-card-description">Captures tone, pacing, motion and composition preferences.</p>
@@ -1888,7 +2455,9 @@
 
       <!-- Card 6 -->
       <div class="style-cea-card">
-        <img src="images/logo.jpg" alt="Protected outputs" class="style-cea-card-image" loading="lazy">
+        <video class="style-cea-card-video" muted loop playsinline data-video-src="videos/总设计.mp4">
+          <source src="videos/总设计.mp4" type="video/mp4">
+        </video>
         <div class="style-cea-card-overlay">
           <h4 class="style-cea-card-title">Protected outputs</h4>
           <p class="style-cea-card-description">Brand recipes prevent drift and keep every render consistent.</p>
@@ -1898,19 +2467,92 @@
   </div>
 </section>
 
+<!-- 视频预览模态框 -->
+<div id="stylecea-video-modal" class="video-modal">
+  <span class="video-modal-close">&times;</span>
+  <div class="video-modal-content">
+    <video id="stylecea-modal-video" controls>
+      <source src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
 <script>
   // Style CEA 模块交互逻辑
   (function () {
     'use strict';
 
     const initStyleCea = () => {
-      // 图片加载错误处理
-      const images = document.querySelectorAll('.style-cea-card-image');
-      images.forEach((img) => {
-        img.addEventListener('error', function () {
-          console.warn(`Failed to load image: ${this.src}`);
+      // 视频加载错误处理
+      const videos = document.querySelectorAll('.style-cea-card-video');
+      videos.forEach((video) => {
+        video.addEventListener('error', function () {
+          console.warn(`Failed to load video: ${this.querySelector('source').src}`);
           this.style.display = 'none';
         });
+
+        // 初始状态暂停视频
+        video.pause();
+
+        // 鼠标悬停时播放视频
+        const card = video.closest('.style-cea-card');
+        if (card) {
+          card.addEventListener('mouseenter', () => {
+            video.play();
+          });
+          card.addEventListener('mouseleave', () => {
+            video.pause();
+            video.currentTime = 0; // 重置到开始位置
+          });
+
+          // 点击视频打开模态框预览
+          video.addEventListener('click', function () {
+            openVideoModal(this.querySelector('source').src);
+          });
+
+          // 添加鼠标样式提示可点击
+          video.style.cursor = 'pointer';
+        }
+      });
+
+      // 模态框功能
+      const modal = document.getElementById('stylecea-video-modal');
+      const modalVideo = document.getElementById('stylecea-modal-video');
+      const closeBtn = document.querySelector('#stylecea-video-modal .video-modal-close');
+
+      function openVideoModal(videoSrc) {
+        modalVideo.src = videoSrc;
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // 防止背景滚动
+      }
+
+      function closeVideoModal() {
+        modal.style.display = 'none';
+        modalVideo.pause();
+        modalVideo.src = '';
+        document.body.style.overflow = ''; // 恢复滚动
+      }
+
+      // 关闭按钮事件
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeVideoModal);
+      }
+
+      // 点击模态框背景关闭
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) {
+            closeVideoModal();
+          }
+        });
+      }
+
+      // ESC键关闭模态框
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.style.display === 'block') {
+          closeVideoModal();
+        }
       });
     };
 
@@ -1992,7 +2634,7 @@
 }
 
 .footer-logo {
-  width: 220px;
+  width: 180px;
   height: auto;
   margin-top: 0px;       /* logo 本身不需要边距，由 wrapper 控制 */
   margin-left: 0px;      /* logo 本身不需要边距，由 wrapper 控制 */
@@ -2024,12 +2666,12 @@
 
 .footer-cta-button {
   display: inline-block;
-  padding: 12px 30px;    /* 增加左右内边距，让按钮变宽 */
+  padding: 10px 22px;    /* 增加左右内边距，让按钮变宽 */
   background: #2A2A2A;   /* 暗灰色背景 */
   color: #FFFFFF;
   text-decoration: none;
   border-radius: 5px;    /* 调整按钮圆角 */
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   border: 1px solid rgba(255, 255, 255, 0.2);  /* 边框 */
   transition: all 0.3s ease;
@@ -2042,6 +2684,10 @@
 }
 
 /* 链接列 */
+.footer-links-grid {
+  display: contents;
+}
+
 .footer-links-column {
   display: flex;
   flex-direction: column;
@@ -2152,16 +2798,52 @@
 /* 响应式设计 */
 @media (max-width: 991px) {
   .footer-main {
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 3rem;
+    grid-template-columns: 1.4fr repeat(4, minmax(120px, 1fr));
+    gap: 2rem;
+    align-items: flex-start;
   }
 
   .footer-brand {
-    grid-column: span 3;
+    grid-column: span 1;
   }
 
   .footer-main-box {
-    padding: 3rem 30px;
+    padding: 60px 30px;
+    height: 380px;
+    min-height: 380px;
+  }
+
+  .footer-logo-wrapper {
+    margin-top: -80px;
+    margin-left: -20px;
+    margin-bottom: 0;
+  }
+
+  .footer-logo {
+    width: 150px;
+  }
+
+  .footer-links-column {
+    margin-top: -40px;
+    margin-right: -30px;
+  }
+
+  .footer-description {
+    font-size: 10px;
+  }
+
+  .footer-brand-name,
+  .footer-brand-subtitle {
+    font-size: 13px;
+  }
+
+  .footer-column-title {
+    font-size: 11px;
+  }
+
+  .footer-link,
+  .footer-legal-link {
+    font-size: 9px;
   }
 
   .footer-bottom-box {
@@ -2179,21 +2861,70 @@
   }
 
   .footer-main {
-    grid-template-columns: 1fr;
-    gap: 3rem;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 1.5rem;
+    align-items: flex-start;
   }
 
   .footer-brand {
-    grid-column: span 1;
+    grid-column: 1 / 2;
+  }
+
+  .footer-logo-wrapper {
+    margin: 0;
+    gap: 0.5rem;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+
+  .footer-logo {
+    width: 130px;
   }
 
   .footer-description {
     max-width: 100%;
+    margin-left: 0;
+    font-size: 12px;
+    line-height: 1.4;
   }
 
   .footer-main-box {
     padding: 30px 20px;
     margin-bottom: 15px;
+    height: 350px;
+    min-height: 350px;
+  }
+
+  .footer-links-column {
+    margin-top: 0;
+    margin-right: 0;
+    gap: 0.5rem;
+  }
+
+  .footer-links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+    grid-column: 2 / 3;
+    grid-row: 1;
+  }
+
+  .footer-links-list {
+    gap: 1px;
+  }
+
+  .footer-column-title {
+    font-size: 13px;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-link {
+    font-size: 12px;
+  }
+
+  .footer-cta-button {
+    padding: 8px 20px;
+    font-size: 9px;
   }
 
   .footer-bottom-box {
@@ -2208,7 +2939,61 @@
   }
 
   .footer-legal-links {
-    gap: 20px;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer-legal-links li:not(:last-child)::after {
+    display: none;
+  }
+
+  .footer-brand-name,
+  .footer-brand-subtitle {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 479px) {
+  .footer-links-grid {
+    gap: 0.2rem;
+  }
+
+  .footer-main-box {
+    padding: 25px 15px;
+    height: 350px;
+    min-height: 350px;
+  }
+
+  .footer-logo {
+    width: 100px;
+  }
+
+  .footer-description {
+    font-size: 10px;
+    display: none;
+  }
+
+  .footer-brand-name,
+  .footer-brand-subtitle {
+    font-size: 11px;
+  }
+
+  .footer-column-title {
+    font-size: 11px;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-links-list {
+    gap: 8px;
+  }
+
+  .footer-link,
+  .footer-legal-link {
+    font-size: 9px;
+  }
+
+  .footer-bottom {
+    gap: 15px;
   }
 }
 </style>
@@ -2233,46 +3018,48 @@
         <a href="#contact" class="footer-cta-button">Contact us</a>
       </div>
 
-      <!-- EXPLORE 列 -->
-      <div class="footer-links-column">
-        <h3 class="footer-column-title">EXPLORE</h3>
-        <ul class="footer-links-list">
-          <li><a href="#explore" class="footer-link">Explore</a></li>
-          <li><a href="#about" class="footer-link">About</a></li>
-          <li><a href="#contact" class="footer-link">Contact</a></li>
-        </ul>
-      </div>
+      <div class="footer-links-grid">
+        <!-- EXPLORE 列 -->
+        <div class="footer-links-column">
+          <h3 class="footer-column-title">EXPLORE</h3>
+          <ul class="footer-links-list">
+            <li><a href="#explore" class="footer-link">Explore</a></li>
+            <li><a href="#about" class="footer-link">About</a></li>
+            <li><a href="#contact" class="footer-link">Contact</a></li>
+          </ul>
+        </div>
 
-      <!-- FEATURES 列 -->
-      <div class="footer-links-column">
-        <h3 class="footer-column-title">FEATURES</h3>
-        <ul class="footer-links-list">
-          <li><a href="#create" class="footer-link">Create</a></li>
-          <li><a href="#edit" class="footer-link">Edit</a></li>
-          <li><a href="#avatar" class="footer-link">Avatar</a></li>
-        </ul>
-      </div>
+        <!-- FEATURES 列 -->
+        <div class="footer-links-column">
+          <h3 class="footer-column-title">FEATURES</h3>
+          <ul class="footer-links-list">
+            <li><a href="#create" class="footer-link">Create</a></li>
+            <li><a href="#edit" class="footer-link">Edit</a></li>
+            <li><a href="#avatar" class="footer-link">Avatar</a></li>
+          </ul>
+        </div>
 
-      <!-- SOLUTIONS 列 -->
-      <div class="footer-links-column">
-        <h3 class="footer-column-title">SOLUTIONS</h3>
-        <ul class="footer-links-list">
-          <li><a href="#brand-marketing" class="footer-link">Brand Marketing</a></li>
-          <li><a href="#storytelling" class="footer-link">Storytelling</a></li>
-          <li><a href="#sales" class="footer-link">Sales & Advertisment</a></li>
-          <li><a href="#media" class="footer-link">Media</a></li>
-        </ul>
-      </div>
+        <!-- SOLUTIONS 列 -->
+        <div class="footer-links-column">
+          <h3 class="footer-column-title">SOLUTIONS</h3>
+          <ul class="footer-links-list">
+            <li><a href="#brand-marketing" class="footer-link">Brand Marketing</a></li>
+            <li><a href="#storytelling" class="footer-link">Storytelling</a></li>
+            <li><a href="#sales" class="footer-link">Sales & Advertisment</a></li>
+            <li><a href="#media" class="footer-link">Media</a></li>
+          </ul>
+        </div>
 
-      <!-- AI SUITE 列 -->
-      <div class="footer-links-column">
-        <h3 class="footer-column-title">AI SUITE</h3>
-        <ul class="footer-links-list">
-          <li><a href="#content-generator" class="footer-link">Content generator</a></li>
-          <li><a href="#ai-avatar" class="footer-link">AI avatar.</a></li>
-          <li><a href="#product-shots" class="footer-link">Product shots</a></li>
-          <li><a href="#clipmaker" class="footer-link">Clipmaker</a></li>
-        </ul>
+        <!-- AI SUITE 列 -->
+        <div class="footer-links-column">
+          <h3 class="footer-column-title">AI SUITE</h3>
+          <ul class="footer-links-list">
+            <li><a href="#content-generator" class="footer-link">Content generator</a></li>
+            <li><a href="#ai-avatar" class="footer-link">AI avatar.</a></li>
+            <li><a href="#product-shots" class="footer-link">Product shots</a></li>
+            <li><a href="#clipmaker" class="footer-link">Clipmaker</a></li>
+          </ul>
+        </div>
       </div>
       </div>
     </div>

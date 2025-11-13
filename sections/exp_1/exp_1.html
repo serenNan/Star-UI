@@ -147,6 +147,54 @@
     transform: scale(1.05);
   }
 
+  /* 视频预览模态框 */
+  .video-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+  }
+
+  .video-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    width: auto;
+    height: auto;
+  }
+
+  .video-modal video {
+    width: 100%;
+    height: 100%;
+    max-width: 80vw;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .video-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+    transition: color 0.3s ease;
+  }
+
+  .video-modal-close:hover {
+    color: #ccc;
+  }
+
   /* 响应式设计 */
   @media (max-width: 991px) {
     .exp-1 {
@@ -279,6 +327,17 @@
   </div>
 </section>
 
+<!-- 视频预览模态框 -->
+<div id="exp1-video-modal" class="video-modal">
+  <span class="video-modal-close">&times;</span>
+  <div class="video-modal-content">
+    <video id="exp1-modal-video" controls autoplay>
+      <source src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
 <script>
   // Exp 1 模块交互逻辑
   (function () {
@@ -305,6 +364,53 @@
           panel.addEventListener('mouseleave', () => {
             video.pause();
           });
+
+          // 点击视频打开模态框预览
+          video.addEventListener('click', function () {
+            openVideoModal(this.querySelector('source').src);
+          });
+
+          // 添加鼠标样式提示可点击
+          video.style.cursor = 'pointer';
+        }
+      });
+
+      // 模态框功能
+      const modal = document.getElementById('exp1-video-modal');
+      const modalVideo = document.getElementById('exp1-modal-video');
+      const closeBtn = document.querySelector('.video-modal-close');
+
+      function openVideoModal(videoSrc) {
+        modalVideo.src = videoSrc;
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // 防止背景滚动
+      }
+
+      function closeVideoModal() {
+        modal.style.display = 'none';
+        modalVideo.pause();
+        modalVideo.src = '';
+        document.body.style.overflow = ''; // 恢复滚动
+      }
+
+      // 关闭按钮事件
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeVideoModal);
+      }
+
+      // 点击模态框背景关闭
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) {
+            closeVideoModal();
+          }
+        });
+      }
+
+      // ESC键关闭模态框
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.style.display === 'block') {
+          closeVideoModal();
         }
       });
     };
