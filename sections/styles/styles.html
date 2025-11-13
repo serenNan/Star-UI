@@ -4,547 +4,638 @@
      =================================== -->
 
 <style>
-/* ==================== 主容器样式 ==================== */
-.styles {
-  padding: var(--spacing-3xl) 0;
-  background-color: var(--color-bg);
-  position: relative;
-  overflow: hidden;
-}
+  /* ==================== 主容器样式 ==================== */
+  .styles {
+    padding: var(--spacing-3xl) 0;
+    background-color: var(--color-bg);
+    position: relative;
+    overflow: hidden;
+  }
 
-.styles-container {
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-xl);
-  align-items: start; /* 改为顶部对齐，避免挤压 */
-  position: relative; /* 定位上下文 */
-}
+  .styles-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    align-items: start;
+    /* 改为顶部对齐，避免挤压 */
+    position: relative;
+    /* 定位上下文 */
+  }
 
-/* ==================== 左侧：风格卡片网格 ==================== */
-.styles-gallery {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr); /* 6列网格用于更灵活的布局 */
-  gap: var(--spacing-md);
-  transform: rotate(35deg); /* 整体向右倾斜 35 度 */
-  padding: var(--spacing-lg);
-  overflow: visible; /* 允许卡片超出容器 */
-  position: relative; /* 定位上下文 */
-  min-height: 600px; /* 设置最小高度，防止容器塌陷 */
-  width: 100%; /* 固定宽度为父容器的100% */
-  max-width: 600px; /* 限制最大宽度，防止过度扩张 */
-}
+  /* ==================== 左侧：风格卡片网格 ==================== */
+  .styles-gallery {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    /* 6列网格用于更灵活的布局 */
+    gap: var(--spacing-md);
+    transform: rotate(35deg);
+    /* 整体向右倾斜 35 度 */
+    padding: var(--spacing-lg);
+    overflow: visible;
+    /* 允许卡片超出容器 */
+    position: relative;
+    /* 定位上下文 */
+    min-height: 600px;
+    /* 设置最小高度，防止容器塌陷 */
+    width: 100%;
+    /* 固定宽度为父容器的100% */
+    max-width: 600px;
+    /* 限制最大宽度，防止过度扩张 */
+  }
 
-.styles-card {
-  position: relative;
-  aspect-ratio: 3 / 4;
-  border-radius: 32px;  /* 圆角从 16px 增大到 32px */
-  overflow: hidden;
-  background-color: var(--color-bg-secondary);
-  transition: all 0.4s ease;
-  opacity: 0;  /* 初始透明 */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  will-change: opacity, transform;  /* 优化动画性能 */
-}
+  .styles-card {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    border-radius: 32px;
+    /* 圆角从 16px 增大到 32px */
+    overflow: hidden;
+    background-color: var(--color-bg-secondary);
+    transition: all 0.4s ease;
+    opacity: 0;
+    /* 初始透明 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    will-change: opacity, transform;
+    /* 优化动画性能 */
+  }
 
-/* 每个卡片的动画在下方单独定义 */
+  /* 每个卡片的动画在下方单独定义 */
 
-/* 灵活交错布局（6列网格）：
+  /* 灵活交错布局（6列网格）：
    使用 grid-column/grid-row 定位基础位置
    使用 transform 微调每个卡片的精确位置，实现自由布局
 */
 
-/* 卡片 1：右上角 */
-.styles-card:nth-child(1) {
-  grid-column: 3 / 5;
-  grid-row: 1;
-  width: 235px;
-  height: 195px;
-  transform: translate(-325px, 170px);
-}
-
-.styles-card:nth-child(1).animate-in {
-  animation: fadeInUp1 0.8s ease forwards;
-  animation-delay: 0s;
-}
-
-@keyframes fadeInUp1 {
-  0% {
-    opacity: 0;
-    transform: translate(-325px, 240px);  /* 从下方70px开始 (170 + 70) */
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-325px, 170px);  /* 最终位置 */
-  }
-}
-
-/* 卡片 2：右上角，与卡片1并排 */
-.styles-card:nth-child(2) {
-  grid-column: 5 / 7;
-  grid-row: 1;
-  width: 235px;
-  height: 195px;
-  transform: translate(-380px, 170px);
-}
-
-.styles-card:nth-child(2).animate-in {
-  animation: fadeInUp2 0.8s ease forwards;
-  animation-delay: 0.15s;
-}
-
-@keyframes fadeInUp2 {
-  0% { opacity: 0; transform: translate(-380px, 240px); }  /* 170 + 70 */
-  100% { opacity: 1; transform: translate(-380px, 170px); }
-}
-
-/* 卡片 3：左侧中间 */
-.styles-card:nth-child(3) {
-  grid-column: 1 / 3;
-  grid-row: 2;
-  width: 220px;
-  height: 290px;
-  transform: translate(-335px, 70px);
-}
-
-.styles-card:nth-child(3).animate-in {
-  animation: fadeInUp3 0.8s ease forwards;
-  animation-delay: 0.3s;
-}
-
-@keyframes fadeInUp3 {
-  0% { opacity: 0; transform: translate(-335px, 140px); }  /* 70 + 70 */
-  100% { opacity: 1; transform: translate(-335px, 70px); }
-}
-
-/* 卡片 4：中间 */
-.styles-card:nth-child(4) {
-  grid-column: 3 / 6;
-  grid-row: 2;
-  width: 367px;
-  height: 315px;
-  z-index: 2;
-  transform: translate(-325px, 170px);
-}
-
-.styles-card:nth-child(4).animate-in {
-  animation: fadeInUp4 0.8s ease forwards;
-  animation-delay: 0.45s;
-}
-
-@keyframes fadeInUp4 {
-  0% { opacity: 0; transform: translate(-325px, 240px); }  /* 170 + 70 */
-  100% { opacity: 1; transform: translate(-325px, 170px); }
-}
-
-/* 卡片 5：右侧，跨2行，向右突出 */
-.styles-card:nth-child(5) {
-  grid-column: 4 / 6;
-  grid-row: 2 / 4;
-  width: 240px;
-  height: 395px;
-  z-index: 3;
-  transform: translate(-80px, 170px);
-}
-
-.styles-card:nth-child(5).animate-in {
-  animation: fadeInUp5 0.8s ease forwards;
-  animation-delay: 0.6s;
-}
-
-@keyframes fadeInUp5 {
-  0% { opacity: 0; transform: translate(-80px, 240px); }  /* 170 + 70 */
-  100% { opacity: 1; transform: translate(-80px, 170px); }
-}
-
-/* 卡片 6：底部中间 */
-.styles-card:nth-child(6) {
-  grid-column: 3 / 5;
-  grid-row: 3;
-  width: 295px;
-  height: 400px;
-  transform: translate(-250px, 170px);
-}
-
-.styles-card:nth-child(6).animate-in {
-  animation: fadeInUp6 0.8s ease forwards;
-  animation-delay: 0.75s;
-}
-
-@keyframes fadeInUp6 {
-  0% { opacity: 0; transform: translate(-250px, 240px); }  /* 170 + 70 */
-  100% { opacity: 1; transform: translate(-250px, 170px); }
-}
-
-
-/* 悬浮效果：增加阴影和缩放，不影响位置偏移 */
-.styles-card:hover {
-  filter: brightness(1.1);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-  /* 不使用 transform，避免覆盖位置偏移 */
-}
-
-.styles-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform var(--transition);
-}
-
-.styles-card:hover img {
-  transform: scale(1.1);  /* 悬浮时图片放大 */
-}
-
-/* ==================== 右侧：内容区域 ==================== */
-.styles-content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-  margin-top: 120px; /* 向下偏移 120px */
-}
-
-/* 标题区域 */
-.styles-header {
-  margin-bottom: var(--spacing-md);
-  text-align: center; /* 居中对齐 */
-}
-
-.styles-label {
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-sm);
-  display: block;
-  text-align: center; /* 居中对齐 */
-}
-
-.styles-title {
-  font-size: 2.75rem;
-  font-weight: 700;
-  line-height: 1.1;
-  color: var(--color-text);
-  margin: 0 0 var(--spacing-md) 0;
-  letter-spacing: -0.02em;
-  text-align: center; /* 居中对齐 */
-}
-
-.styles-description {
-  font-size: 1.45rem;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-  margin: 0;
-  text-align: center; /* 居中对齐 */
-}
-
-/* 功能卡片容器（水平并列）*/
-.styles-features {
-  display: grid;
-  grid-template-columns: 380px 380px;  /* 宽度从 350px 增加到 380px */
-  gap: 24px;  /* 卡片之间间距 24px */
-  margin-top: var(--spacing-md);
-  justify-content: center;  /* 居中对齐 */
-}
-
-.styles-feature-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  padding: 32px;  /* 内边距 */
-  border: none;  /* 移除边框 */
-  transition: all var(--transition);
-  min-height: 230px;  /* 高度从 200px 增加到 230px */
-  box-sizing: border-box;  /* 确保 padding 包含在宽度内 */
-  text-align: center;  /* 卡片内文字居中对齐 */
-}
-
-.styles-feature-card:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateY(-4px);
-}
-
-.styles-feature-title {
-  font-size: 1.5rem;  /* 从 1.25rem 增大到 1.5rem (24px) */
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--color-text);
-  margin: 0 0 var(--spacing-sm) 0;
-}
-
-.styles-feature-description {
-  font-size: 1.25rem;  /* 从 1.125rem 增大到 1.25rem (20px) */
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-  margin: 0;
-}
-
-/* CTA 按钮 */
-.styles-cta {
-  margin-top: var(--spacing-lg);
-  text-align: center;  /* 按钮居中对齐 */
-}
-
-.styles-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 19px 17px;  /* 使用正常的内边距 */
-  font-size: 1.23rem;
-  font-weight: 600;
-  letter-spacing: 0.01;
-  text-transform: uppercase;
-  color: var(--color-bg);
-  background-color: #E5E5E5;  /* 浅灰色背景，不那么白 */
-  border: none;
-  border-radius: 10px;  /* 圆角从 8px 增大到 16px */
-  cursor: pointer;
-  transition: all var(--transition);
-  text-decoration: none;
-  transform: scale(0.85);  /* 整体缩小到 85%，视觉上更窄 */
-  transform-origin: center;  /* 从中心缩放 */
-}
-
-.styles-button:hover {
-  background-color: var(--color-text-secondary);
-  transform: scale(0.85) translateY(-2px);  /* 保持缩放效果 */
-  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.1);
-}
-
-/* ==================== 响应式设计 ==================== */
-
-/* 平板端（≤ 991px）*/
-@media (max-width: 991px) {
-  .styles-container {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-xl);
-  }
-
-  .styles-content {
-    order: 1;
-  }
-
-  /* 平板端：保持交错布局 */
-  .styles-gallery {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-sm);
-    order: 2;
-    padding: var(--spacing-md);
-    transform: rotate(35deg);
-  }
-
-  .styles-title {
-    font-size: 2.5rem;
-  }
-
-  .styles-features {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* 移动端（≤ 767px）*/
-@media (max-width: 767px) {
-  .styles {
-    padding: var(--spacing-xl) 0;
-  }
-
-  .styles-container {
-    padding: 0 var(--spacing-md);
-    gap: var(--spacing-2xl);
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* 所有内容居中 */
-  }
-
-  /* 移动端：简化为2列网格，保留旋转效果 */
-  .styles-gallery {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-sm);
-    transform: rotate(35deg);
-    padding: var(--spacing-md);
-    max-width: 500px; /* 限制最大宽度 */
-    margin: 0 auto; /* 居中 */
-  }
-
-  /* 移动端：重置交错布局，改为简单的2列排列 */
+  /* 卡片 1：右上角 */
   .styles-card:nth-child(1) {
-    grid-column: 1 / 2;
+    grid-column: 3 / 5;
     grid-row: 1;
-    transform: translate(0, 0); /* 重置transform */
-    width: 100%;
-    height: auto;
+    width: 235px;
+    height: 195px;
+    transform: translate(-325px, 170px);
   }
 
+  .styles-card:nth-child(1).animate-in {
+    animation: fadeInUp1 0.8s ease forwards;
+    animation-delay: 0s;
+  }
+
+  @keyframes fadeInUp1 {
+    0% {
+      opacity: 0;
+      transform: translate(-325px, 240px);
+      /* 从下方70px开始 (170 + 70) */
+    }
+
+    100% {
+      opacity: 1;
+      transform: translate(-325px, 170px);
+      /* 最终位置 */
+    }
+  }
+
+  /* 卡片 2：右上角，与卡片1并排 */
   .styles-card:nth-child(2) {
-    grid-column: 2 / 3;
+    grid-column: 5 / 7;
     grid-row: 1;
-    transform: translate(0, 0);
-    width: 100%;
-    height: auto;
+    width: 235px;
+    height: 195px;
+    transform: translate(-380px, 170px);
   }
 
+  .styles-card:nth-child(2).animate-in {
+    animation: fadeInUp2 0.8s ease forwards;
+    animation-delay: 0.15s;
+  }
+
+  @keyframes fadeInUp2 {
+    0% {
+      opacity: 0;
+      transform: translate(-380px, 240px);
+    }
+
+    /* 170 + 70 */
+    100% {
+      opacity: 1;
+      transform: translate(-380px, 170px);
+    }
+  }
+
+  /* 卡片 3：左侧中间 */
   .styles-card:nth-child(3) {
-    grid-column: 1 / 2;
+    grid-column: 1 / 3;
     grid-row: 2;
-    transform: translate(0, 0);
-    width: 100%;
-    height: auto;
+    width: 220px;
+    height: 290px;
+    transform: translate(-335px, 70px);
   }
 
+  .styles-card:nth-child(3).animate-in {
+    animation: fadeInUp3 0.8s ease forwards;
+    animation-delay: 0.3s;
+  }
+
+  @keyframes fadeInUp3 {
+    0% {
+      opacity: 0;
+      transform: translate(-335px, 140px);
+    }
+
+    /* 70 + 70 */
+    100% {
+      opacity: 1;
+      transform: translate(-335px, 70px);
+    }
+  }
+
+  /* 卡片 4：中间 */
   .styles-card:nth-child(4) {
-    grid-column: 2 / 3;
+    grid-column: 3 / 6;
     grid-row: 2;
-    transform: translate(0, 0);
-    width: 100%;
-    height: auto;
+    width: 367px;
+    height: 315px;
+    z-index: 2;
+    transform: translate(-325px, 170px);
   }
 
+  .styles-card:nth-child(4).animate-in {
+    animation: fadeInUp4 0.8s ease forwards;
+    animation-delay: 0.45s;
+  }
+
+  @keyframes fadeInUp4 {
+    0% {
+      opacity: 0;
+      transform: translate(-325px, 240px);
+    }
+
+    /* 170 + 70 */
+    100% {
+      opacity: 1;
+      transform: translate(-325px, 170px);
+    }
+  }
+
+  /* 卡片 5：右侧，跨2行，向右突出 */
   .styles-card:nth-child(5) {
-    grid-column: 1 / 2;
-    grid-row: 3;
-    transform: translate(0, 0);
-    width: 100%;
-    height: auto;
+    grid-column: 4 / 6;
+    grid-row: 2 / 4;
+    width: 240px;
+    height: 395px;
+    z-index: 3;
+    transform: translate(-80px, 170px);
   }
 
+  .styles-card:nth-child(5).animate-in {
+    animation: fadeInUp5 0.8s ease forwards;
+    animation-delay: 0.6s;
+  }
+
+  @keyframes fadeInUp5 {
+    0% {
+      opacity: 0;
+      transform: translate(-80px, 240px);
+    }
+
+    /* 170 + 70 */
+    100% {
+      opacity: 1;
+      transform: translate(-80px, 170px);
+    }
+  }
+
+  /* 卡片 6：底部中间 */
   .styles-card:nth-child(6) {
-    grid-column: 2 / 3;
+    grid-column: 3 / 5;
     grid-row: 3;
-    transform: translate(0, 0);
+    width: 295px;
+    height: 400px;
+    transform: translate(-250px, 170px);
+  }
+
+  .styles-card:nth-child(6).animate-in {
+    animation: fadeInUp6 0.8s ease forwards;
+    animation-delay: 0.75s;
+  }
+
+  @keyframes fadeInUp6 {
+    0% {
+      opacity: 0;
+      transform: translate(-250px, 240px);
+    }
+
+    /* 170 + 70 */
+    100% {
+      opacity: 1;
+      transform: translate(-250px, 170px);
+    }
+  }
+
+
+  /* 悬浮效果：增加阴影和缩放，不影响位置偏移 */
+  .styles-card:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    /* 不使用 transform，避免覆盖位置偏移 */
+  }
+
+  .styles-card img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition);
   }
 
-  /* 移除单个卡片的动画，但保持显示 */
-  .styles-card {
-    opacity: 1 !important; /* 强制显示卡片 */
-    animation: none !important; /* 移除动画 */
+  .styles-card:hover img {
+    transform: scale(1.1);
+    /* 悬浮时图片放大 */
   }
 
-  .styles-card.animate-in {
-    animation: none;
-    opacity: 1;
-  }
-
-  /* 右侧内容区域 */
+  /* ==================== 右侧：内容区域 ==================== */
   .styles-content {
-    margin-top: 0; /* 移除桌面端的 120px 偏移 */
-    width: 100%;
-    max-width: 600px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: var(--spacing-lg);
+    margin-top: 120px;
+    /* 向下偏移 120px */
   }
 
+  /* 标题区域 */
   .styles-header {
-    width: 100%;
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    /* 居中对齐 */
+  }
+
+  .styles-label {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+    display: block;
+    text-align: center;
+    /* 居中对齐 */
   }
 
   .styles-title {
-    font-size: 2rem;
+    font-size: 2.75rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--color-text);
+    margin: 0 0 var(--spacing-md) 0;
+    letter-spacing: -0.02em;
+    text-align: center;
+    /* 居中对齐 */
   }
 
   .styles-description {
-    font-size: 1rem;
-    padding: 0 var(--spacing-sm);
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0;
+    text-align: center;
   }
 
-  /* 功能卡片垂直堆叠 */
+  /* 功能卡片容器（水平并列）*/
   .styles-features {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-md);
-    width: 100%;
-    max-width: 500px;
+    display: grid;
+    grid-template-columns: 380px 380px;
+    /* 宽度从 350px 增加到 380px */
+    gap: 24px;
+    /* 卡片之间间距 24px */
+    margin-top: var(--spacing-md);
+    justify-content: center;
+    /* 居中对齐 */
   }
 
   .styles-feature-card {
-    padding: var(--spacing-lg);
-    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 32px;
+    /* 内边距 */
+    border: none;
+    /* 移除边框 */
+    transition: all var(--transition);
+    min-height: 230px;
+    /* 高度从 200px 增加到 230px */
     box-sizing: border-box;
+    /* 确保 padding 包含在宽度内 */
+    text-align: center;
+    /* 卡片内文字居中对齐 */
+  }
+
+  .styles-feature-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-4px);
   }
 
   .styles-feature-title {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
+    /* 从 1.25rem 增大到 1.5rem (24px) */
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-text);
+    margin: 0 0 var(--spacing-sm) 0;
   }
 
   .styles-feature-description {
-    font-size: 1rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 1.25rem;
+    /* 从 1.125rem 增大到 1.25rem (20px) */
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0;
   }
 
+  /* CTA 按钮 */
   .styles-cta {
-    width: 100%;
-    max-width: 500px;
+    margin-top: var(--spacing-lg);
+    text-align: center;
+    /* 按钮居中对齐 */
   }
 
   .styles-button {
-    width: 100%;
-    padding: 16px 24px;
-    transform: scale(1); /* 移除桌面端的 0.85 缩放 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 19px 17px;
+    /* 使用正常的内边距 */
+    font-size: 1.23rem;
+    font-weight: 600;
+    letter-spacing: 0.01;
+    text-transform: uppercase;
+    color: var(--color-bg);
+    background-color: #E5E5E5;
+    /* 浅灰色背景，不那么白 */
+    border: none;
+    border-radius: 10px;
+    /* 圆角从 8px 增大到 16px */
+    cursor: pointer;
+    transition: all var(--transition);
+    text-decoration: none;
+    transform: scale(0.85);
+    /* 整体缩小到 85%，视觉上更窄 */
+    transform-origin: center;
+    /* 从中心缩放 */
   }
 
   .styles-button:hover {
-    transform: scale(1) translateY(-2px);
-  }
-}
-
-/* 小屏移动端（≤ 479px）*/
-@media (max-width: 479px) {
-  .styles {
-    padding: var(--spacing-lg) 0;
+    background-color: var(--color-text-secondary);
+    transform: scale(0.85) translateY(-2px);
+    /* 保持缩放效果 */
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.1);
   }
 
-  .styles-container {
-    padding: 0 var(--spacing-sm);
-    gap: var(--spacing-xl);
+  /* ==================== 响应式设计 ==================== */
+
+  /* 平板端（≤ 991px）*/
+  @media (max-width: 991px) {
+    .styles-container {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-xl);
+    }
+
+    .styles-content {
+      order: 1;
+    }
+
+    /* 平板端：保持交错布局 */
+    .styles-gallery {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-sm);
+      order: 2;
+      padding: var(--spacing-md);
+      transform: rotate(35deg);
+    }
+
+    .styles-title {
+      font-size: 2.5rem;
+    }
+
+    .styles-features {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
-  .styles-title {
-    font-size: 1.75rem;
+  /* 移动端（≤ 767px）*/
+  @media (max-width: 767px) {
+    .styles {
+      padding: var(--spacing-xl) 0;
+    }
+
+    .styles-container {
+      padding: 0 var(--spacing-md);
+      gap: var(--spacing-2xl);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* 所有内容居中 */
+    }
+
+    /* 移动端：简化为2列网格，保留旋转效果 */
+    .styles-gallery {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-sm);
+      transform: rotate(35deg);
+      padding: var(--spacing-md);
+      max-width: 500px;
+      /* 限制最大宽度 */
+      margin: 0 auto;
+      /* 居中 */
+    }
+
+    /* 移动端：重置交错布局，改为简单的2列排列 */
+    .styles-card:nth-child(1) {
+      grid-column: 1 / 2;
+      grid-row: 1;
+      transform: translate(0, 0);
+      /* 重置transform */
+      width: 100%;
+      height: auto;
+    }
+
+    .styles-card:nth-child(2) {
+      grid-column: 2 / 3;
+      grid-row: 1;
+      transform: translate(0, 0);
+      width: 100%;
+      height: auto;
+    }
+
+    .styles-card:nth-child(3) {
+      grid-column: 1 / 2;
+      grid-row: 2;
+      transform: translate(0, 0);
+      width: 100%;
+      height: auto;
+    }
+
+    .styles-card:nth-child(4) {
+      grid-column: 2 / 3;
+      grid-row: 2;
+      transform: translate(0, 0);
+      width: 100%;
+      height: auto;
+    }
+
+    .styles-card:nth-child(5) {
+      grid-column: 1 / 2;
+      grid-row: 3;
+      transform: translate(0, 0);
+      width: 100%;
+      height: auto;
+    }
+
+    .styles-card:nth-child(6) {
+      grid-column: 2 / 3;
+      grid-row: 3;
+      transform: translate(0, 0);
+      width: 100%;
+      height: auto;
+    }
+
+    /* 移除单个卡片的动画，但保持显示 */
+    .styles-card {
+      opacity: 1 !important;
+      /* 强制显示卡片 */
+      animation: none !important;
+      /* 移除动画 */
+    }
+
+    .styles-card.animate-in {
+      animation: none;
+      opacity: 1;
+    }
+
+    /* 右侧内容区域 */
+    .styles-content {
+      margin-top: 0;
+      /* 移除桌面端的 120px 偏移 */
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .styles-header {
+      width: 100%;
+    }
+
+    .styles-title {
+      font-size: 2rem;
+    }
+
+    .styles-description {
+      font-size: 1rem;
+      padding: 0 var(--spacing-sm);
+    }
+
+    /* 功能卡片垂直堆叠 */
+    .styles-features {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .styles-feature-card {
+      padding: var(--spacing-lg);
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .styles-feature-title {
+      font-size: 1.25rem;
+    }
+
+    .styles-feature-description {
+      font-size: 1rem;
+    }
+
+    .styles-cta {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .styles-button {
+      width: 100%;
+      padding: 16px 24px;
+      transform: scale(1);
+      /* 移除桌面端的 0.85 缩放 */
+    }
+
+    .styles-button:hover {
+      transform: scale(1) translateY(-2px);
+    }
   }
 
-  .styles-description {
-    font-size: 0.9rem;
-  }
+  /* 小屏移动端（≤ 479px）*/
+  @media (max-width: 479px) {
+    .styles {
+      padding: var(--spacing-lg) 0;
+    }
 
-  .styles-gallery {
-    gap: 0.5rem;
-    padding: var(--spacing-sm);
-    max-width: 400px;
-  }
+    .styles-container {
+      padding: 0 var(--spacing-sm);
+      gap: var(--spacing-xl);
+    }
 
-  .styles-card {
-    opacity: 1 !important; /* 确保卡片可见 */
-  }
+    .styles-title {
+      font-size: 1.75rem;
+    }
 
-  .styles-features {
-    gap: var(--spacing-sm);
-    max-width: 400px;
-  }
+    .styles-description {
+      font-size: 0.9rem;
+    }
 
-  .styles-feature-card {
-    padding: var(--spacing-md);
-    min-height: auto;
-  }
+    .styles-gallery {
+      gap: 0.5rem;
+      padding: var(--spacing-sm);
+      max-width: 400px;
+    }
 
-  .styles-feature-title {
-    font-size: 1.125rem;
-  }
+    .styles-card {
+      opacity: 1 !important;
+      /* 确保卡片可见 */
+    }
 
-  .styles-feature-description {
-    font-size: 0.875rem;
-  }
+    .styles-features {
+      gap: var(--spacing-sm);
+      max-width: 400px;
+    }
 
-  .styles-cta {
-    max-width: 400px;
-  }
+    .styles-feature-card {
+      padding: var(--spacing-md);
+      min-height: auto;
+    }
 
-  .styles-button {
-    padding: 14px 20px;
-    font-size: 1.1rem;
+    .styles-feature-title {
+      font-size: 1.125rem;
+    }
+
+    .styles-feature-description {
+      font-size: 0.875rem;
+    }
+
+    .styles-cta {
+      max-width: 400px;
+    }
+
+    .styles-button {
+      padding: 14px 20px;
+      font-size: 1.1rem;
+    }
   }
-}
 </style>
 
 <!-- ===================================
@@ -584,7 +675,8 @@
         <span class="styles-label">STYLES</span>
         <h2 class="styles-title">Your Style, Your Story</h2>
         <p class="styles-description">
-          Explore curated looks and visual moods — from <br>minimal to cinematic — to express your brand <br>and artistic vision.
+          Explore curated looks and visual moods — from <br>minimal to cinematic — to express your brand <br>and
+          artistic vision.
         </p>
       </div>
 
@@ -620,50 +712,50 @@
      =================================== -->
 
 <script>
-(function() {
-  'use strict';
+  (function () {
+    'use strict';
 
-  /**
-   * 初始化 Styles 模块
-   * 功能：滚动进入视口时触发卡片淡入动画
-   */
-  const initStyles = () => {
-    const cards = document.querySelectorAll('.styles-card');
+    /**
+     * 初始化 Styles 模块
+     * 功能：滚动进入视口时触发卡片淡入动画
+     */
+    const initStyles = () => {
+      const cards = document.querySelectorAll('.styles-card');
 
-    // 检查元素是否存在
-    if (cards.length === 0) return;
+      // 检查元素是否存在
+      if (cards.length === 0) return;
 
-    // 创建 Intersection Observer 实例
-    const observerOptions = {
-      threshold: 0.2,  // 当 20% 的元素可见时触发
-      rootMargin: '0px 0px -50px 0px'  // 提前触发动画
+      // 创建 Intersection Observer 实例
+      const observerOptions = {
+        threshold: 0.2,  // 当 20% 的元素可见时触发
+        rootMargin: '0px 0px -50px 0px'  // 提前触发动画
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // 添加动画类
+            entry.target.classList.add('animate-in');
+            // 一旦动画触发，停止观察该元素
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      // 开始观察所有卡片
+      cards.forEach(card => {
+        observer.observe(card);
+      });
+
+      console.log('✅ Styles module initialized with', cards.length, 'cards');
     };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // 添加动画类
-          entry.target.classList.add('animate-in');
-          // 一旦动画触发，停止观察该元素
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
+    // DOM 加载完成后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initStyles);
+    } else {
+      initStyles();
+    }
 
-    // 开始观察所有卡片
-    cards.forEach(card => {
-      observer.observe(card);
-    });
-
-    console.log('✅ Styles module initialized with', cards.length, 'cards');
-  };
-
-  // DOM 加载完成后初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initStyles);
-  } else {
-    initStyles();
-  }
-
-})();
+  })();
 </script>

@@ -49,6 +49,15 @@
       /* IE and Edge */
     }
 
+    body.page-index {
+      font-family: 'Sora', sans-serif;
+    }
+
+    body.page-index .banner,
+    body.page-index .banner * {
+      font-family: var(--font-primary);
+    }
+
     /* 隐藏 Webkit 浏览器的滚动条 (Chrome, Safari, Opera) */
     html::-webkit-scrollbar,
     body::-webkit-scrollbar {
@@ -1312,11 +1321,11 @@
   /* 描述文字 - Sora 细体，减小字号 */
   .compose-description {
     font-family: 'Sora', sans-serif;
-    width: 48%;
+    width: 55%;
     font-size: clamp(1rem, 1.8vw, 0.75rem);
     font-weight: 300;
     line-height: 1.6;
-    color: #FFFFFF;
+    color: #a5a5a5;
     margin-bottom: var(--spacing-lg);
     text-align: left;
   }
@@ -1758,7 +1767,7 @@
   }
 
   /* 卡片描述 - 在卡片下部，灰色细体 */
-  .workflow-cmps-card-description {
+.workflow-cmps-card-description {
     font-family: 'Sora', sans-serif;
     font-size: 0.875rem;
     font-weight: 300;
@@ -2052,7 +2061,7 @@
       // 获取所有左侧卡片和右侧主视频区域
       const cards = document.querySelectorAll('.workflow-cmps-card');
       const mainVideo = document.querySelector('.workflow-cmps-visual-video');
-      
+
       if (!mainVideo) return;
 
       // 视频加载错误处理
@@ -2076,7 +2085,7 @@
         card.addEventListener('click', function () {
           // 获取当前卡片的视频源
           const videoSrc = cardVideo.querySelector('source').src;
-          
+
           // 更新右侧主视频
           mainVideo.src = videoSrc;
           mainVideo.play().catch(err => {
@@ -2172,6 +2181,7 @@
     }
   })();
 </script>
+
 
   <!-- ===== BRAND-CONTROL_CMPS SECTION ===== -->
 <!-- ===== BRAND-CONTROL_CMPS 模块 ===== -->

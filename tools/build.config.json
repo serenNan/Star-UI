@@ -15,6 +15,7 @@
     "question",
     "footer"
   ],
+  "bodyClass": "page-index",
   "output": "index.html",
   "description": "Star-UI Build Configuration - Define section loading order"
 }

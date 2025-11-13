@@ -1,534 +1,604 @@
 <!-- ===== APIs Section Module ===== -->
 <style>
-/* APIs Section Styles */
-.apis-section {
-  padding: var(--spacing-3xl) 0 0 0; /* 顶部正常, 底部 0px */
-  background: var(--color-bg);
-}
+  /* APIs Section Styles */
+  .apis-section {
+    padding: var(--spacing-3xl) 0 0 0;
+    /* 顶部正常, 底部 0px */
+    background: var(--color-bg);
+  }
 
-.apis-header {
-  text-align: center;
-  max-width: 900px;
-  margin: 0 auto var(--spacing-2xl);
-  padding: 0 var(--spacing-lg);
-}
+  .apis-header {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto var(--spacing-2xl);
+    padding: 0 var(--spacing-lg);
+  }
 
-.apis-label {
-  font-size: 1.25rem;
-  letter-spacing: 0.1em;
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-sm);
-  font-weight: 600;
-}
+  .apis-label {
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    color: #888888;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
 
-.apis-title {
-  font-size: 2.6rem;
-  font-weight: 800;
-  margin-bottom: var(--spacing-md);
-  line-height: 1.1;
-  color: #ffffff;
-}
+  .apis-title {
+    font-size: 2.6rem;
+    font-weight: 800;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.1;
+    color: #ffffff;
+  }
 
-.apis-description {
-  font-size: 1.45rem;
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-  max-width: 1000px;
-  margin: 0 auto;
-}
+  .apis-description {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
 
-/* Grid Layout - 自由定位布局 */
-.apis-grid {
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-  position: relative;
-  min-height: 2000px; /* 根据需要调整容器高度 */
-}
+  /* Grid Layout - 自由定位布局 */
+  .apis-grid {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+    position: relative;
+    min-height: 2000px;
+    /* 根据需要调整容器高度 */
+  }
 
-/* API Card Styles */
-.api-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-  border: none;
-  border-radius: 16px;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: absolute; /* 改为绝对定位，方便自由摆放 */
-  cursor: pointer;
-}
+  /* API Card Styles */
+  .api-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: absolute;
+    /* 改为绝对定位，方便自由摆放 */
+    cursor: pointer;
+  }
 
-.api-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
+  .api-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
 
-/* 卡片位置和大小 - 可自由调整 */
-/*
+  /* 卡片位置和大小 - 可自由调整 */
+  /*
   使用方式：
   - top/left: 控制位置偏移
   - width/height: 控制卡片大小
   - transform: translateX() translateY() 进行微调
 */
 
-.api-card:nth-child(1) {
-  top: 0;
-  left: 100px;
-  width: 830px;
-  height: 282px;
-}
+  .api-card:nth-child(1) {
+    top: 0;
+    left: 100px;
+    width: 830px;
+    height: 282px;
+  }
 
-.api-card:nth-child(2) {
-  top: 0;
-  left: 957px;
-  width: 362px;
-  height: 598px;
-}
+  .api-card:nth-child(2) {
+    top: 0;
+    left: 957px;
+    width: 362px;
+    height: 598px;
+  }
 
-.api-card:nth-child(3) {
-  top: 305px;
-  left: 100px;
-  width: 305px;
-  height: 290px;
-}
+  .api-card:nth-child(3) {
+    top: 305px;
+    left: 100px;
+    width: 305px;
+    height: 290px;
+  }
 
-.api-card:nth-child(4) {
-  top: 305px;
-  left: 435px;
-  width: 498px;
-  height: 290px;
-}
+  .api-card:nth-child(4) {
+    top: 305px;
+    left: 435px;
+    width: 498px;
+    height: 290px;
+  }
 
-.api-card:nth-child(5) {
-  top: 615px;
-  left: 100px;
-  width: 545px;
-  height: 605px;
-}
+  .api-card:nth-child(5) {
+    top: 615px;
+    left: 100px;
+    width: 545px;
+    height: 605px;
+  }
 
-.api-card:nth-child(6) {
-  top: 615px;
-  left: 670px;
-  width: 649px;
-  height: 293px;
-}
+  .api-card:nth-child(6) {
+    top: 615px;
+    left: 670px;
+    width: 649px;
+    height: 293px;
+  }
 
-.api-card:nth-child(7) {
-  top: 928px;
-  left: 670px;
-  width: 305px;
-  height: 290px;
-}
+  .api-card:nth-child(7) {
+    top: 928px;
+    left: 670px;
+    width: 305px;
+    height: 290px;
+  }
 
-.api-card:nth-child(8) {
-  top: 928px;
-  left: 1000px;
-  width: 318px;
-  height: 290px;
-}
+  .api-card:nth-child(8) {
+    top: 928px;
+    left: 1000px;
+    width: 318px;
+    height: 290px;
+  }
 
-.api-card:nth-child(9) {
-  top: 1240px;
-  left: 100px;
-  width: 643px;
-  height: 290px;
-}
+  .api-card:nth-child(9) {
+    top: 1240px;
+    left: 100px;
+    width: 643px;
+    height: 290px;
+  }
 
-.api-card:nth-child(10) {
-  top: 1240px;
-  left: 766px;
-  width: 553px;
-  height: 290px;
-}
+  .api-card:nth-child(10) {
+    top: 1240px;
+    left: 766px;
+    width: 553px;
+    height: 290px;
+  }
 
-/* API Image */
-.api-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.api-card:hover .api-image {
-  transform: scale(1.05);
-}
-
-/* API Overlay Content - 始终显示在左上角 */
-.api-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: var(--spacing-lg);
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
-  z-index: 2;
-}
-
-/* 卡片编号 - 已隐藏 */
-.api-number {
-  display: none;
-}
-
-.api-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: -6px;
-  color: var(--color-text);
-  line-height: 1.3;
-}
-
-.api-description {
-  font-size: 1.3rem;
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.5;
-}
-
-/* Responsive Design */
-@media (max-width: 991px) {
-  /* 平板端: 缩小布局，保持桌面端排列 */
-  .apis-grid {
-    min-height: 1200px; /* 缩小后的容器高度 (原2000px * 0.6) */
-    padding: 0 var(--spacing-md);
+  /* API Image */
+  .api-image {
     width: 100%;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .apis-header {
-    margin-bottom: var(--spacing-xl);
+  .api-card:hover .api-image {
+    transform: scale(1.05);
   }
 
-  .apis-title {
-    font-size: 2rem;
+  /* API Overlay Content - 始终显示在左上角 */
+  .api-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: var(--spacing-lg);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+    z-index: 2;
   }
 
-  .apis-description {
+  /* 卡片编号 - 已隐藏 */
+  .api-number {
+    display: none;
+  }
+
+  .api-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: -6px;
+    color: var(--color-text);
+    line-height: 1.3;
+  }
+
+  .api-description {
+    font-family: 'Sora', sans-serif;
     font-size: 1.2rem;
+    font-weight: 300;
+    color: lightgray;
+    line-height: 1.6;
   }
 
-  /* 所有卡片按比例缩小 60% */
-  .api-card:nth-child(1) {
-    top: 0;
-    left: 4.3125%;
-    width: 62.25%;
-    height: 169px;  /* 282 * 0.6 */
+  /* Responsive Design */
+  @media (max-width: 991px) {
+
+    /* 平板端: 缩小布局，保持桌面端排列 */
+    .apis-grid {
+      min-height: 1200px;
+      /* 缩小后的容器高度 (原2000px * 0.6) */
+      padding: 0 var(--spacing-md);
+      width: 100%;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .apis-header {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .apis-title {
+      font-size: 2rem;
+    }
+
+    .apis-description {
+      font-size: 1.2rem;
+    }
+
+    /* 所有卡片按比例缩小 60% */
+    .api-card:nth-child(1) {
+      top: 0;
+      left: 4.3125%;
+      width: 62.25%;
+      height: 169px;
+      /* 282 * 0.6 */
+    }
+
+    .api-card:nth-child(2) {
+      top: 0;
+      left: 68.5625%;
+      width: 27.125%;
+      height: 359px;
+      /* 598 * 0.6 */
+    }
+
+    .api-card:nth-child(3) {
+      top: 183px;
+      left: 4.3125%;
+      width: 22.875%;
+      height: 174px;
+      /* 290 * 0.6 */
+    }
+
+    .api-card:nth-child(4) {
+      top: 183px;
+      left: 29.4375%;
+      width: 37.375%;
+      height: 174px;
+      /* 290 * 0.6 */
+    }
+
+    .api-card:nth-child(5) {
+      top: 369px;
+      left: 4.3125%;
+      width: 40.875%;
+      height: 363px;
+      /* 605 * 0.6 */
+    }
+
+    .api-card:nth-child(6) {
+      top: 369px;
+      left: 47.0625%;
+      width: 48.625%;
+      height: 176px;
+      /* 293 * 0.6 */
+    }
+
+    .api-card:nth-child(7) {
+      top: 557px;
+      left: 47.0625%;
+      width: 22.875%;
+      height: 174px;
+      /* 290 * 0.6 */
+    }
+
+    .api-card:nth-child(8) {
+      top: 557px;
+      left: 71.8125%;
+      width: 23.875%;
+      height: 174px;
+      /* 290 * 0.6 */
+    }
+
+    .api-card:nth-child(9) {
+      top: 744px;
+      left: 4.3125%;
+      width: 48.25%;
+      height: 174px;
+      /* 290 * 0.6 */
+    }
+
+    .api-card:nth-child(10) {
+      top: 744px;
+      left: 54.3125%;
+      width: 41.5%;
+      height: 174px;
+      /* 290 * 0.6 */
+    }
+
+    /* 缩小文字 */
+    .api-title {
+      font-size: 1.2rem;
+    }
+
+    .api-description {
+      font-size: 1rem;
+    }
+
+    .api-overlay {
+      padding: var(--spacing-md);
+    }
   }
 
-  .api-card:nth-child(2) {
-    top: 0;
-    left: 68.5625%;
-    width: 27.125%;
-    height: 359px;  /* 598 * 0.6 */
+  @media (max-width: 767px) {
+    .apis-section {
+      padding: var(--spacing-2xl) 0;
+    }
+
+    /* 移动端: 进一步缩小布局 40% */
+    .apis-grid {
+      min-height: 800px;
+      /* 原2000px * 0.4 */
+      padding: 0 var(--spacing-sm);
+      width: 100%;
+      max-width: 540px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .apis-title {
+      font-size: 1.8rem;
+    }
+
+    .apis-description {
+      font-size: 1rem;
+    }
+
+    /* 所有卡片按比例缩小 40% */
+    .api-card:nth-child(1) {
+      top: 0;
+      left: 4.907%;
+      width: 61.481%;
+      /* 830 * 0.4 */
+      height: 113px;
+      /* 282 * 0.4 */
+    }
+
+    .api-card:nth-child(2) {
+      top: 0;
+      left: 68.426%;
+      width: 26.852%;
+      /* 362 * 0.4 */
+      height: 239px;
+      /* 598 * 0.4 */
+    }
+
+    .api-card:nth-child(3) {
+      top: 122px;
+      left: 4.907%;
+      width: 22.593%;
+      /* 305 * 0.4 */
+      height: 116px;
+      /* 290 * 0.4 */
+    }
+
+    .api-card:nth-child(4) {
+      top: 122px;
+      left: 29.722%;
+      width: 36.852%;
+      /* 498 * 0.4 */
+      height: 116px;
+      /* 290 * 0.4 */
+    }
+
+    .api-card:nth-child(5) {
+      top: 246px;
+      left: 4.907%;
+      width: 40.370%;
+      /* 545 * 0.4 */
+      height: 242px;
+      /* 605 * 0.4 */
+    }
+
+    .api-card:nth-child(6) {
+      top: 246px;
+      left: 47.13%;
+      width: 48.148%;
+      /* 649 * 0.4 */
+      height: 117px;
+      /* 293 * 0.4 */
+    }
+
+    .api-card:nth-child(7) {
+      top: 371px;
+      left: 47.13%;
+      width: 22.593%;
+      /* 305 * 0.4 */
+      height: 116px;
+      /* 290 * 0.4 */
+    }
+
+    .api-card:nth-child(8) {
+      top: 371px;
+      left: 71.574%;
+      width: 23.519%;
+      /* 318 * 0.4 */
+      height: 116px;
+      /* 290 * 0.4 */
+    }
+
+    .api-card:nth-child(9) {
+      top: 496px;
+      left: 4.907%;
+      width: 47.593%;
+      /* 643 * 0.4 */
+      height: 116px;
+      /* 290 * 0.4 */
+    }
+
+    .api-card:nth-child(10) {
+      top: 496px;
+      left: 54.167%;
+      width: 40.926%;
+      /* 553 * 0.4 */
+      height: 116px;
+      /* 290 * 0.4 */
+    }
+
+    /* 移动端文字进一步缩小 */
+    .api-title {
+      font-size: 0.9rem;
+    }
+
+    .api-description {
+      font-size: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .api-overlay {
+      padding: var(--spacing-sm);
+    }
   }
 
-  .api-card:nth-child(3) {
-    top: 183px;
-    left: 4.3125%;
-    width: 22.875%;
-    height: 174px;  /* 290 * 0.6 */
+  @media (max-width: 479px) {
+    .apis-grid {
+      min-height: 620px;
+      padding: 0 0.75rem;
+      width: 100%;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .apis-title {
+      font-size: 1.6rem;
+    }
+
+    .apis-description {
+      font-size: 0.95rem;
+    }
+
+    .api-card:nth-child(1) {
+      top: 0;
+      left: 11.9065%;
+      width: 51.875%;
+      height: 85px;
+    }
+
+    .api-card:nth-child(2) {
+      top: 0;
+      left: 65.4685%;
+      width: 22.625%;
+      height: 179px;
+    }
+
+    .api-card:nth-child(3) {
+      top: 92px;
+      left: 11.9065%;
+      width: 19.062%;
+      height: 87px;
+    }
+
+    .api-card:nth-child(4) {
+      top: 92px;
+      left: 32.8435%;
+      width: 31.125%;
+      height: 87px;
+    }
+
+    .api-card:nth-child(5) {
+      top: 185px;
+      left: 11.9065%;
+      width: 34.062%;
+      height: 182px;
+    }
+
+    .api-card:nth-child(6) {
+      top: 185px;
+      left: 47.5315%;
+      width: 40.562%;
+      height: 88px;
+    }
+
+    .api-card:nth-child(7) {
+      top: 279px;
+      left: 47.5315%;
+      width: 19.062%;
+      height: 87px;
+    }
+
+    .api-card:nth-child(8) {
+      top: 279px;
+      left: 68.1565%;
+      width: 19.875%;
+      height: 87px;
+    }
+
+    .api-card:nth-child(9) {
+      top: 372px;
+      left: 11.9065%;
+      width: 40.188%;
+      height: 87px;
+    }
+
+    .api-card:nth-child(10) {
+      top: 372px;
+      left: 53.5315%;
+      width: 34.562%;
+      height: 87px;
+    }
+
+    .api-title {
+      font-size: 0.85rem;
+    }
+
+    .api-description {
+      font-size: 0.7rem;
+      line-height: 1.35;
+    }
+
+    .api-overlay {
+      padding: 0.6rem;
+    }
   }
 
-  .api-card:nth-child(4) {
-    top: 183px;
-    left: 29.4375%;
-    width: 37.375%;
-    height: 174px;  /* 290 * 0.6 */
-  }
-
-  .api-card:nth-child(5) {
-    top: 369px;
-    left: 4.3125%;
-    width: 40.875%;
-    height: 363px;  /* 605 * 0.6 */
-  }
-
-  .api-card:nth-child(6) {
-    top: 369px;
-    left: 47.0625%;
-    width: 48.625%;
-    height: 176px;  /* 293 * 0.6 */
-  }
-
-  .api-card:nth-child(7) {
-    top: 557px;
-    left: 47.0625%;
-    width: 22.875%;
-    height: 174px;  /* 290 * 0.6 */
-  }
-
-  .api-card:nth-child(8) {
-    top: 557px;
-    left: 71.8125%;
-    width: 23.875%;
-    height: 174px;  /* 290 * 0.6 */
-  }
-
-  .api-card:nth-child(9) {
-    top: 744px;
-    left: 4.3125%;
-    width: 48.25%;
-    height: 174px;  /* 290 * 0.6 */
-  }
-
-  .api-card:nth-child(10) {
-    top: 744px;
-    left: 54.3125%;
-    width: 41.5%;
-    height: 174px;  /* 290 * 0.6 */
-  }
-
-  /* 缩小文字 */
-  .api-title {
-    font-size: 1.2rem;
-  }
-
-  .api-description {
-    font-size: 1rem;
-  }
-
-  .api-overlay {
-    padding: var(--spacing-md);
-  }
-}
-
-@media (max-width: 767px) {
-  .apis-section {
-    padding: var(--spacing-2xl) 0;
-  }
-
-  /* 移动端: 进一步缩小布局 40% */
-  .apis-grid {
-    min-height: 800px; /* 原2000px * 0.4 */
-    padding: 0 var(--spacing-sm);
-    width: 100%;
-    max-width: 540px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .apis-title {
-    font-size: 1.8rem;
-  }
-
-  .apis-description {
-    font-size: 1rem;
-  }
-
-  /* 所有卡片按比例缩小 40% */
-  .api-card:nth-child(1) {
-    top: 0;
-    left: 4.907%;
-    width: 61.481%;   /* 830 * 0.4 */
-    height: 113px;  /* 282 * 0.4 */
-  }
-
-  .api-card:nth-child(2) {
-    top: 0;
-    left: 68.426%;
-    width: 26.852%;   /* 362 * 0.4 */
-    height: 239px;  /* 598 * 0.4 */
-  }
-
-  .api-card:nth-child(3) {
-    top: 122px;
-    left: 4.907%;
-    width: 22.593%;   /* 305 * 0.4 */
-    height: 116px;  /* 290 * 0.4 */
-  }
-
-  .api-card:nth-child(4) {
-    top: 122px;
-    left: 29.722%;
-    width: 36.852%;   /* 498 * 0.4 */
-    height: 116px;  /* 290 * 0.4 */
-  }
-
-  .api-card:nth-child(5) {
-    top: 246px;
-    left: 4.907%;
-    width: 40.370%;   /* 545 * 0.4 */
-    height: 242px;  /* 605 * 0.4 */
-  }
-
-  .api-card:nth-child(6) {
-    top: 246px;
-    left: 47.13%;
-    width: 48.148%;   /* 649 * 0.4 */
-    height: 117px;  /* 293 * 0.4 */
-  }
-
-  .api-card:nth-child(7) {
-    top: 371px;
-    left: 47.13%;
-    width: 22.593%;   /* 305 * 0.4 */
-    height: 116px;  /* 290 * 0.4 */
-  }
-
-  .api-card:nth-child(8) {
-    top: 371px;
-    left: 71.574%;
-    width: 23.519%;   /* 318 * 0.4 */
-    height: 116px;  /* 290 * 0.4 */
-  }
-
-  .api-card:nth-child(9) {
-    top: 496px;
-    left: 4.907%;
-    width: 47.593%;   /* 643 * 0.4 */
-    height: 116px;  /* 290 * 0.4 */
-  }
-
-  .api-card:nth-child(10) {
-    top: 496px;
-    left: 54.167%;
-    width: 40.926%;   /* 553 * 0.4 */
-    height: 116px;  /* 290 * 0.4 */
-  }
-
-  /* 移动端文字进一步缩小 */
-  .api-title {
-    font-size: 0.9rem;
-  }
-
-  .api-description {
-    font-size: 0.75rem;
-    line-height: 1.4;
-  }
-
-  .api-overlay {
-    padding: var(--spacing-sm);
-  }
-}
-
-@media (max-width: 479px) {
-  .apis-grid {
-    min-height: 620px;
-    padding: 0 0.75rem;
-    width: 100%;
-    max-width: 480px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .apis-title {
-    font-size: 1.6rem;
-  }
-
-  .apis-description {
-    font-size: 0.95rem;
-  }
-
-  .api-card:nth-child(1) {
-    top: 0;
-    left: 11.9065%;
-    width: 51.875%;
-    height: 85px;
-  }
-
-  .api-card:nth-child(2) {
-    top: 0;
-    left: 65.4685%;
-    width: 22.625%;
-    height: 179px;
-  }
-
-  .api-card:nth-child(3) {
-    top: 92px;
-    left: 11.9065%;
-    width: 19.062%;
-    height: 87px;
-  }
-
-  .api-card:nth-child(4) {
-    top: 92px;
-    left: 32.8435%;
-    width: 31.125%;
-    height: 87px;
-  }
-
-  .api-card:nth-child(5) {
-    top: 185px;
-    left: 11.9065%;
-    width: 34.062%;
-    height: 182px;
-  }
-
-  .api-card:nth-child(6) {
-    top: 185px;
-    left: 47.5315%;
-    width: 40.562%;
-    height: 88px;
-  }
-
-  .api-card:nth-child(7) {
-    top: 279px;
-    left: 47.5315%;
-    width: 19.062%;
-    height: 87px;
-  }
-
-  .api-card:nth-child(8) {
-    top: 279px;
-    left: 68.1565%;
-    width: 19.875%;
-    height: 87px;
-  }
-
-  .api-card:nth-child(9) {
-    top: 372px;
-    left: 11.9065%;
-    width: 40.188%;
-    height: 87px;
-  }
-
-  .api-card:nth-child(10) {
-    top: 372px;
-    left: 53.5315%;
-    width: 34.562%;
-    height: 87px;
-  }
-
-  .api-title {
-    font-size: 0.85rem;
-  }
-
-  .api-description {
-    font-size: 0.7rem;
-    line-height: 1.35;
-  }
-
-  .api-overlay {
-    padding: 0.6rem;
-  }
-}
-
-/* Animation */
-.api-card {
-  opacity: 0;
-  animation: fadeInUp 0.6s ease forwards;
-}
-
-.api-card:nth-child(1) { animation-delay: 0.1s; }
-.api-card:nth-child(2) { animation-delay: 0.2s; }
-.api-card:nth-child(3) { animation-delay: 0.3s; }
-.api-card:nth-child(4) { animation-delay: 0.4s; }
-.api-card:nth-child(5) { animation-delay: 0.5s; }
-.api-card:nth-child(6) { animation-delay: 0.6s; }
-.api-card:nth-child(7) { animation-delay: 0.7s; }
-.api-card:nth-child(8) { animation-delay: 0.8s; }
-.api-card:nth-child(9) { animation-delay: 0.9s; }
-.api-card:nth-child(10) { animation-delay: 1s; }
-
-@keyframes fadeInUp {
-  from {
+  /* Animation */
+  .api-card {
     opacity: 0;
-    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease forwards;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .api-card:nth-child(1) {
+    animation-delay: 0.1s;
   }
-}
+
+  .api-card:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .api-card:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  .api-card:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+
+  .api-card:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+
+  .api-card:nth-child(6) {
+    animation-delay: 0.6s;
+  }
+
+  .api-card:nth-child(7) {
+    animation-delay: 0.7s;
+  }
+
+  .api-card:nth-child(8) {
+    animation-delay: 0.8s;
+  }
+
+  .api-card:nth-child(9) {
+    animation-delay: 0.9s;
+  }
+
+  .api-card:nth-child(10) {
+    animation-delay: 1s;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 </style>
 
 <section class="apis-section" id="apis">
@@ -644,49 +714,49 @@
 </section>
 
 <script>
-// APIs Section Script
-(function() {
-  'use strict';
+  // APIs Section Script
+  (function () {
+    'use strict';
 
-  const initAPIsSection = () => {
-    // 添加滚动触发动画
-    const apiCards = document.querySelectorAll('.api-card');
+    const initAPIsSection = () => {
+      // 添加滚动触发动画
+      const apiCards = document.querySelectorAll('.api-card');
 
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      apiCards.forEach(card => {
+        card.style.animationPlayState = 'paused';
+        observer.observe(card);
+      });
+
+      // 添加点击事件（可选）
+      apiCards.forEach(card => {
+        card.addEventListener('click', () => {
+          const category = card.querySelector('.api-category')?.textContent;
+          const title = card.querySelector('.api-title')?.textContent;
+          console.log(`API Card clicked: ${category} - ${title}`);
+          // 这里可以添加更多交互逻辑，比如打开模态框或跳转到详情页
+        });
+      });
     };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.animationPlayState = 'running';
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    apiCards.forEach(card => {
-      card.style.animationPlayState = 'paused';
-      observer.observe(card);
-    });
-
-    // 添加点击事件（可选）
-    apiCards.forEach(card => {
-      card.addEventListener('click', () => {
-        const category = card.querySelector('.api-category')?.textContent;
-        const title = card.querySelector('.api-title')?.textContent;
-        console.log(`API Card clicked: ${category} - ${title}`);
-        // 这里可以添加更多交互逻辑，比如打开模态框或跳转到详情页
-      });
-    });
-  };
-
-  // Initialize on DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAPIsSection);
-  } else {
-    initAPIsSection();
-  }
-})();
+    // Initialize on DOM ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAPIsSection);
+    } else {
+      initAPIsSection();
+    }
+  })();
 </script>

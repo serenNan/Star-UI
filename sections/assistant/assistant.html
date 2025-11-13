@@ -1,515 +1,606 @@
 <!-- ===== Assistant Section Module ===== -->
 <style>
-/* Assistant Section Styles - 特殊左右分栏布局 */
-.assistant-section {
-  padding: var(--spacing-3xl) 0;
-  background: var(--color-bg);
-}
-
-/* 标题区域 - 居中 */
-.assistant-section .section-header-center {
-  text-align: center;
-  max-width: 1200px;  /* 增大宽度，减少主标题换行 */
-  margin: 0 auto 35px;  /* 减少下边距（原来 200px）*/
-  padding: 0 var(--spacing-lg);
-}
-
-.assistant-section .section-label {
-  font-size: 1.2rem;  /* 增大小标题字体（原来 0.875rem）*/
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-sm);
-}
-
-/* 使用更具体的选择器，避免被 features 模块覆盖 */
-.assistant-section .section-title-large {
-  font-size: 2.8rem;
-  font-weight: 800;
-  margin-bottom: var(--spacing-md);
-  line-height: 1.2;
-}
-
-.assistant-section .section-subtitle-large {
-  font-size: 1.5rem;  /* 增大描述字体（原来 1.125rem）*/
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-}
-
-/* 主布局容器 - 左右分栏 */
-.assistant-container {
-  max-width: 1500px;  /* 缩小容器宽度（原来是 1400px）*/
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-}
-
-.assistant-grid {
-  display: grid;
-  grid-template-columns: auto auto;  /* 改为自动宽度，由 max-width 控制 */
-  gap: 35px;
-  justify-content: center;  /* 整体居中显示 */
-}
-
-/* 左侧列 - 单个卡片包含两个功能 */
-.assistant-left {
-  display: flex;
-  max-width: 745px;  /* 限制左侧卡片最大宽度 */
-}
-
-/* 右侧列 - 一张大卡片 */
-.assistant-right {
-  display: flex;
-  max-width: 720px;  /* 继续增加右侧卡片最大宽度 */
-}
-
-/* 强制左右卡片高度一致 */
-.assistant-card {
-  height: 550px;  /* 固定卡片高度 */
-}
-
-/* 卡片基础样式 */
-.assistant-card {
-  background: var(--color-bg-secondary);
-  border: none;  /* 移除边框 */
-  border-radius: 24px;  /* 增大圆角 */
-  overflow: hidden;
-  transition: all var(--transition);
-  display: flex;
-  flex-direction: column;
-}
-
-.assistant-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-}
-
-/* 卡片图片区域 */
-.assistant-visual {
-  overflow: hidden;
-  background: var(--color-bg);
-  position: relative;
-}
-
-/* 左侧合并卡片 - 包含两个功能项（左右并排）*/
-.assistant-card-merged {
-  display: grid;
-  grid-template-columns: 1fr 1fr;  /* 两列等宽并排 */
-  gap: 32px;  /* 两个功能项之间的间距 */
-  padding-top: 32px;     /* 上边距 */
-  padding-right: var(--spacing-xl);   /* 右边距 */
-  padding-bottom: var(--spacing-xl);  /* 下边距 */
-  padding-left: var(--spacing-xl);    /* 左边距 */
-  flex: 1;
-  align-items: stretch;  /* 确保两个功能项高度一致 */
-}
-
-/* 右侧单卡片 - 包含一个功能项（内嵌样式）*/
-.assistant-card-single {
-  padding-top: 32px;     /* 上边距 */
-  padding-left: 40px;    /* 左边距 - 增加以居中图片 */
-  padding-right: 40px;   /* 右边距 - 增加以居中图片 */
-  flex: 1;
-}
-
-.assistant-feature-item {
-  display: flex;
-  flex-direction: column;  /* 垂直布局：图片在上，文字在下 */
-  gap: var(--spacing-sm); 
-  height: 100%;  /* 填充父容器高度，确保两个功能项高度一致 */
-}
-
-/* 移除分割线 - 两个功能项之间不再有边框 */
-.assistant-feature-item:not(:last-child) {
-  padding-right: var(--spacing-md);
-}
-
-/* 功能项图片 - 左侧两个功能项的图片，固定宽高 */
-.assistant-feature-visual {
-  overflow: hidden;
-  background: var(--color-bg);
-  border-radius: 12px;
-  width: 295px;  /* 固定左侧图片宽度 */
-  height: 250px;  /* 固定左侧图片高度 */
-}
-
-/* 右侧单卡片图片 - 单独设置宽高 */
-.assistant-card-single .assistant-feature-visual {
-  width: 100%;   /* 自适应容器宽度 */
-  max-width: 570px;  /* 增加最大宽度限制 */
-  height: 250px;  /* 固定右侧图片高度 */
-}
-
-.assistant-feature-visual img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease;
-}
-
-.assistant-card:hover .assistant-feature-visual img {
-  transform: scale(1.05);
-}
-
-.assistant-feature-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;  /* 水平居中 */
-  text-align: center;   /* 文字居中对齐 */
-  padding-top: 12px;
-  flex: 1;  /* 填满剩余空间 */
-}
-
-/* ===== 右侧卡片独立样式 - 完全不受其他样式影响 ===== */
-
-/* 右侧功能项容器 */
-.assistant-feature-item-right {
-  display: flex;
-  flex-direction: column;
-  gap: 0;  /* 不使用 gap，完全用 padding 控制 */
-  height: 100%;
-}
-
-/* 右侧图片 */
-.assistant-feature-visual-right {
-  overflow: hidden;
-  background: var(--color-bg);
-  border-radius: 12px;
-  width: 385px;
-  height: 250px;
-}
-
-.assistant-feature-visual-right img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease;
-}
-
-.assistant-card:hover .assistant-feature-visual-right img {
-  transform: scale(1.05);
-}
-
-/* 右侧内容区域 - 精确控制间距 */
-.assistant-feature-content-right {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;  /* 顶部对齐 */
-  align-items: center;
-  text-align: center;
-  padding-top: 28px;  /* 与左侧一致的间距 */
-  flex: 1;
-}
-
-/* 右侧标题 */
-.assistant-feature-title-right {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: var(--spacing-sm);
-  line-height: 1.3;
-  text-align: center;  /* 标题居中 */
-  width: 100%;  /* 确保标题占满宽度以便居中 */
-}
-
-/* 右侧描述 */
-.assistant-feature-description-right {
-  color: var(--color-text-secondary);
-  font-size: 1.3rem;
-  line-height: 1.6;
-  word-break: keep-all;
-  overflow-wrap: break-word;
-  hyphens: none;
-  max-width: 100%;
-  text-align: center;  /* 描述居中 */
-  margin: 0 auto;  /* 水平居中 */
-}
-
-.assistant-feature-title {
-  font-size: 1.5rem;  /* 进一步增大标题字体 */
-  font-weight: 700;
-  margin-bottom: var(--spacing-sm);  /* 增大间距 */
-  line-height: 1.3;
-}
-
-.assistant-feature-description {
-  color: var(--color-text-secondary);
-  font-size: 1.3rem;  /* 进一步增大描述文字 */
-  line-height: 1.6;
-  word-break: keep-all;  /* 严格控制换行，保持单词完整 */
-  overflow-wrap: break-word;  /* 超长单词才换行 */
-  hyphens: none;  /* 禁用连字符 */
-  max-width: 100%;  /* 限制描述文字最大宽度，控制换行 */
-}
-
-/* 已移除旧的右侧大卡片样式（.assistant-card-large, .assistant-content, .assistant-title, .assistant-description, .assistant-link）
-   现在右侧也使用内嵌功能项样式 */
-
-/* ========================================
-   平板/移动端适配 (响应式指南)
-   ======================================== */
-@media (max-width: 991px) {
-  /* 容器改为垂直流式布局 + 居中 */
-  .assistant-container {
-    overflow-x: hidden;      /* 防止横向滚动 */
-    overflow-y: visible;     /* 允许元素溢出(悬浮效果) */
-  }
-
-  /* 网格改为单列 + 居中对齐 */
-  .assistant-grid {
-    grid-template-columns: 1fr;  /* 单列布局 */
-    justify-content: center;     /* 整体居中 */
-    align-items: center;         /* 子元素居中 */
-  }
-
-  /* 左右列改为100%宽度 + 居中 */
-  .assistant-left,
-  .assistant-right {
-    width: 100%;
-    max-width: 600px;  /* 限制移动端最大宽度 */
-    margin: 0 auto;    /* 居中 */
-  }
-
-  /* 卡片高度改为自动 */
-  .assistant-card {
-    height: auto;      /* 🔑 核心改动：自动高度 */
-    min-height: auto;  /* 移除最小高度限制 */
-  }
-
-  /* 移动端左侧卡片改为垂直堆叠 + 居中 */
-  .assistant-card-merged {
-    grid-template-columns: 1fr;  /* 单列 */
-    align-items: center;         /* 子元素居中 */
-    padding: var(--spacing-lg);  /* 统一内边距 */
-  }
-
-  /* 移动端右侧卡片内边距调整 */
-  .assistant-card-single {
-    padding: var(--spacing-lg);  /* 统一内边距 */
-  }
-
-  /* 功能项垂直居中 */
-  .assistant-feature-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;  /* 🔑 居中对齐 */
-    text-align: center;   /* 文字居中 */
-  }
-
-  .assistant-feature-item:not(:last-child) {
-    border-bottom: 1px solid var(--color-border);
-    padding-right: 0;
-    padding-bottom: var(--spacing-lg);
-    margin-bottom: var(--spacing-lg);
-  }
-
-  /* 图片改为弹性尺寸 + 居中 */
-  .assistant-feature-visual {
-    width: 100%;              /* 🔑 占满容器 */
-    max-width: 100%;          /* 不超过容器 */
-    height: auto;             /* 🔑 自动高度 */
-    aspect-ratio: 16/9;       /* 保持 16:9 比例 */
-    margin: 0 auto;           /* 居中 */
-  }
-
-  /* 右侧单卡片图片也改为弹性尺寸 */
-  .assistant-card-single .assistant-feature-visual {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 16/9;
-  }
-
-  /* 右侧独立样式图片也改为弹性尺寸 */
-  .assistant-feature-visual-right {
-    width: 100%;              /* 🔑 占满容器 */
-    max-width: 100%;          /* 不超过容器 */
-    height: auto;             /* 🔑 自动高度 */
-    aspect-ratio: 16/9;       /* 保持 16:9 比例 */
-    margin: 0 auto;           /* 居中 */
-  }
-
-  /* 右侧功能项也居中 */
-  .assistant-feature-item-right {
-    display: flex;
-    flex-direction: column;
-    align-items: center;  /* 🔑 居中对齐 */
-    text-align: center;   /* 文字居中 */
-  }
-
-  /* 内容区域居中对齐 */
-  .assistant-feature-content,
-  .assistant-feature-content-right {
-    align-items: center;  /* 水平居中 */
-    text-align: center;   /* 文字居中 */
-    width: 100%;          /* 占满宽度 */
-    padding-top: var(--spacing-md);
-  }
-
-  /* 移除描述中的<br>标签效果 */
-  .assistant-feature-description br,
-  .assistant-feature-description-right br {
-    display: none;  /* 隐藏强制换行 */
-  }
-
-  /* 标题区域调整 */
-  .assistant-section .section-header-center {
-    margin-bottom: var(--spacing-xl);
-    padding: 0 var(--spacing-md);
-  }
-
-  /* 标题字体调整 */
-  .assistant-section .section-title-large {
-    font-size: 2rem;
-  }
-
-  .assistant-section .section-subtitle-large {
-    font-size: 1.125rem;
-  }
-}
-
-/* ========================================
-   移动端进一步优化 (<768px)
-   ======================================== */
-@media (max-width: 767px) {
+  /* Assistant Section Styles - 特殊左右分栏布局 */
   .assistant-section {
-    padding: var(--spacing-2xl) 0;
+    padding: var(--spacing-3xl) 0;
+    background: var(--color-bg);
   }
 
-  .section-header-center {
-    margin-bottom: var(--spacing-lg);
-    padding: 0 var(--spacing-sm);
-  }
-
-  /* 标题进一步缩小 */
-  .assistant-section .section-title-large {
-    font-size: 1.75rem;
-  }
-
-  .assistant-section .section-subtitle-large {
-    font-size: 1rem;
+  /* 标题区域 - 居中 */
+  .assistant-section .section-header-center {
+    text-align: center;
+    max-width: 1200px;
+    /* 增大宽度，减少主标题换行 */
+    margin: 0 auto 35px;
+    /* 减少下边距（原来 200px）*/
+    padding: 0 var(--spacing-lg);
   }
 
   .assistant-section .section-label {
-    font-size: 0.875rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 1.2rem;
+    /* 增大小标题字体（原来 0.875rem）*/
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
   }
 
-  /* 网格间距减小 */
-  .assistant-grid {
-    gap: var(--spacing-md);
-  }
-
-  /* 卡片内边距减小 */
-  .assistant-card-merged,
-  .assistant-card-single {
-    padding: var(--spacing-md);
-  }
-
-  /* 功能项间距减小 */
-  .assistant-feature-item {
-    padding: var(--spacing-sm) 0;
-  }
-
-  .assistant-feature-item:not(:last-child) {
-    padding-bottom: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
-  }
-
-  /* 功能项标题和描述字体缩小 */
-  .assistant-feature-title,
-  .assistant-feature-title-right {
-    font-size: 1.25rem;
-  }
-
-  .assistant-feature-description,
-  .assistant-feature-description-right {
-    font-size: 0.875rem;
-    line-height: 1.5;
-  }
-}
-
-/* ========================================
-   小屏手机优化 (<480px)
-   ======================================== */
-@media (max-width: 479px) {
-  .assistant-section {
-    padding: var(--spacing-xl) 0;
-  }
-
-  /* 左右列最大宽度调整 */
-  .assistant-left,
-  .assistant-right {
-    max-width: 100%;  /* 占满屏幕 */
-  }
-
-  /* 标题进一步缩小 */
+  /* 使用更具体的选择器，避免被 features 模块覆盖 */
   .assistant-section .section-title-large {
-    font-size: 1.5rem;
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
   }
 
   .assistant-section .section-subtitle-large {
-    font-size: 0.875rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    /* 增大描述字体（原来 1.125rem）*/
+    font-weight: 300;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
   }
 
-  /* 功能项标题和描述更小 */
-  .assistant-feature-title,
-  .assistant-feature-title-right {
-    font-size: 1.125rem;
+  /* 主布局容器 - 左右分栏 */
+  .assistant-container {
+    max-width: 1500px;
+    /* 缩小容器宽度（原来是 1400px）*/
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
   }
 
-  .assistant-feature-description,
-  .assistant-feature-description-right {
-    font-size: 0.8125rem;
+  .assistant-grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    /* 改为自动宽度，由 max-width 控制 */
+    gap: 35px;
+    justify-content: center;
+    /* 整体居中显示 */
   }
 
-  /* 卡片内边距进一步缩小 */
-  .assistant-card-merged,
+  /* 左侧列 - 单个卡片包含两个功能 */
+  .assistant-left {
+    display: flex;
+    max-width: 745px;
+    /* 限制左侧卡片最大宽度 */
+  }
+
+  /* 右侧列 - 一张大卡片 */
+  .assistant-right {
+    display: flex;
+    max-width: 720px;
+    /* 继续增加右侧卡片最大宽度 */
+  }
+
+  /* 强制左右卡片高度一致 */
+  .assistant-card {
+    height: 550px;
+    /* 固定卡片高度 */
+  }
+
+  /* 卡片基础样式 */
+  .assistant-card {
+    background: var(--color-bg-secondary);
+    border: none;
+    /* 移除边框 */
+    border-radius: 24px;
+    /* 增大圆角 */
+    overflow: hidden;
+    transition: all var(--transition);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .assistant-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  /* 卡片图片区域 */
+  .assistant-visual {
+    overflow: hidden;
+    background: var(--color-bg);
+    position: relative;
+  }
+
+  /* 左侧合并卡片 - 包含两个功能项（左右并排）*/
+  .assistant-card-merged {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* 两列等宽并排 */
+    gap: 32px;
+    /* 两个功能项之间的间距 */
+    padding-top: 32px;
+    /* 上边距 */
+    padding-right: var(--spacing-xl);
+    /* 右边距 */
+    padding-bottom: var(--spacing-xl);
+    /* 下边距 */
+    padding-left: var(--spacing-xl);
+    /* 左边距 */
+    flex: 1;
+    align-items: stretch;
+    /* 确保两个功能项高度一致 */
+  }
+
+  /* 右侧单卡片 - 包含一个功能项（内嵌样式）*/
   .assistant-card-single {
-    padding: var(--spacing-sm);
+    padding-top: 32px;
+    /* 上边距 */
+    padding-left: 40px;
+    /* 左边距 - 增加以居中图片 */
+    padding-right: 40px;
+    /* 右边距 - 增加以居中图片 */
+    flex: 1;
   }
-}
 
-/* ========================================
+  .assistant-feature-item {
+    display: flex;
+    flex-direction: column;
+    /* 垂直布局：图片在上，文字在下 */
+    gap: var(--spacing-sm);
+    height: 100%;
+    /* 填充父容器高度，确保两个功能项高度一致 */
+  }
+
+  /* 移除分割线 - 两个功能项之间不再有边框 */
+  .assistant-feature-item:not(:last-child) {
+    padding-right: var(--spacing-md);
+  }
+
+  /* 功能项图片 - 左侧两个功能项的图片，固定宽高 */
+  .assistant-feature-visual {
+    overflow: hidden;
+    background: var(--color-bg);
+    border-radius: 12px;
+    width: 295px;
+    /* 固定左侧图片宽度 */
+    height: 250px;
+    /* 固定左侧图片高度 */
+  }
+
+  /* 右侧单卡片图片 - 单独设置宽高 */
+  .assistant-card-single .assistant-feature-visual {
+    width: 100%;
+    /* 自适应容器宽度 */
+    max-width: 570px;
+    /* 增加最大宽度限制 */
+    height: 250px;
+    /* 固定右侧图片高度 */
+  }
+
+  .assistant-feature-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .assistant-card:hover .assistant-feature-visual img {
+    transform: scale(1.05);
+  }
+
+  .assistant-feature-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* 水平居中 */
+    text-align: center;
+    /* 文字居中对齐 */
+    padding-top: 12px;
+    flex: 1;
+    /* 填满剩余空间 */
+  }
+
+  /* ===== 右侧卡片独立样式 - 完全不受其他样式影响 ===== */
+
+  /* 右侧功能项容器 */
+  .assistant-feature-item-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    /* 不使用 gap，完全用 padding 控制 */
+    height: 100%;
+  }
+
+  /* 右侧图片 */
+  .assistant-feature-visual-right {
+    overflow: hidden;
+    background: var(--color-bg);
+    border-radius: 12px;
+    width: 385px;
+    height: 250px;
+  }
+
+  .assistant-feature-visual-right img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .assistant-card:hover .assistant-feature-visual-right img {
+    transform: scale(1.05);
+  }
+
+  /* 右侧内容区域 - 精确控制间距 */
+  .assistant-feature-content-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* 顶部对齐 */
+    align-items: center;
+    text-align: center;
+    padding-top: 28px;
+    /* 与左侧一致的间距 */
+    flex: 1;
+  }
+
+  /* 右侧标题 */
+  .assistant-feature-title-right {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.3;
+    text-align: center;
+    /* 标题居中 */
+    width: 100%;
+    /* 确保标题占满宽度以便居中 */
+  }
+
+  /* 右侧描述 */
+  .assistant-feature-description-right {
+    font-family: 'Sora', sans-serif;
+    color: var(--color-text-secondary);
+    font-size: 1.3rem;
+    font-weight: 300;
+    line-height: 1.6;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    hyphens: none;
+    max-width: 100%;
+    text-align: center;
+    /* 描述居中 */
+    margin: 0 auto;
+    /* 水平居中 */
+  }
+
+  .assistant-feature-title {
+    font-size: 1.5rem;
+    /* 进一步增大标题字体 */
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    /* 增大间距 */
+    line-height: 1.3;
+  }
+
+  .assistant-feature-description {
+    font-family: 'Sora', sans-serif;
+    color: var(--color-text-secondary);
+    font-size: 1.3rem;
+    /* 进一步增大描述文字 */
+    font-weight: 300;
+    line-height: 1.6;
+    word-break: keep-all;
+    /* 严格控制换行，保持单词完整 */
+    overflow-wrap: break-word;
+    /* 超长单词才换行 */
+    hyphens: none;
+    /* 禁用连字符 */
+    max-width: 100%;
+    /* 限制描述文字最大宽度，控制换行 */
+  }
+
+  /* 已移除旧的右侧大卡片样式（.assistant-card-large, .assistant-content, .assistant-title, .assistant-description, .assistant-link）
+   现在右侧也使用内嵌功能项样式 */
+
+  /* ========================================
+   平板/移动端适配 (响应式指南)
+   ======================================== */
+  @media (max-width: 991px) {
+
+    /* 容器改为垂直流式布局 + 居中 */
+    .assistant-container {
+      overflow-x: hidden;
+      /* 防止横向滚动 */
+      overflow-y: visible;
+      /* 允许元素溢出(悬浮效果) */
+    }
+
+    /* 网格改为单列 + 居中对齐 */
+    .assistant-grid {
+      grid-template-columns: 1fr;
+      /* 单列布局 */
+      justify-content: center;
+      /* 整体居中 */
+      align-items: center;
+      /* 子元素居中 */
+    }
+
+    /* 左右列改为100%宽度 + 居中 */
+    .assistant-left,
+    .assistant-right {
+      width: 100%;
+      max-width: 600px;
+      /* 限制移动端最大宽度 */
+      margin: 0 auto;
+      /* 居中 */
+    }
+
+    /* 卡片高度改为自动 */
+    .assistant-card {
+      height: auto;
+      /* 🔑 核心改动：自动高度 */
+      min-height: auto;
+      /* 移除最小高度限制 */
+    }
+
+    /* 移动端左侧卡片改为垂直堆叠 + 居中 */
+    .assistant-card-merged {
+      grid-template-columns: 1fr;
+      /* 单列 */
+      align-items: center;
+      /* 子元素居中 */
+      padding: var(--spacing-lg);
+      /* 统一内边距 */
+    }
+
+    /* 移动端右侧卡片内边距调整 */
+    .assistant-card-single {
+      padding: var(--spacing-lg);
+      /* 统一内边距 */
+    }
+
+    /* 功能项垂直居中 */
+    .assistant-feature-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* 🔑 居中对齐 */
+      text-align: center;
+      /* 文字居中 */
+    }
+
+    .assistant-feature-item:not(:last-child) {
+      border-bottom: 1px solid var(--color-border);
+      padding-right: 0;
+      padding-bottom: var(--spacing-lg);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    /* 图片改为弹性尺寸 + 居中 */
+    .assistant-feature-visual {
+      width: 100%;
+      /* 🔑 占满容器 */
+      max-width: 100%;
+      /* 不超过容器 */
+      height: auto;
+      /* 🔑 自动高度 */
+      aspect-ratio: 16/9;
+      /* 保持 16:9 比例 */
+      margin: 0 auto;
+      /* 居中 */
+    }
+
+    /* 右侧单卡片图片也改为弹性尺寸 */
+    .assistant-card-single .assistant-feature-visual {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+    }
+
+    /* 右侧独立样式图片也改为弹性尺寸 */
+    .assistant-feature-visual-right {
+      width: 100%;
+      /* 🔑 占满容器 */
+      max-width: 100%;
+      /* 不超过容器 */
+      height: auto;
+      /* 🔑 自动高度 */
+      aspect-ratio: 16/9;
+      /* 保持 16:9 比例 */
+      margin: 0 auto;
+      /* 居中 */
+    }
+
+    /* 右侧功能项也居中 */
+    .assistant-feature-item-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* 🔑 居中对齐 */
+      text-align: center;
+      /* 文字居中 */
+    }
+
+    /* 内容区域居中对齐 */
+    .assistant-feature-content,
+    .assistant-feature-content-right {
+      align-items: center;
+      /* 水平居中 */
+      text-align: center;
+      /* 文字居中 */
+      width: 100%;
+      /* 占满宽度 */
+      padding-top: var(--spacing-md);
+    }
+
+    /* 移除描述中的<br>标签效果 */
+    .assistant-feature-description br,
+    .assistant-feature-description-right br {
+      display: none;
+      /* 隐藏强制换行 */
+    }
+
+    /* 标题区域调整 */
+    .assistant-section .section-header-center {
+      margin-bottom: var(--spacing-xl);
+      padding: 0 var(--spacing-md);
+    }
+
+    /* 标题字体调整 */
+    .assistant-section .section-title-large {
+      font-size: 2rem;
+    }
+
+    .assistant-section .section-subtitle-large {
+      font-size: 1.125rem;
+    }
+  }
+
+  /* ========================================
+   移动端进一步优化 (<768px)
+   ======================================== */
+  @media (max-width: 767px) {
+    .assistant-section {
+      padding: var(--spacing-2xl) 0;
+    }
+
+    .section-header-center {
+      margin-bottom: var(--spacing-lg);
+      padding: 0 var(--spacing-sm);
+    }
+
+    /* 标题进一步缩小 */
+    .assistant-section .section-title-large {
+      font-size: 1.75rem;
+    }
+
+    .assistant-section .section-subtitle-large {
+      font-size: 1rem;
+    }
+
+    .assistant-section .section-label {
+      font-size: 0.875rem;
+    }
+
+    /* 网格间距减小 */
+    .assistant-grid {
+      gap: var(--spacing-md);
+    }
+
+    /* 卡片内边距减小 */
+    .assistant-card-merged,
+    .assistant-card-single {
+      padding: var(--spacing-md);
+    }
+
+    /* 功能项间距减小 */
+    .assistant-feature-item {
+      padding: var(--spacing-sm) 0;
+    }
+
+    .assistant-feature-item:not(:last-child) {
+      padding-bottom: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+    }
+
+    /* 功能项标题和描述字体缩小 */
+    .assistant-feature-title,
+    .assistant-feature-title-right {
+      font-size: 1.25rem;
+    }
+
+    .assistant-feature-description,
+    .assistant-feature-description-right {
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+  }
+
+  /* ========================================
+   小屏手机优化 (<480px)
+   ======================================== */
+  @media (max-width: 479px) {
+    .assistant-section {
+      padding: var(--spacing-xl) 0;
+    }
+
+    /* 左右列最大宽度调整 */
+    .assistant-left,
+    .assistant-right {
+      max-width: 100%;
+      /* 占满屏幕 */
+    }
+
+    /* 标题进一步缩小 */
+    .assistant-section .section-title-large {
+      font-size: 1.5rem;
+    }
+
+    .assistant-section .section-subtitle-large {
+      font-size: 0.875rem;
+    }
+
+    /* 功能项标题和描述更小 */
+    .assistant-feature-title,
+    .assistant-feature-title-right {
+      font-size: 1.125rem;
+    }
+
+    .assistant-feature-description,
+    .assistant-feature-description-right {
+      font-size: 0.8125rem;
+    }
+
+    /* 卡片内边距进一步缩小 */
+    .assistant-card-merged,
+    .assistant-card-single {
+      padding: var(--spacing-sm);
+    }
+  }
+
+  /* ========================================
    触摸交互优化
    ======================================== */
 
-/* 禁用悬浮效果 */
-@media (hover: none) {
-  .assistant-card:hover {
-    transform: none;          /* 移除悬浮效果 */
-    box-shadow: none;
+  /* 禁用悬浮效果 */
+  @media (hover: none) {
+    .assistant-card:hover {
+      transform: none;
+      /* 移除悬浮效果 */
+      box-shadow: none;
+    }
+
+    .assistant-card:hover .assistant-feature-visual img,
+    .assistant-card:hover .assistant-feature-visual-right img {
+      transform: none;
+      /* 移除图片缩放 */
+    }
   }
 
-  .assistant-card:hover .assistant-feature-visual img,
-  .assistant-card:hover .assistant-feature-visual-right img {
-    transform: none;          /* 移除图片缩放 */
-  }
-}
+  /* 触摸反馈 */
+  @media (max-width: 991px) {
+    .assistant-card:active {
+      transform: scale(0.98);
+      /* 按下缩小 */
+      transition: transform 0.1s ease;
+    }
 
-/* 触摸反馈 */
-@media (max-width: 991px) {
-  .assistant-card:active {
-    transform: scale(0.98);   /* 按下缩小 */
-    transition: transform 0.1s ease;
+    /* 增大卡片触摸区域 */
+    .assistant-card {
+      min-height: 44px;
+      /* iOS 最小触摸标准 */
+    }
   }
 
-  /* 增大卡片触摸区域 */
-  .assistant-card {
-    min-height: 44px;         /* iOS 最小触摸标准 */
-  }
-}
-
-/* ========================================
+  /* ========================================
    性能优化
    ======================================== */
-@media (prefers-reduced-motion: reduce) {
-  .assistant-card,
-  .assistant-card:hover,
-  .assistant-feature-visual img {
-    animation: none !important;
-    transition: none !important;
+  @media (prefers-reduced-motion: reduce) {
+
+    .assistant-card,
+    .assistant-card:hover,
+    .assistant-feature-visual img {
+      animation: none !important;
+      transition: none !important;
+    }
   }
-}
 </style>
 
 <section class="assistant-section" id="assistant">
@@ -540,7 +631,8 @@
             <div class="assistant-feature-content">
               <h3 class="assistant-feature-title">Script, Story & Hooks</h3>
               <p class="assistant-feature-description">
-                Generate scripts, hooks,<br> and scene outlines that <br>match your tone, pacing, <br>and emotion — guided by <br>AI built for storytelling.
+                Generate scripts, hooks,<br> and scene outlines that <br>match your tone, pacing, <br>and emotion —
+                guided by <br>AI built for storytelling.
               </p>
             </div>
           </div>
@@ -553,7 +645,8 @@
             <div class="assistant-feature-content">
               <h3 class="assistant-feature-title">Adaptive Intelligence</h3>
               <p class="assistant-feature-description">
-                The Treclipse Assistant  <br>evolves with your workflow<br> — adapting to your preferences, visual <br>language, and brand tone.
+                The Treclipse Assistant <br>evolves with your workflow<br> — adapting to your preferences, visual
+                <br>language, and brand tone.
               </p>
             </div>
           </div>
@@ -576,7 +669,8 @@
             <div class="assistant-feature-content-right">
               <h3 class="assistant-feature-title-right">Analytical Insight</h3>
               <p class="assistant-feature-description-right">
-                Gain intelligent feedback on pacing,<br> composition,and emotional flow —<br> helping you refine visuals and <br>narratives with precision.
+                Gain intelligent feedback on pacing,<br> composition,and emotional flow —<br> helping you refine visuals
+                and <br>narratives with precision.
               </p>
             </div>
           </div>
@@ -590,45 +684,45 @@
 </section>
 
 <script>
-// Assistant Section Script - 滚动动画初始化
-(function() {
-  'use strict';
+  // Assistant Section Script - 滚动动画初始化
+  (function () {
+    'use strict';
 
-  const initAssistantAnimation = () => {
-    // 仅选择 assistant-section 内的需要动画的元素
-    const animateElements = document.querySelectorAll('.assistant-section [data-animate]');
+    const initAssistantAnimation = () => {
+      // 仅选择 assistant-section 内的需要动画的元素
+      const animateElements = document.querySelectorAll('.assistant-section [data-animate]');
 
-    if (animateElements.length === 0) return;
+      if (animateElements.length === 0) return;
 
-    // IntersectionObserver 配置
-    const observerOptions = {
-      threshold: 0.1,  // 元素进入视口 10% 时触发
-      rootMargin: '0px 0px -50px 0px'  // 提前 50px 触发
+      // IntersectionObserver 配置
+      const observerOptions = {
+        threshold: 0.1,  // 元素进入视口 10% 时触发
+        rootMargin: '0px 0px -50px 0px'  // 提前 50px 触发
+      };
+
+      // 创建观察者
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // 添加动画类
+            entry.target.classList.add('animate-in');
+            // 只触发一次，观察后取消
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      // 观察所有需要动画的元素
+      animateElements.forEach(element => {
+        observer.observe(element);
+      });
     };
 
-    // 创建观察者
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // 添加动画类
-          entry.target.classList.add('animate-in');
-          // 只触发一次，观察后取消
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    // 观察所有需要动画的元素
-    animateElements.forEach(element => {
-      observer.observe(element);
-    });
-  };
-
-  // DOM 加载完成后初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAssistantAnimation);
-  } else {
-    initAssistantAnimation();
-  }
-})();
+    // DOM 加载完成后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAssistantAnimation);
+    } else {
+      initAssistantAnimation();
+    }
+  })();
 </script>

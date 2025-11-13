@@ -49,6 +49,15 @@
       /* IE and Edge */
     }
 
+    body.page-index {
+      font-family: 'Sora', sans-serif;
+    }
+
+    body.page-index .banner,
+    body.page-index .banner * {
+      font-family: var(--font-primary);
+    }
+
     /* 隐藏 Webkit 浏览器的滚动条 (Chrome, Safari, Opera) */
     html::-webkit-scrollbar,
     body::-webkit-scrollbar {
@@ -353,7 +362,7 @@
     })();
   </script>
 </head>
-<body>
+<body class="page-index">
 
   <!-- ===== NAVIGATION SECTION ===== -->
 <!-- ===== Navigation Module ===== -->
@@ -4391,420 +4400,483 @@
   <!-- ===== USE-CASES SECTION ===== -->
 <!-- ===== USE CASES 模块 ===== -->
 <style>
-/* Use Cases 主容器样式 */
-.use-cases {
-  padding: var(--spacing-3xl) 0;
-  background: var(--color-bg);
-  position: relative;
-}
-
-/* 标题区域 */
-.use-cases__header {
-  text-align: center;
-  margin-bottom: var(--spacing-xl); /* 缩小间距，让内容区域上移 */
-}
-
-.use-cases__subtitle {
-  font-size: 1.2rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-sm);
-  text-transform: uppercase;
-}
-
-.use-cases__title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--color-text);
-  margin-bottom: var(--spacing-md);
-  line-height: 1.2;
-}
-
-.use-cases__description {
-  font-size: 1.5rem;
-  color: var(--color-text-secondary);
-  max-width: 800px;
-  margin: 0 auto;
-  letter-spacing: 0.02em;
-}
-
-/* 内容区域布局 */
-.use-cases__content {
-  display: flex;
-  gap: var(--spacing-xl);
-  align-items: flex-start;
-  justify-content: center; /* 让左右两部分整体居中 */
-  max-width: 1400px; /* 限制最大宽度 */
-  margin: 0 auto; /* 容器本身也居中 */
-}
-
-
-/* 左侧分类导航（桌面端垂直布局）*/
-.use-cases__categories {
-  display: flex;
-  flex-direction: column;
-  gap: 16px; /* 缩小按钮间距 */
-  min-width: 260px; /* 从 220px 增加到 260px，整体更宽 */
-  align-items: flex-start; /* 按钮靠左对齐 */
-  margin-right: var(--spacing-2xl); /* 增加与卡片的间距，导航栏向左移 */
-}
-
-.use-cases__category-btn {
-  padding: 20px;
-  background: transparent; /* 未选中时无背景 */
-  border: none; /* 移除边框 */
-  border-radius: 50px;
-  color: var(--color-text); /* 白色文字 */
-  font-size: 1.25rem; /* 从 1.125rem 增加到 1.25rem (20px) */
-  font-weight: 500;
-  cursor: pointer;
-  transition: all var(--transition);
-  text-align: center; /* 文字居中 */
-  white-space: nowrap;
-  width: 160px; /* 按钮宽度，稍微变长 */
-}
-
-/* 移除空的 hover 规则，因为悬停时无特殊效果 */
-
-.use-cases__category-btn.active {
-  background: rgba(255, 255, 255, 0.1); /* 选中时和悬停一样的背景色 */
-  color: var(--color-text); /* 选中时也保持白色文字 */
-  /* 移除 padding 和 width 设置，保持和未选中按钮一样的大小 */
-}
-
-/* 右侧卡片网格（桌面端）*/
-.use-cases__cards {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  column-gap: 52px; /* 左右间距 */
-  row-gap: 37.25px; /* 上下间距缩小为 34px（原来 48px 的一半）*/
-  max-width: 940px; /* 从 900px 增加到 940px，卡片变大 */
-  margin-left: -100px; /* 卡片向左移动 */
-}
-
-/* 单个卡片样式 */
-.use-cases__card {
-  position: relative;
-  border-radius: 20px;
-  overflow: hidden;
-  aspect-ratio: 3 / 3.22; /* 稍微偏高一点 */
-  cursor: pointer;
-  transition: opacity 0.25s ease, transform 0.25s ease; /* 只过渡需要的属性 */
-  opacity: 1;
-  transform: scale(1);
-}
-
-.use-cases__card.hidden {
-  display: none; /* 完全移除，不占用空间 */
-}
-
-.use-cases__card-image,
-.use-cases__card-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.use-cases__card-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.use-cases__card[data-hover-video]:hover .use-cases__card-video {
-  opacity: 1;
-}
-
-/* 悬浮时保持图片可见,不让它消失 */
-/* .use-cases__card[data-hover-video]:hover .use-cases__card-image {
-  opacity: 0;
-} */
-
-/* 卡片叠加层 */
-.use-cases__card-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.5) 0%,
-    rgba(0, 0, 0, 0.2) 50%,
-    rgba(0, 0, 0, 0.7) 100%
-  );
-  padding: var(--spacing-sm) 0; /* 移除左右 padding,只保留上下 padding */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: background 0.3s ease;
-}
-
-.use-cases__card:hover .use-cases__card-overlay {
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.6) 0%,
-    rgba(0, 0, 0, 0.3) 50%,
-    rgba(0, 0, 0, 0.8) 100%
-  );
-}
-
-/* 卡片标签 */
-.use-cases__card-label {
-  display: inline-block;
-  padding: 0;
-  padding-left: var(--spacing-md); /* 添加左边距,因为 overlay 已移除左右 padding */
-  background: transparent;
-  backdrop-filter: none;
-  border-radius: 0;
-  color: var(--color-text);
-  font-size: 1.125rem;
-  font-weight: 500;
-  align-self: flex-start;
-}
-
-/* 卡片描述文本 - 与 banner 描述框样式一致 */
-.use-cases__card-description {
-  color: rgb(230, 229, 229); /* 与 banner 一致的文字颜色 */
-  font-size: 0.5rem; /* 与 banner 一致的字体大小 */
-  line-height: 1.6;
-  padding: 20px 0 0 20px; /* 与 banner 一致的内边距：只要左边距和上边距 */
-  background: rgba(68, 68, 68, 0.451); /* 与 banner 一致的灰色半透明背景 */
-  border: none; /* 移除边框 */
-  border-radius: 20px 20px 20px 20px; /* 只有底部两个角有圆角,匹配卡片的 20px 圆角 */
-  backdrop-filter: blur(1px);
-  box-sizing: border-box;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s ease;
-  position: absolute; /* 绝对定位 */
-  bottom: 0; /* 底部对齐 */
-  left: 0; /* 左侧对齐 */
-  right: 0; /* 右侧对齐 */
-  width: 100%; /* 宽度100% */
-  min-height: 90px; /* 确保有足够高度 */
-}
-
-.use-cases__card:hover .use-cases__card-description {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* 卡片描述右下角生成按钮 */
-.use-cases__generate-btn {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  width: 32px;
-  height: 32px;
-  background: rgba(32, 31, 31, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 10;
-}
-
-.use-cases__generate-btn:hover {
-  background: rgba(60, 60, 60, 0.9);
-  border-color: rgba(255, 255, 255, 0.4);
-  transform: scale(1.05);
-}
-
-.use-cases__generate-btn svg {
-  width: 18px;
-  height: 18px;
-  fill: none;
-  stroke: white;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* ========================================
-   平板/移动端适配 - 顶部横向导航 + 3 列卡片
-   ======================================== */
-@media (max-width: 991px) {
+  /* Use Cases 主容器样式 */
   .use-cases {
-    overflow-x: hidden;
-    padding: var(--spacing-2xl) 0;
+    padding: var(--spacing-3xl) 0;
+    background: var(--color-bg);
+    position: relative;
+  }
+
+  /* 标题区域 */
+  .use-cases__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    /* 缩小间距，让内容区域上移 */
+  }
+
+
+  .use-cases__subtitle {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
   }
 
   .use-cases__title {
     font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
   }
 
   .use-cases__description {
-    font-size: 1.25rem;
-    max-width: 90%;
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--color-text-secondary);
+    max-width: 800px;
+    margin: 0 auto;
+    letter-spacing: 0.02em;
   }
 
-  /* 内容区域改为垂直布局 + 居中 */
+  /* 内容区域布局 */
   .use-cases__content {
-    flex-direction: column;   /* 改为垂直排列 */
-    align-items: center;      /* 🔑 子元素水平居中 */
+    display: flex;
     gap: var(--spacing-xl);
-    max-width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+    /* 让左右两部分整体居中 */
+    max-width: 1400px;
+    /* 限制最大宽度 */
+    margin: 0 auto;
+    /* 容器本身也居中 */
   }
 
-  /* 分类导航改为横向排列 + 居中 */
+
+  /* 左侧分类导航（桌面端垂直布局）*/
   .use-cases__categories {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;  /* 🔑 按钮居中对齐 */
-    min-width: 100%;
-    max-width: 100%;
-    margin-right: 0;          /* 移除右侧边距 */
-    gap: 12px;                /* 按钮间距 */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    /* 缩小按钮间距 */
+    min-width: 260px;
+    /* 从 220px 增加到 260px，整体更宽 */
+    align-items: flex-start;
+    /* 按钮靠左对齐 */
+    margin-right: var(--spacing-2xl);
+    /* 增加与卡片的间距，导航栏向左移 */
   }
 
   .use-cases__category-btn {
-    flex: 0 0 auto;
-    width: auto;              /* 自动宽度 */
-    min-width: 120px;         /* 最小宽度 */
-    padding: 16px 20px;       /* 增大触摸区域 */
+    padding: 20px;
+    background: transparent;
+    /* 未选中时无背景 */
+    border: none;
+    /* 移除边框 */
+    border-radius: 50px;
+    color: var(--color-text);
+    /* 白色文字 */
+    font-size: 1.25rem;
+    /* 从 1.125rem 增加到 1.25rem (20px) */
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+    text-align: center;
+    /* 文字居中 */
+    white-space: nowrap;
+    width: 160px;
+    /* 按钮宽度，稍微变长 */
   }
 
-  /* 卡片网格保持 3 列，减小间距 + 居中 */
+  /* 移除空的 hover 规则，因为悬停时无特殊效果 */
+
+  .use-cases__category-btn.active {
+    background: rgba(255, 255, 255, 0.1);
+    /* 选中时和悬停一样的背景色 */
+    color: var(--color-text);
+    /* 选中时也保持白色文字 */
+    /* 移除 padding 和 width 设置，保持和未选中按钮一样的大小 */
+  }
+
+  /* 右侧卡片网格（桌面端）*/
   .use-cases__cards {
-    grid-template-columns: repeat(3, 1fr); /* 保持 3 列 */
-    justify-items: center;    /* 🔑 网格项居中 */
-    column-gap: 24px;         /* 减小左右间距 */
-    row-gap: 24px;            /* 减小上下间距 */
-    max-width: 100%;
-    margin-left: 0;           /* 移除左侧偏移 */
-    padding: 0 var(--spacing-md);
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 52px;
+    /* 左右间距 */
+    row-gap: 37.25px;
+    /* 上下间距缩小为 34px（原来 48px 的一半）*/
+    max-width: 940px;
+    /* 从 900px 增加到 940px，卡片变大 */
+    margin-left: -100px;
+    /* 卡片向左移动 */
   }
 
+  /* 单个卡片样式 */
   .use-cases__card {
-    width: 100%;              /* 卡片占满网格单元 */
-    max-width: 320px;         /* 限制卡片最大宽度 */
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 3 / 3.22;
+    /* 稍微偏高一点 */
+    cursor: pointer;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    /* 只过渡需要的属性 */
+    opacity: 1;
+    transform: scale(1);
   }
 
-  /* 卡片标签和描述缩小 */
-  .use-cases__card-label {
-    font-size: 0.875rem;
+  .use-cases__card.hidden {
+    display: none;
+    /* 完全移除，不占用空间 */
   }
 
-  .use-cases__card-description {
-    font-size: 0.75rem;
-    padding: 12px 0 0 12px;
-    min-height: 70px;
-  }
-}
-
-/* 移动端适配 - 保持 3 列，进一步优化 */
-@media (max-width: 767px) {
-  .use-cases {
-    padding: var(--spacing-xl) 0;
-  }
-
-  .use-cases__title {
-    font-size: 2rem;
-  }
-
-  .use-cases__description {
-    font-size: 1rem;
-    max-width: 95%;
-  }
-
-  /* 分类按钮更紧凑 */
-  .use-cases__categories {
-    gap: 8px;
-    justify-content: center;  /* 保持居中 */
-  }
-
-  .use-cases__category-btn {
-    padding: 12px 16px;
-    font-size: 0.875rem;
-    min-width: 100px;
-    min-height: 44px; /* iOS 触摸标准 */
-  }
-
-  /* 卡片网格保持 3 列，最小间距 + 居中 */
-  .use-cases__cards {
-    grid-template-columns: repeat(3, 1fr); /* 保持 3 列 */
-    justify-items: center;    /* 🔑 居中对齐 */
-    column-gap: 12px;         /* 最小左右间距 */
-    row-gap: 12px;            /* 最小上下间距 */
-    max-width: 100%;
-    padding: 0 var(--spacing-sm);
-  }
-
-  .use-cases__card {
+  .use-cases__card-image,
+  .use-cases__card-video {
     width: 100%;
-    max-width: 100%;          /* 占满网格单元 */
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
-  /* 卡片元素进一步缩小 */
-  .use-cases__card-label {
-    font-size: 0.75rem;
-    padding-left: var(--spacing-sm);
+  .use-cases__card-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
-  .use-cases__card-description {
-    font-size: 0.65rem;
-    padding: 8px 0 0 8px;
-    min-height: 60px;
+  .use-cases__card[data-hover-video]:hover .use-cases__card-video {
+    opacity: 1;
   }
 
-  /* 生成按钮缩小 */
-  .use-cases__generate-btn {
-    width: 24px;
-    height: 24px;
-    bottom: 3px;
-    right: 3px;
-  }
+  /* 悬浮时保持图片可见,不让它消失 */
+  /* .use-cases__card[data-hover-video]:hover .use-cases__card-image {
+  opacity: 0;
+} */
 
-  .use-cases__generate-btn svg {
-    width: 14px;
-    height: 14px;
-  }
-}
-
-/* 触摸设备优化 - 禁用悬浮效果 */
-@media (hover: none) {
-  .use-cases__card:hover .use-cases__card-video {
-    opacity: 0;             /* 触摸设备不自动播放视频 */
+  /* 卡片叠加层 */
+  .use-cases__card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg,
+        rgba(0, 0, 0, 0.5) 0%,
+        rgba(0, 0, 0, 0.2) 50%,
+        rgba(0, 0, 0, 0.7) 100%);
+    padding: var(--spacing-sm) 0;
+    /* 移除左右 padding,只保留上下 padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: background 0.3s ease;
   }
 
   .use-cases__card:hover .use-cases__card-overlay {
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.5) 0%,
-      rgba(0, 0, 0, 0.2) 50%,
-      rgba(0, 0, 0, 0.7) 100%
-    );                      /* 保持原始背景 */
+    background: linear-gradient(180deg,
+        rgba(0, 0, 0, 0.6) 0%,
+        rgba(0, 0, 0, 0.3) 50%,
+        rgba(0, 0, 0, 0.8) 100%);
+  }
+
+  /* 卡片标签 */
+  .use-cases__card-label {
+    display: inline-block;
+    padding: 0;
+    padding-left: var(--spacing-md);
+    /* 添加左边距,因为 overlay 已移除左右 padding */
+    background: transparent;
+    backdrop-filter: none;
+    border-radius: 0;
+    color: var(--color-text);
+    font-size: 1.125rem;
+    font-weight: 500;
+    align-self: flex-start;
+  }
+
+  /* 卡片描述文本 - 与 banner 描述框样式一致 */
+  .use-cases__card-description {
+    color: rgb(230, 229, 229);
+    /* 与 banner 一致的文字颜色 */
+    font-size: 0.5rem;
+    /* 与 banner 一致的字体大小 */
+    line-height: 1.6;
+    padding: 20px 0 0 20px;
+    /* 与 banner 一致的内边距：只要左边距和上边距 */
+    background: rgba(68, 68, 68, 0.451);
+    /* 与 banner 一致的灰色半透明背景 */
+    border: none;
+    /* 移除边框 */
+    border-radius: 20px 20px 20px 20px;
+    /* 只有底部两个角有圆角,匹配卡片的 20px 圆角 */
+    backdrop-filter: blur(1px);
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    position: absolute;
+    /* 绝对定位 */
+    bottom: 0;
+    /* 底部对齐 */
+    left: 0;
+    /* 左侧对齐 */
+    right: 0;
+    /* 右侧对齐 */
+    width: 100%;
+    /* 宽度100% */
+    min-height: 90px;
+    /* 确保有足够高度 */
   }
 
   .use-cases__card:hover .use-cases__card-description {
-    opacity: 0;             /* 触摸设备不显示描述 */
-  }
-}
-
-/* 移动端触摸反馈 */
-@media (max-width: 991px) {
-  .use-cases__category-btn:active {
-    transform: scale(0.95);   /* 按下缩小 */
-    transition: transform 0.1s ease;
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  .use-cases__card:active {
-    transform: scale(0.98);   /* 卡片按下缩小 */
+  /* 卡片描述右下角生成按钮 */
+  .use-cases__generate-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 32px;
+    height: 32px;
+    background: rgba(32, 31, 31, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
   }
 
-  .use-cases__generate-btn:active {
-    transform: scale(0.9);    /* 按钮按下缩小 */
+  .use-cases__generate-btn:hover {
+    background: rgba(60, 60, 60, 0.9);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
   }
-}
+
+  .use-cases__generate-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: white;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ========================================
+   平板/移动端适配 - 顶部横向导航 + 3 列卡片
+   ======================================== */
+  @media (max-width: 991px) {
+    .use-cases {
+      overflow-x: hidden;
+      padding: var(--spacing-2xl) 0;
+    }
+
+    .use-cases__title {
+      font-size: 2.5rem;
+    }
+
+    .use-cases__description {
+      font-size: 1.25rem;
+      max-width: 90%;
+    }
+
+    /* 内容区域改为垂直布局 + 居中 */
+    .use-cases__content {
+      flex-direction: column;
+      /* 改为垂直排列 */
+      align-items: center;
+      /* 🔑 子元素水平居中 */
+      gap: var(--spacing-xl);
+      max-width: 100%;
+    }
+
+    /* 分类导航改为横向排列 + 居中 */
+    .use-cases__categories {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      /* 🔑 按钮居中对齐 */
+      min-width: 100%;
+      max-width: 100%;
+      margin-right: 0;
+      /* 移除右侧边距 */
+      gap: 12px;
+      /* 按钮间距 */
+    }
+
+    .use-cases__category-btn {
+      flex: 0 0 auto;
+      width: auto;
+      /* 自动宽度 */
+      min-width: 120px;
+      /* 最小宽度 */
+      padding: 16px 20px;
+      /* 增大触摸区域 */
+    }
+
+    /* 卡片网格保持 3 列，减小间距 + 居中 */
+    .use-cases__cards {
+      grid-template-columns: repeat(3, 1fr);
+      /* 保持 3 列 */
+      justify-items: center;
+      /* 🔑 网格项居中 */
+      column-gap: 24px;
+      /* 减小左右间距 */
+      row-gap: 24px;
+      /* 减小上下间距 */
+      max-width: 100%;
+      margin-left: 0;
+      /* 移除左侧偏移 */
+      padding: 0 var(--spacing-md);
+    }
+
+    .use-cases__card {
+      width: 100%;
+      /* 卡片占满网格单元 */
+      max-width: 320px;
+      /* 限制卡片最大宽度 */
+    }
+
+    /* 卡片标签和描述缩小 */
+    .use-cases__card-label {
+      font-size: 0.875rem;
+    }
+
+    .use-cases__card-description {
+      font-size: 0.75rem;
+      padding: 12px 0 0 12px;
+      min-height: 70px;
+    }
+  }
+
+  /* 移动端适配 - 保持 3 列，进一步优化 */
+  @media (max-width: 767px) {
+    .use-cases {
+      padding: var(--spacing-xl) 0;
+    }
+
+    .use-cases__title {
+      font-size: 2rem;
+    }
+
+    .use-cases__description {
+      font-size: 1rem;
+      max-width: 95%;
+    }
+
+    /* 分类按钮更紧凑 */
+    .use-cases__categories {
+      gap: 8px;
+      justify-content: center;
+      /* 保持居中 */
+    }
+
+    .use-cases__category-btn {
+      padding: 12px 16px;
+      font-size: 0.875rem;
+      min-width: 100px;
+      min-height: 44px;
+      /* iOS 触摸标准 */
+    }
+
+    /* 卡片网格保持 3 列，最小间距 + 居中 */
+    .use-cases__cards {
+      grid-template-columns: repeat(3, 1fr);
+      /* 保持 3 列 */
+      justify-items: center;
+      /* 🔑 居中对齐 */
+      column-gap: 12px;
+      /* 最小左右间距 */
+      row-gap: 12px;
+      /* 最小上下间距 */
+      max-width: 100%;
+      padding: 0 var(--spacing-sm);
+    }
+
+    .use-cases__card {
+      width: 100%;
+      max-width: 100%;
+      /* 占满网格单元 */
+    }
+
+    /* 卡片元素进一步缩小 */
+    .use-cases__card-label {
+      font-size: 0.75rem;
+      padding-left: var(--spacing-sm);
+    }
+
+    .use-cases__card-description {
+      font-size: 0.65rem;
+      padding: 8px 0 0 8px;
+      min-height: 60px;
+    }
+
+    /* 生成按钮缩小 */
+    .use-cases__generate-btn {
+      width: 24px;
+      height: 24px;
+      bottom: 3px;
+      right: 3px;
+    }
+
+    .use-cases__generate-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  /* 触摸设备优化 - 禁用悬浮效果 */
+  @media (hover: none) {
+    .use-cases__card:hover .use-cases__card-video {
+      opacity: 0;
+      /* 触摸设备不自动播放视频 */
+    }
+
+    .use-cases__card:hover .use-cases__card-overlay {
+      background: linear-gradient(180deg,
+          rgba(0, 0, 0, 0.5) 0%,
+          rgba(0, 0, 0, 0.2) 50%,
+          rgba(0, 0, 0, 0.7) 100%);
+      /* 保持原始背景 */
+    }
+
+    .use-cases__card:hover .use-cases__card-description {
+      opacity: 0;
+      /* 触摸设备不显示描述 */
+    }
+  }
+
+  /* 移动端触摸反馈 */
+  @media (max-width: 991px) {
+    .use-cases__category-btn:active {
+      transform: scale(0.95);
+      /* 按下缩小 */
+      transition: transform 0.1s ease;
+    }
+
+    .use-cases__card:active {
+      transform: scale(0.98);
+      /* 卡片按下缩小 */
+    }
+
+    .use-cases__generate-btn:active {
+      transform: scale(0.9);
+      /* 按钮按下缩小 */
+    }
+  }
 </style>
 
 <!-- HTML 结构 -->
@@ -5700,479 +5772,529 @@
 </section>
 
 <script>
-// Use Cases 模块交互逻辑
-(function() {
-  'use strict';
+  // Use Cases 模块交互逻辑
+  (function () {
+    'use strict';
 
-  const initUseCases = () => {
-    // 获取所有分类按钮和卡片
-    const categoryButtons = document.querySelectorAll('.use-cases__category-btn');
-    const cards = document.querySelectorAll('.use-cases__card');
+    const initUseCases = () => {
+      // 获取所有分类按钮和卡片
+      const categoryButtons = document.querySelectorAll('.use-cases__category-btn');
+      const cards = document.querySelectorAll('.use-cases__card');
 
-    // 分类过滤功能（优化版，添加淡入效果）
-    const filterCards = (category) => {
-      // 先隐藏所有不匹配的卡片
-      cards.forEach(card => {
-        const cardCategories = card.dataset.categories;
-
-        if (cardCategories !== category) {
-          card.style.opacity = '0';
-          card.style.transform = 'scale(0.98)';
-          // 延迟后完全隐藏
-          setTimeout(() => {
-            if (card.dataset.categories !== category) {
-              card.classList.add('hidden');
-            }
-          }, 250);
-        }
-      });
-
-      // 显示匹配的卡片（带淡入效果）
-      setTimeout(() => {
+      // 分类过滤功能（优化版，添加淡入效果）
+      const filterCards = (category) => {
+        // 先隐藏所有不匹配的卡片
         cards.forEach(card => {
           const cardCategories = card.dataset.categories;
 
-          if (cardCategories === category) {
-            card.classList.remove('hidden');
-            // 强制重排以触发过渡
-            card.offsetHeight;
-            card.style.opacity = '1';
-            card.style.transform = 'scale(1)';
+          if (cardCategories !== category) {
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.98)';
+            // 延迟后完全隐藏
+            setTimeout(() => {
+              if (card.dataset.categories !== category) {
+                card.classList.add('hidden');
+              }
+            }, 250);
           }
         });
-      }, 50);
+
+        // 显示匹配的卡片（带淡入效果）
+        setTimeout(() => {
+          cards.forEach(card => {
+            const cardCategories = card.dataset.categories;
+
+            if (cardCategories === category) {
+              card.classList.remove('hidden');
+              // 强制重排以触发过渡
+              card.offsetHeight;
+              card.style.opacity = '1';
+              card.style.transform = 'scale(1)';
+            }
+          });
+        }, 50);
+      };
+
+      // 为每个分类按钮添加点击事件
+      categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const category = button.dataset.category;
+
+          // 更新按钮激活状态
+          categoryButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+
+          // 过滤卡片
+          filterCards(category);
+        });
+      });
+
+      // 初始化：显示第一个分类（Education）的卡片，并激活第一个按钮
+      if (categoryButtons.length > 0) {
+        categoryButtons[0].classList.add('active');
+      }
+      filterCards('education');
+
+      // 视频悬浮播放功能（复用 gallery 模块逻辑）
+      const videoCards = document.querySelectorAll('.use-cases__card[data-hover-video]');
+
+      videoCards.forEach(card => {
+        const video = card.querySelector('video');
+
+        if (video) {
+          card.addEventListener('mouseenter', () => {
+            video.currentTime = 0;
+            video.play().catch(err => {
+              console.log('Video play prevented:', err);
+            });
+          });
+
+          card.addEventListener('mouseleave', () => {
+            video.pause();
+            video.currentTime = 0;
+          });
+        }
+      });
     };
 
-    // 为每个分类按钮添加点击事件
-    categoryButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const category = button.dataset.category;
-
-        // 更新按钮激活状态
-        categoryButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-
-        // 过滤卡片
-        filterCards(category);
-      });
-    });
-
-    // 初始化：显示第一个分类（Education）的卡片，并激活第一个按钮
-    if (categoryButtons.length > 0) {
-      categoryButtons[0].classList.add('active');
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initUseCases);
+    } else {
+      initUseCases();
     }
-    filterCards('education');
-
-    // 视频悬浮播放功能（复用 gallery 模块逻辑）
-    const videoCards = document.querySelectorAll('.use-cases__card[data-hover-video]');
-
-    videoCards.forEach(card => {
-      const video = card.querySelector('video');
-
-      if (video) {
-        card.addEventListener('mouseenter', () => {
-          video.currentTime = 0;
-          video.play().catch(err => {
-            console.log('Video play prevented:', err);
-          });
-        });
-
-        card.addEventListener('mouseleave', () => {
-          video.pause();
-          video.currentTime = 0;
-        });
-      }
-    });
-  };
-
-  // DOM 加载后初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initUseCases);
-  } else {
-    initUseCases();
-  }
-})();
+  })();
 </script>
-
 
   <!-- ===== WORKFLOW SECTION ===== -->
 <style>
-/* ========================================
+  /* ========================================
    Workflow 模块样式
    ======================================== */
 
-.workflow {
-  padding: var(--spacing-3xl) 0;
-  background: var(--color-bg);
-}
+  .workflow {
+    padding: var(--spacing-3xl) 0;
+    background: var(--color-bg);
+  }
 
-/* 标题区域 */
-.workflow__header {
-  text-align: center;
-  max-width: 1120px; /* 增加宽度，减少换行 */
-  margin: 0 auto 45px auto; /* 水平居中，底部45px间距 */
-}
+  /* 标题区域 */
+  .workflow__header {
+    text-align: center;
+    max-width: 1120px;
+    /* 增加宽度，减少换行 */
+    margin: 0 auto 45px auto;
+    /* 水平居中，底部45px间距 */
+  }
 
-/* 小标题 "WORKFLOW" */
-.workflow__subtitle {
-  font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-  margin-bottom: 0.1rem; /* 减小与主标题的间距 */
-}
+  /* 小标题 "WORKFLOW" */
+  .workflow__subtitle {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.1rem;
+    /* 减小与主标题的间距 */
+  }
 
-/* 主标题 "A Seamless Creative Workflow" */
-.workflow__title {
-  font-size: 2.8rem;
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--color-text);
-  margin-bottom: var(--spacing-lg); /* 增加与描述的间距 */
-}
+  /* 主标题 "A Seamless Creative Workflow" */
+  .workflow__title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+    /* 增加与描述的间距 */
+  }
 
-/* 描述文字 */
-.workflow__description {
-  font-size: 1.6rem;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-  white-space: normal; /* 正常换行 */
-  word-break: keep-all; /* 尽量不在单词中间断行 */
-  word-wrap: break-word; /* 仅在必要时断词 */
-}
+  /* 描述文字 */
+  .workflow__description {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    white-space: normal;
+    /* 正常换行 */
+    word-break: keep-all;
+    /* 尽量不在单词中间断行 */
+    word-wrap: break-word;
+    /* 仅在必要时断词 */
+  }
 
-/* 卡片网格 */
-.workflow__cards {
-  display: flex;
-  gap: 27px; /* 减少卡片间距 */
-  max-width: 1400px; /* 增加最大宽度，让卡片变宽，文字描述能一行显示更多 */
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-}
+  /* 卡片网格 */
+  .workflow__cards {
+    display: flex;
+    gap: 27px;
+    /* 减少卡片间距 */
+    max-width: 1400px;
+    /* 增加最大宽度，让卡片变宽，文字描述能一行显示更多 */
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
 
-/* 单个卡片 */
-.workflow__card {
-  position: relative;
-  flex: 1 1 0; /* 默认平均分配空间 */
-  aspect-ratio: 3 / 6.1;
-  border-radius: 20px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* 只过渡flex属性 */
-  background: #000000;
-  will-change: flex; /* 性能优化 */
-}
+  /* 单个卡片 */
+  .workflow__card {
+    position: relative;
+    flex: 1 1 0;
+    /* 默认平均分配空间 */
+    aspect-ratio: 3 / 6.1;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    /* 只过渡flex属性 */
+    background: #000000;
+    will-change: flex;
+    /* 性能优化 */
+  }
 
-/* 悬浮状态：只增加宽度 */
-.workflow__card:hover {
-  flex: 2.5 1 0; /* 悬浮时占据更多宽度空间 */
-  z-index: 10; /* 确保悬浮卡片在最上层 */
-}
+  /* 悬浮状态：只增加宽度 */
+  .workflow__card:hover {
+    flex: 2.5 1 0;
+    /* 悬浮时占据更多宽度空间 */
+    z-index: 10;
+    /* 确保悬浮卡片在最上层 */
+  }
 
-/* 当有卡片悬浮时，其他卡片收缩 */
-.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
-  flex: 0.6 1 0; /* 未悬浮卡片收缩宽度 */
-}
+  /* 当有卡片悬浮时，其他卡片收缩 */
+  .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
+    flex: 0.6 1 0;
+    /* 未悬浮卡片收缩宽度 */
+  }
 
-/* 卡片图片 */
-.workflow__card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
+  /* 卡片图片 */
+  .workflow__card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
 
-/* 步骤编号 - 固定在卡片底部左侧 */
-.workflow__card-title-wrapper {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  margin-top: -5px;
-}
+  /* 步骤编号 - 固定在卡片底部左侧 */
+  .workflow__card-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-top: -5px;
+  }
 
-.workflow__card-number {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.4);
-  line-height: 1;
-  position: absolute; /* 改为绝对定位 */
-  bottom: 80px; /* 增加距离底部的距离 */
-  left: 30px; /* 距离左侧固定距离 */
-  z-index: 3; /* 确保在所有层之上 */
-  transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              left 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* 丝滑过渡动画 */
-}
+  .workflow__card-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1;
+    position: absolute;
+    /* 改为绝对定位 */
+    bottom: 80px;
+    /* 增加距离底部的距离 */
+    left: 30px;
+    /* 距离左侧固定距离 */
+    z-index: 3;
+    /* 确保在所有层之上 */
+    transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    /* 丝滑过渡动画 */
+  }
 
-/* 悬浮时数字颜色加深并稍微下移 */
-.workflow__card:hover .workflow__card-number {
-  color: rgba(255, 255, 255, 0.9); /* 加深到90%不透明度 */
-  bottom: 60px; /* 稍微下移一点 */
-  left: 30px; /* 保持左侧位置 */
-}
+  /* 悬浮时数字颜色加深并稍微下移 */
+  .workflow__card:hover .workflow__card-number {
+    color: rgba(255, 255, 255, 0.9);
+    /* 加深到90%不透明度 */
+    bottom: 60px;
+    /* 稍微下移一点 */
+    left: 30px;
+    /* 保持左侧位置 */
+  }
 
-/* 渐变叠加层 - 从透明到纯黑 */
-.workflow__card-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60%;
-  background: linear-gradient(
-    to top,
-    #000000 0%,
-    rgba(0, 0, 0, 0.95) 15%,
-    rgba(0, 0, 0, 0.85) 30%,
-    rgba(0, 0, 0, 0.6) 50%,
-    rgba(0, 0, 0, 0.3) 70%,
-    transparent 100%
-  );
-  z-index: 1;
-  opacity: 1;
-  transition: opacity 0.3s ease; /* 淡出过渡 */
-}
+  /* 渐变叠加层 - 从透明到纯黑 */
+  .workflow__card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to top,
+        #000000 0%,
+        rgba(0, 0, 0, 0.95) 15%,
+        rgba(0, 0, 0, 0.85) 30%,
+        rgba(0, 0, 0, 0.6) 50%,
+        rgba(0, 0, 0, 0.3) 70%,
+        transparent 100%);
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    /* 淡出过渡 */
+  }
 
-/* 悬浮时叠加层消失 */
-.workflow__card:hover .workflow__card-overlay {
-  opacity: 0;
-}
+  /* 悬浮时叠加层消失 */
+  .workflow__card:hover .workflow__card-overlay {
+    opacity: 0;
+  }
 
-/* 当有卡片悬浮时，所有未悬浮卡片的叠加层也淡出 */
-.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-overlay {
-  opacity: 0;
-}
+  /* 当有卡片悬浮时，所有未悬浮卡片的叠加层也淡出 */
+  .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-overlay {
+    opacity: 0;
+  }
 
-/* 文字内容区域 */
-.workflow__card-content {
-  position: absolute;
-  bottom: -25px;
-  left: -15px;
-  right: 0;
-  padding: var(--spacing-lg);
-  z-index: 2;
-  opacity: 1;
-  /* 不移动整个内容区域 */
-}
+  /* 文字内容区域 */
+  .workflow__card-content {
+    position: absolute;
+    bottom: -25px;
+    left: -15px;
+    right: 0;
+    padding: var(--spacing-lg);
+    z-index: 2;
+    opacity: 1;
+    /* 不移动整个内容区域 */
+  }
 
-/* 移除悬浮时文字消失的效果 */
-/* 文字在放大缩小动画时保持显示 */
+  /* 移除悬浮时文字消失的效果 */
+  /* 文字在放大缩小动画时保持显示 */
 
-/* 标题样式 - 改为绝对定位 */
-.workflow__card-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--color-text);
-  position: absolute;
-  bottom: 80px; /* 和数字同一高度 */
-  left: 68px; 
-  z-index: 3;
-  transition: opacity 0.3s ease,
-              bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
+  /* 标题样式 - 改为绝对定位 */
+  .workflow__card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    position: absolute;
+    bottom: 80px;
+    /* 和数字同一高度 */
+    left: 68px;
+    z-index: 3;
+    transition: opacity 0.3s ease,
+      bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-/* 悬浮时标题稍微下移 */
-.workflow__card:hover .workflow__card-title {
-  bottom: 60px; /* 和数字同步下移到60px */
-  left: 68px; /* 保持左边距 */
-}
+  /* 悬浮时标题稍微下移 */
+  .workflow__card:hover .workflow__card-title {
+    bottom: 60px;
+    /* 和数字同步下移到60px */
+    left: 68px;
+    /* 保持左边距 */
+  }
 
-/* 描述文字样式 */
-.workflow__card-text {
-  font-size: 0.875rem;
-  line-height: 1.5;
-  color: #727272;
-  margin: 0;
-  transition: opacity 0.3s ease;
-}
+  /* 描述文字样式 */
+  .workflow__card-text {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #727272;
+    margin: 0;
+    transition: opacity 0.3s ease;
+  }
 
-/* 当有卡片悬浮时，只隐藏其他未悬浮卡片的标题和描述 */
-/* 被悬浮的卡片保留所有文字内容 */
-.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-title,
-.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-text {
-  opacity: 0;
-  pointer-events: none;
-}
+  /* 当有卡片悬浮时，只隐藏其他未悬浮卡片的标题和描述 */
+  /* 被悬浮的卡片保留所有文字内容 */
+  .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-title,
+  .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-text {
+    opacity: 0;
+    pointer-events: none;
+  }
 
-/* ========================================
+  /* ========================================
    响应式设计
    ======================================== */
 
-/* 平板端 */
-@media (max-width: 991px) {
-  .workflow {
-    padding: var(--spacing-2xl) 0;
+  /* 平板端 */
+  @media (max-width: 991px) {
+    .workflow {
+      padding: var(--spacing-2xl) 0;
+    }
+
+    .workflow__title {
+      font-size: 2.5rem;
+    }
+
+    /* 改用 flex 布局以保留横向放大动画 */
+    .workflow__cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--spacing-lg);
+    }
+
+    /* 平板端保留动画，但略微减弱 */
+    .workflow__card {
+      flex: 1 1 calc(50% - var(--spacing-lg));
+      /* 2列宽度计算 */
+      min-width: 280px;
+      /* 最小宽度保证 */
+      max-width: 400px;
+      /* 最大宽度限制 */
+    }
+
+    /* 保留放大动画，但倍数减弱到 2.0 */
+    .workflow__card:hover {
+      flex: 2 1 calc(50% - var(--spacing-lg));
+      max-width: 600px;
+    }
+
+    /* 其他卡片略微收缩 */
+    .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
+      flex: 0.8 1 calc(50% - var(--spacing-lg));
+    }
   }
 
-  .workflow__title {
-    font-size: 2.5rem;
+  /* 移动端 */
+  @media (max-width: 767px) {
+    .workflow {
+      padding: var(--spacing-xl) 0;
+    }
+
+    .workflow__header {
+      margin-bottom: var(--spacing-xl);
+      padding: 0 var(--spacing-md);
+      /* 添加左右内边距 */
+    }
+
+    .workflow__title {
+      font-size: 2rem;
+    }
+
+    .workflow__description {
+      font-size: 1rem;
+      padding: 0 var(--spacing-md);
+      /* 防止超出 */
+    }
+
+    /* 改为 2 列 flex 布局 + 动画支持 */
+    .workflow__cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--spacing-md);
+      padding: 0 var(--spacing-md);
+      /* 左右留白 */
+      box-sizing: border-box;
+    }
+
+    /* 2列布局，支持动画 */
+    .workflow__card {
+      flex: 1 1 calc(50% - var(--spacing-md) / 2);
+      /* 2列宽度 */
+      min-width: 160px;
+      /* 移动端最小 */
+      max-width: 280px;
+      /* 移动端最大 */
+      aspect-ratio: 3 / 4.5;
+      /* 调整纵横比 */
+    }
+
+    /* 移动端放大动画 - 极大效果 */
+    .workflow__card:hover {
+      flex: 5 1 calc(50% - var(--spacing-md) / 2);
+      /* 从 3.5 增大到 5 */
+      max-width: 700px;
+      /* 从 550px 增加到 700px */
+    }
+
+    .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
+      flex: 0.2 1 calc(50% - var(--spacing-md) / 2);
+      /* 从 0.3 减小到 0.2，更明显 */
+    }
+
+    /* 修复卡片编号定位 - 使用 bottom 而非 top */
+    .workflow__card-number {
+      font-size: 2rem;
+      bottom: 60px;
+      /* 用 bottom 而非 top */
+      left: 20px;
+      /* 减小移动端边距 */
+    }
+
+    /* 移除悬浮时数字的下移动画 */
+    .workflow__card:hover .workflow__card-number {
+      bottom: 60px;
+      /* 保持不变，不下移 */
+    }
+
+    /* 调整标题位置 */
+    .workflow__card-title {
+      font-size: 1.25rem;
+      bottom: 60px;
+      left: 50px;
+      /* 留出数字空间 */
+    }
+
+    /* 移除悬浮时标题的下移动画 */
+    .workflow__card:hover .workflow__card-title {
+      bottom: 60px;
+      /* 保持不变，不下移 */
+    }
+
+    .workflow__card-content {
+      padding: var(--spacing-md);
+    }
   }
 
-  /* 改用 flex 布局以保留横向放大动画 */
-  .workflow__cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--spacing-lg);
-  }
+  /* 超小屏优化 */
+  @media (max-width: 479px) {
+    .workflow__title {
+      font-size: 1.75rem;
+    }
 
-  /* 平板端保留动画，但略微减弱 */
-  .workflow__card {
-    flex: 1 1 calc(50% - var(--spacing-lg)); /* 2列宽度计算 */
-    min-width: 280px; /* 最小宽度保证 */
-    max-width: 400px; /* 最大宽度限制 */
-  }
+    .workflow__description {
+      font-size: 0.9rem;
+    }
 
-  /* 保留放大动画，但倍数减弱到 2.0 */
-  .workflow__card:hover {
-    flex: 2 1 calc(50% - var(--spacing-lg));
-    max-width: 600px;
-  }
+    /* 调整卡片间距和内边距 */
+    .workflow__cards {
+      gap: var(--spacing-sm);
+      padding: 0 var(--spacing-sm);
+    }
 
-  /* 其他卡片略微收缩 */
-  .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
-    flex: 0.8 1 calc(50% - var(--spacing-lg));
-  }
-}
+    /* 优化卡片尺寸 */
+    .workflow__card {
+      min-width: 140px;
+      max-width: 240px;
+      aspect-ratio: 3 / 5;
+      /* 更竖长 */
+    }
 
-/* 移动端 */
-@media (max-width: 767px) {
-  .workflow {
-    padding: var(--spacing-xl) 0;
-  }
+    .workflow__card:hover {
+      max-width: 320px;
+    }
 
-  .workflow__header {
-    margin-bottom: var(--spacing-xl);
-    padding: 0 var(--spacing-md); /* 添加左右内边距 */
-  }
+    /* 调整编号样式 */
+    .workflow__card-number {
+      font-size: 1.8rem;
+      bottom: 50px;
+      left: 15px;
+    }
 
-  .workflow__title {
-    font-size: 2rem;
-  }
+    /* 移除悬浮时数字的下移动画 */
+    .workflow__card:hover .workflow__card-number {
+      bottom: 50px;
+      /* 保持不变，不下移 */
+    }
 
-  .workflow__description {
-    font-size: 1rem;
-    padding: 0 var(--spacing-md); /* 防止超出 */
-  }
+    /* 调整标题样式 */
+    .workflow__card-title {
+      font-size: 1.1rem;
+      left: 45px;
+      bottom: 50px;
+    }
 
-  /* 改为 2 列 flex 布局 + 动画支持 */
-  .workflow__cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--spacing-md);
-    padding: 0 var(--spacing-md); /* 左右留白 */
-    box-sizing: border-box;
-  }
+    /* 移除悬浮时标题的下移动画 */
+    .workflow__card:hover .workflow__card-title {
+      bottom: 50px;
+      /* 保持不变，不下移 */
+    }
 
-  /* 2列布局，支持动画 */
-  .workflow__card {
-    flex: 1 1 calc(50% - var(--spacing-md) / 2); /* 2列宽度 */
-    min-width: 160px; /* 移动端最小 */
-    max-width: 280px; /* 移动端最大 */
-    aspect-ratio: 3 / 4.5; /* 调整纵横比 */
-  }
+    /* 调整描述文字 */
+    .workflow__card-text {
+      font-size: 0.75rem;
+    }
 
-  /* 移动端放大动画 - 极大效果 */
-  .workflow__card:hover {
-    flex: 5 1 calc(50% - var(--spacing-md) / 2); /* 从 3.5 增大到 5 */
-    max-width: 700px; /* 从 550px 增加到 700px */
+    .workflow__card-content {
+      padding: var(--spacing-sm);
+    }
   }
-
-  .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
-    flex: 0.2 1 calc(50% - var(--spacing-md) / 2); /* 从 0.3 减小到 0.2，更明显 */
-  }
-
-  /* 修复卡片编号定位 - 使用 bottom 而非 top */
-  .workflow__card-number {
-    font-size: 2rem;
-    bottom: 60px; /* 用 bottom 而非 top */
-    left: 20px; /* 减小移动端边距 */
-  }
-
-  /* 移除悬浮时数字的下移动画 */
-  .workflow__card:hover .workflow__card-number {
-    bottom: 60px; /* 保持不变，不下移 */
-  }
-
-  /* 调整标题位置 */
-  .workflow__card-title {
-    font-size: 1.25rem;
-    bottom: 60px;
-    left: 50px; /* 留出数字空间 */
-  }
-
-  /* 移除悬浮时标题的下移动画 */
-  .workflow__card:hover .workflow__card-title {
-    bottom: 60px; /* 保持不变，不下移 */
-  }
-
-  .workflow__card-content {
-    padding: var(--spacing-md);
-  }
-}
-
-/* 超小屏优化 */
-@media (max-width: 479px) {
-  .workflow__title {
-    font-size: 1.75rem;
-  }
-
-  .workflow__description {
-    font-size: 0.9rem;
-  }
-
-  /* 调整卡片间距和内边距 */
-  .workflow__cards {
-    gap: var(--spacing-sm);
-    padding: 0 var(--spacing-sm);
-  }
-
-  /* 优化卡片尺寸 */
-  .workflow__card {
-    min-width: 140px;
-    max-width: 240px;
-    aspect-ratio: 3 / 5; /* 更竖长 */
-  }
-
-  .workflow__card:hover {
-    max-width: 320px;
-  }
-
-  /* 调整编号样式 */
-  .workflow__card-number {
-    font-size: 1.8rem;
-    bottom: 50px;
-    left: 15px;
-  }
-
-  /* 移除悬浮时数字的下移动画 */
-  .workflow__card:hover .workflow__card-number {
-    bottom: 50px; /* 保持不变，不下移 */
-  }
-
-  /* 调整标题样式 */
-  .workflow__card-title {
-    font-size: 1.1rem;
-    left: 45px;
-    bottom: 50px;
-  }
-
-  /* 移除悬浮时标题的下移动画 */
-  .workflow__card:hover .workflow__card-title {
-    bottom: 50px; /* 保持不变，不下移 */
-  }
-
-  /* 调整描述文字 */
-  .workflow__card-text {
-    font-size: 0.75rem;
-  }
-
-  .workflow__card-content {
-    padding: var(--spacing-sm);
-  }
-}
 </style>
 
 <section class="workflow" id="workflow">
@@ -6191,12 +6313,7 @@
     <div class="workflow__cards">
       <!-- 卡片 1: Generative -->
       <div class="workflow__card" data-step="generative">
-        <img
-          src="sections/workflow/1.png"
-          alt="Generative AI"
-          class="workflow__card-image"
-          loading="lazy"
-        >
+        <img src="sections/workflow/1.png" alt="Generative AI" class="workflow__card-image" loading="lazy">
         <div class="workflow__card-overlay"></div>
         <div class="workflow__card-content">
           <div class="workflow__card-title-wrapper">
@@ -6211,12 +6328,7 @@
 
       <!-- 卡片 2: Storyboard -->
       <div class="workflow__card" data-step="storyboard">
-        <img
-          src="sections/workflow/2.jpg"
-          alt="Storyboard"
-          class="workflow__card-image"
-          loading="lazy"
-        >
+        <img src="sections/workflow/2.jpg" alt="Storyboard" class="workflow__card-image" loading="lazy">
         <div class="workflow__card-overlay"></div>
         <div class="workflow__card-content">
           <div class="workflow__card-title-wrapper">
@@ -6231,12 +6343,7 @@
 
       <!-- 卡片 3: Timeline -->
       <div class="workflow__card" data-step="timeline">
-        <img
-          src="sections/workflow/3.png"
-          alt="Timeline"
-          class="workflow__card-image"
-          loading="lazy"
-        >
+        <img src="sections/workflow/3.png" alt="Timeline" class="workflow__card-image" loading="lazy">
         <div class="workflow__card-overlay"></div>
         <div class="workflow__card-content">
           <div class="workflow__card-title-wrapper">
@@ -6251,12 +6358,7 @@
 
       <!-- 卡片 4: Assistant -->
       <div class="workflow__card" data-step="assistant">
-        <img
-          src="sections/workflow/4.png"
-          alt="Assistant"
-          class="workflow__card-image"
-          loading="lazy"
-        >
+        <img src="sections/workflow/4.png" alt="Assistant" class="workflow__card-image" loading="lazy">
         <div class="workflow__card-overlay"></div>
         <div class="workflow__card-content">
           <div class="workflow__card-title-wrapper">
@@ -6273,596 +6375,686 @@
 </section>
 
 <script>
-(function() {
-  'use strict';
+  (function () {
+    'use strict';
 
-  /**
-   * 初始化 Workflow 模块
-   */
-  const initWorkflow = () => {
-    console.log('✅ Workflow module initialized');
+    /**
+     * 初始化 Workflow 模块
+     */
+    const initWorkflow = () => {
+      console.log('✅ Workflow module initialized');
 
-    const cards = document.querySelectorAll('.workflow__card');
+      const cards = document.querySelectorAll('.workflow__card');
 
-    // 记录每张卡片的原始高度
-    const originalHeights = new Map();
+      // 记录每张卡片的原始高度
+      const originalHeights = new Map();
 
-    // 等待布局稳定后记录高度（仅在桌面端）
-    setTimeout(() => {
-      // 只在桌面端（≥992px）设置固定高度
-      if (window.innerWidth >= 992) {
-        cards.forEach(card => {
-          const height = card.offsetHeight;
-          originalHeights.set(card, height);
-          // 设置固定高度为内联样式
-          card.style.height = `${height}px`;
-        });
-      }
-    }, 100);
+      // 等待布局稳定后记录高度（仅在桌面端）
+      setTimeout(() => {
+        // 只在桌面端（≥992px）设置固定高度
+        if (window.innerWidth >= 992) {
+          cards.forEach(card => {
+            const height = card.offsetHeight;
+            originalHeights.set(card, height);
+            // 设置固定高度为内联样式
+            card.style.height = `${height}px`;
+          });
+        }
+      }, 100);
 
-    // 监听窗口大小变化，移除移动端的固定高度
-    window.addEventListener('resize', () => {
-      if (window.innerWidth < 992) {
-        cards.forEach(card => {
-          card.style.height = ''; // 移除固定高度，使用 aspect-ratio
-        });
-      } else if (window.innerWidth >= 992) {
-        cards.forEach(card => {
-          const height = card.offsetHeight;
-          card.style.height = `${height}px`; // 重新设置固定高度
-        });
-      }
-    });
+      // 监听窗口大小变化，移除移动端的固定高度
+      window.addEventListener('resize', () => {
+        if (window.innerWidth < 992) {
+          cards.forEach(card => {
+            card.style.height = ''; // 移除固定高度，使用 aspect-ratio
+          });
+        } else if (window.innerWidth >= 992) {
+          cards.forEach(card => {
+            const height = card.offsetHeight;
+            card.style.height = `${height}px`; // 重新设置固定高度
+          });
+        }
+      });
 
-    // 图片加载错误处理
-    cards.forEach(card => {
-      const img = card.querySelector('.workflow__card-image');
+      // 图片加载错误处理
+      cards.forEach(card => {
+        const img = card.querySelector('.workflow__card-image');
 
-      if (img) {
-        img.addEventListener('error', function() {
-          console.warn(`Failed to load image: ${this.src}`);
-          // 可以在这里设置占位图或处理逻辑
-        });
-      }
-    });
+        if (img) {
+          img.addEventListener('error', function () {
+            console.warn(`Failed to load image: ${this.src}`);
+            // 可以在这里设置占位图或处理逻辑
+          });
+        }
+      });
 
-    // 预留：未来可添加视频悬浮播放功能
-    // 参考 gallery 模块的实现
-    // const initVideoHover = () => { ... };
+      // 预留：未来可添加视频悬浮播放功能
+      // 参考 gallery 模块的实现
+      // const initVideoHover = () => { ... };
 
-    // 预留：未来可添加点击展开详情功能
-    // cards.forEach(card => {
-    //   card.addEventListener('click', () => {
-    //     const step = card.dataset.step;
-    //     console.log(`Clicked on ${step}`);
-    //     // 处理点击事件
-    //   });
-    // });
-  };
+      // 预留：未来可添加点击展开详情功能
+      // cards.forEach(card => {
+      //   card.addEventListener('click', () => {
+      //     const step = card.dataset.step;
+      //     console.log(`Clicked on ${step}`);
+      //     // 处理点击事件
+      //   });
+      // });
+    };
 
-  // DOM Ready 检测
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initWorkflow);
-  } else {
-    initWorkflow();
-  }
-})();
+    // DOM Ready 检测
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initWorkflow);
+    } else {
+      initWorkflow();
+    }
+  })();
 </script>
-
 
   <!-- ===== ASSISTANT SECTION ===== -->
 <!-- ===== Assistant Section Module ===== -->
 <style>
-/* Assistant Section Styles - 特殊左右分栏布局 */
-.assistant-section {
-  padding: var(--spacing-3xl) 0;
-  background: var(--color-bg);
-}
-
-/* 标题区域 - 居中 */
-.assistant-section .section-header-center {
-  text-align: center;
-  max-width: 1200px;  /* 增大宽度，减少主标题换行 */
-  margin: 0 auto 35px;  /* 减少下边距（原来 200px）*/
-  padding: 0 var(--spacing-lg);
-}
-
-.assistant-section .section-label {
-  font-size: 1.2rem;  /* 增大小标题字体（原来 0.875rem）*/
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-sm);
-}
-
-/* 使用更具体的选择器，避免被 features 模块覆盖 */
-.assistant-section .section-title-large {
-  font-size: 2.8rem;
-  font-weight: 800;
-  margin-bottom: var(--spacing-md);
-  line-height: 1.2;
-}
-
-.assistant-section .section-subtitle-large {
-  font-size: 1.5rem;  /* 增大描述字体（原来 1.125rem）*/
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-}
-
-/* 主布局容器 - 左右分栏 */
-.assistant-container {
-  max-width: 1500px;  /* 缩小容器宽度（原来是 1400px）*/
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-}
-
-.assistant-grid {
-  display: grid;
-  grid-template-columns: auto auto;  /* 改为自动宽度，由 max-width 控制 */
-  gap: 35px;
-  justify-content: center;  /* 整体居中显示 */
-}
-
-/* 左侧列 - 单个卡片包含两个功能 */
-.assistant-left {
-  display: flex;
-  max-width: 745px;  /* 限制左侧卡片最大宽度 */
-}
-
-/* 右侧列 - 一张大卡片 */
-.assistant-right {
-  display: flex;
-  max-width: 720px;  /* 继续增加右侧卡片最大宽度 */
-}
-
-/* 强制左右卡片高度一致 */
-.assistant-card {
-  height: 550px;  /* 固定卡片高度 */
-}
-
-/* 卡片基础样式 */
-.assistant-card {
-  background: var(--color-bg-secondary);
-  border: none;  /* 移除边框 */
-  border-radius: 24px;  /* 增大圆角 */
-  overflow: hidden;
-  transition: all var(--transition);
-  display: flex;
-  flex-direction: column;
-}
-
-.assistant-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-}
-
-/* 卡片图片区域 */
-.assistant-visual {
-  overflow: hidden;
-  background: var(--color-bg);
-  position: relative;
-}
-
-/* 左侧合并卡片 - 包含两个功能项（左右并排）*/
-.assistant-card-merged {
-  display: grid;
-  grid-template-columns: 1fr 1fr;  /* 两列等宽并排 */
-  gap: 32px;  /* 两个功能项之间的间距 */
-  padding-top: 32px;     /* 上边距 */
-  padding-right: var(--spacing-xl);   /* 右边距 */
-  padding-bottom: var(--spacing-xl);  /* 下边距 */
-  padding-left: var(--spacing-xl);    /* 左边距 */
-  flex: 1;
-  align-items: stretch;  /* 确保两个功能项高度一致 */
-}
-
-/* 右侧单卡片 - 包含一个功能项（内嵌样式）*/
-.assistant-card-single {
-  padding-top: 32px;     /* 上边距 */
-  padding-left: 40px;    /* 左边距 - 增加以居中图片 */
-  padding-right: 40px;   /* 右边距 - 增加以居中图片 */
-  flex: 1;
-}
-
-.assistant-feature-item {
-  display: flex;
-  flex-direction: column;  /* 垂直布局：图片在上，文字在下 */
-  gap: var(--spacing-sm); 
-  height: 100%;  /* 填充父容器高度，确保两个功能项高度一致 */
-}
-
-/* 移除分割线 - 两个功能项之间不再有边框 */
-.assistant-feature-item:not(:last-child) {
-  padding-right: var(--spacing-md);
-}
-
-/* 功能项图片 - 左侧两个功能项的图片，固定宽高 */
-.assistant-feature-visual {
-  overflow: hidden;
-  background: var(--color-bg);
-  border-radius: 12px;
-  width: 295px;  /* 固定左侧图片宽度 */
-  height: 250px;  /* 固定左侧图片高度 */
-}
-
-/* 右侧单卡片图片 - 单独设置宽高 */
-.assistant-card-single .assistant-feature-visual {
-  width: 100%;   /* 自适应容器宽度 */
-  max-width: 570px;  /* 增加最大宽度限制 */
-  height: 250px;  /* 固定右侧图片高度 */
-}
-
-.assistant-feature-visual img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease;
-}
-
-.assistant-card:hover .assistant-feature-visual img {
-  transform: scale(1.05);
-}
-
-.assistant-feature-content {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;  /* 水平居中 */
-  text-align: center;   /* 文字居中对齐 */
-  padding-top: 12px;
-  flex: 1;  /* 填满剩余空间 */
-}
-
-/* ===== 右侧卡片独立样式 - 完全不受其他样式影响 ===== */
-
-/* 右侧功能项容器 */
-.assistant-feature-item-right {
-  display: flex;
-  flex-direction: column;
-  gap: 0;  /* 不使用 gap，完全用 padding 控制 */
-  height: 100%;
-}
-
-/* 右侧图片 */
-.assistant-feature-visual-right {
-  overflow: hidden;
-  background: var(--color-bg);
-  border-radius: 12px;
-  width: 385px;
-  height: 250px;
-}
-
-.assistant-feature-visual-right img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease;
-}
-
-.assistant-card:hover .assistant-feature-visual-right img {
-  transform: scale(1.05);
-}
-
-/* 右侧内容区域 - 精确控制间距 */
-.assistant-feature-content-right {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;  /* 顶部对齐 */
-  align-items: center;
-  text-align: center;
-  padding-top: 28px;  /* 与左侧一致的间距 */
-  flex: 1;
-}
-
-/* 右侧标题 */
-.assistant-feature-title-right {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: var(--spacing-sm);
-  line-height: 1.3;
-  text-align: center;  /* 标题居中 */
-  width: 100%;  /* 确保标题占满宽度以便居中 */
-}
-
-/* 右侧描述 */
-.assistant-feature-description-right {
-  color: var(--color-text-secondary);
-  font-size: 1.3rem;
-  line-height: 1.6;
-  word-break: keep-all;
-  overflow-wrap: break-word;
-  hyphens: none;
-  max-width: 100%;
-  text-align: center;  /* 描述居中 */
-  margin: 0 auto;  /* 水平居中 */
-}
-
-.assistant-feature-title {
-  font-size: 1.5rem;  /* 进一步增大标题字体 */
-  font-weight: 700;
-  margin-bottom: var(--spacing-sm);  /* 增大间距 */
-  line-height: 1.3;
-}
-
-.assistant-feature-description {
-  color: var(--color-text-secondary);
-  font-size: 1.3rem;  /* 进一步增大描述文字 */
-  line-height: 1.6;
-  word-break: keep-all;  /* 严格控制换行，保持单词完整 */
-  overflow-wrap: break-word;  /* 超长单词才换行 */
-  hyphens: none;  /* 禁用连字符 */
-  max-width: 100%;  /* 限制描述文字最大宽度，控制换行 */
-}
-
-/* 已移除旧的右侧大卡片样式（.assistant-card-large, .assistant-content, .assistant-title, .assistant-description, .assistant-link）
-   现在右侧也使用内嵌功能项样式 */
-
-/* ========================================
-   平板/移动端适配 (响应式指南)
-   ======================================== */
-@media (max-width: 991px) {
-  /* 容器改为垂直流式布局 + 居中 */
-  .assistant-container {
-    overflow-x: hidden;      /* 防止横向滚动 */
-    overflow-y: visible;     /* 允许元素溢出(悬浮效果) */
-  }
-
-  /* 网格改为单列 + 居中对齐 */
-  .assistant-grid {
-    grid-template-columns: 1fr;  /* 单列布局 */
-    justify-content: center;     /* 整体居中 */
-    align-items: center;         /* 子元素居中 */
-  }
-
-  /* 左右列改为100%宽度 + 居中 */
-  .assistant-left,
-  .assistant-right {
-    width: 100%;
-    max-width: 600px;  /* 限制移动端最大宽度 */
-    margin: 0 auto;    /* 居中 */
-  }
-
-  /* 卡片高度改为自动 */
-  .assistant-card {
-    height: auto;      /* 🔑 核心改动：自动高度 */
-    min-height: auto;  /* 移除最小高度限制 */
-  }
-
-  /* 移动端左侧卡片改为垂直堆叠 + 居中 */
-  .assistant-card-merged {
-    grid-template-columns: 1fr;  /* 单列 */
-    align-items: center;         /* 子元素居中 */
-    padding: var(--spacing-lg);  /* 统一内边距 */
-  }
-
-  /* 移动端右侧卡片内边距调整 */
-  .assistant-card-single {
-    padding: var(--spacing-lg);  /* 统一内边距 */
-  }
-
-  /* 功能项垂直居中 */
-  .assistant-feature-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;  /* 🔑 居中对齐 */
-    text-align: center;   /* 文字居中 */
-  }
-
-  .assistant-feature-item:not(:last-child) {
-    border-bottom: 1px solid var(--color-border);
-    padding-right: 0;
-    padding-bottom: var(--spacing-lg);
-    margin-bottom: var(--spacing-lg);
-  }
-
-  /* 图片改为弹性尺寸 + 居中 */
-  .assistant-feature-visual {
-    width: 100%;              /* 🔑 占满容器 */
-    max-width: 100%;          /* 不超过容器 */
-    height: auto;             /* 🔑 自动高度 */
-    aspect-ratio: 16/9;       /* 保持 16:9 比例 */
-    margin: 0 auto;           /* 居中 */
-  }
-
-  /* 右侧单卡片图片也改为弹性尺寸 */
-  .assistant-card-single .assistant-feature-visual {
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 16/9;
-  }
-
-  /* 右侧独立样式图片也改为弹性尺寸 */
-  .assistant-feature-visual-right {
-    width: 100%;              /* 🔑 占满容器 */
-    max-width: 100%;          /* 不超过容器 */
-    height: auto;             /* 🔑 自动高度 */
-    aspect-ratio: 16/9;       /* 保持 16:9 比例 */
-    margin: 0 auto;           /* 居中 */
-  }
-
-  /* 右侧功能项也居中 */
-  .assistant-feature-item-right {
-    display: flex;
-    flex-direction: column;
-    align-items: center;  /* 🔑 居中对齐 */
-    text-align: center;   /* 文字居中 */
-  }
-
-  /* 内容区域居中对齐 */
-  .assistant-feature-content,
-  .assistant-feature-content-right {
-    align-items: center;  /* 水平居中 */
-    text-align: center;   /* 文字居中 */
-    width: 100%;          /* 占满宽度 */
-    padding-top: var(--spacing-md);
-  }
-
-  /* 移除描述中的<br>标签效果 */
-  .assistant-feature-description br,
-  .assistant-feature-description-right br {
-    display: none;  /* 隐藏强制换行 */
-  }
-
-  /* 标题区域调整 */
-  .assistant-section .section-header-center {
-    margin-bottom: var(--spacing-xl);
-    padding: 0 var(--spacing-md);
-  }
-
-  /* 标题字体调整 */
-  .assistant-section .section-title-large {
-    font-size: 2rem;
-  }
-
-  .assistant-section .section-subtitle-large {
-    font-size: 1.125rem;
-  }
-}
-
-/* ========================================
-   移动端进一步优化 (<768px)
-   ======================================== */
-@media (max-width: 767px) {
+  /* Assistant Section Styles - 特殊左右分栏布局 */
   .assistant-section {
-    padding: var(--spacing-2xl) 0;
+    padding: var(--spacing-3xl) 0;
+    background: var(--color-bg);
   }
 
-  .section-header-center {
-    margin-bottom: var(--spacing-lg);
-    padding: 0 var(--spacing-sm);
-  }
-
-  /* 标题进一步缩小 */
-  .assistant-section .section-title-large {
-    font-size: 1.75rem;
-  }
-
-  .assistant-section .section-subtitle-large {
-    font-size: 1rem;
+  /* 标题区域 - 居中 */
+  .assistant-section .section-header-center {
+    text-align: center;
+    max-width: 1200px;
+    /* 增大宽度，减少主标题换行 */
+    margin: 0 auto 35px;
+    /* 减少下边距（原来 200px）*/
+    padding: 0 var(--spacing-lg);
   }
 
   .assistant-section .section-label {
-    font-size: 0.875rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 1.2rem;
+    /* 增大小标题字体（原来 0.875rem）*/
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
   }
 
-  /* 网格间距减小 */
-  .assistant-grid {
-    gap: var(--spacing-md);
-  }
-
-  /* 卡片内边距减小 */
-  .assistant-card-merged,
-  .assistant-card-single {
-    padding: var(--spacing-md);
-  }
-
-  /* 功能项间距减小 */
-  .assistant-feature-item {
-    padding: var(--spacing-sm) 0;
-  }
-
-  .assistant-feature-item:not(:last-child) {
-    padding-bottom: var(--spacing-md);
-    margin-bottom: var(--spacing-md);
-  }
-
-  /* 功能项标题和描述字体缩小 */
-  .assistant-feature-title,
-  .assistant-feature-title-right {
-    font-size: 1.25rem;
-  }
-
-  .assistant-feature-description,
-  .assistant-feature-description-right {
-    font-size: 0.875rem;
-    line-height: 1.5;
-  }
-}
-
-/* ========================================
-   小屏手机优化 (<480px)
-   ======================================== */
-@media (max-width: 479px) {
-  .assistant-section {
-    padding: var(--spacing-xl) 0;
-  }
-
-  /* 左右列最大宽度调整 */
-  .assistant-left,
-  .assistant-right {
-    max-width: 100%;  /* 占满屏幕 */
-  }
-
-  /* 标题进一步缩小 */
+  /* 使用更具体的选择器，避免被 features 模块覆盖 */
   .assistant-section .section-title-large {
-    font-size: 1.5rem;
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
   }
 
   .assistant-section .section-subtitle-large {
-    font-size: 0.875rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    /* 增大描述字体（原来 1.125rem）*/
+    font-weight: 300;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
   }
 
-  /* 功能项标题和描述更小 */
-  .assistant-feature-title,
-  .assistant-feature-title-right {
-    font-size: 1.125rem;
+  /* 主布局容器 - 左右分栏 */
+  .assistant-container {
+    max-width: 1500px;
+    /* 缩小容器宽度（原来是 1400px）*/
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
   }
 
-  .assistant-feature-description,
-  .assistant-feature-description-right {
-    font-size: 0.8125rem;
+  .assistant-grid {
+    display: grid;
+    grid-template-columns: auto auto;
+    /* 改为自动宽度，由 max-width 控制 */
+    gap: 35px;
+    justify-content: center;
+    /* 整体居中显示 */
   }
 
-  /* 卡片内边距进一步缩小 */
-  .assistant-card-merged,
+  /* 左侧列 - 单个卡片包含两个功能 */
+  .assistant-left {
+    display: flex;
+    max-width: 745px;
+    /* 限制左侧卡片最大宽度 */
+  }
+
+  /* 右侧列 - 一张大卡片 */
+  .assistant-right {
+    display: flex;
+    max-width: 720px;
+    /* 继续增加右侧卡片最大宽度 */
+  }
+
+  /* 强制左右卡片高度一致 */
+  .assistant-card {
+    height: 550px;
+    /* 固定卡片高度 */
+  }
+
+  /* 卡片基础样式 */
+  .assistant-card {
+    background: var(--color-bg-secondary);
+    border: none;
+    /* 移除边框 */
+    border-radius: 24px;
+    /* 增大圆角 */
+    overflow: hidden;
+    transition: all var(--transition);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .assistant-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  /* 卡片图片区域 */
+  .assistant-visual {
+    overflow: hidden;
+    background: var(--color-bg);
+    position: relative;
+  }
+
+  /* 左侧合并卡片 - 包含两个功能项（左右并排）*/
+  .assistant-card-merged {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    /* 两列等宽并排 */
+    gap: 32px;
+    /* 两个功能项之间的间距 */
+    padding-top: 32px;
+    /* 上边距 */
+    padding-right: var(--spacing-xl);
+    /* 右边距 */
+    padding-bottom: var(--spacing-xl);
+    /* 下边距 */
+    padding-left: var(--spacing-xl);
+    /* 左边距 */
+    flex: 1;
+    align-items: stretch;
+    /* 确保两个功能项高度一致 */
+  }
+
+  /* 右侧单卡片 - 包含一个功能项（内嵌样式）*/
   .assistant-card-single {
-    padding: var(--spacing-sm);
+    padding-top: 32px;
+    /* 上边距 */
+    padding-left: 40px;
+    /* 左边距 - 增加以居中图片 */
+    padding-right: 40px;
+    /* 右边距 - 增加以居中图片 */
+    flex: 1;
   }
-}
 
-/* ========================================
+  .assistant-feature-item {
+    display: flex;
+    flex-direction: column;
+    /* 垂直布局：图片在上，文字在下 */
+    gap: var(--spacing-sm);
+    height: 100%;
+    /* 填充父容器高度，确保两个功能项高度一致 */
+  }
+
+  /* 移除分割线 - 两个功能项之间不再有边框 */
+  .assistant-feature-item:not(:last-child) {
+    padding-right: var(--spacing-md);
+  }
+
+  /* 功能项图片 - 左侧两个功能项的图片，固定宽高 */
+  .assistant-feature-visual {
+    overflow: hidden;
+    background: var(--color-bg);
+    border-radius: 12px;
+    width: 295px;
+    /* 固定左侧图片宽度 */
+    height: 250px;
+    /* 固定左侧图片高度 */
+  }
+
+  /* 右侧单卡片图片 - 单独设置宽高 */
+  .assistant-card-single .assistant-feature-visual {
+    width: 100%;
+    /* 自适应容器宽度 */
+    max-width: 570px;
+    /* 增加最大宽度限制 */
+    height: 250px;
+    /* 固定右侧图片高度 */
+  }
+
+  .assistant-feature-visual img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .assistant-card:hover .assistant-feature-visual img {
+    transform: scale(1.05);
+  }
+
+  .assistant-feature-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    /* 水平居中 */
+    text-align: center;
+    /* 文字居中对齐 */
+    padding-top: 12px;
+    flex: 1;
+    /* 填满剩余空间 */
+  }
+
+  /* ===== 右侧卡片独立样式 - 完全不受其他样式影响 ===== */
+
+  /* 右侧功能项容器 */
+  .assistant-feature-item-right {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    /* 不使用 gap，完全用 padding 控制 */
+    height: 100%;
+  }
+
+  /* 右侧图片 */
+  .assistant-feature-visual-right {
+    overflow: hidden;
+    background: var(--color-bg);
+    border-radius: 12px;
+    width: 385px;
+    height: 250px;
+  }
+
+  .assistant-feature-visual-right img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+  }
+
+  .assistant-card:hover .assistant-feature-visual-right img {
+    transform: scale(1.05);
+  }
+
+  /* 右侧内容区域 - 精确控制间距 */
+  .assistant-feature-content-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    /* 顶部对齐 */
+    align-items: center;
+    text-align: center;
+    padding-top: 28px;
+    /* 与左侧一致的间距 */
+    flex: 1;
+  }
+
+  /* 右侧标题 */
+  .assistant-feature-title-right {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.3;
+    text-align: center;
+    /* 标题居中 */
+    width: 100%;
+    /* 确保标题占满宽度以便居中 */
+  }
+
+  /* 右侧描述 */
+  .assistant-feature-description-right {
+    font-family: 'Sora', sans-serif;
+    color: var(--color-text-secondary);
+    font-size: 1.3rem;
+    font-weight: 300;
+    line-height: 1.6;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    hyphens: none;
+    max-width: 100%;
+    text-align: center;
+    /* 描述居中 */
+    margin: 0 auto;
+    /* 水平居中 */
+  }
+
+  .assistant-feature-title {
+    font-size: 1.5rem;
+    /* 进一步增大标题字体 */
+    font-weight: 700;
+    margin-bottom: var(--spacing-sm);
+    /* 增大间距 */
+    line-height: 1.3;
+  }
+
+  .assistant-feature-description {
+    font-family: 'Sora', sans-serif;
+    color: var(--color-text-secondary);
+    font-size: 1.3rem;
+    /* 进一步增大描述文字 */
+    font-weight: 300;
+    line-height: 1.6;
+    word-break: keep-all;
+    /* 严格控制换行，保持单词完整 */
+    overflow-wrap: break-word;
+    /* 超长单词才换行 */
+    hyphens: none;
+    /* 禁用连字符 */
+    max-width: 100%;
+    /* 限制描述文字最大宽度，控制换行 */
+  }
+
+  /* 已移除旧的右侧大卡片样式（.assistant-card-large, .assistant-content, .assistant-title, .assistant-description, .assistant-link）
+   现在右侧也使用内嵌功能项样式 */
+
+  /* ========================================
+   平板/移动端适配 (响应式指南)
+   ======================================== */
+  @media (max-width: 991px) {
+
+    /* 容器改为垂直流式布局 + 居中 */
+    .assistant-container {
+      overflow-x: hidden;
+      /* 防止横向滚动 */
+      overflow-y: visible;
+      /* 允许元素溢出(悬浮效果) */
+    }
+
+    /* 网格改为单列 + 居中对齐 */
+    .assistant-grid {
+      grid-template-columns: 1fr;
+      /* 单列布局 */
+      justify-content: center;
+      /* 整体居中 */
+      align-items: center;
+      /* 子元素居中 */
+    }
+
+    /* 左右列改为100%宽度 + 居中 */
+    .assistant-left,
+    .assistant-right {
+      width: 100%;
+      max-width: 600px;
+      /* 限制移动端最大宽度 */
+      margin: 0 auto;
+      /* 居中 */
+    }
+
+    /* 卡片高度改为自动 */
+    .assistant-card {
+      height: auto;
+      /* 🔑 核心改动：自动高度 */
+      min-height: auto;
+      /* 移除最小高度限制 */
+    }
+
+    /* 移动端左侧卡片改为垂直堆叠 + 居中 */
+    .assistant-card-merged {
+      grid-template-columns: 1fr;
+      /* 单列 */
+      align-items: center;
+      /* 子元素居中 */
+      padding: var(--spacing-lg);
+      /* 统一内边距 */
+    }
+
+    /* 移动端右侧卡片内边距调整 */
+    .assistant-card-single {
+      padding: var(--spacing-lg);
+      /* 统一内边距 */
+    }
+
+    /* 功能项垂直居中 */
+    .assistant-feature-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* 🔑 居中对齐 */
+      text-align: center;
+      /* 文字居中 */
+    }
+
+    .assistant-feature-item:not(:last-child) {
+      border-bottom: 1px solid var(--color-border);
+      padding-right: 0;
+      padding-bottom: var(--spacing-lg);
+      margin-bottom: var(--spacing-lg);
+    }
+
+    /* 图片改为弹性尺寸 + 居中 */
+    .assistant-feature-visual {
+      width: 100%;
+      /* 🔑 占满容器 */
+      max-width: 100%;
+      /* 不超过容器 */
+      height: auto;
+      /* 🔑 自动高度 */
+      aspect-ratio: 16/9;
+      /* 保持 16:9 比例 */
+      margin: 0 auto;
+      /* 居中 */
+    }
+
+    /* 右侧单卡片图片也改为弹性尺寸 */
+    .assistant-card-single .assistant-feature-visual {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      aspect-ratio: 16/9;
+    }
+
+    /* 右侧独立样式图片也改为弹性尺寸 */
+    .assistant-feature-visual-right {
+      width: 100%;
+      /* 🔑 占满容器 */
+      max-width: 100%;
+      /* 不超过容器 */
+      height: auto;
+      /* 🔑 自动高度 */
+      aspect-ratio: 16/9;
+      /* 保持 16:9 比例 */
+      margin: 0 auto;
+      /* 居中 */
+    }
+
+    /* 右侧功能项也居中 */
+    .assistant-feature-item-right {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* 🔑 居中对齐 */
+      text-align: center;
+      /* 文字居中 */
+    }
+
+    /* 内容区域居中对齐 */
+    .assistant-feature-content,
+    .assistant-feature-content-right {
+      align-items: center;
+      /* 水平居中 */
+      text-align: center;
+      /* 文字居中 */
+      width: 100%;
+      /* 占满宽度 */
+      padding-top: var(--spacing-md);
+    }
+
+    /* 移除描述中的<br>标签效果 */
+    .assistant-feature-description br,
+    .assistant-feature-description-right br {
+      display: none;
+      /* 隐藏强制换行 */
+    }
+
+    /* 标题区域调整 */
+    .assistant-section .section-header-center {
+      margin-bottom: var(--spacing-xl);
+      padding: 0 var(--spacing-md);
+    }
+
+    /* 标题字体调整 */
+    .assistant-section .section-title-large {
+      font-size: 2rem;
+    }
+
+    .assistant-section .section-subtitle-large {
+      font-size: 1.125rem;
+    }
+  }
+
+  /* ========================================
+   移动端进一步优化 (<768px)
+   ======================================== */
+  @media (max-width: 767px) {
+    .assistant-section {
+      padding: var(--spacing-2xl) 0;
+    }
+
+    .section-header-center {
+      margin-bottom: var(--spacing-lg);
+      padding: 0 var(--spacing-sm);
+    }
+
+    /* 标题进一步缩小 */
+    .assistant-section .section-title-large {
+      font-size: 1.75rem;
+    }
+
+    .assistant-section .section-subtitle-large {
+      font-size: 1rem;
+    }
+
+    .assistant-section .section-label {
+      font-size: 0.875rem;
+    }
+
+    /* 网格间距减小 */
+    .assistant-grid {
+      gap: var(--spacing-md);
+    }
+
+    /* 卡片内边距减小 */
+    .assistant-card-merged,
+    .assistant-card-single {
+      padding: var(--spacing-md);
+    }
+
+    /* 功能项间距减小 */
+    .assistant-feature-item {
+      padding: var(--spacing-sm) 0;
+    }
+
+    .assistant-feature-item:not(:last-child) {
+      padding-bottom: var(--spacing-md);
+      margin-bottom: var(--spacing-md);
+    }
+
+    /* 功能项标题和描述字体缩小 */
+    .assistant-feature-title,
+    .assistant-feature-title-right {
+      font-size: 1.25rem;
+    }
+
+    .assistant-feature-description,
+    .assistant-feature-description-right {
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+  }
+
+  /* ========================================
+   小屏手机优化 (<480px)
+   ======================================== */
+  @media (max-width: 479px) {
+    .assistant-section {
+      padding: var(--spacing-xl) 0;
+    }
+
+    /* 左右列最大宽度调整 */
+    .assistant-left,
+    .assistant-right {
+      max-width: 100%;
+      /* 占满屏幕 */
+    }
+
+    /* 标题进一步缩小 */
+    .assistant-section .section-title-large {
+      font-size: 1.5rem;
+    }
+
+    .assistant-section .section-subtitle-large {
+      font-size: 0.875rem;
+    }
+
+    /* 功能项标题和描述更小 */
+    .assistant-feature-title,
+    .assistant-feature-title-right {
+      font-size: 1.125rem;
+    }
+
+    .assistant-feature-description,
+    .assistant-feature-description-right {
+      font-size: 0.8125rem;
+    }
+
+    /* 卡片内边距进一步缩小 */
+    .assistant-card-merged,
+    .assistant-card-single {
+      padding: var(--spacing-sm);
+    }
+  }
+
+  /* ========================================
    触摸交互优化
    ======================================== */
 
-/* 禁用悬浮效果 */
-@media (hover: none) {
-  .assistant-card:hover {
-    transform: none;          /* 移除悬浮效果 */
-    box-shadow: none;
+  /* 禁用悬浮效果 */
+  @media (hover: none) {
+    .assistant-card:hover {
+      transform: none;
+      /* 移除悬浮效果 */
+      box-shadow: none;
+    }
+
+    .assistant-card:hover .assistant-feature-visual img,
+    .assistant-card:hover .assistant-feature-visual-right img {
+      transform: none;
+      /* 移除图片缩放 */
+    }
   }
 
-  .assistant-card:hover .assistant-feature-visual img,
-  .assistant-card:hover .assistant-feature-visual-right img {
-    transform: none;          /* 移除图片缩放 */
-  }
-}
+  /* 触摸反馈 */
+  @media (max-width: 991px) {
+    .assistant-card:active {
+      transform: scale(0.98);
+      /* 按下缩小 */
+      transition: transform 0.1s ease;
+    }
 
-/* 触摸反馈 */
-@media (max-width: 991px) {
-  .assistant-card:active {
-    transform: scale(0.98);   /* 按下缩小 */
-    transition: transform 0.1s ease;
+    /* 增大卡片触摸区域 */
+    .assistant-card {
+      min-height: 44px;
+      /* iOS 最小触摸标准 */
+    }
   }
 
-  /* 增大卡片触摸区域 */
-  .assistant-card {
-    min-height: 44px;         /* iOS 最小触摸标准 */
-  }
-}
-
-/* ========================================
+  /* ========================================
    性能优化
    ======================================== */
-@media (prefers-reduced-motion: reduce) {
-  .assistant-card,
-  .assistant-card:hover,
-  .assistant-feature-visual img {
-    animation: none !important;
-    transition: none !important;
+  @media (prefers-reduced-motion: reduce) {
+
+    .assistant-card,
+    .assistant-card:hover,
+    .assistant-feature-visual img {
+      animation: none !important;
+      transition: none !important;
+    }
   }
-}
 </style>
 
 <section class="assistant-section" id="assistant">
@@ -6893,7 +7085,8 @@
             <div class="assistant-feature-content">
               <h3 class="assistant-feature-title">Script, Story & Hooks</h3>
               <p class="assistant-feature-description">
-                Generate scripts, hooks,<br> and scene outlines that <br>match your tone, pacing, <br>and emotion — guided by <br>AI built for storytelling.
+                Generate scripts, hooks,<br> and scene outlines that <br>match your tone, pacing, <br>and emotion —
+                guided by <br>AI built for storytelling.
               </p>
             </div>
           </div>
@@ -6906,7 +7099,8 @@
             <div class="assistant-feature-content">
               <h3 class="assistant-feature-title">Adaptive Intelligence</h3>
               <p class="assistant-feature-description">
-                The Treclipse Assistant  <br>evolves with your workflow<br> — adapting to your preferences, visual <br>language, and brand tone.
+                The Treclipse Assistant <br>evolves with your workflow<br> — adapting to your preferences, visual
+                <br>language, and brand tone.
               </p>
             </div>
           </div>
@@ -6929,7 +7123,8 @@
             <div class="assistant-feature-content-right">
               <h3 class="assistant-feature-title-right">Analytical Insight</h3>
               <p class="assistant-feature-description-right">
-                Gain intelligent feedback on pacing,<br> composition,and emotional flow —<br> helping you refine visuals and <br>narratives with precision.
+                Gain intelligent feedback on pacing,<br> composition,and emotional flow —<br> helping you refine visuals
+                and <br>narratives with precision.
               </p>
             </div>
           </div>
@@ -6943,49 +7138,48 @@
 </section>
 
 <script>
-// Assistant Section Script - 滚动动画初始化
-(function() {
-  'use strict';
+  // Assistant Section Script - 滚动动画初始化
+  (function () {
+    'use strict';
 
-  const initAssistantAnimation = () => {
-    // 仅选择 assistant-section 内的需要动画的元素
-    const animateElements = document.querySelectorAll('.assistant-section [data-animate]');
+    const initAssistantAnimation = () => {
+      // 仅选择 assistant-section 内的需要动画的元素
+      const animateElements = document.querySelectorAll('.assistant-section [data-animate]');
 
-    if (animateElements.length === 0) return;
+      if (animateElements.length === 0) return;
 
-    // IntersectionObserver 配置
-    const observerOptions = {
-      threshold: 0.1,  // 元素进入视口 10% 时触发
-      rootMargin: '0px 0px -50px 0px'  // 提前 50px 触发
+      // IntersectionObserver 配置
+      const observerOptions = {
+        threshold: 0.1,  // 元素进入视口 10% 时触发
+        rootMargin: '0px 0px -50px 0px'  // 提前 50px 触发
+      };
+
+      // 创建观察者
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // 添加动画类
+            entry.target.classList.add('animate-in');
+            // 只触发一次，观察后取消
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      // 观察所有需要动画的元素
+      animateElements.forEach(element => {
+        observer.observe(element);
+      });
     };
 
-    // 创建观察者
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // 添加动画类
-          entry.target.classList.add('animate-in');
-          // 只触发一次，观察后取消
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    // 观察所有需要动画的元素
-    animateElements.forEach(element => {
-      observer.observe(element);
-    });
-  };
-
-  // DOM 加载完成后初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAssistantAnimation);
-  } else {
-    initAssistantAnimation();
-  }
-})();
+    // DOM 加载完成后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAssistantAnimation);
+    } else {
+      initAssistantAnimation();
+    }
+  })();
 </script>
-
 
   <!-- ===== STYLES SECTION ===== -->
 <!-- ===================================
@@ -6994,547 +7188,638 @@
      =================================== -->
 
 <style>
-/* ==================== 主容器样式 ==================== */
-.styles {
-  padding: var(--spacing-3xl) 0;
-  background-color: var(--color-bg);
-  position: relative;
-  overflow: hidden;
-}
+  /* ==================== 主容器样式 ==================== */
+  .styles {
+    padding: var(--spacing-3xl) 0;
+    background-color: var(--color-bg);
+    position: relative;
+    overflow: hidden;
+  }
 
-.styles-container {
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--spacing-xl);
-  align-items: start; /* 改为顶部对齐，避免挤压 */
-  position: relative; /* 定位上下文 */
-}
+  .styles-container {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
+    align-items: start;
+    /* 改为顶部对齐，避免挤压 */
+    position: relative;
+    /* 定位上下文 */
+  }
 
-/* ==================== 左侧：风格卡片网格 ==================== */
-.styles-gallery {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr); /* 6列网格用于更灵活的布局 */
-  gap: var(--spacing-md);
-  transform: rotate(35deg); /* 整体向右倾斜 35 度 */
-  padding: var(--spacing-lg);
-  overflow: visible; /* 允许卡片超出容器 */
-  position: relative; /* 定位上下文 */
-  min-height: 600px; /* 设置最小高度，防止容器塌陷 */
-  width: 100%; /* 固定宽度为父容器的100% */
-  max-width: 600px; /* 限制最大宽度，防止过度扩张 */
-}
+  /* ==================== 左侧：风格卡片网格 ==================== */
+  .styles-gallery {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    /* 6列网格用于更灵活的布局 */
+    gap: var(--spacing-md);
+    transform: rotate(35deg);
+    /* 整体向右倾斜 35 度 */
+    padding: var(--spacing-lg);
+    overflow: visible;
+    /* 允许卡片超出容器 */
+    position: relative;
+    /* 定位上下文 */
+    min-height: 600px;
+    /* 设置最小高度，防止容器塌陷 */
+    width: 100%;
+    /* 固定宽度为父容器的100% */
+    max-width: 600px;
+    /* 限制最大宽度，防止过度扩张 */
+  }
 
-.styles-card {
-  position: relative;
-  aspect-ratio: 3 / 4;
-  border-radius: 32px;  /* 圆角从 16px 增大到 32px */
-  overflow: hidden;
-  background-color: var(--color-bg-secondary);
-  transition: all 0.4s ease;
-  opacity: 0;  /* 初始透明 */
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  will-change: opacity, transform;  /* 优化动画性能 */
-}
+  .styles-card {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    border-radius: 32px;
+    /* 圆角从 16px 增大到 32px */
+    overflow: hidden;
+    background-color: var(--color-bg-secondary);
+    transition: all 0.4s ease;
+    opacity: 0;
+    /* 初始透明 */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    will-change: opacity, transform;
+    /* 优化动画性能 */
+  }
 
-/* 每个卡片的动画在下方单独定义 */
+  /* 每个卡片的动画在下方单独定义 */
 
-/* 灵活交错布局（6列网格）：
+  /* 灵活交错布局（6列网格）：
    使用 grid-column/grid-row 定位基础位置
    使用 transform 微调每个卡片的精确位置，实现自由布局
 */
 
-/* 卡片 1：右上角 */
-.styles-card:nth-child(1) {
-  grid-column: 3 / 5;
-  grid-row: 1;
-  width: 235px;
-  height: 195px;
-  transform: translate(-325px, 170px);
-}
-
-.styles-card:nth-child(1).animate-in {
-  animation: fadeInUp1 0.8s ease forwards;
-  animation-delay: 0s;
-}
-
-@keyframes fadeInUp1 {
-  0% {
-    opacity: 0;
-    transform: translate(-325px, 240px);  /* 从下方70px开始 (170 + 70) */
-  }
-  100% {
-    opacity: 1;
-    transform: translate(-325px, 170px);  /* 最终位置 */
-  }
-}
-
-/* 卡片 2：右上角，与卡片1并排 */
-.styles-card:nth-child(2) {
-  grid-column: 5 / 7;
-  grid-row: 1;
-  width: 235px;
-  height: 195px;
-  transform: translate(-380px, 170px);
-}
-
-.styles-card:nth-child(2).animate-in {
-  animation: fadeInUp2 0.8s ease forwards;
-  animation-delay: 0.15s;
-}
-
-@keyframes fadeInUp2 {
-  0% { opacity: 0; transform: translate(-380px, 240px); }  /* 170 + 70 */
-  100% { opacity: 1; transform: translate(-380px, 170px); }
-}
-
-/* 卡片 3：左侧中间 */
-.styles-card:nth-child(3) {
-  grid-column: 1 / 3;
-  grid-row: 2;
-  width: 220px;
-  height: 290px;
-  transform: translate(-335px, 70px);
-}
-
-.styles-card:nth-child(3).animate-in {
-  animation: fadeInUp3 0.8s ease forwards;
-  animation-delay: 0.3s;
-}
-
-@keyframes fadeInUp3 {
-  0% { opacity: 0; transform: translate(-335px, 140px); }  /* 70 + 70 */
-  100% { opacity: 1; transform: translate(-335px, 70px); }
-}
-
-/* 卡片 4：中间 */
-.styles-card:nth-child(4) {
-  grid-column: 3 / 6;
-  grid-row: 2;
-  width: 367px;
-  height: 315px;
-  z-index: 2;
-  transform: translate(-325px, 170px);
-}
-
-.styles-card:nth-child(4).animate-in {
-  animation: fadeInUp4 0.8s ease forwards;
-  animation-delay: 0.45s;
-}
-
-@keyframes fadeInUp4 {
-  0% { opacity: 0; transform: translate(-325px, 240px); }  /* 170 + 70 */
-  100% { opacity: 1; transform: translate(-325px, 170px); }
-}
-
-/* 卡片 5：右侧，跨2行，向右突出 */
-.styles-card:nth-child(5) {
-  grid-column: 4 / 6;
-  grid-row: 2 / 4;
-  width: 240px;
-  height: 395px;
-  z-index: 3;
-  transform: translate(-80px, 170px);
-}
-
-.styles-card:nth-child(5).animate-in {
-  animation: fadeInUp5 0.8s ease forwards;
-  animation-delay: 0.6s;
-}
-
-@keyframes fadeInUp5 {
-  0% { opacity: 0; transform: translate(-80px, 240px); }  /* 170 + 70 */
-  100% { opacity: 1; transform: translate(-80px, 170px); }
-}
-
-/* 卡片 6：底部中间 */
-.styles-card:nth-child(6) {
-  grid-column: 3 / 5;
-  grid-row: 3;
-  width: 295px;
-  height: 400px;
-  transform: translate(-250px, 170px);
-}
-
-.styles-card:nth-child(6).animate-in {
-  animation: fadeInUp6 0.8s ease forwards;
-  animation-delay: 0.75s;
-}
-
-@keyframes fadeInUp6 {
-  0% { opacity: 0; transform: translate(-250px, 240px); }  /* 170 + 70 */
-  100% { opacity: 1; transform: translate(-250px, 170px); }
-}
-
-
-/* 悬浮效果：增加阴影和缩放，不影响位置偏移 */
-.styles-card:hover {
-  filter: brightness(1.1);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-  /* 不使用 transform，避免覆盖位置偏移 */
-}
-
-.styles-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  transition: transform var(--transition);
-}
-
-.styles-card:hover img {
-  transform: scale(1.1);  /* 悬浮时图片放大 */
-}
-
-/* ==================== 右侧：内容区域 ==================== */
-.styles-content {
-  display: flex;
-  flex-direction: column;
-  gap: var(--spacing-lg);
-  margin-top: 120px; /* 向下偏移 120px */
-}
-
-/* 标题区域 */
-.styles-header {
-  margin-bottom: var(--spacing-md);
-  text-align: center; /* 居中对齐 */
-}
-
-.styles-label {
-  font-size: 1.05rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-sm);
-  display: block;
-  text-align: center; /* 居中对齐 */
-}
-
-.styles-title {
-  font-size: 2.75rem;
-  font-weight: 700;
-  line-height: 1.1;
-  color: var(--color-text);
-  margin: 0 0 var(--spacing-md) 0;
-  letter-spacing: -0.02em;
-  text-align: center; /* 居中对齐 */
-}
-
-.styles-description {
-  font-size: 1.45rem;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-  margin: 0;
-  text-align: center; /* 居中对齐 */
-}
-
-/* 功能卡片容器（水平并列）*/
-.styles-features {
-  display: grid;
-  grid-template-columns: 380px 380px;  /* 宽度从 350px 增加到 380px */
-  gap: 24px;  /* 卡片之间间距 24px */
-  margin-top: var(--spacing-md);
-  justify-content: center;  /* 居中对齐 */
-}
-
-.styles-feature-card {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  padding: 32px;  /* 内边距 */
-  border: none;  /* 移除边框 */
-  transition: all var(--transition);
-  min-height: 230px;  /* 高度从 200px 增加到 230px */
-  box-sizing: border-box;  /* 确保 padding 包含在宽度内 */
-  text-align: center;  /* 卡片内文字居中对齐 */
-}
-
-.styles-feature-card:hover {
-  background: rgba(255, 255, 255, 0.08);
-  transform: translateY(-4px);
-}
-
-.styles-feature-title {
-  font-size: 1.5rem;  /* 从 1.25rem 增大到 1.5rem (24px) */
-  font-weight: 600;
-  line-height: 1.3;
-  color: var(--color-text);
-  margin: 0 0 var(--spacing-sm) 0;
-}
-
-.styles-feature-description {
-  font-size: 1.25rem;  /* 从 1.125rem 增大到 1.25rem (20px) */
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-  margin: 0;
-}
-
-/* CTA 按钮 */
-.styles-cta {
-  margin-top: var(--spacing-lg);
-  text-align: center;  /* 按钮居中对齐 */
-}
-
-.styles-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 19px 17px;  /* 使用正常的内边距 */
-  font-size: 1.23rem;
-  font-weight: 600;
-  letter-spacing: 0.01;
-  text-transform: uppercase;
-  color: var(--color-bg);
-  background-color: #E5E5E5;  /* 浅灰色背景，不那么白 */
-  border: none;
-  border-radius: 10px;  /* 圆角从 8px 增大到 16px */
-  cursor: pointer;
-  transition: all var(--transition);
-  text-decoration: none;
-  transform: scale(0.85);  /* 整体缩小到 85%，视觉上更窄 */
-  transform-origin: center;  /* 从中心缩放 */
-}
-
-.styles-button:hover {
-  background-color: var(--color-text-secondary);
-  transform: scale(0.85) translateY(-2px);  /* 保持缩放效果 */
-  box-shadow: 0 8px 16px rgba(255, 255, 255, 0.1);
-}
-
-/* ==================== 响应式设计 ==================== */
-
-/* 平板端（≤ 991px）*/
-@media (max-width: 991px) {
-  .styles-container {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-xl);
-  }
-
-  .styles-content {
-    order: 1;
-  }
-
-  /* 平板端：保持交错布局 */
-  .styles-gallery {
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--spacing-sm);
-    order: 2;
-    padding: var(--spacing-md);
-    transform: rotate(35deg);
-  }
-
-  .styles-title {
-    font-size: 2.5rem;
-  }
-
-  .styles-features {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* 移动端（≤ 767px）*/
-@media (max-width: 767px) {
-  .styles {
-    padding: var(--spacing-xl) 0;
-  }
-
-  .styles-container {
-    padding: 0 var(--spacing-md);
-    gap: var(--spacing-2xl);
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* 所有内容居中 */
-  }
-
-  /* 移动端：简化为2列网格，保留旋转效果 */
-  .styles-gallery {
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--spacing-sm);
-    transform: rotate(35deg);
-    padding: var(--spacing-md);
-    max-width: 500px; /* 限制最大宽度 */
-    margin: 0 auto; /* 居中 */
-  }
-
-  /* 移动端：重置交错布局，改为简单的2列排列 */
+  /* 卡片 1：右上角 */
   .styles-card:nth-child(1) {
-    grid-column: 1 / 2;
+    grid-column: 3 / 5;
     grid-row: 1;
-    transform: translate(0, 0); /* 重置transform */
-    width: 100%;
-    height: auto;
+    width: 235px;
+    height: 195px;
+    transform: translate(-325px, 170px);
   }
 
+  .styles-card:nth-child(1).animate-in {
+    animation: fadeInUp1 0.8s ease forwards;
+    animation-delay: 0s;
+  }
+
+  @keyframes fadeInUp1 {
+    0% {
+      opacity: 0;
+      transform: translate(-325px, 240px);
+      /* 从下方70px开始 (170 + 70) */
+    }
+
+    100% {
+      opacity: 1;
+      transform: translate(-325px, 170px);
+      /* 最终位置 */
+    }
+  }
+
+  /* 卡片 2：右上角，与卡片1并排 */
   .styles-card:nth-child(2) {
-    grid-column: 2 / 3;
+    grid-column: 5 / 7;
     grid-row: 1;
-    transform: translate(0, 0);
-    width: 100%;
-    height: auto;
+    width: 235px;
+    height: 195px;
+    transform: translate(-380px, 170px);
   }
 
+  .styles-card:nth-child(2).animate-in {
+    animation: fadeInUp2 0.8s ease forwards;
+    animation-delay: 0.15s;
+  }
+
+  @keyframes fadeInUp2 {
+    0% {
+      opacity: 0;
+      transform: translate(-380px, 240px);
+    }
+
+    /* 170 + 70 */
+    100% {
+      opacity: 1;
+      transform: translate(-380px, 170px);
+    }
+  }
+
+  /* 卡片 3：左侧中间 */
   .styles-card:nth-child(3) {
-    grid-column: 1 / 2;
+    grid-column: 1 / 3;
     grid-row: 2;
-    transform: translate(0, 0);
-    width: 100%;
-    height: auto;
+    width: 220px;
+    height: 290px;
+    transform: translate(-335px, 70px);
   }
 
+  .styles-card:nth-child(3).animate-in {
+    animation: fadeInUp3 0.8s ease forwards;
+    animation-delay: 0.3s;
+  }
+
+  @keyframes fadeInUp3 {
+    0% {
+      opacity: 0;
+      transform: translate(-335px, 140px);
+    }
+
+    /* 70 + 70 */
+    100% {
+      opacity: 1;
+      transform: translate(-335px, 70px);
+    }
+  }
+
+  /* 卡片 4：中间 */
   .styles-card:nth-child(4) {
-    grid-column: 2 / 3;
+    grid-column: 3 / 6;
     grid-row: 2;
-    transform: translate(0, 0);
-    width: 100%;
-    height: auto;
+    width: 367px;
+    height: 315px;
+    z-index: 2;
+    transform: translate(-325px, 170px);
   }
 
+  .styles-card:nth-child(4).animate-in {
+    animation: fadeInUp4 0.8s ease forwards;
+    animation-delay: 0.45s;
+  }
+
+  @keyframes fadeInUp4 {
+    0% {
+      opacity: 0;
+      transform: translate(-325px, 240px);
+    }
+
+    /* 170 + 70 */
+    100% {
+      opacity: 1;
+      transform: translate(-325px, 170px);
+    }
+  }
+
+  /* 卡片 5：右侧，跨2行，向右突出 */
   .styles-card:nth-child(5) {
-    grid-column: 1 / 2;
-    grid-row: 3;
-    transform: translate(0, 0);
-    width: 100%;
-    height: auto;
+    grid-column: 4 / 6;
+    grid-row: 2 / 4;
+    width: 240px;
+    height: 395px;
+    z-index: 3;
+    transform: translate(-80px, 170px);
   }
 
+  .styles-card:nth-child(5).animate-in {
+    animation: fadeInUp5 0.8s ease forwards;
+    animation-delay: 0.6s;
+  }
+
+  @keyframes fadeInUp5 {
+    0% {
+      opacity: 0;
+      transform: translate(-80px, 240px);
+    }
+
+    /* 170 + 70 */
+    100% {
+      opacity: 1;
+      transform: translate(-80px, 170px);
+    }
+  }
+
+  /* 卡片 6：底部中间 */
   .styles-card:nth-child(6) {
-    grid-column: 2 / 3;
+    grid-column: 3 / 5;
     grid-row: 3;
-    transform: translate(0, 0);
+    width: 295px;
+    height: 400px;
+    transform: translate(-250px, 170px);
+  }
+
+  .styles-card:nth-child(6).animate-in {
+    animation: fadeInUp6 0.8s ease forwards;
+    animation-delay: 0.75s;
+  }
+
+  @keyframes fadeInUp6 {
+    0% {
+      opacity: 0;
+      transform: translate(-250px, 240px);
+    }
+
+    /* 170 + 70 */
+    100% {
+      opacity: 1;
+      transform: translate(-250px, 170px);
+    }
+  }
+
+
+  /* 悬浮效果：增加阴影和缩放，不影响位置偏移 */
+  .styles-card:hover {
+    filter: brightness(1.1);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    /* 不使用 transform，避免覆盖位置偏移 */
+  }
+
+  .styles-card img {
     width: 100%;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform var(--transition);
   }
 
-  /* 移除单个卡片的动画，但保持显示 */
-  .styles-card {
-    opacity: 1 !important; /* 强制显示卡片 */
-    animation: none !important; /* 移除动画 */
+  .styles-card:hover img {
+    transform: scale(1.1);
+    /* 悬浮时图片放大 */
   }
 
-  .styles-card.animate-in {
-    animation: none;
-    opacity: 1;
-  }
-
-  /* 右侧内容区域 */
+  /* ==================== 右侧：内容区域 ==================== */
   .styles-content {
-    margin-top: 0; /* 移除桌面端的 120px 偏移 */
-    width: 100%;
-    max-width: 600px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    gap: var(--spacing-lg);
+    margin-top: 120px;
+    /* 向下偏移 120px */
   }
 
+  /* 标题区域 */
   .styles-header {
-    width: 100%;
+    margin-bottom: var(--spacing-md);
+    text-align: center;
+    /* 居中对齐 */
+  }
+
+  .styles-label {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+    display: block;
+    text-align: center;
+    /* 居中对齐 */
   }
 
   .styles-title {
-    font-size: 2rem;
+    font-size: 2.75rem;
+    font-weight: 700;
+    line-height: 1.1;
+    color: var(--color-text);
+    margin: 0 0 var(--spacing-md) 0;
+    letter-spacing: -0.02em;
+    text-align: center;
+    /* 居中对齐 */
   }
 
   .styles-description {
-    font-size: 1rem;
-    padding: 0 var(--spacing-sm);
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0;
+    text-align: center;
   }
 
-  /* 功能卡片垂直堆叠 */
+  /* 功能卡片容器（水平并列）*/
   .styles-features {
-    grid-template-columns: 1fr;
-    gap: var(--spacing-md);
-    width: 100%;
-    max-width: 500px;
+    display: grid;
+    grid-template-columns: 380px 380px;
+    /* 宽度从 350px 增加到 380px */
+    gap: 24px;
+    /* 卡片之间间距 24px */
+    margin-top: var(--spacing-md);
+    justify-content: center;
+    /* 居中对齐 */
   }
 
   .styles-feature-card {
-    padding: var(--spacing-lg);
-    width: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 32px;
+    /* 内边距 */
+    border: none;
+    /* 移除边框 */
+    transition: all var(--transition);
+    min-height: 230px;
+    /* 高度从 200px 增加到 230px */
     box-sizing: border-box;
+    /* 确保 padding 包含在宽度内 */
+    text-align: center;
+    /* 卡片内文字居中对齐 */
+  }
+
+  .styles-feature-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-4px);
   }
 
   .styles-feature-title {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
+    /* 从 1.25rem 增大到 1.5rem (24px) */
+    font-weight: 600;
+    line-height: 1.3;
+    color: var(--color-text);
+    margin: 0 0 var(--spacing-sm) 0;
   }
 
   .styles-feature-description {
-    font-size: 1rem;
+    font-family: 'Sora', sans-serif;
+    font-size: 1.25rem;
+    /* 从 1.125rem 增大到 1.25rem (20px) */
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    margin: 0;
   }
 
+  /* CTA 按钮 */
   .styles-cta {
-    width: 100%;
-    max-width: 500px;
+    margin-top: var(--spacing-lg);
+    text-align: center;
+    /* 按钮居中对齐 */
   }
 
   .styles-button {
-    width: 100%;
-    padding: 16px 24px;
-    transform: scale(1); /* 移除桌面端的 0.85 缩放 */
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 19px 17px;
+    /* 使用正常的内边距 */
+    font-size: 1.23rem;
+    font-weight: 600;
+    letter-spacing: 0.01;
+    text-transform: uppercase;
+    color: var(--color-bg);
+    background-color: #E5E5E5;
+    /* 浅灰色背景，不那么白 */
+    border: none;
+    border-radius: 10px;
+    /* 圆角从 8px 增大到 16px */
+    cursor: pointer;
+    transition: all var(--transition);
+    text-decoration: none;
+    transform: scale(0.85);
+    /* 整体缩小到 85%，视觉上更窄 */
+    transform-origin: center;
+    /* 从中心缩放 */
   }
 
   .styles-button:hover {
-    transform: scale(1) translateY(-2px);
-  }
-}
-
-/* 小屏移动端（≤ 479px）*/
-@media (max-width: 479px) {
-  .styles {
-    padding: var(--spacing-lg) 0;
+    background-color: var(--color-text-secondary);
+    transform: scale(0.85) translateY(-2px);
+    /* 保持缩放效果 */
+    box-shadow: 0 8px 16px rgba(255, 255, 255, 0.1);
   }
 
-  .styles-container {
-    padding: 0 var(--spacing-sm);
-    gap: var(--spacing-xl);
+  /* ==================== 响应式设计 ==================== */
+
+  /* 平板端（≤ 991px）*/
+  @media (max-width: 991px) {
+    .styles-container {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-xl);
+    }
+
+    .styles-content {
+      order: 1;
+    }
+
+    /* 平板端：保持交错布局 */
+    .styles-gallery {
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--spacing-sm);
+      order: 2;
+      padding: var(--spacing-md);
+      transform: rotate(35deg);
+    }
+
+    .styles-title {
+      font-size: 2.5rem;
+    }
+
+    .styles-features {
+      grid-template-columns: repeat(2, 1fr);
+    }
   }
 
-  .styles-title {
-    font-size: 1.75rem;
+  /* 移动端（≤ 767px）*/
+  @media (max-width: 767px) {
+    .styles {
+      padding: var(--spacing-xl) 0;
+    }
+
+    .styles-container {
+      padding: 0 var(--spacing-md);
+      gap: var(--spacing-2xl);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* 所有内容居中 */
+    }
+
+    /* 移动端：简化为2列网格，保留旋转效果 */
+    .styles-gallery {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--spacing-sm);
+      transform: rotate(35deg);
+      padding: var(--spacing-md);
+      max-width: 500px;
+      /* 限制最大宽度 */
+      margin: 0 auto;
+      /* 居中 */
+    }
+
+    /* 移动端：重置交错布局，改为简单的2列排列 */
+    .styles-card:nth-child(1) {
+      grid-column: 1 / 2;
+      grid-row: 1;
+      transform: translate(0, 0);
+      /* 重置transform */
+      width: 100%;
+      height: auto;
+    }
+
+    .styles-card:nth-child(2) {
+      grid-column: 2 / 3;
+      grid-row: 1;
+      transform: translate(0, 0);
+      width: 100%;
+      height: auto;
+    }
+
+    .styles-card:nth-child(3) {
+      grid-column: 1 / 2;
+      grid-row: 2;
+      transform: translate(0, 0);
+      width: 100%;
+      height: auto;
+    }
+
+    .styles-card:nth-child(4) {
+      grid-column: 2 / 3;
+      grid-row: 2;
+      transform: translate(0, 0);
+      width: 100%;
+      height: auto;
+    }
+
+    .styles-card:nth-child(5) {
+      grid-column: 1 / 2;
+      grid-row: 3;
+      transform: translate(0, 0);
+      width: 100%;
+      height: auto;
+    }
+
+    .styles-card:nth-child(6) {
+      grid-column: 2 / 3;
+      grid-row: 3;
+      transform: translate(0, 0);
+      width: 100%;
+      height: auto;
+    }
+
+    /* 移除单个卡片的动画，但保持显示 */
+    .styles-card {
+      opacity: 1 !important;
+      /* 强制显示卡片 */
+      animation: none !important;
+      /* 移除动画 */
+    }
+
+    .styles-card.animate-in {
+      animation: none;
+      opacity: 1;
+    }
+
+    /* 右侧内容区域 */
+    .styles-content {
+      margin-top: 0;
+      /* 移除桌面端的 120px 偏移 */
+      width: 100%;
+      max-width: 600px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .styles-header {
+      width: 100%;
+    }
+
+    .styles-title {
+      font-size: 2rem;
+    }
+
+    .styles-description {
+      font-size: 1rem;
+      padding: 0 var(--spacing-sm);
+    }
+
+    /* 功能卡片垂直堆叠 */
+    .styles-features {
+      grid-template-columns: 1fr;
+      gap: var(--spacing-md);
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .styles-feature-card {
+      padding: var(--spacing-lg);
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .styles-feature-title {
+      font-size: 1.25rem;
+    }
+
+    .styles-feature-description {
+      font-size: 1rem;
+    }
+
+    .styles-cta {
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .styles-button {
+      width: 100%;
+      padding: 16px 24px;
+      transform: scale(1);
+      /* 移除桌面端的 0.85 缩放 */
+    }
+
+    .styles-button:hover {
+      transform: scale(1) translateY(-2px);
+    }
   }
 
-  .styles-description {
-    font-size: 0.9rem;
-  }
+  /* 小屏移动端（≤ 479px）*/
+  @media (max-width: 479px) {
+    .styles {
+      padding: var(--spacing-lg) 0;
+    }
 
-  .styles-gallery {
-    gap: 0.5rem;
-    padding: var(--spacing-sm);
-    max-width: 400px;
-  }
+    .styles-container {
+      padding: 0 var(--spacing-sm);
+      gap: var(--spacing-xl);
+    }
 
-  .styles-card {
-    opacity: 1 !important; /* 确保卡片可见 */
-  }
+    .styles-title {
+      font-size: 1.75rem;
+    }
 
-  .styles-features {
-    gap: var(--spacing-sm);
-    max-width: 400px;
-  }
+    .styles-description {
+      font-size: 0.9rem;
+    }
 
-  .styles-feature-card {
-    padding: var(--spacing-md);
-    min-height: auto;
-  }
+    .styles-gallery {
+      gap: 0.5rem;
+      padding: var(--spacing-sm);
+      max-width: 400px;
+    }
 
-  .styles-feature-title {
-    font-size: 1.125rem;
-  }
+    .styles-card {
+      opacity: 1 !important;
+      /* 确保卡片可见 */
+    }
 
-  .styles-feature-description {
-    font-size: 0.875rem;
-  }
+    .styles-features {
+      gap: var(--spacing-sm);
+      max-width: 400px;
+    }
 
-  .styles-cta {
-    max-width: 400px;
-  }
+    .styles-feature-card {
+      padding: var(--spacing-md);
+      min-height: auto;
+    }
 
-  .styles-button {
-    padding: 14px 20px;
-    font-size: 1.1rem;
+    .styles-feature-title {
+      font-size: 1.125rem;
+    }
+
+    .styles-feature-description {
+      font-size: 0.875rem;
+    }
+
+    .styles-cta {
+      max-width: 400px;
+    }
+
+    .styles-button {
+      padding: 14px 20px;
+      font-size: 1.1rem;
+    }
   }
-}
 </style>
 
 <!-- ===================================
@@ -7574,7 +7859,8 @@
         <span class="styles-label">STYLES</span>
         <h2 class="styles-title">Your Style, Your Story</h2>
         <p class="styles-description">
-          Explore curated looks and visual moods — from <br>minimal to cinematic — to express your brand <br>and artistic vision.
+          Explore curated looks and visual moods — from <br>minimal to cinematic — to express your brand <br>and
+          artistic vision.
         </p>
       </div>
 
@@ -7610,335 +7896,340 @@
      =================================== -->
 
 <script>
-(function() {
-  'use strict';
+  (function () {
+    'use strict';
 
-  /**
-   * 初始化 Styles 模块
-   * 功能：滚动进入视口时触发卡片淡入动画
-   */
-  const initStyles = () => {
-    const cards = document.querySelectorAll('.styles-card');
+    /**
+     * 初始化 Styles 模块
+     * 功能：滚动进入视口时触发卡片淡入动画
+     */
+    const initStyles = () => {
+      const cards = document.querySelectorAll('.styles-card');
 
-    // 检查元素是否存在
-    if (cards.length === 0) return;
+      // 检查元素是否存在
+      if (cards.length === 0) return;
 
-    // 创建 Intersection Observer 实例
-    const observerOptions = {
-      threshold: 0.2,  // 当 20% 的元素可见时触发
-      rootMargin: '0px 0px -50px 0px'  // 提前触发动画
+      // 创建 Intersection Observer 实例
+      const observerOptions = {
+        threshold: 0.2,  // 当 20% 的元素可见时触发
+        rootMargin: '0px 0px -50px 0px'  // 提前触发动画
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // 添加动画类
+            entry.target.classList.add('animate-in');
+            // 一旦动画触发，停止观察该元素
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      // 开始观察所有卡片
+      cards.forEach(card => {
+        observer.observe(card);
+      });
+
+      console.log('✅ Styles module initialized with', cards.length, 'cards');
     };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          // 添加动画类
-          entry.target.classList.add('animate-in');
-          // 一旦动画触发，停止观察该元素
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
+    // DOM 加载完成后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initStyles);
+    } else {
+      initStyles();
+    }
 
-    // 开始观察所有卡片
-    cards.forEach(card => {
-      observer.observe(card);
-    });
-
-    console.log('✅ Styles module initialized with', cards.length, 'cards');
-  };
-
-  // DOM 加载完成后初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initStyles);
-  } else {
-    initStyles();
-  }
-
-})();
+  })();
 </script>
-
 
   <!-- ===== ADAPTATION SECTION ===== -->
 <style>
-/* Adaptation Section - 选择起点模块 */
-.adaptation-section {
-  background-color: var(--color-bg);
-  padding: 120px 20px;
-  position: relative;
-  overflow: hidden;
-}
-
-.adaptation-container {
-  max-width: 1500px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-/* 顶部标签 */
-.adaptation-label {
-  font-size: 20px;
-  letter-spacing: 0px;
-  text-transform: uppercase;
-  color: #888888;
-  margin-bottom: 20px;
-  font-weight: 500;
-}
-
-/* 主标题 */
-.adaptation-title {
-  font-size: 42px;
-  font-weight: 700;
-  color: #FFFFFF;
-  margin-bottom: 16px;
-  line-height: 1.2;
-}
-
-/* 副标题 */
-.adaptation-subtitle {
-  font-size: 22px;
-  color: #999999;
-  margin-bottom: 20px;
-  line-height: 1.6;
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* 外层包裹容器 - 类似 assistant 的 card 容器 */
-.adaptation-wrapper {
-  max-width: 1215px;
-  margin: 0 auto;
-}
-
-.adaptation-outer-card {
-  background: var(--color-bg-secondary);
-  border-radius: 24px;
-  padding: 43px 56px 48px;
-  min-height: 523px;
-  display: flex;
-  align-items: flex-start;
-  transition: all var(--transition);
-}
-
-.adaptation-outer-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
-}
-
-/* 卡片容器 - 三个功能项并排 */
-.adaptation-cards {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 72px;
-  align-items: stretch;
-  width: 100%;
-}
-
-/* 单个卡片 */
-.adaptation-card {
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  transition: transform 0.3s ease;
-  background: transparent;
-  max-width: 320px;
-  margin: 0 auto;
-}
-
-.adaptation-card:hover {
-  transform: translateY(-4px);
-}
-
-/* 卡片图片容器 */
-.adaptation-card-image-wrapper {
-  width: 100%;
-  overflow: hidden;
-  border-radius: 16px;
-  margin-bottom: 24px;
-}
-
-/* 卡片图片 */
-.adaptation-card-image {
-  width: 100%;
-  height: 280px;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.4s ease;
-}
-
-.adaptation-card:hover .adaptation-card-image {
-  transform: scale(1.05);
-}
-
-/* 卡片视频 */
-.adaptation-card-video {
-  width: 100%;
-  height: 280px;
-  object-fit: cover;
-  display: block;
-  transition: transform 0.4s ease;
-  cursor: pointer;
-}
-
-.adaptation-card:hover .adaptation-card-video {
-  transform: scale(1.05);
-}
-
-/* 视频预览模态框 */
-.video-modal {
-  display: none;
-  position: fixed;
-  z-index: 10000;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.9);
-  backdrop-filter: blur(10px);
-}
-
-.video-modal-content {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 90%;
-  max-height: 90%;
-  width: auto;
-  height: auto;
-}
-
-.video-modal video {
-  width: 100%;
-  height: 100%;
-  max-width: 80vw;
-  max-height: 80vh;
-  object-fit: contain;
-}
-
-.video-modal-close {
-  position: absolute;
-  top: 20px;
-  right: 40px;
-  color: white;
-  font-size: 40px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 10001;
-  transition: color 0.3s ease;
-}
-
-.video-modal-close:hover {
-  color: #ccc;
-}
-
-/* 卡片内容区域（图片下方）*/
-.adaptation-card-content {
-  padding: 0 12px;
-  text-align: center;
-}
-
-/* 卡片标题 */
-.adaptation-card-title {
-  font-size: 24px;
-  font-weight: 600;
-  color: #FFFFFF;
-  margin-bottom: 12px;
-  line-height: 1.3;
-}
-
-/* 卡片描述 */
-.adaptation-card-description {
-  font-size: 21px;
-  color: #CCCCCC;
-  line-height: 1.6;
-  margin: 0;
-}
-
-/* 响应式设计 - 平板 */
-@media (max-width: 991px) {
+  /* Adaptation Section - 选择起点模块 */
   .adaptation-section {
-    padding: 80px 20px;
+    background-color: var(--color-bg);
+    padding: 120px 20px;
+    position: relative;
+    overflow: hidden;
   }
 
-  .adaptation-title {
-    font-size: 36px;
+  .adaptation-container {
+    max-width: 1500px;
+    margin: 0 auto;
+    text-align: center;
   }
 
-  .adaptation-subtitle {
-    font-size: 16px;
-    margin-bottom: 40px;
-  }
-
-  .adaptation-outer-card {
-    padding: 32px;
-  }
-
-  .adaptation-cards {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-
-  .adaptation-card-image {
-    height: 320px;
-  }
-}
-
-/* 响应式设计 - 手机 */
-@media (max-width: 767px) {
-  .adaptation-section {
-    padding: 60px 16px;
-  }
-
-  .adaptation-title {
-    font-size: 28px;
-    margin-bottom: 12px;
-  }
-
-  .adaptation-subtitle {
-    font-size: 15px;
-    margin-bottom: 32px;
-  }
-
-  .adaptation-outer-card {
-    padding: 24px;
-  }
-
-  .adaptation-cards {
-    gap: 28px;
-  }
-
-  .adaptation-card-image {
-    height: 280px;
-  }
-
-  .adaptation-card-title {
+  /* 顶部标签 */
+  .adaptation-label {
+    font-family: 'Sora', sans-serif;
     font-size: 20px;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    color: #888888;
+    margin-bottom: 20px;
+    font-weight: 300;
   }
 
-  .adaptation-card-description {
-    font-size: 14px;
-  }
-}
-
-@media (max-width: 479px) {
+  /* 主标题 */
   .adaptation-title {
-    font-size: 24px;
+    font-size: 42px;
+    font-weight: 700;
+    color: #FFFFFF;
+    margin-bottom: 16px;
+    line-height: 1.2;
   }
 
+  /* 副标题 */
   .adaptation-subtitle {
-    font-size: 14px;
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: #999999;
+    margin-bottom: 20px;
+    line-height: 1.6;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
+  /* 外层包裹容器 - 类似 assistant 的 card 容器 */
+  .adaptation-wrapper {
+    max-width: 1215px;
+    margin: 0 auto;
+  }
+
+  .adaptation-outer-card {
+    background: var(--color-bg-secondary);
+    border-radius: 24px;
+    padding: 43px 56px 48px;
+    min-height: 523px;
+    display: flex;
+    align-items: flex-start;
+    transition: all var(--transition);
+  }
+
+  .adaptation-outer-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+
+  /* 卡片容器 - 三个功能项并排 */
+  .adaptation-cards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 72px;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  /* 单个卡片 */
+  .adaptation-card {
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    background: transparent;
+    max-width: 320px;
+    margin: 0 auto;
+  }
+
+  .adaptation-card:hover {
+    transform: translateY(-4px);
+  }
+
+  /* 卡片图片容器 */
+  .adaptation-card-image-wrapper {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 16px;
+    margin-bottom: 24px;
+  }
+
+  /* 卡片图片 */
   .adaptation-card-image {
-    height: 240px;
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
   }
 
-  .adaptation-card-title {
-    font-size: 18px;
+  .adaptation-card:hover .adaptation-card-image {
+    transform: scale(1.05);
   }
-}
+
+  /* 卡片视频 */
+  .adaptation-card-video {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+    cursor: pointer;
+  }
+
+  .adaptation-card:hover .adaptation-card-video {
+    transform: scale(1.05);
+  }
+
+  /* 视频预览模态框 */
+  .video-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+  }
+
+  .video-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    width: auto;
+    height: auto;
+  }
+
+  .video-modal video {
+    width: 100%;
+    height: 100%;
+    max-width: 80vw;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .video-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+    transition: color 0.3s ease;
+  }
+
+  .video-modal-close:hover {
+    color: #ccc;
+  }
+
+  /* 卡片内容区域（图片下方）*/
+  .adaptation-card-content {
+    padding: 0 12px;
+    text-align: center;
+  }
+
+  /* 卡片标题 */
+  .adaptation-card-title {
+    font-family: 'Sora', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: #FFFFFF;
+    margin-bottom: 12px;
+    line-height: 1.3;
+  }
+
+  /* 卡片描述 */
+  .adaptation-card-description {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    color: #CCCCCC;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* 响应式设计 - 平板 */
+  @media (max-width: 991px) {
+    .adaptation-section {
+      padding: 80px 20px;
+    }
+
+    .adaptation-title {
+      font-size: 36px;
+    }
+
+    .adaptation-subtitle {
+      font-size: 16px;
+      margin-bottom: 40px;
+    }
+
+    .adaptation-outer-card {
+      padding: 32px;
+    }
+
+    .adaptation-cards {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .adaptation-card-image {
+      height: 320px;
+    }
+  }
+
+  /* 响应式设计 - 手机 */
+  @media (max-width: 767px) {
+    .adaptation-section {
+      padding: 60px 16px;
+    }
+
+    .adaptation-title {
+      font-size: 28px;
+      margin-bottom: 12px;
+    }
+
+    .adaptation-subtitle {
+      font-size: 15px;
+      margin-bottom: 32px;
+    }
+
+    .adaptation-outer-card {
+      padding: 24px;
+    }
+
+    .adaptation-cards {
+      gap: 28px;
+    }
+
+    .adaptation-card-image {
+      height: 280px;
+    }
+
+    .adaptation-card-title {
+      font-size: 20px;
+    }
+
+    .adaptation-card-description {
+      font-size: 14px;
+    }
+  }
+
+  @media (max-width: 479px) {
+    .adaptation-title {
+      font-size: 24px;
+    }
+
+    .adaptation-subtitle {
+      font-size: 14px;
+    }
+
+    .adaptation-card-image {
+      height: 240px;
+    }
+
+    .adaptation-card-title {
+      font-size: 18px;
+    }
+  }
 </style>
 
 <!-- Adaptation Section -->
@@ -7960,68 +8251,50 @@
       <div class="adaptation-outer-card">
         <!-- 三个卡片 -->
         <div class="adaptation-cards">
-      <!-- 卡片 1: From A Script -->
-      <div class="adaptation-card" data-video-card>
-        <div class="adaptation-card-image-wrapper">
-          <video
-            class="adaptation-card-video"
-            muted
-            loop
-            playsinline
-            data-video-src="videos/video_1.mp4"
-          >
-            <source src="videos/video_1.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="adaptation-card-content">
-          <h3 class="adaptation-card-title">From A Script</h3>
-          <p class="adaptation-card-description">
-            Upload your script to instantly visualize scenes.
-          </p>
-        </div>
-      </div>
+          <!-- 卡片 1: From A Script -->
+          <div class="adaptation-card" data-video-card>
+            <div class="adaptation-card-image-wrapper">
+              <video class="adaptation-card-video" muted loop playsinline data-video-src="videos/video_1.mp4">
+                <source src="videos/video_1.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="adaptation-card-content">
+              <h3 class="adaptation-card-title">From A Script</h3>
+              <p class="adaptation-card-description">
+                Upload your script to instantly visualize scenes.
+              </p>
+            </div>
+          </div>
 
-      <!-- 卡片 2: From A Concept -->
-      <div class="adaptation-card" data-video-card>
-        <div class="adaptation-card-image-wrapper">
-          <video
-            class="adaptation-card-video"
-            muted
-            loop
-            playsinline
-            data-video-src="videos/video_2.mp4"
-          >
-            <source src="videos/video_2.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="adaptation-card-content">
-          <h3 class="adaptation-card-title">From A Concept</h3>
-          <p class="adaptation-card-description">
-            Describe an idea and<br> explore directions, moods, <br>and visual possibilities with AI.
-          </p>
-        </div>
-      </div>
+          <!-- 卡片 2: From A Concept -->
+          <div class="adaptation-card" data-video-card>
+            <div class="adaptation-card-image-wrapper">
+              <video class="adaptation-card-video" muted loop playsinline data-video-src="videos/video_2.mp4">
+                <source src="videos/video_2.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="adaptation-card-content">
+              <h3 class="adaptation-card-title">From A Concept</h3>
+              <p class="adaptation-card-description">
+                Describe an idea and<br> explore directions, moods, <br>and visual possibilities with AI.
+              </p>
+            </div>
+          </div>
 
-      <!-- 卡片 3: From An Image -->
-      <div class="adaptation-card" data-video-card>
-        <div class="adaptation-card-image-wrapper">
-          <video
-            class="adaptation-card-video"
-            muted
-            loop
-            playsinline
-            data-video-src="videos/总设计.mp4"
-          >
-            <source src="videos/总设计.mp4" type="video/mp4">
-          </video>
-        </div>
-        <div class="adaptation-card-content">
-          <h3 class="adaptation-card-title">From An Image</h3>
-          <p class="adaptation-card-description">
-            Use a single reference to build a cohesive visual narrative.
-          </p>
-        </div>
-      </div>
+          <!-- 卡片 3: From An Image -->
+          <div class="adaptation-card" data-video-card>
+            <div class="adaptation-card-image-wrapper">
+              <video class="adaptation-card-video" muted loop playsinline data-video-src="videos/总设计.mp4">
+                <source src="videos/总设计.mp4" type="video/mp4">
+              </video>
+            </div>
+            <div class="adaptation-card-content">
+              <h3 class="adaptation-card-title">From An Image</h3>
+              <p class="adaptation-card-description">
+                Use a single reference to build a cohesive visual narrative.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -8052,7 +8325,7 @@
         if (!video) return;
 
         // 视频加载错误处理
-        video.addEventListener('error', function() {
+        video.addEventListener('error', function () {
           console.warn(`Failed to load video: ${this.querySelector('source').src}`);
           this.style.display = 'none';
         });
@@ -8130,539 +8403,608 @@
   })();
 </script>
 
-
   <!-- ===== APIS SECTION ===== -->
 <!-- ===== APIs Section Module ===== -->
 <style>
-/* APIs Section Styles */
-.apis-section {
-  padding: var(--spacing-3xl) 0 0 0; /* 顶部正常, 底部 0px */
-  background: var(--color-bg);
-}
+  /* APIs Section Styles */
+  .apis-section {
+    padding: var(--spacing-3xl) 0 0 0;
+    /* 顶部正常, 底部 0px */
+    background: var(--color-bg);
+  }
 
-.apis-header {
-  text-align: center;
-  max-width: 900px;
-  margin: 0 auto var(--spacing-2xl);
-  padding: 0 var(--spacing-lg);
-}
+  .apis-header {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto var(--spacing-2xl);
+    padding: 0 var(--spacing-lg);
+  }
 
-.apis-label {
-  font-size: 1.25rem;
-  letter-spacing: 0.1em;
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-sm);
-  font-weight: 600;
-}
+  .apis-label {
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    color: #888888;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
 
-.apis-title {
-  font-size: 2.6rem;
-  font-weight: 800;
-  margin-bottom: var(--spacing-md);
-  line-height: 1.1;
-  color: #ffffff;
-}
+  .apis-title {
+    font-size: 2.6rem;
+    font-weight: 800;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.1;
+    color: #ffffff;
+  }
 
-.apis-description {
-  font-size: 1.45rem;
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-  max-width: 1000px;
-  margin: 0 auto;
-}
+  .apis-description {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
 
-/* Grid Layout - 自由定位布局 */
-.apis-grid {
-  max-width: var(--container-width);
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-  position: relative;
-  min-height: 2000px; /* 根据需要调整容器高度 */
-}
+  /* Grid Layout - 自由定位布局 */
+  .apis-grid {
+    max-width: var(--container-width);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+    position: relative;
+    min-height: 2000px;
+    /* 根据需要调整容器高度 */
+  }
 
-/* API Card Styles */
-.api-card {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
-  border: none;
-  border-radius: 16px;
-  overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  position: absolute; /* 改为绝对定位，方便自由摆放 */
-  cursor: pointer;
-}
+  /* API Card Styles */
+  .api-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: absolute;
+    /* 改为绝对定位，方便自由摆放 */
+    cursor: pointer;
+  }
 
-.api-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
+  .api-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  }
 
-/* 卡片位置和大小 - 可自由调整 */
-/*
+  /* 卡片位置和大小 - 可自由调整 */
+  /*
   使用方式：
   - top/left: 控制位置偏移
   - width/height: 控制卡片大小
   - transform: translateX() translateY() 进行微调
 */
 
-.api-card:nth-child(1) {
-  top: 0;
-  left: 100px;
-  width: 830px;
-  height: 282px;
-}
+  .api-card:nth-child(1) {
+    top: 0;
+    left: 100px;
+    width: 830px;
+    height: 282px;
+  }
 
-.api-card:nth-child(2) {
-  top: 0;
-  left: 957px;
-  width: 362px;
-  height: 598px;
-}
+  .api-card:nth-child(2) {
+    top: 0;
+    left: 957px;
+    width: 362px;
+    height: 598px;
+  }
 
-.api-card:nth-child(3) {
-  top: 305px;
-  left: 100px;
-  width: 305px;
-  height: 290px;
-}
+  .api-card:nth-child(3) {
+    top: 305px;
+    left: 100px;
+    width: 305px;
+    height: 290px;
+  }
 
-.api-card:nth-child(4) {
-  top: 305px;
-  left: 435px;
-  width: 498px;
-  height: 290px;
-}
+  .api-card:nth-child(4) {
+    top: 305px;
+    left: 435px;
+    width: 498px;
+    height: 290px;
+  }
 
-.api-card:nth-child(5) {
-  top: 615px;
-  left: 100px;
-  width: 545px;
-  height: 605px;
-}
+  .api-card:nth-child(5) {
+    top: 615px;
+    left: 100px;
+    width: 545px;
+    height: 605px;
+  }
 
-.api-card:nth-child(6) {
-  top: 615px;
-  left: 670px;
-  width: 649px;
-  height: 293px;
-}
+  .api-card:nth-child(6) {
+    top: 615px;
+    left: 670px;
+    width: 649px;
+    height: 293px;
+  }
 
-.api-card:nth-child(7) {
-  top: 928px;
-  left: 670px;
-  width: 305px;
-  height: 290px;
-}
+  .api-card:nth-child(7) {
+    top: 928px;
+    left: 670px;
+    width: 305px;
+    height: 290px;
+  }
 
-.api-card:nth-child(8) {
-  top: 928px;
-  left: 1000px;
-  width: 318px;
-  height: 290px;
-}
+  .api-card:nth-child(8) {
+    top: 928px;
+    left: 1000px;
+    width: 318px;
+    height: 290px;
+  }
 
-.api-card:nth-child(9) {
-  top: 1240px;
-  left: 100px;
-  width: 643px;
-  height: 290px;
-}
+  .api-card:nth-child(9) {
+    top: 1240px;
+    left: 100px;
+    width: 643px;
+    height: 290px;
+  }
 
-.api-card:nth-child(10) {
-  top: 1240px;
-  left: 766px;
-  width: 553px;
-  height: 290px;
-}
+  .api-card:nth-child(10) {
+    top: 1240px;
+    left: 766px;
+    width: 553px;
+    height: 290px;
+  }
 
-/* API Image */
-.api-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.api-card:hover .api-image {
-  transform: scale(1.05);
-}
-
-/* API Overlay Content - 始终显示在左上角 */
-.api-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  padding: var(--spacing-lg);
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
-  z-index: 2;
-}
-
-/* 卡片编号 - 已隐藏 */
-.api-number {
-  display: none;
-}
-
-.api-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  margin-bottom: -6px;
-  color: var(--color-text);
-  line-height: 1.3;
-}
-
-.api-description {
-  font-size: 1.3rem;
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.5;
-}
-
-/* Responsive Design */
-@media (max-width: 991px) {
-  /* 平板端: 缩小布局，保持桌面端排列 */
-  .apis-grid {
-    min-height: 1200px; /* 缩小后的容器高度 (原2000px * 0.6) */
-    padding: 0 var(--spacing-md);
+  /* API Image */
+  .api-image {
     width: 100%;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .apis-header {
-    margin-bottom: var(--spacing-xl);
+  .api-card:hover .api-image {
+    transform: scale(1.05);
   }
 
-  .apis-title {
-    font-size: 2rem;
+  /* API Overlay Content - 始终显示在左上角 */
+  .api-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: var(--spacing-lg);
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 70%, transparent 100%);
+    z-index: 2;
   }
 
-  .apis-description {
+  /* 卡片编号 - 已隐藏 */
+  .api-number {
+    display: none;
+  }
+
+  .api-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: -6px;
+    color: var(--color-text);
+    line-height: 1.3;
+  }
+
+  .api-description {
+    font-family: 'Sora', sans-serif;
     font-size: 1.2rem;
+    font-weight: 300;
+    color: lightgray;
+    line-height: 1.6;
   }
 
-  /* 所有卡片按比例缩小 60% */
-  .api-card:nth-child(1) {
-    top: 0;
-    left: 4.3125%;
-    width: 62.25%;
-    height: 169px;  /* 282 * 0.6 */
+  /* Responsive Design */
+  @media (max-width: 991px) {
+
+    /* 平板端: 缩小布局，保持桌面端排列 */
+    .apis-grid {
+      min-height: 1200px;
+      /* 缩小后的容器高度 (原2000px * 0.6) */
+      padding: 0 var(--spacing-md);
+      width: 100%;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .apis-header {
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .apis-title {
+      font-size: 2rem;
+    }
+
+    .apis-description {
+      font-size: 1.2rem;
+    }
+
+    /* 所有卡片按比例缩小 60% */
+    .api-card:nth-child(1) {
+      top: 0;
+      left: 4.3125%;
+      width: 62.25%;
+      height: 169px;
+      /* 282 * 0.6 */
+    }
+
+    .api-card:nth-child(2) {
+      top: 0;
+      left: 68.5625%;
+      width: 27.125%;
+      height: 359px;
+      /* 598 * 0.6 */
+    }
+
+    .api-card:nth-child(3) {
+      top: 183px;
+      left: 4.3125%;
+      width: 22.875%;
+      height: 174px;
+      /* 290 * 0.6 */
+    }
+
+    .api-card:nth-child(4) {
+      top: 183px;
+      left: 29.4375%;
+      width: 37.375%;
+      height: 174px;
+      /* 290 * 0.6 */
+    }
+
+    .api-card:nth-child(5) {
+      top: 369px;
+      left: 4.3125%;
+      width: 40.875%;
+      height: 363px;
+      /* 605 * 0.6 */
+    }
+
+    .api-card:nth-child(6) {
+      top: 369px;
+      left: 47.0625%;
+      width: 48.625%;
+      height: 176px;
+      /* 293 * 0.6 */
+    }
+
+    .api-card:nth-child(7) {
+      top: 557px;
+      left: 47.0625%;
+      width: 22.875%;
+      height: 174px;
+      /* 290 * 0.6 */
+    }
+
+    .api-card:nth-child(8) {
+      top: 557px;
+      left: 71.8125%;
+      width: 23.875%;
+      height: 174px;
+      /* 290 * 0.6 */
+    }
+
+    .api-card:nth-child(9) {
+      top: 744px;
+      left: 4.3125%;
+      width: 48.25%;
+      height: 174px;
+      /* 290 * 0.6 */
+    }
+
+    .api-card:nth-child(10) {
+      top: 744px;
+      left: 54.3125%;
+      width: 41.5%;
+      height: 174px;
+      /* 290 * 0.6 */
+    }
+
+    /* 缩小文字 */
+    .api-title {
+      font-size: 1.2rem;
+    }
+
+    .api-description {
+      font-size: 1rem;
+    }
+
+    .api-overlay {
+      padding: var(--spacing-md);
+    }
   }
 
-  .api-card:nth-child(2) {
-    top: 0;
-    left: 68.5625%;
-    width: 27.125%;
-    height: 359px;  /* 598 * 0.6 */
+  @media (max-width: 767px) {
+    .apis-section {
+      padding: var(--spacing-2xl) 0;
+    }
+
+    /* 移动端: 进一步缩小布局 40% */
+    .apis-grid {
+      min-height: 800px;
+      /* 原2000px * 0.4 */
+      padding: 0 var(--spacing-sm);
+      width: 100%;
+      max-width: 540px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .apis-title {
+      font-size: 1.8rem;
+    }
+
+    .apis-description {
+      font-size: 1rem;
+    }
+
+    /* 所有卡片按比例缩小 40% */
+    .api-card:nth-child(1) {
+      top: 0;
+      left: 4.907%;
+      width: 61.481%;
+      /* 830 * 0.4 */
+      height: 113px;
+      /* 282 * 0.4 */
+    }
+
+    .api-card:nth-child(2) {
+      top: 0;
+      left: 68.426%;
+      width: 26.852%;
+      /* 362 * 0.4 */
+      height: 239px;
+      /* 598 * 0.4 */
+    }
+
+    .api-card:nth-child(3) {
+      top: 122px;
+      left: 4.907%;
+      width: 22.593%;
+      /* 305 * 0.4 */
+      height: 116px;
+      /* 290 * 0.4 */
+    }
+
+    .api-card:nth-child(4) {
+      top: 122px;
+      left: 29.722%;
+      width: 36.852%;
+      /* 498 * 0.4 */
+      height: 116px;
+      /* 290 * 0.4 */
+    }
+
+    .api-card:nth-child(5) {
+      top: 246px;
+      left: 4.907%;
+      width: 40.370%;
+      /* 545 * 0.4 */
+      height: 242px;
+      /* 605 * 0.4 */
+    }
+
+    .api-card:nth-child(6) {
+      top: 246px;
+      left: 47.13%;
+      width: 48.148%;
+      /* 649 * 0.4 */
+      height: 117px;
+      /* 293 * 0.4 */
+    }
+
+    .api-card:nth-child(7) {
+      top: 371px;
+      left: 47.13%;
+      width: 22.593%;
+      /* 305 * 0.4 */
+      height: 116px;
+      /* 290 * 0.4 */
+    }
+
+    .api-card:nth-child(8) {
+      top: 371px;
+      left: 71.574%;
+      width: 23.519%;
+      /* 318 * 0.4 */
+      height: 116px;
+      /* 290 * 0.4 */
+    }
+
+    .api-card:nth-child(9) {
+      top: 496px;
+      left: 4.907%;
+      width: 47.593%;
+      /* 643 * 0.4 */
+      height: 116px;
+      /* 290 * 0.4 */
+    }
+
+    .api-card:nth-child(10) {
+      top: 496px;
+      left: 54.167%;
+      width: 40.926%;
+      /* 553 * 0.4 */
+      height: 116px;
+      /* 290 * 0.4 */
+    }
+
+    /* 移动端文字进一步缩小 */
+    .api-title {
+      font-size: 0.9rem;
+    }
+
+    .api-description {
+      font-size: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .api-overlay {
+      padding: var(--spacing-sm);
+    }
   }
 
-  .api-card:nth-child(3) {
-    top: 183px;
-    left: 4.3125%;
-    width: 22.875%;
-    height: 174px;  /* 290 * 0.6 */
+  @media (max-width: 479px) {
+    .apis-grid {
+      min-height: 620px;
+      padding: 0 0.75rem;
+      width: 100%;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .apis-title {
+      font-size: 1.6rem;
+    }
+
+    .apis-description {
+      font-size: 0.95rem;
+    }
+
+    .api-card:nth-child(1) {
+      top: 0;
+      left: 11.9065%;
+      width: 51.875%;
+      height: 85px;
+    }
+
+    .api-card:nth-child(2) {
+      top: 0;
+      left: 65.4685%;
+      width: 22.625%;
+      height: 179px;
+    }
+
+    .api-card:nth-child(3) {
+      top: 92px;
+      left: 11.9065%;
+      width: 19.062%;
+      height: 87px;
+    }
+
+    .api-card:nth-child(4) {
+      top: 92px;
+      left: 32.8435%;
+      width: 31.125%;
+      height: 87px;
+    }
+
+    .api-card:nth-child(5) {
+      top: 185px;
+      left: 11.9065%;
+      width: 34.062%;
+      height: 182px;
+    }
+
+    .api-card:nth-child(6) {
+      top: 185px;
+      left: 47.5315%;
+      width: 40.562%;
+      height: 88px;
+    }
+
+    .api-card:nth-child(7) {
+      top: 279px;
+      left: 47.5315%;
+      width: 19.062%;
+      height: 87px;
+    }
+
+    .api-card:nth-child(8) {
+      top: 279px;
+      left: 68.1565%;
+      width: 19.875%;
+      height: 87px;
+    }
+
+    .api-card:nth-child(9) {
+      top: 372px;
+      left: 11.9065%;
+      width: 40.188%;
+      height: 87px;
+    }
+
+    .api-card:nth-child(10) {
+      top: 372px;
+      left: 53.5315%;
+      width: 34.562%;
+      height: 87px;
+    }
+
+    .api-title {
+      font-size: 0.85rem;
+    }
+
+    .api-description {
+      font-size: 0.7rem;
+      line-height: 1.35;
+    }
+
+    .api-overlay {
+      padding: 0.6rem;
+    }
   }
 
-  .api-card:nth-child(4) {
-    top: 183px;
-    left: 29.4375%;
-    width: 37.375%;
-    height: 174px;  /* 290 * 0.6 */
-  }
-
-  .api-card:nth-child(5) {
-    top: 369px;
-    left: 4.3125%;
-    width: 40.875%;
-    height: 363px;  /* 605 * 0.6 */
-  }
-
-  .api-card:nth-child(6) {
-    top: 369px;
-    left: 47.0625%;
-    width: 48.625%;
-    height: 176px;  /* 293 * 0.6 */
-  }
-
-  .api-card:nth-child(7) {
-    top: 557px;
-    left: 47.0625%;
-    width: 22.875%;
-    height: 174px;  /* 290 * 0.6 */
-  }
-
-  .api-card:nth-child(8) {
-    top: 557px;
-    left: 71.8125%;
-    width: 23.875%;
-    height: 174px;  /* 290 * 0.6 */
-  }
-
-  .api-card:nth-child(9) {
-    top: 744px;
-    left: 4.3125%;
-    width: 48.25%;
-    height: 174px;  /* 290 * 0.6 */
-  }
-
-  .api-card:nth-child(10) {
-    top: 744px;
-    left: 54.3125%;
-    width: 41.5%;
-    height: 174px;  /* 290 * 0.6 */
-  }
-
-  /* 缩小文字 */
-  .api-title {
-    font-size: 1.2rem;
-  }
-
-  .api-description {
-    font-size: 1rem;
-  }
-
-  .api-overlay {
-    padding: var(--spacing-md);
-  }
-}
-
-@media (max-width: 767px) {
-  .apis-section {
-    padding: var(--spacing-2xl) 0;
-  }
-
-  /* 移动端: 进一步缩小布局 40% */
-  .apis-grid {
-    min-height: 800px; /* 原2000px * 0.4 */
-    padding: 0 var(--spacing-sm);
-    width: 100%;
-    max-width: 540px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .apis-title {
-    font-size: 1.8rem;
-  }
-
-  .apis-description {
-    font-size: 1rem;
-  }
-
-  /* 所有卡片按比例缩小 40% */
-  .api-card:nth-child(1) {
-    top: 0;
-    left: 4.907%;
-    width: 61.481%;   /* 830 * 0.4 */
-    height: 113px;  /* 282 * 0.4 */
-  }
-
-  .api-card:nth-child(2) {
-    top: 0;
-    left: 68.426%;
-    width: 26.852%;   /* 362 * 0.4 */
-    height: 239px;  /* 598 * 0.4 */
-  }
-
-  .api-card:nth-child(3) {
-    top: 122px;
-    left: 4.907%;
-    width: 22.593%;   /* 305 * 0.4 */
-    height: 116px;  /* 290 * 0.4 */
-  }
-
-  .api-card:nth-child(4) {
-    top: 122px;
-    left: 29.722%;
-    width: 36.852%;   /* 498 * 0.4 */
-    height: 116px;  /* 290 * 0.4 */
-  }
-
-  .api-card:nth-child(5) {
-    top: 246px;
-    left: 4.907%;
-    width: 40.370%;   /* 545 * 0.4 */
-    height: 242px;  /* 605 * 0.4 */
-  }
-
-  .api-card:nth-child(6) {
-    top: 246px;
-    left: 47.13%;
-    width: 48.148%;   /* 649 * 0.4 */
-    height: 117px;  /* 293 * 0.4 */
-  }
-
-  .api-card:nth-child(7) {
-    top: 371px;
-    left: 47.13%;
-    width: 22.593%;   /* 305 * 0.4 */
-    height: 116px;  /* 290 * 0.4 */
-  }
-
-  .api-card:nth-child(8) {
-    top: 371px;
-    left: 71.574%;
-    width: 23.519%;   /* 318 * 0.4 */
-    height: 116px;  /* 290 * 0.4 */
-  }
-
-  .api-card:nth-child(9) {
-    top: 496px;
-    left: 4.907%;
-    width: 47.593%;   /* 643 * 0.4 */
-    height: 116px;  /* 290 * 0.4 */
-  }
-
-  .api-card:nth-child(10) {
-    top: 496px;
-    left: 54.167%;
-    width: 40.926%;   /* 553 * 0.4 */
-    height: 116px;  /* 290 * 0.4 */
-  }
-
-  /* 移动端文字进一步缩小 */
-  .api-title {
-    font-size: 0.9rem;
-  }
-
-  .api-description {
-    font-size: 0.75rem;
-    line-height: 1.4;
-  }
-
-  .api-overlay {
-    padding: var(--spacing-sm);
-  }
-}
-
-@media (max-width: 479px) {
-  .apis-grid {
-    min-height: 620px;
-    padding: 0 0.75rem;
-    width: 100%;
-    max-width: 480px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .apis-title {
-    font-size: 1.6rem;
-  }
-
-  .apis-description {
-    font-size: 0.95rem;
-  }
-
-  .api-card:nth-child(1) {
-    top: 0;
-    left: 11.9065%;
-    width: 51.875%;
-    height: 85px;
-  }
-
-  .api-card:nth-child(2) {
-    top: 0;
-    left: 65.4685%;
-    width: 22.625%;
-    height: 179px;
-  }
-
-  .api-card:nth-child(3) {
-    top: 92px;
-    left: 11.9065%;
-    width: 19.062%;
-    height: 87px;
-  }
-
-  .api-card:nth-child(4) {
-    top: 92px;
-    left: 32.8435%;
-    width: 31.125%;
-    height: 87px;
-  }
-
-  .api-card:nth-child(5) {
-    top: 185px;
-    left: 11.9065%;
-    width: 34.062%;
-    height: 182px;
-  }
-
-  .api-card:nth-child(6) {
-    top: 185px;
-    left: 47.5315%;
-    width: 40.562%;
-    height: 88px;
-  }
-
-  .api-card:nth-child(7) {
-    top: 279px;
-    left: 47.5315%;
-    width: 19.062%;
-    height: 87px;
-  }
-
-  .api-card:nth-child(8) {
-    top: 279px;
-    left: 68.1565%;
-    width: 19.875%;
-    height: 87px;
-  }
-
-  .api-card:nth-child(9) {
-    top: 372px;
-    left: 11.9065%;
-    width: 40.188%;
-    height: 87px;
-  }
-
-  .api-card:nth-child(10) {
-    top: 372px;
-    left: 53.5315%;
-    width: 34.562%;
-    height: 87px;
-  }
-
-  .api-title {
-    font-size: 0.85rem;
-  }
-
-  .api-description {
-    font-size: 0.7rem;
-    line-height: 1.35;
-  }
-
-  .api-overlay {
-    padding: 0.6rem;
-  }
-}
-
-/* Animation */
-.api-card {
-  opacity: 0;
-  animation: fadeInUp 0.6s ease forwards;
-}
-
-.api-card:nth-child(1) { animation-delay: 0.1s; }
-.api-card:nth-child(2) { animation-delay: 0.2s; }
-.api-card:nth-child(3) { animation-delay: 0.3s; }
-.api-card:nth-child(4) { animation-delay: 0.4s; }
-.api-card:nth-child(5) { animation-delay: 0.5s; }
-.api-card:nth-child(6) { animation-delay: 0.6s; }
-.api-card:nth-child(7) { animation-delay: 0.7s; }
-.api-card:nth-child(8) { animation-delay: 0.8s; }
-.api-card:nth-child(9) { animation-delay: 0.9s; }
-.api-card:nth-child(10) { animation-delay: 1s; }
-
-@keyframes fadeInUp {
-  from {
+  /* Animation */
+  .api-card {
     opacity: 0;
-    transform: translateY(30px);
+    animation: fadeInUp 0.6s ease forwards;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .api-card:nth-child(1) {
+    animation-delay: 0.1s;
   }
-}
+
+  .api-card:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .api-card:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+
+  .api-card:nth-child(4) {
+    animation-delay: 0.4s;
+  }
+
+  .api-card:nth-child(5) {
+    animation-delay: 0.5s;
+  }
+
+  .api-card:nth-child(6) {
+    animation-delay: 0.6s;
+  }
+
+  .api-card:nth-child(7) {
+    animation-delay: 0.7s;
+  }
+
+  .api-card:nth-child(8) {
+    animation-delay: 0.8s;
+  }
+
+  .api-card:nth-child(9) {
+    animation-delay: 0.9s;
+  }
+
+  .api-card:nth-child(10) {
+    animation-delay: 1s;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
 </style>
 
 <section class="apis-section" id="apis">
@@ -8778,487 +9120,562 @@
 </section>
 
 <script>
-// APIs Section Script
-(function() {
-  'use strict';
+  // APIs Section Script
+  (function () {
+    'use strict';
 
-  const initAPIsSection = () => {
-    // 添加滚动触发动画
-    const apiCards = document.querySelectorAll('.api-card');
+    const initAPIsSection = () => {
+      // 添加滚动触发动画
+      const apiCards = document.querySelectorAll('.api-card');
 
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
+      const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -100px 0px'
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.animationPlayState = 'running';
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      apiCards.forEach(card => {
+        card.style.animationPlayState = 'paused';
+        observer.observe(card);
+      });
+
+      // 添加点击事件（可选）
+      apiCards.forEach(card => {
+        card.addEventListener('click', () => {
+          const category = card.querySelector('.api-category')?.textContent;
+          const title = card.querySelector('.api-title')?.textContent;
+          console.log(`API Card clicked: ${category} - ${title}`);
+          // 这里可以添加更多交互逻辑，比如打开模态框或跳转到详情页
+        });
+      });
     };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.animationPlayState = 'running';
-          observer.unobserve(entry.target);
-        }
-      });
-    }, observerOptions);
-
-    apiCards.forEach(card => {
-      card.style.animationPlayState = 'paused';
-      observer.observe(card);
-    });
-
-    // 添加点击事件（可选）
-    apiCards.forEach(card => {
-      card.addEventListener('click', () => {
-        const category = card.querySelector('.api-category')?.textContent;
-        const title = card.querySelector('.api-title')?.textContent;
-        console.log(`API Card clicked: ${category} - ${title}`);
-        // 这里可以添加更多交互逻辑，比如打开模态框或跳转到详情页
-      });
-    });
-  };
-
-  // Initialize on DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initAPIsSection);
-  } else {
-    initAPIsSection();
-  }
-})();
+    // Initialize on DOM ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAPIsSection);
+    } else {
+      initAPIsSection();
+    }
+  })();
 </script>
-
 
   <!-- ===== EXPLORE_MORE SECTION ===== -->
 <style>
-/* ========================================
+  /* ========================================
    Explore More 模块样式
    ======================================== */
 
-/* 卡片行偏移量控制变量 */
-:root {
-  --explore-row1-offset: 18px;  /* 第一行（卡片1/2/3）右移偏移量，调整这个值控制第一行整体左右移动 */
-  --explore-row2-offset: 335px;   /* 第二行（卡片4/5/6）左移偏移量，未来可调整为负数实现左移 */
-}
+  /* 卡片行偏移量控制变量 */
+  :root {
+    --explore-row1-offset: 18px;
+    /* 第一行（卡片1/2/3）右移偏移量，调整这个值控制第一行整体左右移动 */
+    --explore-row2-offset: 335px;
+    /* 第二行（卡片4/5/6）左移偏移量，未来可调整为负数实现左移 */
+  }
 
-.explore-more {
-  position: relative;
-  padding: 0 0 120px 0; /* 顶部 0px, 左右 0px, 底部 120px */
-  margin-top: -200px; /* 负边距拉近与上一个模块的距离 */
-  background-color: var(--color-bg, #0D0D0D);
-  overflow: hidden;
-}
-
-.explore-more-container {
-  max-width: var(--container-width, 1400px);
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg, 40px);
-}
-
-/* 顶部标题区域 */
-.explore-header {
-  text-align: center;
-  margin-bottom: 60px;
-  margin-top: 0; /* 确保顶部没有额外间距 */
-}
-
-.explore-label {
-  display: inline-block;
-  font-size: 19px;
-  font-weight: 600;
-  letter-spacing: 0px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 16px;
-}
-
-.explore-title {
-  font-size: 43px;
-  font-weight: 700;
-  line-height: 1.2;
-  color: #FFFFFF;
-  margin: 0;
-}
-
-/* 网格布局 - 改为绝对定位容器 */
-.explore-grid {
-  max-width: var(--container-width, 1400px);
-  margin: 0 auto;
-  position: relative;
-  min-height: 1000px; /* 调整为 1000px：500px(上行) + 450px(卡片高度) + 50px(底部间距) */
-}
-
-/* 卡片样式 - 改为绝对定位 */
-.explore-card {
-  position: absolute; /* 改为绝对定位，方便独立调整每张图片 */
-  border-radius: 16px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-.explore-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-}
-
-/* 卡片图片 */
-.explore-card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-.explore-card:hover .explore-card-image {
-  transform: scale(1.05);
-}
-
-/* 卡片 1: CREATE - 左上角 */
-.explore-card-1 {
-  top: 0;
-  left: calc(50px + var(--explore-row1-offset));  /* 基础位置50px + 第一行偏移量 */
-  width: 495px;
-  height: 450px;
-}
-.explore-card-1 .explore-card-image {
-  transform: scale(1.0);
-  object-position: center center;
-}
-.explore-card-1:hover .explore-card-image {
-  transform: scale(1.05);
-}
-
-/* 卡片 2: COMPOSE - 中上 */
-.explore-card-2 {
-  top: 0;
-  left: calc(580px + var(--explore-row1-offset));  /* 基础位置580px + 第一行偏移量 */
-  width: 495px;
-  height: 450px;
-}
-.explore-card-2 .explore-card-image {
-  transform: scale(1.0);
-  object-position: center center;
-}
-.explore-card-2:hover .explore-card-image {
-  transform: scale(1.05);
-}
-
-/* 卡片 3: STUDIO - 右上角 */
-.explore-card-3 {
-  top: 0;
-  left: calc(1110px + var(--explore-row1-offset));  /* 基础位置1110px + 第一行偏移量 */
-  width: 495px;
-  height: 450px;
-}
-.explore-card-3 .explore-card-image {
-  transform: scale(1.0);
-  object-position: center center;
-}
-.explore-card-3:hover .explore-card-image {
-  transform: scale(1.05);
-}
-
-/* 卡片 4: Brand Modeling - 左下 */
-.explore-card-4 {
-  top: 500px;
-  left: calc(50px - var(--explore-row2-offset));  /* 基础位置50px - 第二行偏移量 */
-  width: 495px;
-  height: 450px;
-}
-.explore-card-4 .explore-card-image {
-  transform: scale(1.0);
-  object-position: center center;
-}
-.explore-card-4:hover .explore-card-image {
-  transform: scale(1.05);
-}
-
-/* 卡片 5: Storytelling - 中下 */
-.explore-card-5 {
-  top: 500px;
-  left: calc(580px - var(--explore-row2-offset));  /* 基础位置580px - 第二行偏移量 */
-  width: 495px;
-  height: 450px;
-}
-.explore-card-5 .explore-card-image {
-  transform: scale(1.0);
-  object-position: center center;
-}
-.explore-card-5:hover .explore-card-image {
-  transform: scale(1.05);
-}
-
-/* 卡片 6: Entertainment - 右下角 */
-.explore-card-6 {
-  top: 500px;
-  left: calc(1110px - var(--explore-row2-offset));  /* 基础位置1110px - 第二行偏移量 */
-  width: 495px;
-  height: 450px;
-}
-.explore-card-6 .explore-card-image {
-  transform: scale(1.0);
-  object-position: center center;
-}
-.explore-card-6:hover .explore-card-image {
-  transform: scale(1.05);
-}
-
-/* 卡片遮罩渐变 - 已移除遮罩层 */
-.explore-card-overlay {
-  position: absolute;
-  inset: 0;
-  background: none;  /* 移除遮罩，图片完全显示 */
-  pointer-events: none;
-}
-
-/* 卡片标签 */
-.explore-card-label {
-  position: absolute;
-  bottom: 24px;
-  left: 24px;
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #FFFFFF;
-  z-index: 2;
-  transition: transform 0.3s ease;
-}
-
-.explore-card:hover .explore-card-label {
-  transform: translateY(-4px);
-}
-
-/* 响应式设计 - 平板 (768px - 991px) */
-@media (max-width: 991px) {
   .explore-more {
-    padding: 80px 0;
-    margin-top: -120px; /* 缩小负边距 */
-  }
-
-  .explore-title {
-    font-size: 36px;
-  }
-
-  .explore-label {
-    font-size: 16px;
-  }
-
-  /* 平板端: 缩小布局 60%，保持三卡一排 */
-  .explore-grid {
-    min-height: 600px; /* 原1000px * 0.6 */
-  }
-
-  /* 卡片 1: CREATE - 左上角 (60% 缩放) */
-  .explore-card-1 {
-    top: 0;
-    left: calc(30px + var(--explore-row1-offset) * 0.6);
-    width: 297px;  /* 495 * 0.6 */
-    height: 270px; /* 450 * 0.6 */
-  }
-
-  /* 卡片 2: COMPOSE - 中上 (60% 缩放) */
-  .explore-card-2 {
-    top: 0;
-    left: calc(348px + var(--explore-row1-offset) * 0.6);
-    width: 297px;  /* 495 * 0.6 */
-    height: 270px; /* 450 * 0.6 */
-  }
-
-  /* 卡片 3: STUDIO - 右上角 (60% 缩放) */
-  .explore-card-3 {
-    top: 0;
-    left: calc(666px + var(--explore-row1-offset) * 0.6);
-    width: 297px;  /* 495 * 0.6 */
-    height: 270px; /* 450 * 0.6 */
-  }
-
-  /* 卡片 4: Brand Modeling - 左下 (60% 缩放) */
-  .explore-card-4 {
-    top: 300px;  /* 500 * 0.6 */
-    left: calc(30px - var(--explore-row2-offset) * 0.6);
-    width: 297px;  /* 495 * 0.6 */
-    height: 270px; /* 450 * 0.6 */
-  }
-
-  /* 卡片 5: Storytelling - 中下 (60% 缩放) */
-  .explore-card-5 {
-    top: 300px;  /* 500 * 0.6 */
-    left: calc(348px - var(--explore-row2-offset) * 0.6);
-    width: 297px;  /* 495 * 0.6 */
-    height: 270px; /* 450 * 0.6 */
-  }
-
-  /* 卡片 6: Entertainment - 右下角 (60% 缩放) */
-  .explore-card-6 {
-    top: 300px;  /* 500 * 0.6 */
-    left: calc(666px - var(--explore-row2-offset) * 0.6);
-    width: 297px;  /* 495 * 0.6 */
-    height: 270px; /* 450 * 0.6 */
-  }
-
-  .explore-card-label {
-    font-size: 14px;
-    bottom: 16px;
-    left: 16px;
-  }
-}
-
-/* 响应式设计 - 移动端 (480px - 767px) */
-@media (max-width: 767px) {
-  .explore-more {
-    padding: 60px 0;
-    margin-top: -80px; /* 进一步缩小负边距 */
+    position: relative;
+    padding: 0 0 120px 0;
+    /* 顶部 0px, 左右 0px, 底部 120px */
+    margin-top: -200px;
+    /* 负边距拉近与上一个模块的距离 */
+    background-color: var(--color-bg, #0D0D0D);
+    overflow: hidden;
   }
 
   .explore-more-container {
-    padding: 0 var(--spacing-md, 24px);
+    max-width: var(--container-width, 1400px);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg, 40px);
   }
 
+  /* 顶部标题区域 */
   .explore-header {
-    margin-bottom: 40px;
-  }
-
-  .explore-title {
-    font-size: 28px;
-  }
-
-  .explore-label {
-    font-size: 14px;
-  }
-
-  /* 移动端: 缩小布局 40%，保持三卡一排 */
-  .explore-grid {
-    min-height: 400px; /* 原1000px * 0.4 */
-  }
-
-  /* 卡片 1: CREATE - 左上角 (40% 缩放) */
-  .explore-card-1 {
-    top: 0;
-    left: calc(20px + var(--explore-row1-offset) * 0.4);
-    width: 198px;  /* 495 * 0.4 */
-    height: 180px; /* 450 * 0.4 */
-  }
-
-  /* 卡片 2: COMPOSE - 中上 (40% 缩放) */
-  .explore-card-2 {
-    top: 0;
-    left: calc(232px + var(--explore-row1-offset) * 0.4);
-    width: 198px;  /* 495 * 0.4 */
-    height: 180px; /* 450 * 0.4 */
-  }
-
-  /* 卡片 3: STUDIO - 右上角 (40% 缩放) */
-  .explore-card-3 {
-    top: 0;
-    left: calc(444px + var(--explore-row1-offset) * 0.4);
-    width: 198px;  /* 495 * 0.4 */
-    height: 180px; /* 450 * 0.4 */
-  }
-
-  /* 卡片 4: Brand Modeling - 左下 (40% 缩放) */
-  .explore-card-4 {
-    top: 200px;  /* 500 * 0.4 */
-    left: calc(20px - var(--explore-row2-offset) * 0.4);
-    width: 198px;  /* 495 * 0.4 */
-    height: 180px; /* 450 * 0.4 */
-  }
-
-  /* 卡片 5: Storytelling - 中下 (40% 缩放) */
-  .explore-card-5 {
-    top: 200px;  /* 500 * 0.4 */
-    left: calc(232px - var(--explore-row2-offset) * 0.4);
-    width: 198px;  /* 495 * 0.4 */
-    height: 180px; /* 450 * 0.4 */
-  }
-
-  /* 卡片 6: Entertainment - 右下角 (40% 缩放) */
-  .explore-card-6 {
-    top: 200px;  /* 500 * 0.4 */
-    left: calc(444px - var(--explore-row2-offset) * 0.4);
-    width: 198px;  /* 495 * 0.4 */
-    height: 180px; /* 450 * 0.4 */
-  }
-
-  .explore-card-label {
-    font-size: 12px;
-    bottom: 12px;
-    left: 12px;
-  }
-}
-
-/* 响应式设计 - 小屏手机 (≤479px) */
-@media (max-width: 479px) {
-  .explore-more {
-    padding: 50px 0;
-    margin-top: -60px;
-  }
-
-  .explore-title {
-    font-size: 24px;
+    text-align: center;
+    margin-bottom: 60px;
+    margin-top: 0;
+    /* 确保顶部没有额外间距 */
   }
 
   .explore-label {
-    font-size: 12px;
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    color: #888888;
+    margin-bottom: 20px;
+    font-weight: 300;
   }
 
-  /* 超小屏: 缩小布局 30%，保持三卡一排 */
+  .explore-title {
+    font-size: 43px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #FFFFFF;
+    margin: 0;
+  }
+
+  /* 网格布局 - 改为绝对定位容器 */
   .explore-grid {
-    min-height: 300px; /* 原1000px * 0.3 */
+    max-width: var(--container-width, 1400px);
+    margin: 0 auto;
+    position: relative;
+    min-height: 1000px;
+    /* 调整为 1000px：500px(上行) + 450px(卡片高度) + 50px(底部间距) */
   }
 
-  /* 卡片 1: CREATE - 左上角 (30% 缩放) */
+  /* 卡片样式 - 改为绝对定位 */
+  .explore-card {
+    position: absolute;
+    /* 改为绝对定位，方便独立调整每张图片 */
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .explore-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  /* 卡片图片 */
+  .explore-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .explore-card:hover .explore-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 卡片 1: CREATE - 左上角 */
   .explore-card-1 {
     top: 0;
-    left: calc(15px + var(--explore-row1-offset) * 0.3);
-    width: 149px;  /* 495 * 0.3 */
-    height: 135px; /* 450 * 0.3 */
+    left: calc(50px + var(--explore-row1-offset));
+    /* 基础位置50px + 第一行偏移量 */
+    width: 495px;
+    height: 450px;
   }
 
-  /* 卡片 2: COMPOSE - 中上 (30% 缩放) */
+  .explore-card-1 .explore-card-image {
+    transform: scale(1.0);
+    object-position: center center;
+  }
+
+  .explore-card-1:hover .explore-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 卡片 2: COMPOSE - 中上 */
   .explore-card-2 {
     top: 0;
-    left: calc(174px + var(--explore-row1-offset) * 0.3);
-    width: 149px;  /* 495 * 0.3 */
-    height: 135px; /* 450 * 0.3 */
+    left: calc(580px + var(--explore-row1-offset));
+    /* 基础位置580px + 第一行偏移量 */
+    width: 495px;
+    height: 450px;
   }
 
-  /* 卡片 3: STUDIO - 右上角 (30% 缩放) */
+  .explore-card-2 .explore-card-image {
+    transform: scale(1.0);
+    object-position: center center;
+  }
+
+  .explore-card-2:hover .explore-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 卡片 3: STUDIO - 右上角 */
   .explore-card-3 {
     top: 0;
-    left: calc(333px + var(--explore-row1-offset) * 0.3);
-    width: 149px;  /* 495 * 0.3 */
-    height: 135px; /* 450 * 0.3 */
+    left: calc(1110px + var(--explore-row1-offset));
+    /* 基础位置1110px + 第一行偏移量 */
+    width: 495px;
+    height: 450px;
   }
 
-  /* 卡片 4: Brand Modeling - 左下 (30% 缩放) */
+  .explore-card-3 .explore-card-image {
+    transform: scale(1.0);
+    object-position: center center;
+  }
+
+  .explore-card-3:hover .explore-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 卡片 4: Brand Modeling - 左下 */
   .explore-card-4 {
-    top: 150px;  /* 500 * 0.3 */
-    left: calc(15px - var(--explore-row2-offset) * 0.3);
-    width: 149px;  /* 495 * 0.3 */
-    height: 135px; /* 450 * 0.3 */
+    top: 500px;
+    left: calc(50px - var(--explore-row2-offset));
+    /* 基础位置50px - 第二行偏移量 */
+    width: 495px;
+    height: 450px;
   }
 
-  /* 卡片 5: Storytelling - 中下 (30% 缩放) */
+  .explore-card-4 .explore-card-image {
+    transform: scale(1.0);
+    object-position: center center;
+  }
+
+  .explore-card-4:hover .explore-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 卡片 5: Storytelling - 中下 */
   .explore-card-5 {
-    top: 150px;  /* 500 * 0.3 */
-    left: calc(174px - var(--explore-row2-offset) * 0.3);
-    width: 149px;  /* 495 * 0.3 */
-    height: 135px; /* 450 * 0.3 */
+    top: 500px;
+    left: calc(580px - var(--explore-row2-offset));
+    /* 基础位置580px - 第二行偏移量 */
+    width: 495px;
+    height: 450px;
   }
 
-  /* 卡片 6: Entertainment - 右下角 (30% 缩放) */
+  .explore-card-5 .explore-card-image {
+    transform: scale(1.0);
+    object-position: center center;
+  }
+
+  .explore-card-5:hover .explore-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 卡片 6: Entertainment - 右下角 */
   .explore-card-6 {
-    top: 150px;  /* 500 * 0.3 */
-    left: calc(333px - var(--explore-row2-offset) * 0.3);
-    width: 149px;  /* 495 * 0.3 */
-    height: 135px; /* 450 * 0.3 */
+    top: 500px;
+    left: calc(1110px - var(--explore-row2-offset));
+    /* 基础位置1110px - 第二行偏移量 */
+    width: 495px;
+    height: 450px;
   }
 
-  .explore-card-label {
-    font-size: 10px;
-    bottom: 8px;
-    left: 8px;
+  .explore-card-6 .explore-card-image {
+    transform: scale(1.0);
+    object-position: center center;
   }
-}
+
+  .explore-card-6:hover .explore-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 卡片遮罩渐变 - 已移除遮罩层 */
+  .explore-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: none;
+    /* 移除遮罩，图片完全显示 */
+    pointer-events: none;
+  }
+
+  /* 卡片标签 */
+  .explore-card-label {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    z-index: 2;
+    transition: transform 0.3s ease;
+  }
+
+  .explore-card:hover .explore-card-label {
+    transform: translateY(-4px);
+  }
+
+  /* 响应式设计 - 平板 (768px - 991px) */
+  @media (max-width: 991px) {
+    .explore-more {
+      padding: 80px 0;
+      margin-top: -120px;
+      /* 缩小负边距 */
+    }
+
+    .explore-title {
+      font-size: 36px;
+    }
+
+    .explore-label {
+      font-size: 16px;
+    }
+
+    /* 平板端: 缩小布局 60%，保持三卡一排 */
+    .explore-grid {
+      min-height: 600px;
+      /* 原1000px * 0.6 */
+    }
+
+    /* 卡片 1: CREATE - 左上角 (60% 缩放) */
+    .explore-card-1 {
+      top: 0;
+      left: calc(30px + var(--explore-row1-offset) * 0.6);
+      width: 297px;
+      /* 495 * 0.6 */
+      height: 270px;
+      /* 450 * 0.6 */
+    }
+
+    /* 卡片 2: COMPOSE - 中上 (60% 缩放) */
+    .explore-card-2 {
+      top: 0;
+      left: calc(348px + var(--explore-row1-offset) * 0.6);
+      width: 297px;
+      /* 495 * 0.6 */
+      height: 270px;
+      /* 450 * 0.6 */
+    }
+
+    /* 卡片 3: STUDIO - 右上角 (60% 缩放) */
+    .explore-card-3 {
+      top: 0;
+      left: calc(666px + var(--explore-row1-offset) * 0.6);
+      width: 297px;
+      /* 495 * 0.6 */
+      height: 270px;
+      /* 450 * 0.6 */
+    }
+
+    /* 卡片 4: Brand Modeling - 左下 (60% 缩放) */
+    .explore-card-4 {
+      top: 300px;
+      /* 500 * 0.6 */
+      left: calc(30px - var(--explore-row2-offset) * 0.6);
+      width: 297px;
+      /* 495 * 0.6 */
+      height: 270px;
+      /* 450 * 0.6 */
+    }
+
+    /* 卡片 5: Storytelling - 中下 (60% 缩放) */
+    .explore-card-5 {
+      top: 300px;
+      /* 500 * 0.6 */
+      left: calc(348px - var(--explore-row2-offset) * 0.6);
+      width: 297px;
+      /* 495 * 0.6 */
+      height: 270px;
+      /* 450 * 0.6 */
+    }
+
+    /* 卡片 6: Entertainment - 右下角 (60% 缩放) */
+    .explore-card-6 {
+      top: 300px;
+      /* 500 * 0.6 */
+      left: calc(666px - var(--explore-row2-offset) * 0.6);
+      width: 297px;
+      /* 495 * 0.6 */
+      height: 270px;
+      /* 450 * 0.6 */
+    }
+
+    .explore-card-label {
+      font-size: 14px;
+      bottom: 16px;
+      left: 16px;
+    }
+  }
+
+  /* 响应式设计 - 移动端 (480px - 767px) */
+  @media (max-width: 767px) {
+    .explore-more {
+      padding: 60px 0;
+      margin-top: -80px;
+      /* 进一步缩小负边距 */
+    }
+
+    .explore-more-container {
+      padding: 0 var(--spacing-md, 24px);
+    }
+
+    .explore-header {
+      margin-bottom: 40px;
+    }
+
+    .explore-title {
+      font-size: 28px;
+    }
+
+    .explore-label {
+      font-size: 14px;
+    }
+
+    /* 移动端: 缩小布局 40%，保持三卡一排 */
+    .explore-grid {
+      min-height: 400px;
+      /* 原1000px * 0.4 */
+    }
+
+    /* 卡片 1: CREATE - 左上角 (40% 缩放) */
+    .explore-card-1 {
+      top: 0;
+      left: calc(20px + var(--explore-row1-offset) * 0.4);
+      width: 198px;
+      /* 495 * 0.4 */
+      height: 180px;
+      /* 450 * 0.4 */
+    }
+
+    /* 卡片 2: COMPOSE - 中上 (40% 缩放) */
+    .explore-card-2 {
+      top: 0;
+      left: calc(232px + var(--explore-row1-offset) * 0.4);
+      width: 198px;
+      /* 495 * 0.4 */
+      height: 180px;
+      /* 450 * 0.4 */
+    }
+
+    /* 卡片 3: STUDIO - 右上角 (40% 缩放) */
+    .explore-card-3 {
+      top: 0;
+      left: calc(444px + var(--explore-row1-offset) * 0.4);
+      width: 198px;
+      /* 495 * 0.4 */
+      height: 180px;
+      /* 450 * 0.4 */
+    }
+
+    /* 卡片 4: Brand Modeling - 左下 (40% 缩放) */
+    .explore-card-4 {
+      top: 200px;
+      /* 500 * 0.4 */
+      left: calc(20px - var(--explore-row2-offset) * 0.4);
+      width: 198px;
+      /* 495 * 0.4 */
+      height: 180px;
+      /* 450 * 0.4 */
+    }
+
+    /* 卡片 5: Storytelling - 中下 (40% 缩放) */
+    .explore-card-5 {
+      top: 200px;
+      /* 500 * 0.4 */
+      left: calc(232px - var(--explore-row2-offset) * 0.4);
+      width: 198px;
+      /* 495 * 0.4 */
+      height: 180px;
+      /* 450 * 0.4 */
+    }
+
+    /* 卡片 6: Entertainment - 右下角 (40% 缩放) */
+    .explore-card-6 {
+      top: 200px;
+      /* 500 * 0.4 */
+      left: calc(444px - var(--explore-row2-offset) * 0.4);
+      width: 198px;
+      /* 495 * 0.4 */
+      height: 180px;
+      /* 450 * 0.4 */
+    }
+
+    .explore-card-label {
+      font-size: 12px;
+      bottom: 12px;
+      left: 12px;
+    }
+  }
+
+  /* 响应式设计 - 小屏手机 (≤479px) */
+  @media (max-width: 479px) {
+    .explore-more {
+      padding: 50px 0;
+      margin-top: -60px;
+    }
+
+    .explore-title {
+      font-size: 24px;
+    }
+
+    .explore-label {
+      font-size: 12px;
+    }
+
+    /* 超小屏: 缩小布局 30%，保持三卡一排 */
+    .explore-grid {
+      min-height: 300px;
+      /* 原1000px * 0.3 */
+    }
+
+    /* 卡片 1: CREATE - 左上角 (30% 缩放) */
+    .explore-card-1 {
+      top: 0;
+      left: calc(15px + var(--explore-row1-offset) * 0.3);
+      width: 149px;
+      /* 495 * 0.3 */
+      height: 135px;
+      /* 450 * 0.3 */
+    }
+
+    /* 卡片 2: COMPOSE - 中上 (30% 缩放) */
+    .explore-card-2 {
+      top: 0;
+      left: calc(174px + var(--explore-row1-offset) * 0.3);
+      width: 149px;
+      /* 495 * 0.3 */
+      height: 135px;
+      /* 450 * 0.3 */
+    }
+
+    /* 卡片 3: STUDIO - 右上角 (30% 缩放) */
+    .explore-card-3 {
+      top: 0;
+      left: calc(333px + var(--explore-row1-offset) * 0.3);
+      width: 149px;
+      /* 495 * 0.3 */
+      height: 135px;
+      /* 450 * 0.3 */
+    }
+
+    /* 卡片 4: Brand Modeling - 左下 (30% 缩放) */
+    .explore-card-4 {
+      top: 150px;
+      /* 500 * 0.3 */
+      left: calc(15px - var(--explore-row2-offset) * 0.3);
+      width: 149px;
+      /* 495 * 0.3 */
+      height: 135px;
+      /* 450 * 0.3 */
+    }
+
+    /* 卡片 5: Storytelling - 中下 (30% 缩放) */
+    .explore-card-5 {
+      top: 150px;
+      /* 500 * 0.3 */
+      left: calc(174px - var(--explore-row2-offset) * 0.3);
+      width: 149px;
+      /* 495 * 0.3 */
+      height: 135px;
+      /* 450 * 0.3 */
+    }
+
+    /* 卡片 6: Entertainment - 右下角 (30% 缩放) */
+    .explore-card-6 {
+      top: 150px;
+      /* 500 * 0.3 */
+      left: calc(333px - var(--explore-row2-offset) * 0.3);
+      width: 149px;
+      /* 495 * 0.3 */
+      height: 135px;
+      /* 450 * 0.3 */
+    }
+
+    .explore-card-label {
+      font-size: 10px;
+      bottom: 8px;
+      left: 8px;
+    }
+  }
 </style>
 
 <!-- HTML 结构 -->
@@ -9274,66 +9691,42 @@
     <div class="explore-grid">
       <!-- 卡片 1: CREATE -->
       <div class="explore-card explore-card-1">
-        <img
-          src="sections/explore_more/1.png"
-          alt="Create"
-          class="explore-card-image"
-        >
+        <img src="sections/explore_more/1.png" alt="Create" class="explore-card-image">
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">CREATE</div>
       </div>
 
       <!-- 卡片 2: COMPOSE -->
       <div class="explore-card explore-card-2">
-        <img
-          src="sections/explore_more/2.jpg"
-          alt="Compose"
-          class="explore-card-image"
-        >
+        <img src="sections/explore_more/2.jpg" alt="Compose" class="explore-card-image">
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">COMPOSE</div>
       </div>
 
       <!-- 卡片 3: STUDIO -->
       <div class="explore-card explore-card-3">
-        <img
-          src="sections/explore_more/3.png"
-          alt="Studio"
-          class="explore-card-image"
-        >
+        <img src="sections/explore_more/3.png" alt="Studio" class="explore-card-image">
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">STUDIO</div>
       </div>
 
       <!-- 卡片 4: Brand Modeling -->
       <div class="explore-card explore-card-4">
-        <img
-          src="sections/explore_more/4.png"
-          alt="Brand Modeling"
-          class="explore-card-image"
-        >
+        <img src="sections/explore_more/4.png" alt="Brand Modeling" class="explore-card-image">
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">Brand Modeling</div>
       </div>
 
       <!-- 卡片 5: Storytelling -->
       <div class="explore-card explore-card-5">
-        <img
-          src="sections/explore_more/5.png"
-          alt="Storytelling"
-          class="explore-card-image"
-        >
+        <img src="sections/explore_more/5.png" alt="Storytelling" class="explore-card-image">
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">Storytelling</div>
       </div>
 
       <!-- 卡片 6: Entertainment -->
       <div class="explore-card explore-card-6">
-        <img
-          src="sections/explore_more/6.png"
-          alt="Entertainment"
-          class="explore-card-image"
-        >
+        <img src="sections/explore_more/6.png" alt="Entertainment" class="explore-card-image">
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">Entertainment</div>
       </div>
@@ -9342,222 +9735,224 @@
 </section>
 
 <script>
-(function() {
-  'use strict';
+  (function () {
+    'use strict';
 
-  // 初始化 Explore More 模块
-  function initExploreMore() {
-    const cards = document.querySelectorAll('.explore-card');
+    // 初始化 Explore More 模块
+    function initExploreMore() {
+      const cards = document.querySelectorAll('.explore-card');
 
-    // 为每个卡片添加点击事件（可选）
-    cards.forEach(card => {
-      card.addEventListener('click', function() {
-        const label = this.querySelector('.explore-card-label').textContent;
-        console.log(`Clicked on: ${label}`);
-        // TODO: 添加跳转逻辑或其他交互
+      // 为每个卡片添加点击事件（可选）
+      cards.forEach(card => {
+        card.addEventListener('click', function () {
+          const label = this.querySelector('.explore-card-label').textContent;
+          console.log(`Clicked on: ${label}`);
+          // TODO: 添加跳转逻辑或其他交互
+        });
       });
-    });
 
-    // 滚动动画：卡片依次淡入
-    const observerOptions = {
-      threshold: 0.2,
-      rootMargin: '0px 0px -50px 0px'
-    };
+      // 滚动动画：卡片依次淡入
+      const observerOptions = {
+        threshold: 0.2,
+        rootMargin: '0px 0px -50px 0px'
+      };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-          }, index * 100); // 依次延迟 100ms
-          observer.unobserve(entry.target);
-        }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateY(0)';
+            }, index * 100); // 依次延迟 100ms
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      // 初始状态设置
+      cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+        observer.observe(card);
       });
-    }, observerOptions);
+    }
 
-    // 初始状态设置
-    cards.forEach((card, index) => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(30px)';
-      card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-      observer.observe(card);
-    });
-  }
-
-  // 页面加载完成后初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initExploreMore);
-  } else {
-    initExploreMore();
-  }
-})();
+    // 页面加载完成后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initExploreMore);
+    } else {
+      initExploreMore();
+    }
+  })();
 </script>
-
 
   <!-- ===== QUESTION SECTION ===== -->
 <!-- ===== Question (FAQ) Section Module ===== -->
 <style>
-/* Question Section Styles */
-.question-section {
-  padding: var(--spacing-3xl) 0;
-}
+  /* Question Section Styles */
+  .question-section {
+    padding: var(--spacing-3xl) 0;
+  }
 
-.question-header {
-  text-align: center;
-  max-width: 900px;
-  margin: 0 auto var(--spacing-2xl);
-  padding: 0 var(--spacing-lg);
-}
+  .question-header {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto var(--spacing-2xl);
+    padding: 0 var(--spacing-lg);
+  }
 
-.question-label {
-  font-size: 19px;
-  font-weight: 600;
-  letter-spacing: 0.1px;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-md);
-}
+  .question-label {
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    color: #888888;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
 
-.question-title {
-  font-size: clamp(1.575rem, 3.3vw, 2.625rem);
-  font-weight: 800;
-  margin-bottom: var(--spacing-md);
-  line-height: 1.2;
-  color: var(--color-text);
-}
+  .question-title {
+    font-size: clamp(1.575rem, 3.3vw, 2.625rem);
+    font-weight: 800;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
+    color: var(--color-text);
+  }
 
-.question-subtitle {
-  font-size: 1.35rem;
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-}
+  .question-subtitle {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
 
-/* FAQ Accordion Container */
-.faq-container {
-  max-width: 1270px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-}
+  /* FAQ Accordion Container */
+  .faq-container {
+    max-width: 1270px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
 
-/* FAQ Item */
-.faq-item {
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  margin-bottom: var(--spacing-md);
-  overflow: hidden;
-  transition: all var(--transition);
-}
+  /* FAQ Item */
+  .faq-item {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    margin-bottom: var(--spacing-md);
+    overflow: hidden;
+    transition: all var(--transition);
+  }
 
-.faq-item:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-}
+  .faq-item:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+  }
 
-/* FAQ Question Button */
-.faq-question {
-  width: 100%;
-  padding: 2rem var(--spacing-lg) 1.5rem;
-  background: transparent;
-  border: none;
-  color: var(--color-text);
-  font-size: 1.45rem;
-  font-weight: 600;
-  text-align: left;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-md);
-  transition: color var(--transition);
-}
-
-.faq-question:hover {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-/* FAQ Icon */
-.faq-icon {
-  flex-shrink: 0;
-  width: 36px;
-  height: 36px;
-  position: relative;
-  transition: transform var(--transition);
-}
-
-.faq-icon::before,
-.faq-icon::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: var(--color-text);
-  transition: all var(--transition);
-}
-
-.faq-icon::before {
-  width: 28px;
-  height: 3px;
-}
-
-.faq-icon::after {
-  width: 3px;
-  height: 28px;
-}
-
-/* Active state - Rotate icon */
-.faq-item.active .faq-icon {
-  transform: rotate(180deg);
-}
-
-.faq-item.active .faq-icon::after {
-  opacity: 0;
-}
-
-/* FAQ Answer */
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, padding 0.4s ease;
-}
-
-.faq-answer-content {
-  padding: 0.25rem var(--spacing-lg) 2rem;
-  color: var(--color-text-secondary);
-  font-size: 1.1rem;
-  line-height: 1.7;
-}
-
-.faq-item.active .faq-answer {
-  max-height: 500px;
-}
-
-/* Responsive */
-@media (max-width: 767px) {
+  /* FAQ Question Button */
   .faq-question {
-    font-size: 1.125rem;
-    padding: var(--spacing-md);
+    width: 100%;
+    padding: 2rem var(--spacing-lg) 1.5rem;
+    background: transparent;
+    border: none;
+    color: var(--color-text);
+    font-size: 1.45rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-md);
+    transition: color var(--transition);
   }
 
-  .faq-answer-content {
-    padding: 0 var(--spacing-md) var(--spacing-md);
-    font-size: 0.9375rem;
+  .faq-question:hover {
+    color: rgba(255, 255, 255, 0.8);
   }
 
+  /* FAQ Icon */
   .faq-icon {
-    width: 20px;
-    height: 20px;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    position: relative;
+    transition: transform var(--transition);
+  }
+
+  .faq-icon::before,
+  .faq-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--color-text);
+    transition: all var(--transition);
   }
 
   .faq-icon::before {
-    width: 16px;
+    width: 28px;
+    height: 3px;
   }
 
   .faq-icon::after {
-    height: 16px;
+    width: 3px;
+    height: 28px;
   }
-}
+
+  /* Active state - Rotate icon */
+  .faq-item.active .faq-icon {
+    transform: rotate(180deg);
+  }
+
+  .faq-item.active .faq-icon::after {
+    opacity: 0;
+  }
+
+  /* FAQ Answer */
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+  }
+
+  .faq-answer-content {
+    padding: 0.25rem var(--spacing-lg) 2rem;
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+
+  .faq-item.active .faq-answer {
+    max-height: 500px;
+  }
+
+  /* Responsive */
+  @media (max-width: 767px) {
+    .faq-question {
+      font-size: 1.125rem;
+      padding: var(--spacing-md);
+    }
+
+    .faq-answer-content {
+      padding: 0 var(--spacing-md) var(--spacing-md);
+      font-size: 0.9375rem;
+    }
+
+    .faq-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .faq-icon::before {
+      width: 16px;
+    }
+
+    .faq-icon::after {
+      height: 16px;
+    }
+  }
 </style>
 
 <section class="question-section" id="faq">
@@ -9578,7 +9973,8 @@
       </button>
       <div class="faq-answer">
         <div class="faq-answer-content">
-          Brand-true aesthetics, cinematic edits, original generation, and pro workflows like recipes, libraries, and deterministic renders.
+          Brand-true aesthetics, cinematic edits, original generation, and pro workflows like recipes, libraries, and
+          deterministic renders.
         </div>
       </div>
     </div>
@@ -9591,7 +9987,9 @@
       </button>
       <div class="faq-answer">
         <div class="faq-answer-content">
-          Yes! Our advanced style consistency engine ensures your brand aesthetics remain uniform across all generated videos. Use style presets, custom templates, and deterministic rendering to maintain visual coherence in every project.
+          Yes! Our advanced style consistency engine ensures your brand aesthetics remain uniform across all generated
+          videos. Use style presets, custom templates, and deterministic rendering to maintain visual coherence in every
+          project.
         </div>
       </div>
     </div>
@@ -9604,7 +10002,8 @@
       </button>
       <div class="faq-answer">
         <div class="faq-answer-content">
-          Absolutely! Our platform is built for collaboration. Create separate workspaces for each brand, manage team permissions, share asset libraries, and streamline your agency workflow with our enterprise features.
+          Absolutely! Our platform is built for collaboration. Create separate workspaces for each brand, manage team
+          permissions, share asset libraries, and streamline your agency workflow with our enterprise features.
         </div>
       </div>
     </div>
@@ -9617,7 +10016,9 @@
       </button>
       <div class="faq-answer">
         <div class="faq-answer-content">
-          Export optimized videos for all major platforms: TikTok, Instagram Reels, YouTube Shorts, Facebook, LinkedIn, Twitter, and more. Each export is automatically formatted for the platform's specifications including aspect ratio, duration, and quality settings.
+          Export optimized videos for all major platforms: TikTok, Instagram Reels, YouTube Shorts, Facebook, LinkedIn,
+          Twitter, and more. Each export is automatically formatted for the platform's specifications including aspect
+          ratio, duration, and quality settings.
         </div>
       </div>
     </div>
@@ -9625,51 +10026,50 @@
 </section>
 
 <script>
-// Question Section Script - FAQ Accordion
-(function() {
-  'use strict';
+  // Question Section Script - FAQ Accordion
+  (function () {
+    'use strict';
 
-  const initFaqAccordion = () => {
-    const faqItems = document.querySelectorAll('.faq-item');
+    const initFaqAccordion = () => {
+      const faqItems = document.querySelectorAll('.faq-item');
 
-    if (faqItems.length === 0) return;
+      if (faqItems.length === 0) return;
 
-    faqItems.forEach(item => {
-      const button = item.querySelector('.faq-question');
-      const answer = item.querySelector('.faq-answer');
+      faqItems.forEach(item => {
+        const button = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
 
-      if (!button || !answer) return;
+        if (!button || !answer) return;
 
-      button.addEventListener('click', () => {
-        const isActive = item.classList.contains('active');
+        button.addEventListener('click', () => {
+          const isActive = item.classList.contains('active');
 
-        // 关闭所有其他项
-        faqItems.forEach(otherItem => {
-          if (otherItem !== item) {
-            otherItem.classList.remove('active');
-            const otherButton = otherItem.querySelector('.faq-question');
-            if (otherButton) {
-              otherButton.setAttribute('aria-expanded', 'false');
+          // 关闭所有其他项
+          faqItems.forEach(otherItem => {
+            if (otherItem !== item) {
+              otherItem.classList.remove('active');
+              const otherButton = otherItem.querySelector('.faq-question');
+              if (otherButton) {
+                otherButton.setAttribute('aria-expanded', 'false');
+              }
             }
-          }
+          });
+
+          // 切换当前项
+          item.classList.toggle('active');
+          button.setAttribute('aria-expanded', !isActive);
         });
-
-        // 切换当前项
-        item.classList.toggle('active');
-        button.setAttribute('aria-expanded', !isActive);
       });
-    });
-  };
+    };
 
-  // Initialize on DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFaqAccordion);
-  } else {
-    initFaqAccordion();
-  }
-})();
+    // Initialize on DOM ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initFaqAccordion);
+    } else {
+      initFaqAccordion();
+    }
+  })();
 </script>
-
 
   <!-- ===== FOOTER SECTION ===== -->
 <style>
