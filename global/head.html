@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,9 +16,11 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Lenis Smooth Scroll -->
@@ -32,14 +35,18 @@
     /* 隐藏所有浏览器的滚动条 */
     html {
       overflow-x: hidden;
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+      -ms-overflow-style: none;
+      /* IE and Edge */
     }
 
     body {
       overflow-x: hidden;
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+      -ms-overflow-style: none;
+      /* IE and Edge */
     }
 
     /* 隐藏 Webkit 浏览器的滚动条 (Chrome, Safari, Opera) */
@@ -49,5 +56,237 @@
       width: 0;
       height: 0;
     }
+
+    /* ===== Launch Overlay ===== */
+    #launch-overlay {
+      position: fixed;
+      inset: 0;
+      background: #050505;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+    }
+
+    #launch-overlay.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #launch-overlay.is-exiting {
+      opacity: 0;
+    }
+
+    .launch-shell {
+      width: 520px;
+      max-width: 90vw;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .launch-input {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.65rem 0.65rem 0.65rem 1.25rem;
+      background: rgba(10, 10, 10, 0.9);
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+    }
+
+    .launch-text {
+      flex: 1;
+      min-height: 1.2em;
+      white-space: normal;
+      overflow: hidden;
+      color: #f5f5f5;
+      font-size: 0.85rem;
+      font-family: 'Sora', 'Inter', sans-serif;
+      letter-spacing: 0.01em;
+      line-height: 1.5;
+      word-break: break-word;
+      text-align: left;
+    }
+
+    .launch-btn {
+      border: none;
+      border-radius: 999px;
+      padding: 0.65rem 1.4rem;
+      background: #ffffff;
+      color: #111;
+      font-weight: 700;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+    }
+
+    .launch-btn:disabled {
+      opacity: 0.8;
+      cursor: wait;
+    }
+
+    .launch-btn:not(:disabled):hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(255, 255, 255, 0.25);
+    }
+
+    .launch-btn:not(:disabled):active {
+      transform: scale(0.94);
+      box-shadow:
+        0 0 0 4px rgba(255, 255, 255, 0.25),
+        inset 0 4px 10px rgba(0, 0, 0, 0.25);
+      transition: transform 0.08s ease, box-shadow 0.08s ease;
+    }
+
+    body.launch-block-scroll {
+      overflow: hidden;
+    }
+
+    @media (max-width: 600px) {
+      .launch-input {
+        padding-left: 1rem;
+      }
+
+      .launch-text {
+        font-size: 0.85rem;
+      }
+
+      .launch-btn {
+        font-size: 0.85rem;
+        padding-inline: 1rem;
+      }
+    }
   </style>
+
+  <script>
+    (function () {
+      const STORAGE_KEY = 'treclipLaunchSeen';
+      const typedText = 'ultra-realistic close-up of an astronaut in a detailed white space suit, standing in the darkness of outer space.';
+
+      const path = window.location.pathname || '';
+      const isIndex = /(?:^|\/)index\.html?$/i.test(path) || path === '/' || path === '';
+      if (!isIndex) {
+        return;
+      }
+
+      let storageEnabled = true;
+      try {
+        const testKey = '__treclip_test__';
+        window.sessionStorage.setItem(testKey, '1');
+        window.sessionStorage.removeItem(testKey);
+      } catch (err) {
+        storageEnabled = false;
+      }
+
+      if (storageEnabled && window.sessionStorage.getItem(STORAGE_KEY)) {
+        return;
+      }
+
+      const overlayTemplate = `
+        <div class="launch-shell">
+          <div class="launch-input" role="status" aria-live="polite">
+            <span class="launch-text" data-launch-text></span>
+            <button class="launch-btn" type="button" data-launch-btn>Run Engine</button>
+          </div>
+        </div>`;
+
+      const overlay = document.createElement('div');
+      overlay.id = 'launch-overlay';
+      overlay.setAttribute('aria-hidden', 'true');
+      overlay.innerHTML = overlayTemplate;
+
+      const attachOverlay = () => {
+        if (!document.body || overlay.parentNode) {
+          return;
+        }
+        document.body.appendChild(overlay);
+        document.body.classList.add('launch-block-scroll');
+      };
+
+      if (document.body) {
+        attachOverlay();
+      } else {
+        document.addEventListener('DOMContentLoaded', attachOverlay, { once: true });
+        const tryAttach = () => {
+          if (!overlay.parentNode) {
+            attachOverlay();
+            if (!overlay.parentNode) {
+              requestAnimationFrame(tryAttach);
+            }
+          }
+        };
+        requestAnimationFrame(tryAttach);
+      }
+
+      const textNode = overlay.querySelector('[data-launch-text]');
+      const runBtn = overlay.querySelector('[data-launch-btn]');
+      let index = 0;
+      let typingTimer = null;
+      let isClosing = false;
+
+      const markSeen = () => {
+        if (storageEnabled) {
+          window.sessionStorage.setItem(STORAGE_KEY, '1');
+        }
+      };
+
+      const finishLaunch = () => {
+        if (isClosing) return;
+        isClosing = true;
+        markSeen();
+        if (typingTimer) {
+          clearTimeout(typingTimer);
+        }
+        if (runBtn) {
+          runBtn.disabled = true;
+        }
+        overlay.classList.add('is-exiting');
+        setTimeout(() => {
+          overlay.remove();
+          document.body?.classList.remove('launch-block-scroll');
+        }, 650);
+      };
+
+      const typeNext = () => {
+        if (!textNode) return;
+        if (index < typedText.length) {
+          textNode.textContent += typedText.charAt(index);
+          index += 1;
+          const jitter = 30 + Math.random() * 70;
+          typingTimer = window.setTimeout(typeNext, jitter);
+        } else {
+          window.setTimeout(finishLaunch, 800);
+        }
+      };
+
+      if (runBtn) {
+        runBtn.addEventListener('click', finishLaunch);
+      }
+
+      overlay.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          finishLaunch();
+        }
+      });
+
+      const startSequence = () => {
+        if (!overlay.parentNode) {
+          requestAnimationFrame(startSequence);
+          return;
+        }
+        overlay.setAttribute('aria-hidden', 'false');
+        requestAnimationFrame(() => overlay.classList.add('is-visible'));
+        typingTimer = window.setTimeout(typeNext, 400);
+      };
+
+      startSequence();
+    })();
+  </script>
 </head>
