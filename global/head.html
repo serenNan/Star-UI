@@ -62,13 +62,10 @@
       position: fixed;
       inset: 0;
       background: #050505;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       z-index: 9999;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.6s ease;
+      transition: opacity 1.4s ease;
     }
 
     #launch-overlay.is-visible {
@@ -81,50 +78,58 @@
     }
 
     .launch-shell {
-      width: 520px;
-      max-width: 90vw;
-      padding: 1rem;
-      display: flex;
-      justify-content: center;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(550px, 90vw);
+      max-width: none;
+      padding: 0;
     }
 
     .launch-input {
-      flex: 1;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-      padding: 0.65rem 0.65rem 0.65rem 1.25rem;
-      background: rgba(10, 10, 10, 0.9);
-      border-radius: 999px;
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 48px;
+      border-radius: 25px;
       border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+      background: rgba(0, 0, 0, 0.55);
+      box-shadow: none;
+      backdrop-filter: blur(10px);
     }
 
     .launch-text {
-      flex: 1;
+      display: block;
       min-height: 1.2em;
+      padding: 10px 140px 10px 20px;
       white-space: normal;
       overflow: hidden;
       color: #f5f5f5;
-      font-size: 0.85rem;
+      font-size: 0.7rem;
       font-family: 'Sora', 'Inter', sans-serif;
       letter-spacing: 0.01em;
-      line-height: 1.5;
+      line-height: 1.4;
       word-break: break-word;
       text-align: left;
     }
 
     .launch-btn {
+      position: absolute;
+      top: 50%;
+      right: 6px;
+      transform: translateY(-50%);
       border: none;
-      border-radius: 999px;
-      padding: 0.65rem 1.4rem;
+      border-radius: 20px;
+      padding: 8px 16px;
       background: #ffffff;
       color: #111;
-      font-weight: 700;
-      font-size: 0.95rem;
+      font-weight: 600;
+      font-size: 1rem;
       cursor: pointer;
-      transition: transform 0.25s ease, box-shadow 0.25s ease;
-      box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.15);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: none;
+      white-space: nowrap;
     }
 
     .launch-btn:disabled {
@@ -133,16 +138,17 @@
     }
 
     .launch-btn:not(:disabled):hover {
-      transform: translateY(-1px);
+      transform: translateY(calc(-50% - 2px));
       box-shadow: 0 8px 18px rgba(255, 255, 255, 0.25);
     }
 
-    .launch-btn:not(:disabled):active {
-      transform: scale(0.94);
+    .launch-btn:not(:disabled):active,
+    .launch-btn.is-pressed {
+      transform: translateY(calc(-50% + 1px)) scale(0.96);
       box-shadow:
         0 0 0 4px rgba(255, 255, 255, 0.25),
         inset 0 4px 10px rgba(0, 0, 0, 0.25);
-      transition: transform 0.08s ease, box-shadow 0.08s ease;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     body.launch-block-scroll {
@@ -150,12 +156,9 @@
     }
 
     @media (max-width: 600px) {
-      .launch-input {
-        padding-left: 1rem;
-      }
-
       .launch-text {
-        font-size: 0.85rem;
+        font-size: 0.7rem;
+        padding-right: 120px;
       }
 
       .launch-btn {
@@ -201,6 +204,7 @@
       overlay.id = 'launch-overlay';
       overlay.setAttribute('aria-hidden', 'true');
       overlay.innerHTML = overlayTemplate;
+      const shell = overlay.querySelector('.launch-shell');
 
       const attachOverlay = () => {
         if (!document.body || overlay.parentNode) {
@@ -230,6 +234,40 @@
       let index = 0;
       let typingTimer = null;
       let isClosing = false;
+      let heroTarget = null;
+      let heroObserver = null;
+      let pressTimer = null;
+      const heroSelector = '#hero-search-box';
+
+      const syncShellPosition = () => {
+        if (!shell || !heroTarget) return;
+        const rect = heroTarget.getBoundingClientRect();
+        shell.style.top = `${rect.top}px`;
+        shell.style.left = `${rect.left}px`;
+        shell.style.width = `${rect.width}px`;
+        shell.style.height = `${rect.height}px`;
+        shell.style.transform = 'none';
+      };
+
+      const handleResize = () => syncShellPosition();
+
+      const attachHeroTarget = (attempt = 0) => {
+        const MAX_ATTEMPTS = 180;
+        heroTarget = document.querySelector(heroSelector);
+        if (!heroTarget) {
+          if (attempt < MAX_ATTEMPTS) {
+            requestAnimationFrame(() => attachHeroTarget(attempt + 1));
+          }
+          return;
+        }
+
+        syncShellPosition();
+        window.addEventListener('resize', handleResize);
+        if (typeof ResizeObserver !== 'undefined') {
+          heroObserver = new ResizeObserver(syncShellPosition);
+          heroObserver.observe(heroTarget);
+        }
+      };
 
       const markSeen = () => {
         if (storageEnabled) {
@@ -241,6 +279,10 @@
         if (isClosing) return;
         isClosing = true;
         markSeen();
+        if (pressTimer) {
+          clearTimeout(pressTimer);
+          pressTimer = null;
+        }
         if (typingTimer) {
           clearTimeout(typingTimer);
         }
@@ -249,9 +291,13 @@
         }
         overlay.classList.add('is-exiting');
         setTimeout(() => {
+          window.removeEventListener('resize', handleResize);
+          if (heroObserver) {
+            heroObserver.disconnect();
+          }
           overlay.remove();
           document.body?.classList.remove('launch-block-scroll');
-        }, 650);
+        }, 1500);
       };
 
       const typeNext = () => {
@@ -262,17 +308,32 @@
           const jitter = 30 + Math.random() * 70;
           typingTimer = window.setTimeout(typeNext, jitter);
         } else {
-          window.setTimeout(finishLaunch, 800);
+          window.setTimeout(() => triggerFinishPress(true), 1800);
         }
       };
 
+      const triggerFinishPress = (withDelay = true) => {
+        if (isClosing || pressTimer) return;
+        if (runBtn) {
+          runBtn.classList.add('is-pressed');
+        }
+        const delay = withDelay ? 500 : 0;
+        pressTimer = window.setTimeout(() => {
+          if (runBtn) {
+            runBtn.classList.remove('is-pressed');
+          }
+          pressTimer = null;
+          finishLaunch();
+        }, delay);
+      };
+
       if (runBtn) {
-        runBtn.addEventListener('click', finishLaunch);
+        runBtn.addEventListener('click', () => triggerFinishPress(true));
       }
 
       overlay.addEventListener('keydown', (event) => {
         if (event.key === 'Enter') {
-          finishLaunch();
+          triggerFinishPress(true);
         }
       });
 
@@ -281,11 +342,13 @@
           requestAnimationFrame(startSequence);
           return;
         }
+        syncShellPosition();
         overlay.setAttribute('aria-hidden', 'false');
         requestAnimationFrame(() => overlay.classList.add('is-visible'));
         typingTimer = window.setTimeout(typeNext, 400);
       };
 
+      attachHeroTarget();
       startSequence();
     })();
   </script>
