@@ -26,6 +26,30 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="assets/images/favicon.png">
+
+  <!-- 隐藏滚动条样式 -->
+  <style>
+    /* 隐藏所有浏览器的滚动条 */
+    html {
+      overflow-x: hidden;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+
+    body {
+      overflow-x: hidden;
+      scrollbar-width: none; /* Firefox */
+      -ms-overflow-style: none; /* IE and Edge */
+    }
+
+    /* 隐藏 Webkit 浏览器的滚动条 (Chrome, Safari, Opera) */
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+  </style>
 </head>
 <body>
 
@@ -1562,8 +1586,7 @@
     position: relative;
     width: 100%;
     border-radius: 24px;
-    overflow: visible;
-    /* 允许badge超出图片边界 */
+    overflow: hidden;
   }
 
   .ai-creative-suite-image {
@@ -1571,40 +1594,6 @@
     height: auto;
     display: block;
     border-radius: 24px;
-  }
-
-  /* 左下角挖空的圆角方块 - 完全贴合图片左下角 */
-  .ai-creative-suite-badge {
-    position: absolute;
-    bottom: 0;
-    /* 完全贴合底部 */
-    left: 0;
-    /* 完全贴合左边 */
-    background: var(--color-bg);
-    /* 与背景色重合 */
-    border-radius: 0 16px 0 0;
-    /* 只有右上角圆角，左下角直角贴合 */
-    padding: var(--spacing-lg);
-    min-width: 120px;
-    /* 完全贴合，不超出图片边界 */
-  }
-
-  .ai-creative-suite-badge-value {
-    font-family: 'Orbitron', sans-serif;
-    /* 使用 Orbitron 字体 */
-    font-size: 2.5rem;
-    font-weight: 700;
-    color: var(--color-text);
-    line-height: 1;
-    margin-bottom: var(--spacing-xs);
-    letter-spacing: 0.02em;
-  }
-
-  .ai-creative-suite-badge-label {
-    font-size: 0.875rem;
-    color: var(--color-text-secondary);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
   }
 
   /* 右侧内容块 */
@@ -1676,17 +1665,6 @@
       grid-template-columns: 1fr;
       gap: var(--spacing-xl);
     }
-
-    .ai-creative-suite-badge {
-      bottom: 0;
-      left: 0;
-      padding: var(--spacing-md);
-      min-width: 100px;
-    }
-
-    .ai-creative-suite-badge-value {
-      font-size: 2rem;
-    }
   }
 
   @media (max-width: 767px) {
@@ -1704,21 +1682,6 @@
 
     .ai-creative-suite-content {
       gap: var(--spacing-lg);
-    }
-
-    .ai-creative-suite-badge {
-      bottom: 0;
-      left: 0;
-      padding: var(--spacing-sm);
-      min-width: 80px;
-    }
-
-    .ai-creative-suite-badge-value {
-      font-size: 1.5rem;
-    }
-
-    .ai-creative-suite-badge-label {
-      font-size: 0.75rem;
     }
 
     .ai-creative-suite-content-title {
@@ -1743,14 +1706,9 @@
 
     <!-- 内容区域 - 左右布局 -->
     <div class="ai-creative-suite-content">
-      <!-- 左侧：带挖空的图片 -->
+      <!-- 左侧：图片 -->
       <div class="ai-creative-suite-image-wrapper">
         <img src="sections/ai_creative_suite/image.jpg" alt="AI Creative Suite" class="ai-creative-suite-image">
-        <!-- 左下角挖空的圆角方块 -->
-        <div class="ai-creative-suite-badge">
-          <div class="ai-creative-suite-badge-value">97%</div>
-          <div class="ai-creative-suite-badge-label">Real-Time</div>
-        </div>
       </div>
 
       <!-- 右侧：内容块 -->
@@ -3038,7 +2996,7 @@
 }
 
 .footer-logo {
-  width: 220px;
+  width: 180px;
   height: auto;
   margin-top: 0px;       /* logo 本身不需要边距，由 wrapper 控制 */
   margin-left: 0px;      /* logo 本身不需要边距，由 wrapper 控制 */
@@ -3070,12 +3028,12 @@
 
 .footer-cta-button {
   display: inline-block;
-  padding: 12px 30px;    /* 增加左右内边距，让按钮变宽 */
+  padding: 10px 22px;    /* 增加左右内边距，让按钮变宽 */
   background: #2A2A2A;   /* 暗灰色背景 */
   color: #FFFFFF;
   text-decoration: none;
   border-radius: 5px;    /* 调整按钮圆角 */
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 500;
   border: 1px solid rgba(255, 255, 255, 0.2);  /* 边框 */
   transition: all 0.3s ease;
@@ -3088,6 +3046,10 @@
 }
 
 /* 链接列 */
+.footer-links-grid {
+  display: contents;
+}
+
 .footer-links-column {
   display: flex;
   flex-direction: column;
@@ -3198,16 +3160,52 @@
 /* 响应式设计 */
 @media (max-width: 991px) {
   .footer-main {
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 3rem;
+    grid-template-columns: 1.4fr repeat(4, minmax(120px, 1fr));
+    gap: 2rem;
+    align-items: flex-start;
   }
 
   .footer-brand {
-    grid-column: span 3;
+    grid-column: span 1;
   }
 
   .footer-main-box {
-    padding: 3rem 30px;
+    padding: 60px 30px;
+    height: 380px;
+    min-height: 380px;
+  }
+
+  .footer-logo-wrapper {
+    margin-top: -80px;
+    margin-left: -20px;
+    margin-bottom: 0;
+  }
+
+  .footer-logo {
+    width: 150px;
+  }
+
+  .footer-links-column {
+    margin-top: -40px;
+    margin-right: -30px;
+  }
+
+  .footer-description {
+    font-size: 10px;
+  }
+
+  .footer-brand-name,
+  .footer-brand-subtitle {
+    font-size: 13px;
+  }
+
+  .footer-column-title {
+    font-size: 11px;
+  }
+
+  .footer-link,
+  .footer-legal-link {
+    font-size: 9px;
   }
 
   .footer-bottom-box {
@@ -3225,21 +3223,70 @@
   }
 
   .footer-main {
-    grid-template-columns: 1fr;
-    gap: 3rem;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 1.5rem;
+    align-items: flex-start;
   }
 
   .footer-brand {
-    grid-column: span 1;
+    grid-column: 1 / 2;
+  }
+
+  .footer-logo-wrapper {
+    margin: 0;
+    gap: 0.5rem;
+    margin-bottom: 12px;
+    align-items: flex-start;
+  }
+
+  .footer-logo {
+    width: 130px;
   }
 
   .footer-description {
     max-width: 100%;
+    margin-left: 0;
+    font-size: 12px;
+    line-height: 1.4;
   }
 
   .footer-main-box {
     padding: 30px 20px;
     margin-bottom: 15px;
+    height: 350px;
+    min-height: 350px;
+  }
+
+  .footer-links-column {
+    margin-top: 0;
+    margin-right: 0;
+    gap: 0.5rem;
+  }
+
+  .footer-links-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.55rem;
+    grid-column: 2 / 3;
+    grid-row: 1;
+  }
+
+  .footer-links-list {
+    gap: 1px;
+  }
+
+  .footer-column-title {
+    font-size: 13px;
+    margin-bottom: 0.75rem;
+  }
+
+  .footer-link {
+    font-size: 12px;
+  }
+
+  .footer-cta-button {
+    padding: 8px 20px;
+    font-size: 9px;
   }
 
   .footer-bottom-box {
@@ -3254,7 +3301,61 @@
   }
 
   .footer-legal-links {
-    gap: 20px;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .footer-legal-links li:not(:last-child)::after {
+    display: none;
+  }
+
+  .footer-brand-name,
+  .footer-brand-subtitle {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 479px) {
+  .footer-links-grid {
+    gap: 0.2rem;
+  }
+
+  .footer-main-box {
+    padding: 25px 15px;
+    height: 350px;
+    min-height: 350px;
+  }
+
+  .footer-logo {
+    width: 100px;
+  }
+
+  .footer-description {
+    font-size: 10px;
+    display: none;
+  }
+
+  .footer-brand-name,
+  .footer-brand-subtitle {
+    font-size: 11px;
+  }
+
+  .footer-column-title {
+    font-size: 11px;
+    margin-bottom: 0.5rem;
+  }
+
+  .footer-links-list {
+    gap: 8px;
+  }
+
+  .footer-link,
+  .footer-legal-link {
+    font-size: 9px;
+  }
+
+  .footer-bottom {
+    gap: 15px;
   }
 }
 </style>
@@ -3279,46 +3380,48 @@
         <a href="#contact" class="footer-cta-button">Contact us</a>
       </div>
 
-      <!-- EXPLORE 列 -->
-      <div class="footer-links-column">
-        <h3 class="footer-column-title">EXPLORE</h3>
-        <ul class="footer-links-list">
-          <li><a href="#explore" class="footer-link">Explore</a></li>
-          <li><a href="#about" class="footer-link">About</a></li>
-          <li><a href="#contact" class="footer-link">Contact</a></li>
-        </ul>
-      </div>
+      <div class="footer-links-grid">
+        <!-- EXPLORE 列 -->
+        <div class="footer-links-column">
+          <h3 class="footer-column-title">EXPLORE</h3>
+          <ul class="footer-links-list">
+            <li><a href="#explore" class="footer-link">Explore</a></li>
+            <li><a href="#about" class="footer-link">About</a></li>
+            <li><a href="#contact" class="footer-link">Contact</a></li>
+          </ul>
+        </div>
 
-      <!-- FEATURES 列 -->
-      <div class="footer-links-column">
-        <h3 class="footer-column-title">FEATURES</h3>
-        <ul class="footer-links-list">
-          <li><a href="#create" class="footer-link">Create</a></li>
-          <li><a href="#edit" class="footer-link">Edit</a></li>
-          <li><a href="#avatar" class="footer-link">Avatar</a></li>
-        </ul>
-      </div>
+        <!-- FEATURES 列 -->
+        <div class="footer-links-column">
+          <h3 class="footer-column-title">FEATURES</h3>
+          <ul class="footer-links-list">
+            <li><a href="#create" class="footer-link">Create</a></li>
+            <li><a href="#edit" class="footer-link">Edit</a></li>
+            <li><a href="#avatar" class="footer-link">Avatar</a></li>
+          </ul>
+        </div>
 
-      <!-- SOLUTIONS 列 -->
-      <div class="footer-links-column">
-        <h3 class="footer-column-title">SOLUTIONS</h3>
-        <ul class="footer-links-list">
-          <li><a href="#brand-marketing" class="footer-link">Brand Marketing</a></li>
-          <li><a href="#storytelling" class="footer-link">Storytelling</a></li>
-          <li><a href="#sales" class="footer-link">Sales & Advertisment</a></li>
-          <li><a href="#media" class="footer-link">Media</a></li>
-        </ul>
-      </div>
+        <!-- SOLUTIONS 列 -->
+        <div class="footer-links-column">
+          <h3 class="footer-column-title">SOLUTIONS</h3>
+          <ul class="footer-links-list">
+            <li><a href="#brand-marketing" class="footer-link">Brand Marketing</a></li>
+            <li><a href="#storytelling" class="footer-link">Storytelling</a></li>
+            <li><a href="#sales" class="footer-link">Sales & Advertisment</a></li>
+            <li><a href="#media" class="footer-link">Media</a></li>
+          </ul>
+        </div>
 
-      <!-- AI SUITE 列 -->
-      <div class="footer-links-column">
-        <h3 class="footer-column-title">AI SUITE</h3>
-        <ul class="footer-links-list">
-          <li><a href="#content-generator" class="footer-link">Content generator</a></li>
-          <li><a href="#ai-avatar" class="footer-link">AI avatar.</a></li>
-          <li><a href="#product-shots" class="footer-link">Product shots</a></li>
-          <li><a href="#clipmaker" class="footer-link">Clipmaker</a></li>
-        </ul>
+        <!-- AI SUITE 列 -->
+        <div class="footer-links-column">
+          <h3 class="footer-column-title">AI SUITE</h3>
+          <ul class="footer-links-list">
+            <li><a href="#content-generator" class="footer-link">Content generator</a></li>
+            <li><a href="#ai-avatar" class="footer-link">AI avatar.</a></li>
+            <li><a href="#product-shots" class="footer-link">Product shots</a></li>
+            <li><a href="#clipmaker" class="footer-link">Clipmaker</a></li>
+          </ul>
+        </div>
       </div>
       </div>
     </div>

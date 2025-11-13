@@ -23,7 +23,7 @@
     justify-content: center;
   }
 
-  /* 背景图片容器 - 近乎全屏的圆角图片 */
+  /* 背景图片容器 - 改为视频背景 */
   .create-background {
     position: relative;
     width: 100%;
@@ -34,6 +34,74 @@
     overflow: hidden;
     z-index: 0;
     box-sizing: border-box;
+  }
+
+  /* 背景视频样式 */
+  .create-background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    z-index: 1;
+  }
+
+  /* 左下角文本框 */
+  .create-text-box {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    max-width: 50%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    padding: 16px;
+    color: var(--color-text);
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .create-text-content {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.9);
+  }
+
+  .create-text-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  .create-copy-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    padding: 8px 12px;
+    color: var(--color-text);
+    font-size: 0.75rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .create-copy-button:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+
+  .create-copy-icon {
+    width: 14px;
+    height: 14px;
   }
 
   .create-background-image {
@@ -58,7 +126,7 @@
     width: 146%;
   }
 
-  /* 像素风格标题 - 放大字体，不换行，舒展 */
+  /* 像素风格标题 - 放大字体，支持换行，舒展 */
   .create-title {
     font-family: 'Press Start 2P', cursive;
     font-size: clamp(1.2rem, 4vw, 2.5rem);
@@ -72,9 +140,8 @@
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
     image-rendering: crisp-edges;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
   }
 
   /* 描述文字 - Sora 细体，减小字号 */
@@ -135,18 +202,31 @@
       font-size: clamp(0.9rem, 5vw, 1.8rem);
       letter-spacing: 0.12em;
       margin-bottom: var(--spacing-sm);
-      white-space: nowrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
 
     .create-description {
       font-size: clamp(0.8rem, 2vw, 0.95rem);
       margin-bottom: var(--spacing-md);
     }
+
+    .create-text-box {
+      max-width: 300px;
+      bottom: 15px;
+      left: 15px;
+      padding: 12px;
+      font-size: 0.8rem;
+    }
+
+    .create-background-video {
+      object-fit: cover;
+    }
   }
 
   @media (max-width: 767px) {
     .create-container {
-      padding: var(--spacing-sm) 1.5rem;
+      padding: var(--spacing-xl) var(--spacing-md);
     }
 
     .create-background {
@@ -167,7 +247,8 @@
       letter-spacing: 0.1em;
       line-height: 1.4;
       margin-bottom: var(--spacing-xs);
-      white-space: nowrap;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
     }
 
     .create-description {
@@ -180,6 +261,28 @@
       padding: var(--spacing-sm) var(--spacing-lg);
       font-size: 0.9rem;
     }
+
+    .create-text-box {
+      max-width: 250px;
+      bottom: 10px;
+      left: 10px;
+      padding: 10px;
+      font-size: 0.75rem;
+    }
+
+    .create-background-video {
+      object-fit: cover;
+    }
+
+    .create-copy-button {
+      padding: 6px 10px;
+      font-size: 0.7rem;
+    }
+
+    .create-copy-icon {
+      width: 12px;
+      height: 12px;
+    }
   }
 </style>
 
@@ -188,24 +291,48 @@
   <div class="create-container">
     <!-- 背景图片容器 -->
     <div class="create-background">
-      <img src="images/2.jpg" alt="Create Background" class="create-background-image" loading="eager">
+      <video class="create-background-video" autoplay muted loop playsinline>
+        <source src="videos/video_2.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
 
       <!-- 内容覆盖层 - 定位在左上角 -->
       <div class="create-content">
         <div class="create-text-wrapper">
           <!-- 标题 -->
           <h1 class="create-title">
-            CREATE YOUR STORY
+            Create with the Eclipse Engine
           </h1>
 
           <!-- 描述 -->
           <p class="create-description">
-            Bring ideas to life frame by frame — arrange scenes, refine pacing, and craft cinematic flow with the
-            Eclipse Engine.
+            Experience the most advanced AI image and video generator — powered by cinematic intelligence that
+            resonates.
           </p>
 
           <!-- 按钮 -->
           <a href="#" class="create-button">START ENGINE</a>
+        </div>
+      </div>
+
+      <!-- 左下角文本框 -->
+      <div class="create-text-box">
+        <p class="create-text-content">
+          A cinematic 8K video of a lone astronaut walking slowly across the surface of the moon under deep space
+          darkness. The camera circles gently, capturing the texture of the dusty lunar ground and the intricate folds
+          of the astronaut's suit. Subtle reflections of distant stars glimmer across the helmet visor. Soft blue-gray
+          light from Earth bathes the scene, creating a quiet, ethereal atmosphere. The astronaut pauses, looks up
+          toward the horizon, and faint dust drifts upward with each step — conveying isolation, wonder, and the vast
+          silence of space.
+        </p>
+        <div class="create-text-actions">
+          <button class="create-copy-button" onclick="copyCreateText()">
+            <svg class="create-copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy
+          </button>
         </div>
       </div>
     </div>
@@ -218,16 +345,84 @@
     'use strict';
 
     const initCreate = () => {
-      // 图片加载错误处理
-      const bgImage = document.querySelector('.create-background-image');
-      if (bgImage) {
-        bgImage.addEventListener('error', function () {
-          console.warn(`Failed to load background image: ${this.src}`);
+      // 视频加载错误处理
+      const bgVideo = document.querySelector('.create-background-video');
+      if (bgVideo) {
+        bgVideo.addEventListener('error', function () {
+          console.warn(`Failed to load background video: ${this.querySelector('source').src}`);
           // 可以设置默认背景色
           this.style.display = 'none';
         });
+
+        // 确保视频能够自动播放
+        bgVideo.play().catch(function(error) {
+          console.warn('视频自动播放被阻止:', error);
+          // 可以在这里添加用户交互提示
+        });
       }
     };
+
+    // 复制文本功能
+    window.copyCreateText = function () {
+      const textContent = document.querySelector('.create-text-content').textContent;
+
+      // 使用现代的Clipboard API
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textContent).then(function () {
+          // 成功复制后的反馈
+          showCopyFeedback();
+        }).catch(function (err) {
+          console.error('复制失败:', err);
+          fallbackCopyText(textContent);
+        });
+      } else {
+        // 降级方案
+        fallbackCopyText(textContent);
+      }
+    };
+
+    // 降级复制方案
+    function fallbackCopyText(text) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.left = '-999999px';
+      textArea.style.top = '-999999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+
+      try {
+        document.execCommand('copy');
+        showCopyFeedback();
+      } catch (err) {
+        console.error('复制失败:', err);
+      } finally {
+        document.body.removeChild(textArea);
+      }
+    }
+
+    // 显示复制成功反馈
+    function showCopyFeedback() {
+      const button = document.querySelector('.create-copy-button');
+      const originalText = button.innerHTML;
+
+      button.innerHTML = `
+        <svg class="create-copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        Copied!
+      `;
+
+      button.style.background = 'rgba(76, 175, 80, 0.2)';
+      button.style.borderColor = 'rgba(76, 175, 80, 0.4)';
+
+      setTimeout(function () {
+        button.innerHTML = originalText;
+        button.style.background = 'rgba(255, 255, 255, 0.1)';
+        button.style.borderColor = 'rgba(255, 255, 255, 0.2)';
+      }, 2000);
+    }
 
     // DOM 加载后初始化
     if (document.readyState === 'loading') {
