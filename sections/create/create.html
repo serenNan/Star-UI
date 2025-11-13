@@ -148,10 +148,10 @@
   .create-description {
     font-family: 'Sora', sans-serif;
     width: 48%;
-    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    font-size: clamp(1rem, 1.8vw, 0.75rem);
     font-weight: 300;
     line-height: 1.6;
-    color: var(--color-text);
+    color: #FFFFFF;
     margin-bottom: var(--spacing-lg);
     text-align: left;
   }
@@ -207,8 +207,9 @@
     }
 
     .create-description {
-      font-size: clamp(0.8rem, 2vw, 0.95rem);
+      font-size: clamp(0.95rem, 1.6vw, 1.25rem);
       margin-bottom: var(--spacing-md);
+      color: #FFFFFF;
     }
 
     .create-text-box {
@@ -252,9 +253,10 @@
     }
 
     .create-description {
-      font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+      font-size: clamp(0.95rem, 1.6vw, 1.25rem);
       line-height: 1.5;
       margin-bottom: var(--spacing-md);
+      color: #FFFFFF;
     }
 
     .create-button {
@@ -355,7 +357,7 @@
         });
 
         // 确保视频能够自动播放
-        bgVideo.play().catch(function(error) {
+        bgVideo.play().catch(function (error) {
           console.warn('视频自动播放被阻止:', error);
           // 可以在这里添加用户交互提示
         });
