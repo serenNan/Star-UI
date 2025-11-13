@@ -1,435 +1,511 @@
 <style>
-/* ========================================
+  /* ========================================
    Explore More 模块样式
    ======================================== */
 
-/* 卡片行偏移量控制变量 */
-:root {
-  --explore-row1-offset: 18px;  /* 第一行（卡片1/2/3）右移偏移量，调整这个值控制第一行整体左右移动 */
-  --explore-row2-offset: 335px;   /* 第二行（卡片4/5/6）左移偏移量，未来可调整为负数实现左移 */
-}
+  /* 卡片行偏移量控制变量 */
+  :root {
+    --explore-row1-offset: 18px;
+    /* 第一行（卡片1/2/3）右移偏移量，调整这个值控制第一行整体左右移动 */
+    --explore-row2-offset: 335px;
+    /* 第二行（卡片4/5/6）左移偏移量，未来可调整为负数实现左移 */
+  }
 
-.explore-more {
-  position: relative;
-  padding: 0 0 120px 0; /* 顶部 0px, 左右 0px, 底部 120px */
-  margin-top: -200px; /* 负边距拉近与上一个模块的距离 */
-  background-color: var(--color-bg, #0D0D0D);
-  overflow: hidden;
-}
-
-.explore-more-container {
-  max-width: var(--container-width, 1400px);
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg, 40px);
-}
-
-/* 顶部标题区域 */
-.explore-header {
-  text-align: center;
-  margin-bottom: 60px;
-  margin-top: 0; /* 确保顶部没有额外间距 */
-}
-
-.explore-label {
-  display: inline-block;
-  font-size: 19px;
-  font-weight: 600;
-  letter-spacing: 0px;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 16px;
-}
-
-.explore-title {
-  font-size: 43px;
-  font-weight: 700;
-  line-height: 1.2;
-  color: #FFFFFF;
-  margin: 0;
-}
-
-/* 网格布局 - 改为绝对定位容器 */
-.explore-grid {
-  max-width: var(--container-width, 1400px);
-  margin: 0 auto;
-  position: relative;
-  min-height: 1000px; /* 调整为 1000px：500px(上行) + 450px(卡片高度) + 50px(底部间距) */
-}
-
-/* 卡片样式 - 改为绝对定位 */
-.explore-card {
-  position: absolute; /* 改为绝对定位，方便独立调整每张图片 */
-  border-radius: 16px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: transform 0.4s ease, box-shadow 0.4s ease;
-}
-
-.explore-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
-}
-
-/* 卡片图片 */
-.explore-card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.4s ease;
-}
-
-.explore-card:hover .explore-card-image {
-  transform: scale(1.05);
-}
-
-/* 卡片 1: CREATE - 左上角 */
-.explore-card-1 {
-  top: 0;
-  left: calc(50px + var(--explore-row1-offset));  /* 基础位置50px + 第一行偏移量 */
-  width: 495px;
-  height: 450px;
-}
-.explore-card-1 .explore-card-image {
-  transform: scale(1.0);
-  object-position: center center;
-}
-.explore-card-1:hover .explore-card-image {
-  transform: scale(1.05);
-}
-
-/* 卡片 2: COMPOSE - 中上 */
-.explore-card-2 {
-  top: 0;
-  left: calc(580px + var(--explore-row1-offset));  /* 基础位置580px + 第一行偏移量 */
-  width: 495px;
-  height: 450px;
-}
-.explore-card-2 .explore-card-image {
-  transform: scale(1.0);
-  object-position: center center;
-}
-.explore-card-2:hover .explore-card-image {
-  transform: scale(1.05);
-}
-
-/* 卡片 3: STUDIO - 右上角 */
-.explore-card-3 {
-  top: 0;
-  left: calc(1110px + var(--explore-row1-offset));  /* 基础位置1110px + 第一行偏移量 */
-  width: 495px;
-  height: 450px;
-}
-.explore-card-3 .explore-card-image {
-  transform: scale(1.0);
-  object-position: center center;
-}
-.explore-card-3:hover .explore-card-image {
-  transform: scale(1.05);
-}
-
-/* 卡片 4: Brand Modeling - 左下 */
-.explore-card-4 {
-  top: 500px;
-  left: calc(50px - var(--explore-row2-offset));  /* 基础位置50px - 第二行偏移量 */
-  width: 495px;
-  height: 450px;
-}
-.explore-card-4 .explore-card-image {
-  transform: scale(1.0);
-  object-position: center center;
-}
-.explore-card-4:hover .explore-card-image {
-  transform: scale(1.05);
-}
-
-/* 卡片 5: Storytelling - 中下 */
-.explore-card-5 {
-  top: 500px;
-  left: calc(580px - var(--explore-row2-offset));  /* 基础位置580px - 第二行偏移量 */
-  width: 495px;
-  height: 450px;
-}
-.explore-card-5 .explore-card-image {
-  transform: scale(1.0);
-  object-position: center center;
-}
-.explore-card-5:hover .explore-card-image {
-  transform: scale(1.05);
-}
-
-/* 卡片 6: Entertainment - 右下角 */
-.explore-card-6 {
-  top: 500px;
-  left: calc(1110px - var(--explore-row2-offset));  /* 基础位置1110px - 第二行偏移量 */
-  width: 495px;
-  height: 450px;
-}
-.explore-card-6 .explore-card-image {
-  transform: scale(1.0);
-  object-position: center center;
-}
-.explore-card-6:hover .explore-card-image {
-  transform: scale(1.05);
-}
-
-/* 卡片遮罩渐变 - 已移除遮罩层 */
-.explore-card-overlay {
-  position: absolute;
-  inset: 0;
-  background: none;  /* 移除遮罩，图片完全显示 */
-  pointer-events: none;
-}
-
-/* 卡片标签 */
-.explore-card-label {
-  position: absolute;
-  bottom: 24px;
-  left: 24px;
-  font-size: 18px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-  color: #FFFFFF;
-  z-index: 2;
-  transition: transform 0.3s ease;
-}
-
-.explore-card:hover .explore-card-label {
-  transform: translateY(-4px);
-}
-
-/* 响应式设计 - 平板 (768px - 991px) */
-@media (max-width: 991px) {
   .explore-more {
-    padding: 80px 0;
-    margin-top: -120px; /* 缩小负边距 */
-  }
-
-  .explore-title {
-    font-size: 36px;
-  }
-
-  .explore-label {
-    font-size: 16px;
-  }
-
-  /* 平板端: 缩小布局 60%，保持三卡一排 */
-  .explore-grid {
-    min-height: 600px; /* 原1000px * 0.6 */
-  }
-
-  /* 卡片 1: CREATE - 左上角 (60% 缩放) */
-  .explore-card-1 {
-    top: 0;
-    left: calc(30px + var(--explore-row1-offset) * 0.6);
-    width: 297px;  /* 495 * 0.6 */
-    height: 270px; /* 450 * 0.6 */
-  }
-
-  /* 卡片 2: COMPOSE - 中上 (60% 缩放) */
-  .explore-card-2 {
-    top: 0;
-    left: calc(348px + var(--explore-row1-offset) * 0.6);
-    width: 297px;  /* 495 * 0.6 */
-    height: 270px; /* 450 * 0.6 */
-  }
-
-  /* 卡片 3: STUDIO - 右上角 (60% 缩放) */
-  .explore-card-3 {
-    top: 0;
-    left: calc(666px + var(--explore-row1-offset) * 0.6);
-    width: 297px;  /* 495 * 0.6 */
-    height: 270px; /* 450 * 0.6 */
-  }
-
-  /* 卡片 4: Brand Modeling - 左下 (60% 缩放) */
-  .explore-card-4 {
-    top: 300px;  /* 500 * 0.6 */
-    left: calc(30px - var(--explore-row2-offset) * 0.6);
-    width: 297px;  /* 495 * 0.6 */
-    height: 270px; /* 450 * 0.6 */
-  }
-
-  /* 卡片 5: Storytelling - 中下 (60% 缩放) */
-  .explore-card-5 {
-    top: 300px;  /* 500 * 0.6 */
-    left: calc(348px - var(--explore-row2-offset) * 0.6);
-    width: 297px;  /* 495 * 0.6 */
-    height: 270px; /* 450 * 0.6 */
-  }
-
-  /* 卡片 6: Entertainment - 右下角 (60% 缩放) */
-  .explore-card-6 {
-    top: 300px;  /* 500 * 0.6 */
-    left: calc(666px - var(--explore-row2-offset) * 0.6);
-    width: 297px;  /* 495 * 0.6 */
-    height: 270px; /* 450 * 0.6 */
-  }
-
-  .explore-card-label {
-    font-size: 14px;
-    bottom: 16px;
-    left: 16px;
-  }
-}
-
-/* 响应式设计 - 移动端 (480px - 767px) */
-@media (max-width: 767px) {
-  .explore-more {
-    padding: 60px 0;
-    margin-top: -80px; /* 进一步缩小负边距 */
+    position: relative;
+    padding: 0 0 120px 0;
+    /* 顶部 0px, 左右 0px, 底部 120px */
+    margin-top: -200px;
+    /* 负边距拉近与上一个模块的距离 */
+    background-color: var(--color-bg, #0D0D0D);
+    overflow: hidden;
   }
 
   .explore-more-container {
-    padding: 0 var(--spacing-md, 24px);
+    max-width: var(--container-width, 1400px);
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg, 40px);
   }
 
+  /* 顶部标题区域 */
   .explore-header {
-    margin-bottom: 40px;
-  }
-
-  .explore-title {
-    font-size: 28px;
-  }
-
-  .explore-label {
-    font-size: 14px;
-  }
-
-  /* 移动端: 缩小布局 40%，保持三卡一排 */
-  .explore-grid {
-    min-height: 400px; /* 原1000px * 0.4 */
-  }
-
-  /* 卡片 1: CREATE - 左上角 (40% 缩放) */
-  .explore-card-1 {
-    top: 0;
-    left: calc(20px + var(--explore-row1-offset) * 0.4);
-    width: 198px;  /* 495 * 0.4 */
-    height: 180px; /* 450 * 0.4 */
-  }
-
-  /* 卡片 2: COMPOSE - 中上 (40% 缩放) */
-  .explore-card-2 {
-    top: 0;
-    left: calc(232px + var(--explore-row1-offset) * 0.4);
-    width: 198px;  /* 495 * 0.4 */
-    height: 180px; /* 450 * 0.4 */
-  }
-
-  /* 卡片 3: STUDIO - 右上角 (40% 缩放) */
-  .explore-card-3 {
-    top: 0;
-    left: calc(444px + var(--explore-row1-offset) * 0.4);
-    width: 198px;  /* 495 * 0.4 */
-    height: 180px; /* 450 * 0.4 */
-  }
-
-  /* 卡片 4: Brand Modeling - 左下 (40% 缩放) */
-  .explore-card-4 {
-    top: 200px;  /* 500 * 0.4 */
-    left: calc(20px - var(--explore-row2-offset) * 0.4);
-    width: 198px;  /* 495 * 0.4 */
-    height: 180px; /* 450 * 0.4 */
-  }
-
-  /* 卡片 5: Storytelling - 中下 (40% 缩放) */
-  .explore-card-5 {
-    top: 200px;  /* 500 * 0.4 */
-    left: calc(232px - var(--explore-row2-offset) * 0.4);
-    width: 198px;  /* 495 * 0.4 */
-    height: 180px; /* 450 * 0.4 */
-  }
-
-  /* 卡片 6: Entertainment - 右下角 (40% 缩放) */
-  .explore-card-6 {
-    top: 200px;  /* 500 * 0.4 */
-    left: calc(444px - var(--explore-row2-offset) * 0.4);
-    width: 198px;  /* 495 * 0.4 */
-    height: 180px; /* 450 * 0.4 */
-  }
-
-  .explore-card-label {
-    font-size: 12px;
-    bottom: 12px;
-    left: 12px;
-  }
-}
-
-/* 响应式设计 - 小屏手机 (≤479px) */
-@media (max-width: 479px) {
-  .explore-more {
-    padding: 50px 0;
-    margin-top: -60px;
-  }
-
-  .explore-title {
-    font-size: 24px;
+    text-align: center;
+    margin-bottom: 60px;
+    margin-top: 0;
+    /* 确保顶部没有额外间距 */
   }
 
   .explore-label {
-    font-size: 12px;
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    color: #888888;
+    margin-bottom: 20px;
+    font-weight: 300;
   }
 
-  /* 超小屏: 缩小布局 30%，保持三卡一排 */
+  .explore-title {
+    font-size: 43px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #FFFFFF;
+    margin: 0;
+  }
+
+  /* 网格布局 - 改为绝对定位容器 */
   .explore-grid {
-    min-height: 300px; /* 原1000px * 0.3 */
+    max-width: var(--container-width, 1400px);
+    margin: 0 auto;
+    position: relative;
+    min-height: 1000px;
+    /* 调整为 1000px：500px(上行) + 450px(卡片高度) + 50px(底部间距) */
   }
 
-  /* 卡片 1: CREATE - 左上角 (30% 缩放) */
+  /* 卡片样式 - 改为绝对定位 */
+  .explore-card {
+    position: absolute;
+    /* 改为绝对定位，方便独立调整每张图片 */
+    border-radius: 16px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+
+  .explore-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  /* 卡片图片 */
+  .explore-card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  .explore-card:hover .explore-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 卡片 1: CREATE - 左上角 */
   .explore-card-1 {
     top: 0;
-    left: calc(15px + var(--explore-row1-offset) * 0.3);
-    width: 149px;  /* 495 * 0.3 */
-    height: 135px; /* 450 * 0.3 */
+    left: calc(50px + var(--explore-row1-offset));
+    /* 基础位置50px + 第一行偏移量 */
+    width: 495px;
+    height: 450px;
   }
 
-  /* 卡片 2: COMPOSE - 中上 (30% 缩放) */
+  .explore-card-1 .explore-card-image {
+    transform: scale(1.0);
+    object-position: center center;
+  }
+
+  .explore-card-1:hover .explore-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 卡片 2: COMPOSE - 中上 */
   .explore-card-2 {
     top: 0;
-    left: calc(174px + var(--explore-row1-offset) * 0.3);
-    width: 149px;  /* 495 * 0.3 */
-    height: 135px; /* 450 * 0.3 */
+    left: calc(580px + var(--explore-row1-offset));
+    /* 基础位置580px + 第一行偏移量 */
+    width: 495px;
+    height: 450px;
   }
 
-  /* 卡片 3: STUDIO - 右上角 (30% 缩放) */
+  .explore-card-2 .explore-card-image {
+    transform: scale(1.0);
+    object-position: center center;
+  }
+
+  .explore-card-2:hover .explore-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 卡片 3: STUDIO - 右上角 */
   .explore-card-3 {
     top: 0;
-    left: calc(333px + var(--explore-row1-offset) * 0.3);
-    width: 149px;  /* 495 * 0.3 */
-    height: 135px; /* 450 * 0.3 */
+    left: calc(1110px + var(--explore-row1-offset));
+    /* 基础位置1110px + 第一行偏移量 */
+    width: 495px;
+    height: 450px;
   }
 
-  /* 卡片 4: Brand Modeling - 左下 (30% 缩放) */
+  .explore-card-3 .explore-card-image {
+    transform: scale(1.0);
+    object-position: center center;
+  }
+
+  .explore-card-3:hover .explore-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 卡片 4: Brand Modeling - 左下 */
   .explore-card-4 {
-    top: 150px;  /* 500 * 0.3 */
-    left: calc(15px - var(--explore-row2-offset) * 0.3);
-    width: 149px;  /* 495 * 0.3 */
-    height: 135px; /* 450 * 0.3 */
+    top: 500px;
+    left: calc(50px - var(--explore-row2-offset));
+    /* 基础位置50px - 第二行偏移量 */
+    width: 495px;
+    height: 450px;
   }
 
-  /* 卡片 5: Storytelling - 中下 (30% 缩放) */
+  .explore-card-4 .explore-card-image {
+    transform: scale(1.0);
+    object-position: center center;
+  }
+
+  .explore-card-4:hover .explore-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 卡片 5: Storytelling - 中下 */
   .explore-card-5 {
-    top: 150px;  /* 500 * 0.3 */
-    left: calc(174px - var(--explore-row2-offset) * 0.3);
-    width: 149px;  /* 495 * 0.3 */
-    height: 135px; /* 450 * 0.3 */
+    top: 500px;
+    left: calc(580px - var(--explore-row2-offset));
+    /* 基础位置580px - 第二行偏移量 */
+    width: 495px;
+    height: 450px;
   }
 
-  /* 卡片 6: Entertainment - 右下角 (30% 缩放) */
+  .explore-card-5 .explore-card-image {
+    transform: scale(1.0);
+    object-position: center center;
+  }
+
+  .explore-card-5:hover .explore-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 卡片 6: Entertainment - 右下角 */
   .explore-card-6 {
-    top: 150px;  /* 500 * 0.3 */
-    left: calc(333px - var(--explore-row2-offset) * 0.3);
-    width: 149px;  /* 495 * 0.3 */
-    height: 135px; /* 450 * 0.3 */
+    top: 500px;
+    left: calc(1110px - var(--explore-row2-offset));
+    /* 基础位置1110px - 第二行偏移量 */
+    width: 495px;
+    height: 450px;
   }
 
-  .explore-card-label {
-    font-size: 10px;
-    bottom: 8px;
-    left: 8px;
+  .explore-card-6 .explore-card-image {
+    transform: scale(1.0);
+    object-position: center center;
   }
-}
+
+  .explore-card-6:hover .explore-card-image {
+    transform: scale(1.05);
+  }
+
+  /* 卡片遮罩渐变 - 已移除遮罩层 */
+  .explore-card-overlay {
+    position: absolute;
+    inset: 0;
+    background: none;
+    /* 移除遮罩，图片完全显示 */
+    pointer-events: none;
+  }
+
+  /* 卡片标签 */
+  .explore-card-label {
+    position: absolute;
+    bottom: 24px;
+    left: 24px;
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    z-index: 2;
+    transition: transform 0.3s ease;
+  }
+
+  .explore-card:hover .explore-card-label {
+    transform: translateY(-4px);
+  }
+
+  /* 响应式设计 - 平板 (768px - 991px) */
+  @media (max-width: 991px) {
+    .explore-more {
+      padding: 80px 0;
+      margin-top: -120px;
+      /* 缩小负边距 */
+    }
+
+    .explore-title {
+      font-size: 36px;
+    }
+
+    .explore-label {
+      font-size: 16px;
+    }
+
+    /* 平板端: 缩小布局 60%，保持三卡一排 */
+    .explore-grid {
+      min-height: 600px;
+      /* 原1000px * 0.6 */
+    }
+
+    /* 卡片 1: CREATE - 左上角 (60% 缩放) */
+    .explore-card-1 {
+      top: 0;
+      left: calc(30px + var(--explore-row1-offset) * 0.6);
+      width: 297px;
+      /* 495 * 0.6 */
+      height: 270px;
+      /* 450 * 0.6 */
+    }
+
+    /* 卡片 2: COMPOSE - 中上 (60% 缩放) */
+    .explore-card-2 {
+      top: 0;
+      left: calc(348px + var(--explore-row1-offset) * 0.6);
+      width: 297px;
+      /* 495 * 0.6 */
+      height: 270px;
+      /* 450 * 0.6 */
+    }
+
+    /* 卡片 3: STUDIO - 右上角 (60% 缩放) */
+    .explore-card-3 {
+      top: 0;
+      left: calc(666px + var(--explore-row1-offset) * 0.6);
+      width: 297px;
+      /* 495 * 0.6 */
+      height: 270px;
+      /* 450 * 0.6 */
+    }
+
+    /* 卡片 4: Brand Modeling - 左下 (60% 缩放) */
+    .explore-card-4 {
+      top: 300px;
+      /* 500 * 0.6 */
+      left: calc(30px - var(--explore-row2-offset) * 0.6);
+      width: 297px;
+      /* 495 * 0.6 */
+      height: 270px;
+      /* 450 * 0.6 */
+    }
+
+    /* 卡片 5: Storytelling - 中下 (60% 缩放) */
+    .explore-card-5 {
+      top: 300px;
+      /* 500 * 0.6 */
+      left: calc(348px - var(--explore-row2-offset) * 0.6);
+      width: 297px;
+      /* 495 * 0.6 */
+      height: 270px;
+      /* 450 * 0.6 */
+    }
+
+    /* 卡片 6: Entertainment - 右下角 (60% 缩放) */
+    .explore-card-6 {
+      top: 300px;
+      /* 500 * 0.6 */
+      left: calc(666px - var(--explore-row2-offset) * 0.6);
+      width: 297px;
+      /* 495 * 0.6 */
+      height: 270px;
+      /* 450 * 0.6 */
+    }
+
+    .explore-card-label {
+      font-size: 14px;
+      bottom: 16px;
+      left: 16px;
+    }
+  }
+
+  /* 响应式设计 - 移动端 (480px - 767px) */
+  @media (max-width: 767px) {
+    .explore-more {
+      padding: 60px 0;
+      margin-top: -80px;
+      /* 进一步缩小负边距 */
+    }
+
+    .explore-more-container {
+      padding: 0 var(--spacing-md, 24px);
+    }
+
+    .explore-header {
+      margin-bottom: 40px;
+    }
+
+    .explore-title {
+      font-size: 28px;
+    }
+
+    .explore-label {
+      font-size: 14px;
+    }
+
+    /* 移动端: 缩小布局 40%，保持三卡一排 */
+    .explore-grid {
+      min-height: 400px;
+      /* 原1000px * 0.4 */
+    }
+
+    /* 卡片 1: CREATE - 左上角 (40% 缩放) */
+    .explore-card-1 {
+      top: 0;
+      left: calc(20px + var(--explore-row1-offset) * 0.4);
+      width: 198px;
+      /* 495 * 0.4 */
+      height: 180px;
+      /* 450 * 0.4 */
+    }
+
+    /* 卡片 2: COMPOSE - 中上 (40% 缩放) */
+    .explore-card-2 {
+      top: 0;
+      left: calc(232px + var(--explore-row1-offset) * 0.4);
+      width: 198px;
+      /* 495 * 0.4 */
+      height: 180px;
+      /* 450 * 0.4 */
+    }
+
+    /* 卡片 3: STUDIO - 右上角 (40% 缩放) */
+    .explore-card-3 {
+      top: 0;
+      left: calc(444px + var(--explore-row1-offset) * 0.4);
+      width: 198px;
+      /* 495 * 0.4 */
+      height: 180px;
+      /* 450 * 0.4 */
+    }
+
+    /* 卡片 4: Brand Modeling - 左下 (40% 缩放) */
+    .explore-card-4 {
+      top: 200px;
+      /* 500 * 0.4 */
+      left: calc(20px - var(--explore-row2-offset) * 0.4);
+      width: 198px;
+      /* 495 * 0.4 */
+      height: 180px;
+      /* 450 * 0.4 */
+    }
+
+    /* 卡片 5: Storytelling - 中下 (40% 缩放) */
+    .explore-card-5 {
+      top: 200px;
+      /* 500 * 0.4 */
+      left: calc(232px - var(--explore-row2-offset) * 0.4);
+      width: 198px;
+      /* 495 * 0.4 */
+      height: 180px;
+      /* 450 * 0.4 */
+    }
+
+    /* 卡片 6: Entertainment - 右下角 (40% 缩放) */
+    .explore-card-6 {
+      top: 200px;
+      /* 500 * 0.4 */
+      left: calc(444px - var(--explore-row2-offset) * 0.4);
+      width: 198px;
+      /* 495 * 0.4 */
+      height: 180px;
+      /* 450 * 0.4 */
+    }
+
+    .explore-card-label {
+      font-size: 12px;
+      bottom: 12px;
+      left: 12px;
+    }
+  }
+
+  /* 响应式设计 - 小屏手机 (≤479px) */
+  @media (max-width: 479px) {
+    .explore-more {
+      padding: 50px 0;
+      margin-top: -60px;
+    }
+
+    .explore-title {
+      font-size: 24px;
+    }
+
+    .explore-label {
+      font-size: 12px;
+    }
+
+    /* 超小屏: 缩小布局 30%，保持三卡一排 */
+    .explore-grid {
+      min-height: 300px;
+      /* 原1000px * 0.3 */
+    }
+
+    /* 卡片 1: CREATE - 左上角 (30% 缩放) */
+    .explore-card-1 {
+      top: 0;
+      left: calc(15px + var(--explore-row1-offset) * 0.3);
+      width: 149px;
+      /* 495 * 0.3 */
+      height: 135px;
+      /* 450 * 0.3 */
+    }
+
+    /* 卡片 2: COMPOSE - 中上 (30% 缩放) */
+    .explore-card-2 {
+      top: 0;
+      left: calc(174px + var(--explore-row1-offset) * 0.3);
+      width: 149px;
+      /* 495 * 0.3 */
+      height: 135px;
+      /* 450 * 0.3 */
+    }
+
+    /* 卡片 3: STUDIO - 右上角 (30% 缩放) */
+    .explore-card-3 {
+      top: 0;
+      left: calc(333px + var(--explore-row1-offset) * 0.3);
+      width: 149px;
+      /* 495 * 0.3 */
+      height: 135px;
+      /* 450 * 0.3 */
+    }
+
+    /* 卡片 4: Brand Modeling - 左下 (30% 缩放) */
+    .explore-card-4 {
+      top: 150px;
+      /* 500 * 0.3 */
+      left: calc(15px - var(--explore-row2-offset) * 0.3);
+      width: 149px;
+      /* 495 * 0.3 */
+      height: 135px;
+      /* 450 * 0.3 */
+    }
+
+    /* 卡片 5: Storytelling - 中下 (30% 缩放) */
+    .explore-card-5 {
+      top: 150px;
+      /* 500 * 0.3 */
+      left: calc(174px - var(--explore-row2-offset) * 0.3);
+      width: 149px;
+      /* 495 * 0.3 */
+      height: 135px;
+      /* 450 * 0.3 */
+    }
+
+    /* 卡片 6: Entertainment - 右下角 (30% 缩放) */
+    .explore-card-6 {
+      top: 150px;
+      /* 500 * 0.3 */
+      left: calc(333px - var(--explore-row2-offset) * 0.3);
+      width: 149px;
+      /* 495 * 0.3 */
+      height: 135px;
+      /* 450 * 0.3 */
+    }
+
+    .explore-card-label {
+      font-size: 10px;
+      bottom: 8px;
+      left: 8px;
+    }
+  }
 </style>
 
 <!-- HTML 结构 -->
@@ -445,66 +521,42 @@
     <div class="explore-grid">
       <!-- 卡片 1: CREATE -->
       <div class="explore-card explore-card-1">
-        <img
-          src="sections/explore_more/1.png"
-          alt="Create"
-          class="explore-card-image"
-        >
+        <img src="sections/explore_more/1.png" alt="Create" class="explore-card-image">
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">CREATE</div>
       </div>
 
       <!-- 卡片 2: COMPOSE -->
       <div class="explore-card explore-card-2">
-        <img
-          src="sections/explore_more/2.jpg"
-          alt="Compose"
-          class="explore-card-image"
-        >
+        <img src="sections/explore_more/2.jpg" alt="Compose" class="explore-card-image">
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">COMPOSE</div>
       </div>
 
       <!-- 卡片 3: STUDIO -->
       <div class="explore-card explore-card-3">
-        <img
-          src="sections/explore_more/3.png"
-          alt="Studio"
-          class="explore-card-image"
-        >
+        <img src="sections/explore_more/3.png" alt="Studio" class="explore-card-image">
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">STUDIO</div>
       </div>
 
       <!-- 卡片 4: Brand Modeling -->
       <div class="explore-card explore-card-4">
-        <img
-          src="sections/explore_more/4.png"
-          alt="Brand Modeling"
-          class="explore-card-image"
-        >
+        <img src="sections/explore_more/4.png" alt="Brand Modeling" class="explore-card-image">
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">Brand Modeling</div>
       </div>
 
       <!-- 卡片 5: Storytelling -->
       <div class="explore-card explore-card-5">
-        <img
-          src="sections/explore_more/5.png"
-          alt="Storytelling"
-          class="explore-card-image"
-        >
+        <img src="sections/explore_more/5.png" alt="Storytelling" class="explore-card-image">
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">Storytelling</div>
       </div>
 
       <!-- 卡片 6: Entertainment -->
       <div class="explore-card explore-card-6">
-        <img
-          src="sections/explore_more/6.png"
-          alt="Entertainment"
-          class="explore-card-image"
-        >
+        <img src="sections/explore_more/6.png" alt="Entertainment" class="explore-card-image">
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">Entertainment</div>
       </div>
@@ -513,54 +565,54 @@
 </section>
 
 <script>
-(function() {
-  'use strict';
+  (function () {
+    'use strict';
 
-  // 初始化 Explore More 模块
-  function initExploreMore() {
-    const cards = document.querySelectorAll('.explore-card');
+    // 初始化 Explore More 模块
+    function initExploreMore() {
+      const cards = document.querySelectorAll('.explore-card');
 
-    // 为每个卡片添加点击事件（可选）
-    cards.forEach(card => {
-      card.addEventListener('click', function() {
-        const label = this.querySelector('.explore-card-label').textContent;
-        console.log(`Clicked on: ${label}`);
-        // TODO: 添加跳转逻辑或其他交互
+      // 为每个卡片添加点击事件（可选）
+      cards.forEach(card => {
+        card.addEventListener('click', function () {
+          const label = this.querySelector('.explore-card-label').textContent;
+          console.log(`Clicked on: ${label}`);
+          // TODO: 添加跳转逻辑或其他交互
+        });
       });
-    });
 
-    // 滚动动画：卡片依次淡入
-    const observerOptions = {
-      threshold: 0.2,
-      rootMargin: '0px 0px -50px 0px'
-    };
+      // 滚动动画：卡片依次淡入
+      const observerOptions = {
+        threshold: 0.2,
+        rootMargin: '0px 0px -50px 0px'
+      };
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry, index) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => {
-            entry.target.style.opacity = '1';
-            entry.target.style.transform = 'translateY(0)';
-          }, index * 100); // 依次延迟 100ms
-          observer.unobserve(entry.target);
-        }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.style.opacity = '1';
+              entry.target.style.transform = 'translateY(0)';
+            }, index * 100); // 依次延迟 100ms
+            observer.unobserve(entry.target);
+          }
+        });
+      }, observerOptions);
+
+      // 初始状态设置
+      cards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+        observer.observe(card);
       });
-    }, observerOptions);
+    }
 
-    // 初始状态设置
-    cards.forEach((card, index) => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(30px)';
-      card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
-      observer.observe(card);
-    });
-  }
-
-  // 页面加载完成后初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initExploreMore);
-  } else {
-    initExploreMore();
-  }
-})();
+    // 页面加载完成后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initExploreMore);
+    } else {
+      initExploreMore();
+    }
+  })();
 </script>

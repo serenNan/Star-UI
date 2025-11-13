@@ -1,165 +1,168 @@
 <!-- ===== Question (FAQ) Section Module ===== -->
 <style>
-/* Question Section Styles */
-.question-section {
-  padding: var(--spacing-3xl) 0;
-}
+  /* Question Section Styles */
+  .question-section {
+    padding: var(--spacing-3xl) 0;
+  }
 
-.question-header {
-  text-align: center;
-  max-width: 900px;
-  margin: 0 auto var(--spacing-2xl);
-  padding: 0 var(--spacing-lg);
-}
+  .question-header {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto var(--spacing-2xl);
+    padding: 0 var(--spacing-lg);
+  }
 
-.question-label {
-  font-size: 19px;
-  font-weight: 600;
-  letter-spacing: 0.1px;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-md);
-}
+  .question-label {
+    font-family: 'Sora', sans-serif;
+    font-size: 20px;
+    letter-spacing: 0px;
+    text-transform: uppercase;
+    color: #888888;
+    margin-bottom: 20px;
+    font-weight: 300;
+  }
 
-.question-title {
-  font-size: clamp(1.575rem, 3.3vw, 2.625rem);
-  font-weight: 800;
-  margin-bottom: var(--spacing-md);
-  line-height: 1.2;
-  color: var(--color-text);
-}
+  .question-title {
+    font-size: clamp(1.575rem, 3.3vw, 2.625rem);
+    font-weight: 800;
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
+    color: var(--color-text);
+  }
 
-.question-subtitle {
-  font-size: 1.35rem;
-  color: var(--color-text-secondary);
-  line-height: 1.6;
-}
+  .question-subtitle {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
 
-/* FAQ Accordion Container */
-.faq-container {
-  max-width: 1270px;
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-}
+  /* FAQ Accordion Container */
+  .faq-container {
+    max-width: 1270px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
 
-/* FAQ Item */
-.faq-item {
-  background: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: 12px;
-  margin-bottom: var(--spacing-md);
-  overflow: hidden;
-  transition: all var(--transition);
-}
+  /* FAQ Item */
+  .faq-item {
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    margin-bottom: var(--spacing-md);
+    overflow: hidden;
+    transition: all var(--transition);
+  }
 
-.faq-item:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-}
+  .faq-item:hover {
+    border-color: rgba(255, 255, 255, 0.15);
+  }
 
-/* FAQ Question Button */
-.faq-question {
-  width: 100%;
-  padding: 2rem var(--spacing-lg) 1.5rem;
-  background: transparent;
-  border: none;
-  color: var(--color-text);
-  font-size: 1.45rem;
-  font-weight: 600;
-  text-align: left;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: var(--spacing-md);
-  transition: color var(--transition);
-}
-
-.faq-question:hover {
-  color: rgba(255, 255, 255, 0.8);
-}
-
-/* FAQ Icon */
-.faq-icon {
-  flex-shrink: 0;
-  width: 36px;
-  height: 36px;
-  position: relative;
-  transition: transform var(--transition);
-}
-
-.faq-icon::before,
-.faq-icon::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: var(--color-text);
-  transition: all var(--transition);
-}
-
-.faq-icon::before {
-  width: 28px;
-  height: 3px;
-}
-
-.faq-icon::after {
-  width: 3px;
-  height: 28px;
-}
-
-/* Active state - Rotate icon */
-.faq-item.active .faq-icon {
-  transform: rotate(180deg);
-}
-
-.faq-item.active .faq-icon::after {
-  opacity: 0;
-}
-
-/* FAQ Answer */
-.faq-answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, padding 0.4s ease;
-}
-
-.faq-answer-content {
-  padding: 0.25rem var(--spacing-lg) 2rem;
-  color: var(--color-text-secondary);
-  font-size: 1.1rem;
-  line-height: 1.7;
-}
-
-.faq-item.active .faq-answer {
-  max-height: 500px;
-}
-
-/* Responsive */
-@media (max-width: 767px) {
+  /* FAQ Question Button */
   .faq-question {
-    font-size: 1.125rem;
-    padding: var(--spacing-md);
+    width: 100%;
+    padding: 2rem var(--spacing-lg) 1.5rem;
+    background: transparent;
+    border: none;
+    color: var(--color-text);
+    font-size: 1.45rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--spacing-md);
+    transition: color var(--transition);
   }
 
-  .faq-answer-content {
-    padding: 0 var(--spacing-md) var(--spacing-md);
-    font-size: 0.9375rem;
+  .faq-question:hover {
+    color: rgba(255, 255, 255, 0.8);
   }
 
+  /* FAQ Icon */
   .faq-icon {
-    width: 20px;
-    height: 20px;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    position: relative;
+    transition: transform var(--transition);
+  }
+
+  .faq-icon::before,
+  .faq-icon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--color-text);
+    transition: all var(--transition);
   }
 
   .faq-icon::before {
-    width: 16px;
+    width: 28px;
+    height: 3px;
   }
 
   .faq-icon::after {
-    height: 16px;
+    width: 3px;
+    height: 28px;
   }
-}
+
+  /* Active state - Rotate icon */
+  .faq-item.active .faq-icon {
+    transform: rotate(180deg);
+  }
+
+  .faq-item.active .faq-icon::after {
+    opacity: 0;
+  }
+
+  /* FAQ Answer */
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, padding 0.4s ease;
+  }
+
+  .faq-answer-content {
+    padding: 0.25rem var(--spacing-lg) 2rem;
+    color: var(--color-text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+
+  .faq-item.active .faq-answer {
+    max-height: 500px;
+  }
+
+  /* Responsive */
+  @media (max-width: 767px) {
+    .faq-question {
+      font-size: 1.125rem;
+      padding: var(--spacing-md);
+    }
+
+    .faq-answer-content {
+      padding: 0 var(--spacing-md) var(--spacing-md);
+      font-size: 0.9375rem;
+    }
+
+    .faq-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    .faq-icon::before {
+      width: 16px;
+    }
+
+    .faq-icon::after {
+      height: 16px;
+    }
+  }
 </style>
 
 <section class="question-section" id="faq">
@@ -180,7 +183,8 @@
       </button>
       <div class="faq-answer">
         <div class="faq-answer-content">
-          Brand-true aesthetics, cinematic edits, original generation, and pro workflows like recipes, libraries, and deterministic renders.
+          Brand-true aesthetics, cinematic edits, original generation, and pro workflows like recipes, libraries, and
+          deterministic renders.
         </div>
       </div>
     </div>
@@ -193,7 +197,9 @@
       </button>
       <div class="faq-answer">
         <div class="faq-answer-content">
-          Yes! Our advanced style consistency engine ensures your brand aesthetics remain uniform across all generated videos. Use style presets, custom templates, and deterministic rendering to maintain visual coherence in every project.
+          Yes! Our advanced style consistency engine ensures your brand aesthetics remain uniform across all generated
+          videos. Use style presets, custom templates, and deterministic rendering to maintain visual coherence in every
+          project.
         </div>
       </div>
     </div>
@@ -206,7 +212,8 @@
       </button>
       <div class="faq-answer">
         <div class="faq-answer-content">
-          Absolutely! Our platform is built for collaboration. Create separate workspaces for each brand, manage team permissions, share asset libraries, and streamline your agency workflow with our enterprise features.
+          Absolutely! Our platform is built for collaboration. Create separate workspaces for each brand, manage team
+          permissions, share asset libraries, and streamline your agency workflow with our enterprise features.
         </div>
       </div>
     </div>
@@ -219,7 +226,9 @@
       </button>
       <div class="faq-answer">
         <div class="faq-answer-content">
-          Export optimized videos for all major platforms: TikTok, Instagram Reels, YouTube Shorts, Facebook, LinkedIn, Twitter, and more. Each export is automatically formatted for the platform's specifications including aspect ratio, duration, and quality settings.
+          Export optimized videos for all major platforms: TikTok, Instagram Reels, YouTube Shorts, Facebook, LinkedIn,
+          Twitter, and more. Each export is automatically formatted for the platform's specifications including aspect
+          ratio, duration, and quality settings.
         </div>
       </div>
     </div>
@@ -227,47 +236,47 @@
 </section>
 
 <script>
-// Question Section Script - FAQ Accordion
-(function() {
-  'use strict';
+  // Question Section Script - FAQ Accordion
+  (function () {
+    'use strict';
 
-  const initFaqAccordion = () => {
-    const faqItems = document.querySelectorAll('.faq-item');
+    const initFaqAccordion = () => {
+      const faqItems = document.querySelectorAll('.faq-item');
 
-    if (faqItems.length === 0) return;
+      if (faqItems.length === 0) return;
 
-    faqItems.forEach(item => {
-      const button = item.querySelector('.faq-question');
-      const answer = item.querySelector('.faq-answer');
+      faqItems.forEach(item => {
+        const button = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
 
-      if (!button || !answer) return;
+        if (!button || !answer) return;
 
-      button.addEventListener('click', () => {
-        const isActive = item.classList.contains('active');
+        button.addEventListener('click', () => {
+          const isActive = item.classList.contains('active');
 
-        // 关闭所有其他项
-        faqItems.forEach(otherItem => {
-          if (otherItem !== item) {
-            otherItem.classList.remove('active');
-            const otherButton = otherItem.querySelector('.faq-question');
-            if (otherButton) {
-              otherButton.setAttribute('aria-expanded', 'false');
+          // 关闭所有其他项
+          faqItems.forEach(otherItem => {
+            if (otherItem !== item) {
+              otherItem.classList.remove('active');
+              const otherButton = otherItem.querySelector('.faq-question');
+              if (otherButton) {
+                otherButton.setAttribute('aria-expanded', 'false');
+              }
             }
-          }
+          });
+
+          // 切换当前项
+          item.classList.toggle('active');
+          button.setAttribute('aria-expanded', !isActive);
         });
-
-        // 切换当前项
-        item.classList.toggle('active');
-        button.setAttribute('aria-expanded', !isActive);
       });
-    });
-  };
+    };
 
-  // Initialize on DOM ready
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFaqAccordion);
-  } else {
-    initFaqAccordion();
-  }
-})();
+    // Initialize on DOM ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initFaqAccordion);
+    } else {
+      initFaqAccordion();
+    }
+  })();
 </script>

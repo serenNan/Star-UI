@@ -164,7 +164,7 @@
   }
 
   /* 卡片描述 - 在卡片下部，灰色细体 */
-  .workflow-cmps-card-description {
+.workflow-cmps-card-description {
     font-family: 'Sora', sans-serif;
     font-size: 0.875rem;
     font-weight: 300;
@@ -458,7 +458,7 @@
       // 获取所有左侧卡片和右侧主视频区域
       const cards = document.querySelectorAll('.workflow-cmps-card');
       const mainVideo = document.querySelector('.workflow-cmps-visual-video');
-      
+
       if (!mainVideo) return;
 
       // 视频加载错误处理
@@ -482,7 +482,7 @@
         card.addEventListener('click', function () {
           // 获取当前卡片的视频源
           const videoSrc = cardVideo.querySelector('source').src;
-          
+
           // 更新右侧主视频
           mainVideo.src = videoSrc;
           mainVideo.play().catch(err => {

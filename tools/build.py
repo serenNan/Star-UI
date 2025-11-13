@@ -47,18 +47,19 @@ PAGES = [
     },
 ]
 
+
 def generate_dynamic_sections():
     """在构建前生成动态生成的区块"""
     print("[gen] Generating dynamic sections...")
 
     # 生成社交媒体链接
     try:
-        script_path = Path(__file__).parent / 'generate-social-links.py'
+        script_path = Path(__file__).parent / "generate-social-links.py"
         result = subprocess.run(
             [sys.executable, str(script_path)],
             capture_output=True,
             text=True,
-            check=True
+            check=True,
         )
         print(result.stdout)
     except subprocess.CalledProcessError as e:
@@ -68,6 +69,7 @@ def generate_dynamic_sections():
 
     print("")
 
+
 def build(config_file_path=None, *, run_dynamic=True):
     print("[build] Building Star-UI...")
     print("")
@@ -76,55 +78,61 @@ def build(config_file_path=None, *, run_dynamic=True):
     if run_dynamic:
         generate_dynamic_sections()
     else:
-        print("[build] Skipping dynamic section generation (already run in this session).\n")
+        print(
+            "[build] Skipping dynamic section generation (already run in this session).\n"
+        )
 
     # Read configuration
     if config_file_path is None:
-        config_file = Path('tools/build.config.json')
+        config_file = Path("tools/build.config.json")
     else:
         config_file = Path(config_file_path)
     if not config_file.exists():
         print(f"[error] {config_file} not found!")
         return False
 
-    with open(config_file, 'r', encoding='utf-8') as f:
+    with open(config_file, "r", encoding="utf-8") as f:
         config = json.load(f)
 
     # Read global head
-    head_file = Path('global/head.html')
+    head_file = Path("global/head.html")
     if not head_file.exists():
         print("[error] global/head.html not found!")
         return False
 
-    with open(head_file, 'r', encoding='utf-8') as f:
+    with open(head_file, "r", encoding="utf-8") as f:
         head = f.read()
 
     # Read global footer scripts
-    footer_file = Path('global/footer-scripts.html')
+    footer_file = Path("global/footer-scripts.html")
     if not footer_file.exists():
         print("[error] global/footer-scripts.html not found!")
         return False
 
-    with open(footer_file, 'r', encoding='utf-8') as f:
+    with open(footer_file, "r", encoding="utf-8") as f:
         footer_scripts = f.read()
 
     # Start assembling body content
-    body_parts = ['<body>\n']
+    body_class = config.get("bodyClass", "").strip()
+    body_attr = f' class="{body_class}"' if body_class else ""
+    body_parts = [f"<body{body_attr}>\n"]
 
     # Process each section
     sections_processed = []
     sections_missing = []
 
-    for section in config['sections']:
+    for section in config["sections"]:
         # Look for HTML file in module folder
-        section_file = Path(f'sections/{section}/{section}.html')
+        section_file = Path(f"sections/{section}/{section}.html")
 
         if section_file.exists():
-            with open(section_file, 'r', encoding='utf-8') as f:
+            with open(section_file, "r", encoding="utf-8") as f:
                 content = f.read()
-                body_parts.append(f'\n  <!-- ===== {section.upper()} SECTION ===== -->\n')
+                body_parts.append(
+                    f"\n  <!-- ===== {section.upper()} SECTION ===== -->\n"
+                )
                 body_parts.append(content)
-                body_parts.append('\n')
+                body_parts.append("\n")
             sections_processed.append(section)
             print(f"  [ok] {section}")
         else:
@@ -132,15 +140,15 @@ def build(config_file_path=None, *, run_dynamic=True):
             print(f"  [skip] {section} (file not found at {section_file}, skipping)")
 
     # Add footer scripts
-    body_parts.append('\n  <!-- ===== GLOBAL SCRIPTS ===== -->\n')
+    body_parts.append("\n  <!-- ===== GLOBAL SCRIPTS ===== -->\n")
     body_parts.append(footer_scripts)
 
     # Combine everything
-    final_html = head + ''.join(body_parts)
+    final_html = head + "".join(body_parts)
 
     # Write output file
-    output_file = config['output']
-    with open(output_file, 'w', encoding='utf-8') as f:
+    output_file = config["output"]
+    with open(output_file, "w", encoding="utf-8") as f:
         f.write(final_html)
 
     # Print summary
@@ -165,14 +173,15 @@ def build(config_file_path=None, *, run_dynamic=True):
     print("=" * 50)
     return True
 
+
 def build_all(page_keys=None):
     """构建预设的多个页面。"""
     if page_keys:
         key_set = {k.lower() for k in page_keys}
-        pages = [p for p in PAGES if p['key'] in key_set]
-        missing = key_set - {p['key'] for p in pages}
+        pages = [p for p in PAGES if p["key"] in key_set]
+        missing = key_set - {p["key"] for p in pages}
         if missing:
-            print("[error] Unknown page keys:", ', '.join(sorted(missing)))
+            print("[error] Unknown page keys:", ", ".join(sorted(missing)))
             return False
     else:
         pages = PAGES
@@ -190,12 +199,14 @@ def build_all(page_keys=None):
     for idx, page in enumerate(pages):
         print(f"[build] {page['name']} -> {page['output']} ...")
         print("-" * 60)
-        success = build(page['config'], run_dynamic=(idx == 0))
-        results.append({"name": page['name'], "output": page['output'], "success": success})
+        success = build(page["config"], run_dynamic=(idx == 0))
+        results.append(
+            {"name": page["name"], "output": page["output"], "success": success}
+        )
         print("")
 
-    successful = [r for r in results if r['success']]
-    failed = [r for r in results if not r['success']]
+    successful = [r for r in results if r["success"]]
+    failed = [r for r in results if not r["success"]]
 
     print("=" * 60)
     if successful:
@@ -211,6 +222,8 @@ def build_all(page_keys=None):
     print("=" * 60)
 
     return len(failed) == 0
-if __name__ == '__main__':
+
+
+if __name__ == "__main__":
     success = build_all()
     sys.exit(0 if success else 1)

@@ -1,380 +1,431 @@
 <style>
-/* ========================================
+  /* ========================================
    Workflow 模块样式
    ======================================== */
 
-.workflow {
-  padding: var(--spacing-3xl) 0;
-  background: var(--color-bg);
-}
+  .workflow {
+    padding: var(--spacing-3xl) 0;
+    background: var(--color-bg);
+  }
 
-/* 标题区域 */
-.workflow__header {
-  text-align: center;
-  max-width: 1120px; /* 增加宽度，减少换行 */
-  margin: 0 auto 45px auto; /* 水平居中，底部45px间距 */
-}
+  /* 标题区域 */
+  .workflow__header {
+    text-align: center;
+    max-width: 1120px;
+    /* 增加宽度，减少换行 */
+    margin: 0 auto 45px auto;
+    /* 水平居中，底部45px间距 */
+  }
 
-/* 小标题 "WORKFLOW" */
-.workflow__subtitle {
-  font-size: 1.2rem;
-  font-weight: 600;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--color-text-secondary);
-  margin-bottom: 0.1rem; /* 减小与主标题的间距 */
-}
+  /* 小标题 "WORKFLOW" */
+  .workflow__subtitle {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-secondary);
+    margin-bottom: 0.1rem;
+    /* 减小与主标题的间距 */
+  }
 
-/* 主标题 "A Seamless Creative Workflow" */
-.workflow__title {
-  font-size: 2.8rem;
-  font-weight: 700;
-  line-height: 1.2;
-  color: var(--color-text);
-  margin-bottom: var(--spacing-lg); /* 增加与描述的间距 */
-}
+  /* 主标题 "A Seamless Creative Workflow" */
+  .workflow__title {
+    font-size: 2.8rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-lg);
+    /* 增加与描述的间距 */
+  }
 
-/* 描述文字 */
-.workflow__description {
-  font-size: 1.6rem;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-  white-space: normal; /* 正常换行 */
-  word-break: keep-all; /* 尽量不在单词中间断行 */
-  word-wrap: break-word; /* 仅在必要时断词 */
-}
+  /* 描述文字 */
+  .workflow__description {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    white-space: normal;
+    /* 正常换行 */
+    word-break: keep-all;
+    /* 尽量不在单词中间断行 */
+    word-wrap: break-word;
+    /* 仅在必要时断词 */
+  }
 
-/* 卡片网格 */
-.workflow__cards {
-  display: flex;
-  gap: 27px; /* 减少卡片间距 */
-  max-width: 1400px; /* 增加最大宽度，让卡片变宽，文字描述能一行显示更多 */
-  margin: 0 auto;
-  padding: 0 var(--spacing-lg);
-}
+  /* 卡片网格 */
+  .workflow__cards {
+    display: flex;
+    gap: 27px;
+    /* 减少卡片间距 */
+    max-width: 1400px;
+    /* 增加最大宽度，让卡片变宽，文字描述能一行显示更多 */
+    margin: 0 auto;
+    padding: 0 var(--spacing-lg);
+  }
 
-/* 单个卡片 */
-.workflow__card {
-  position: relative;
-  flex: 1 1 0; /* 默认平均分配空间 */
-  aspect-ratio: 3 / 6.1;
-  border-radius: 20px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* 只过渡flex属性 */
-  background: #000000;
-  will-change: flex; /* 性能优化 */
-}
+  /* 单个卡片 */
+  .workflow__card {
+    position: relative;
+    flex: 1 1 0;
+    /* 默认平均分配空间 */
+    aspect-ratio: 3 / 6.1;
+    border-radius: 20px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: flex 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    /* 只过渡flex属性 */
+    background: #000000;
+    will-change: flex;
+    /* 性能优化 */
+  }
 
-/* 悬浮状态：只增加宽度 */
-.workflow__card:hover {
-  flex: 2.5 1 0; /* 悬浮时占据更多宽度空间 */
-  z-index: 10; /* 确保悬浮卡片在最上层 */
-}
+  /* 悬浮状态：只增加宽度 */
+  .workflow__card:hover {
+    flex: 2.5 1 0;
+    /* 悬浮时占据更多宽度空间 */
+    z-index: 10;
+    /* 确保悬浮卡片在最上层 */
+  }
 
-/* 当有卡片悬浮时，其他卡片收缩 */
-.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
-  flex: 0.6 1 0; /* 未悬浮卡片收缩宽度 */
-}
+  /* 当有卡片悬浮时，其他卡片收缩 */
+  .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
+    flex: 0.6 1 0;
+    /* 未悬浮卡片收缩宽度 */
+  }
 
-/* 卡片图片 */
-.workflow__card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
+  /* 卡片图片 */
+  .workflow__card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
 
-/* 步骤编号 - 固定在卡片底部左侧 */
-.workflow__card-title-wrapper {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  margin-top: -5px;
-}
+  /* 步骤编号 - 固定在卡片底部左侧 */
+  .workflow__card-title-wrapper {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-top: -5px;
+  }
 
-.workflow__card-number {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.4);
-  line-height: 1;
-  position: absolute; /* 改为绝对定位 */
-  bottom: 80px; /* 增加距离底部的距离 */
-  left: 30px; /* 距离左侧固定距离 */
-  z-index: 3; /* 确保在所有层之上 */
-  transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              left 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* 丝滑过渡动画 */
-}
+  .workflow__card-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.4);
+    line-height: 1;
+    position: absolute;
+    /* 改为绝对定位 */
+    bottom: 80px;
+    /* 增加距离底部的距离 */
+    left: 30px;
+    /* 距离左侧固定距离 */
+    z-index: 3;
+    /* 确保在所有层之上 */
+    transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    /* 丝滑过渡动画 */
+  }
 
-/* 悬浮时数字颜色加深并稍微下移 */
-.workflow__card:hover .workflow__card-number {
-  color: rgba(255, 255, 255, 0.9); /* 加深到90%不透明度 */
-  bottom: 60px; /* 稍微下移一点 */
-  left: 30px; /* 保持左侧位置 */
-}
+  /* 悬浮时数字颜色加深并稍微下移 */
+  .workflow__card:hover .workflow__card-number {
+    color: rgba(255, 255, 255, 0.9);
+    /* 加深到90%不透明度 */
+    bottom: 60px;
+    /* 稍微下移一点 */
+    left: 30px;
+    /* 保持左侧位置 */
+  }
 
-/* 渐变叠加层 - 从透明到纯黑 */
-.workflow__card-overlay {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60%;
-  background: linear-gradient(
-    to top,
-    #000000 0%,
-    rgba(0, 0, 0, 0.95) 15%,
-    rgba(0, 0, 0, 0.85) 30%,
-    rgba(0, 0, 0, 0.6) 50%,
-    rgba(0, 0, 0, 0.3) 70%,
-    transparent 100%
-  );
-  z-index: 1;
-  opacity: 1;
-  transition: opacity 0.3s ease; /* 淡出过渡 */
-}
+  /* 渐变叠加层 - 从透明到纯黑 */
+  .workflow__card-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to top,
+        #000000 0%,
+        rgba(0, 0, 0, 0.95) 15%,
+        rgba(0, 0, 0, 0.85) 30%,
+        rgba(0, 0, 0, 0.6) 50%,
+        rgba(0, 0, 0, 0.3) 70%,
+        transparent 100%);
+    z-index: 1;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+    /* 淡出过渡 */
+  }
 
-/* 悬浮时叠加层消失 */
-.workflow__card:hover .workflow__card-overlay {
-  opacity: 0;
-}
+  /* 悬浮时叠加层消失 */
+  .workflow__card:hover .workflow__card-overlay {
+    opacity: 0;
+  }
 
-/* 当有卡片悬浮时，所有未悬浮卡片的叠加层也淡出 */
-.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-overlay {
-  opacity: 0;
-}
+  /* 当有卡片悬浮时，所有未悬浮卡片的叠加层也淡出 */
+  .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-overlay {
+    opacity: 0;
+  }
 
-/* 文字内容区域 */
-.workflow__card-content {
-  position: absolute;
-  bottom: -25px;
-  left: -15px;
-  right: 0;
-  padding: var(--spacing-lg);
-  z-index: 2;
-  opacity: 1;
-  /* 不移动整个内容区域 */
-}
+  /* 文字内容区域 */
+  .workflow__card-content {
+    position: absolute;
+    bottom: -25px;
+    left: -15px;
+    right: 0;
+    padding: var(--spacing-lg);
+    z-index: 2;
+    opacity: 1;
+    /* 不移动整个内容区域 */
+  }
 
-/* 移除悬浮时文字消失的效果 */
-/* 文字在放大缩小动画时保持显示 */
+  /* 移除悬浮时文字消失的效果 */
+  /* 文字在放大缩小动画时保持显示 */
 
-/* 标题样式 - 改为绝对定位 */
-.workflow__card-title {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--color-text);
-  position: absolute;
-  bottom: 80px; /* 和数字同一高度 */
-  left: 68px; 
-  z-index: 3;
-  transition: opacity 0.3s ease,
-              bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-              left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-}
+  /* 标题样式 - 改为绝对定位 */
+  .workflow__card-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--color-text);
+    position: absolute;
+    bottom: 80px;
+    /* 和数字同一高度 */
+    left: 68px;
+    z-index: 3;
+    transition: opacity 0.3s ease,
+      bottom 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      left 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-/* 悬浮时标题稍微下移 */
-.workflow__card:hover .workflow__card-title {
-  bottom: 60px; /* 和数字同步下移到60px */
-  left: 68px; /* 保持左边距 */
-}
+  /* 悬浮时标题稍微下移 */
+  .workflow__card:hover .workflow__card-title {
+    bottom: 60px;
+    /* 和数字同步下移到60px */
+    left: 68px;
+    /* 保持左边距 */
+  }
 
-/* 描述文字样式 */
-.workflow__card-text {
-  font-size: 0.875rem;
-  line-height: 1.5;
-  color: #727272;
-  margin: 0;
-  transition: opacity 0.3s ease;
-}
+  /* 描述文字样式 */
+  .workflow__card-text {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 300;
+    line-height: 1.5;
+    color: #727272;
+    margin: 0;
+    transition: opacity 0.3s ease;
+  }
 
-/* 当有卡片悬浮时，只隐藏其他未悬浮卡片的标题和描述 */
-/* 被悬浮的卡片保留所有文字内容 */
-.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-title,
-.workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-text {
-  opacity: 0;
-  pointer-events: none;
-}
+  /* 当有卡片悬浮时，只隐藏其他未悬浮卡片的标题和描述 */
+  /* 被悬浮的卡片保留所有文字内容 */
+  .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-title,
+  .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) .workflow__card-text {
+    opacity: 0;
+    pointer-events: none;
+  }
 
-/* ========================================
+  /* ========================================
    响应式设计
    ======================================== */
 
-/* 平板端 */
-@media (max-width: 991px) {
-  .workflow {
-    padding: var(--spacing-2xl) 0;
+  /* 平板端 */
+  @media (max-width: 991px) {
+    .workflow {
+      padding: var(--spacing-2xl) 0;
+    }
+
+    .workflow__title {
+      font-size: 2.5rem;
+    }
+
+    /* 改用 flex 布局以保留横向放大动画 */
+    .workflow__cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--spacing-lg);
+    }
+
+    /* 平板端保留动画，但略微减弱 */
+    .workflow__card {
+      flex: 1 1 calc(50% - var(--spacing-lg));
+      /* 2列宽度计算 */
+      min-width: 280px;
+      /* 最小宽度保证 */
+      max-width: 400px;
+      /* 最大宽度限制 */
+    }
+
+    /* 保留放大动画，但倍数减弱到 2.0 */
+    .workflow__card:hover {
+      flex: 2 1 calc(50% - var(--spacing-lg));
+      max-width: 600px;
+    }
+
+    /* 其他卡片略微收缩 */
+    .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
+      flex: 0.8 1 calc(50% - var(--spacing-lg));
+    }
   }
 
-  .workflow__title {
-    font-size: 2.5rem;
+  /* 移动端 */
+  @media (max-width: 767px) {
+    .workflow {
+      padding: var(--spacing-xl) 0;
+    }
+
+    .workflow__header {
+      margin-bottom: var(--spacing-xl);
+      padding: 0 var(--spacing-md);
+      /* 添加左右内边距 */
+    }
+
+    .workflow__title {
+      font-size: 2rem;
+    }
+
+    .workflow__description {
+      font-size: 1rem;
+      padding: 0 var(--spacing-md);
+      /* 防止超出 */
+    }
+
+    /* 改为 2 列 flex 布局 + 动画支持 */
+    .workflow__cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--spacing-md);
+      padding: 0 var(--spacing-md);
+      /* 左右留白 */
+      box-sizing: border-box;
+    }
+
+    /* 2列布局，支持动画 */
+    .workflow__card {
+      flex: 1 1 calc(50% - var(--spacing-md) / 2);
+      /* 2列宽度 */
+      min-width: 160px;
+      /* 移动端最小 */
+      max-width: 280px;
+      /* 移动端最大 */
+      aspect-ratio: 3 / 4.5;
+      /* 调整纵横比 */
+    }
+
+    /* 移动端放大动画 - 极大效果 */
+    .workflow__card:hover {
+      flex: 5 1 calc(50% - var(--spacing-md) / 2);
+      /* 从 3.5 增大到 5 */
+      max-width: 700px;
+      /* 从 550px 增加到 700px */
+    }
+
+    .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
+      flex: 0.2 1 calc(50% - var(--spacing-md) / 2);
+      /* 从 0.3 减小到 0.2，更明显 */
+    }
+
+    /* 修复卡片编号定位 - 使用 bottom 而非 top */
+    .workflow__card-number {
+      font-size: 2rem;
+      bottom: 60px;
+      /* 用 bottom 而非 top */
+      left: 20px;
+      /* 减小移动端边距 */
+    }
+
+    /* 移除悬浮时数字的下移动画 */
+    .workflow__card:hover .workflow__card-number {
+      bottom: 60px;
+      /* 保持不变，不下移 */
+    }
+
+    /* 调整标题位置 */
+    .workflow__card-title {
+      font-size: 1.25rem;
+      bottom: 60px;
+      left: 50px;
+      /* 留出数字空间 */
+    }
+
+    /* 移除悬浮时标题的下移动画 */
+    .workflow__card:hover .workflow__card-title {
+      bottom: 60px;
+      /* 保持不变，不下移 */
+    }
+
+    .workflow__card-content {
+      padding: var(--spacing-md);
+    }
   }
 
-  /* 改用 flex 布局以保留横向放大动画 */
-  .workflow__cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--spacing-lg);
-  }
+  /* 超小屏优化 */
+  @media (max-width: 479px) {
+    .workflow__title {
+      font-size: 1.75rem;
+    }
 
-  /* 平板端保留动画，但略微减弱 */
-  .workflow__card {
-    flex: 1 1 calc(50% - var(--spacing-lg)); /* 2列宽度计算 */
-    min-width: 280px; /* 最小宽度保证 */
-    max-width: 400px; /* 最大宽度限制 */
-  }
+    .workflow__description {
+      font-size: 0.9rem;
+    }
 
-  /* 保留放大动画，但倍数减弱到 2.0 */
-  .workflow__card:hover {
-    flex: 2 1 calc(50% - var(--spacing-lg));
-    max-width: 600px;
-  }
+    /* 调整卡片间距和内边距 */
+    .workflow__cards {
+      gap: var(--spacing-sm);
+      padding: 0 var(--spacing-sm);
+    }
 
-  /* 其他卡片略微收缩 */
-  .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
-    flex: 0.8 1 calc(50% - var(--spacing-lg));
-  }
-}
+    /* 优化卡片尺寸 */
+    .workflow__card {
+      min-width: 140px;
+      max-width: 240px;
+      aspect-ratio: 3 / 5;
+      /* 更竖长 */
+    }
 
-/* 移动端 */
-@media (max-width: 767px) {
-  .workflow {
-    padding: var(--spacing-xl) 0;
-  }
+    .workflow__card:hover {
+      max-width: 320px;
+    }
 
-  .workflow__header {
-    margin-bottom: var(--spacing-xl);
-    padding: 0 var(--spacing-md); /* 添加左右内边距 */
-  }
+    /* 调整编号样式 */
+    .workflow__card-number {
+      font-size: 1.8rem;
+      bottom: 50px;
+      left: 15px;
+    }
 
-  .workflow__title {
-    font-size: 2rem;
-  }
+    /* 移除悬浮时数字的下移动画 */
+    .workflow__card:hover .workflow__card-number {
+      bottom: 50px;
+      /* 保持不变，不下移 */
+    }
 
-  .workflow__description {
-    font-size: 1rem;
-    padding: 0 var(--spacing-md); /* 防止超出 */
-  }
+    /* 调整标题样式 */
+    .workflow__card-title {
+      font-size: 1.1rem;
+      left: 45px;
+      bottom: 50px;
+    }
 
-  /* 改为 2 列 flex 布局 + 动画支持 */
-  .workflow__cards {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: var(--spacing-md);
-    padding: 0 var(--spacing-md); /* 左右留白 */
-    box-sizing: border-box;
-  }
+    /* 移除悬浮时标题的下移动画 */
+    .workflow__card:hover .workflow__card-title {
+      bottom: 50px;
+      /* 保持不变，不下移 */
+    }
 
-  /* 2列布局，支持动画 */
-  .workflow__card {
-    flex: 1 1 calc(50% - var(--spacing-md) / 2); /* 2列宽度 */
-    min-width: 160px; /* 移动端最小 */
-    max-width: 280px; /* 移动端最大 */
-    aspect-ratio: 3 / 4.5; /* 调整纵横比 */
-  }
+    /* 调整描述文字 */
+    .workflow__card-text {
+      font-size: 0.75rem;
+    }
 
-  /* 移动端放大动画 - 极大效果 */
-  .workflow__card:hover {
-    flex: 5 1 calc(50% - var(--spacing-md) / 2); /* 从 3.5 增大到 5 */
-    max-width: 700px; /* 从 550px 增加到 700px */
+    .workflow__card-content {
+      padding: var(--spacing-sm);
+    }
   }
-
-  .workflow__cards:has(.workflow__card:hover) .workflow__card:not(:hover) {
-    flex: 0.2 1 calc(50% - var(--spacing-md) / 2); /* 从 0.3 减小到 0.2，更明显 */
-  }
-
-  /* 修复卡片编号定位 - 使用 bottom 而非 top */
-  .workflow__card-number {
-    font-size: 2rem;
-    bottom: 60px; /* 用 bottom 而非 top */
-    left: 20px; /* 减小移动端边距 */
-  }
-
-  /* 移除悬浮时数字的下移动画 */
-  .workflow__card:hover .workflow__card-number {
-    bottom: 60px; /* 保持不变，不下移 */
-  }
-
-  /* 调整标题位置 */
-  .workflow__card-title {
-    font-size: 1.25rem;
-    bottom: 60px;
-    left: 50px; /* 留出数字空间 */
-  }
-
-  /* 移除悬浮时标题的下移动画 */
-  .workflow__card:hover .workflow__card-title {
-    bottom: 60px; /* 保持不变，不下移 */
-  }
-
-  .workflow__card-content {
-    padding: var(--spacing-md);
-  }
-}
-
-/* 超小屏优化 */
-@media (max-width: 479px) {
-  .workflow__title {
-    font-size: 1.75rem;
-  }
-
-  .workflow__description {
-    font-size: 0.9rem;
-  }
-
-  /* 调整卡片间距和内边距 */
-  .workflow__cards {
-    gap: var(--spacing-sm);
-    padding: 0 var(--spacing-sm);
-  }
-
-  /* 优化卡片尺寸 */
-  .workflow__card {
-    min-width: 140px;
-    max-width: 240px;
-    aspect-ratio: 3 / 5; /* 更竖长 */
-  }
-
-  .workflow__card:hover {
-    max-width: 320px;
-  }
-
-  /* 调整编号样式 */
-  .workflow__card-number {
-    font-size: 1.8rem;
-    bottom: 50px;
-    left: 15px;
-  }
-
-  /* 移除悬浮时数字的下移动画 */
-  .workflow__card:hover .workflow__card-number {
-    bottom: 50px; /* 保持不变，不下移 */
-  }
-
-  /* 调整标题样式 */
-  .workflow__card-title {
-    font-size: 1.1rem;
-    left: 45px;
-    bottom: 50px;
-  }
-
-  /* 移除悬浮时标题的下移动画 */
-  .workflow__card:hover .workflow__card-title {
-    bottom: 50px; /* 保持不变，不下移 */
-  }
-
-  /* 调整描述文字 */
-  .workflow__card-text {
-    font-size: 0.75rem;
-  }
-
-  .workflow__card-content {
-    padding: var(--spacing-sm);
-  }
-}
 </style>
 
 <section class="workflow" id="workflow">
@@ -393,12 +444,7 @@
     <div class="workflow__cards">
       <!-- 卡片 1: Generative -->
       <div class="workflow__card" data-step="generative">
-        <img
-          src="sections/workflow/1.png"
-          alt="Generative AI"
-          class="workflow__card-image"
-          loading="lazy"
-        >
+        <img src="sections/workflow/1.png" alt="Generative AI" class="workflow__card-image" loading="lazy">
         <div class="workflow__card-overlay"></div>
         <div class="workflow__card-content">
           <div class="workflow__card-title-wrapper">
@@ -413,12 +459,7 @@
 
       <!-- 卡片 2: Storyboard -->
       <div class="workflow__card" data-step="storyboard">
-        <img
-          src="sections/workflow/2.jpg"
-          alt="Storyboard"
-          class="workflow__card-image"
-          loading="lazy"
-        >
+        <img src="sections/workflow/2.jpg" alt="Storyboard" class="workflow__card-image" loading="lazy">
         <div class="workflow__card-overlay"></div>
         <div class="workflow__card-content">
           <div class="workflow__card-title-wrapper">
@@ -433,12 +474,7 @@
 
       <!-- 卡片 3: Timeline -->
       <div class="workflow__card" data-step="timeline">
-        <img
-          src="sections/workflow/3.png"
-          alt="Timeline"
-          class="workflow__card-image"
-          loading="lazy"
-        >
+        <img src="sections/workflow/3.png" alt="Timeline" class="workflow__card-image" loading="lazy">
         <div class="workflow__card-overlay"></div>
         <div class="workflow__card-content">
           <div class="workflow__card-title-wrapper">
@@ -453,12 +489,7 @@
 
       <!-- 卡片 4: Assistant -->
       <div class="workflow__card" data-step="assistant">
-        <img
-          src="sections/workflow/4.png"
-          alt="Assistant"
-          class="workflow__card-image"
-          loading="lazy"
-        >
+        <img src="sections/workflow/4.png" alt="Assistant" class="workflow__card-image" loading="lazy">
         <div class="workflow__card-overlay"></div>
         <div class="workflow__card-content">
           <div class="workflow__card-title-wrapper">
@@ -475,78 +506,78 @@
 </section>
 
 <script>
-(function() {
-  'use strict';
+  (function () {
+    'use strict';
 
-  /**
-   * 初始化 Workflow 模块
-   */
-  const initWorkflow = () => {
-    console.log('✅ Workflow module initialized');
+    /**
+     * 初始化 Workflow 模块
+     */
+    const initWorkflow = () => {
+      console.log('✅ Workflow module initialized');
 
-    const cards = document.querySelectorAll('.workflow__card');
+      const cards = document.querySelectorAll('.workflow__card');
 
-    // 记录每张卡片的原始高度
-    const originalHeights = new Map();
+      // 记录每张卡片的原始高度
+      const originalHeights = new Map();
 
-    // 等待布局稳定后记录高度（仅在桌面端）
-    setTimeout(() => {
-      // 只在桌面端（≥992px）设置固定高度
-      if (window.innerWidth >= 992) {
-        cards.forEach(card => {
-          const height = card.offsetHeight;
-          originalHeights.set(card, height);
-          // 设置固定高度为内联样式
-          card.style.height = `${height}px`;
-        });
-      }
-    }, 100);
+      // 等待布局稳定后记录高度（仅在桌面端）
+      setTimeout(() => {
+        // 只在桌面端（≥992px）设置固定高度
+        if (window.innerWidth >= 992) {
+          cards.forEach(card => {
+            const height = card.offsetHeight;
+            originalHeights.set(card, height);
+            // 设置固定高度为内联样式
+            card.style.height = `${height}px`;
+          });
+        }
+      }, 100);
 
-    // 监听窗口大小变化，移除移动端的固定高度
-    window.addEventListener('resize', () => {
-      if (window.innerWidth < 992) {
-        cards.forEach(card => {
-          card.style.height = ''; // 移除固定高度，使用 aspect-ratio
-        });
-      } else if (window.innerWidth >= 992) {
-        cards.forEach(card => {
-          const height = card.offsetHeight;
-          card.style.height = `${height}px`; // 重新设置固定高度
-        });
-      }
-    });
+      // 监听窗口大小变化，移除移动端的固定高度
+      window.addEventListener('resize', () => {
+        if (window.innerWidth < 992) {
+          cards.forEach(card => {
+            card.style.height = ''; // 移除固定高度，使用 aspect-ratio
+          });
+        } else if (window.innerWidth >= 992) {
+          cards.forEach(card => {
+            const height = card.offsetHeight;
+            card.style.height = `${height}px`; // 重新设置固定高度
+          });
+        }
+      });
 
-    // 图片加载错误处理
-    cards.forEach(card => {
-      const img = card.querySelector('.workflow__card-image');
+      // 图片加载错误处理
+      cards.forEach(card => {
+        const img = card.querySelector('.workflow__card-image');
 
-      if (img) {
-        img.addEventListener('error', function() {
-          console.warn(`Failed to load image: ${this.src}`);
-          // 可以在这里设置占位图或处理逻辑
-        });
-      }
-    });
+        if (img) {
+          img.addEventListener('error', function () {
+            console.warn(`Failed to load image: ${this.src}`);
+            // 可以在这里设置占位图或处理逻辑
+          });
+        }
+      });
 
-    // 预留：未来可添加视频悬浮播放功能
-    // 参考 gallery 模块的实现
-    // const initVideoHover = () => { ... };
+      // 预留：未来可添加视频悬浮播放功能
+      // 参考 gallery 模块的实现
+      // const initVideoHover = () => { ... };
 
-    // 预留：未来可添加点击展开详情功能
-    // cards.forEach(card => {
-    //   card.addEventListener('click', () => {
-    //     const step = card.dataset.step;
-    //     console.log(`Clicked on ${step}`);
-    //     // 处理点击事件
-    //   });
-    // });
-  };
+      // 预留：未来可添加点击展开详情功能
+      // cards.forEach(card => {
+      //   card.addEventListener('click', () => {
+      //     const step = card.dataset.step;
+      //     console.log(`Clicked on ${step}`);
+      //     // 处理点击事件
+      //   });
+      // });
+    };
 
-  // DOM Ready 检测
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initWorkflow);
-  } else {
-    initWorkflow();
-  }
-})();
+    // DOM Ready 检测
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initWorkflow);
+    } else {
+      initWorkflow();
+    }
+  })();
 </script>

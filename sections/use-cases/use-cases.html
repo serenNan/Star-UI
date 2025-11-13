@@ -1,419 +1,482 @@
 <!-- ===== USE CASES 模块 ===== -->
 <style>
-/* Use Cases 主容器样式 */
-.use-cases {
-  padding: var(--spacing-3xl) 0;
-  background: var(--color-bg);
-  position: relative;
-}
-
-/* 标题区域 */
-.use-cases__header {
-  text-align: center;
-  margin-bottom: var(--spacing-xl); /* 缩小间距，让内容区域上移 */
-}
-
-.use-cases__subtitle {
-  font-size: 1.2rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  color: var(--color-text-secondary);
-  margin-bottom: var(--spacing-sm);
-  text-transform: uppercase;
-}
-
-.use-cases__title {
-  font-size: 2.5rem;
-  font-weight: 700;
-  color: var(--color-text);
-  margin-bottom: var(--spacing-md);
-  line-height: 1.2;
-}
-
-.use-cases__description {
-  font-size: 1.5rem;
-  color: var(--color-text-secondary);
-  max-width: 800px;
-  margin: 0 auto;
-  letter-spacing: 0.02em;
-}
-
-/* 内容区域布局 */
-.use-cases__content {
-  display: flex;
-  gap: var(--spacing-xl);
-  align-items: flex-start;
-  justify-content: center; /* 让左右两部分整体居中 */
-  max-width: 1400px; /* 限制最大宽度 */
-  margin: 0 auto; /* 容器本身也居中 */
-}
-
-
-/* 左侧分类导航（桌面端垂直布局）*/
-.use-cases__categories {
-  display: flex;
-  flex-direction: column;
-  gap: 16px; /* 缩小按钮间距 */
-  min-width: 260px; /* 从 220px 增加到 260px，整体更宽 */
-  align-items: flex-start; /* 按钮靠左对齐 */
-  margin-right: var(--spacing-2xl); /* 增加与卡片的间距，导航栏向左移 */
-}
-
-.use-cases__category-btn {
-  padding: 20px;
-  background: transparent; /* 未选中时无背景 */
-  border: none; /* 移除边框 */
-  border-radius: 50px;
-  color: var(--color-text); /* 白色文字 */
-  font-size: 1.25rem; /* 从 1.125rem 增加到 1.25rem (20px) */
-  font-weight: 500;
-  cursor: pointer;
-  transition: all var(--transition);
-  text-align: center; /* 文字居中 */
-  white-space: nowrap;
-  width: 160px; /* 按钮宽度，稍微变长 */
-}
-
-/* 移除空的 hover 规则，因为悬停时无特殊效果 */
-
-.use-cases__category-btn.active {
-  background: rgba(255, 255, 255, 0.1); /* 选中时和悬停一样的背景色 */
-  color: var(--color-text); /* 选中时也保持白色文字 */
-  /* 移除 padding 和 width 设置，保持和未选中按钮一样的大小 */
-}
-
-/* 右侧卡片网格（桌面端）*/
-.use-cases__cards {
-  flex: 1;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  column-gap: 52px; /* 左右间距 */
-  row-gap: 37.25px; /* 上下间距缩小为 34px（原来 48px 的一半）*/
-  max-width: 940px; /* 从 900px 增加到 940px，卡片变大 */
-  margin-left: -100px; /* 卡片向左移动 */
-}
-
-/* 单个卡片样式 */
-.use-cases__card {
-  position: relative;
-  border-radius: 20px;
-  overflow: hidden;
-  aspect-ratio: 3 / 3.22; /* 稍微偏高一点 */
-  cursor: pointer;
-  transition: opacity 0.25s ease, transform 0.25s ease; /* 只过渡需要的属性 */
-  opacity: 1;
-  transform: scale(1);
-}
-
-.use-cases__card.hidden {
-  display: none; /* 完全移除，不占用空间 */
-}
-
-.use-cases__card-image,
-.use-cases__card-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-.use-cases__card-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.use-cases__card[data-hover-video]:hover .use-cases__card-video {
-  opacity: 1;
-}
-
-/* 悬浮时保持图片可见,不让它消失 */
-/* .use-cases__card[data-hover-video]:hover .use-cases__card-image {
-  opacity: 0;
-} */
-
-/* 卡片叠加层 */
-.use-cases__card-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.5) 0%,
-    rgba(0, 0, 0, 0.2) 50%,
-    rgba(0, 0, 0, 0.7) 100%
-  );
-  padding: var(--spacing-sm) 0; /* 移除左右 padding,只保留上下 padding */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition: background 0.3s ease;
-}
-
-.use-cases__card:hover .use-cases__card-overlay {
-  background: linear-gradient(
-    180deg,
-    rgba(0, 0, 0, 0.6) 0%,
-    rgba(0, 0, 0, 0.3) 50%,
-    rgba(0, 0, 0, 0.8) 100%
-  );
-}
-
-/* 卡片标签 */
-.use-cases__card-label {
-  display: inline-block;
-  padding: 0;
-  padding-left: var(--spacing-md); /* 添加左边距,因为 overlay 已移除左右 padding */
-  background: transparent;
-  backdrop-filter: none;
-  border-radius: 0;
-  color: var(--color-text);
-  font-size: 1.125rem;
-  font-weight: 500;
-  align-self: flex-start;
-}
-
-/* 卡片描述文本 - 与 banner 描述框样式一致 */
-.use-cases__card-description {
-  color: rgb(230, 229, 229); /* 与 banner 一致的文字颜色 */
-  font-size: 0.5rem; /* 与 banner 一致的字体大小 */
-  line-height: 1.6;
-  padding: 20px 0 0 20px; /* 与 banner 一致的内边距：只要左边距和上边距 */
-  background: rgba(68, 68, 68, 0.451); /* 与 banner 一致的灰色半透明背景 */
-  border: none; /* 移除边框 */
-  border-radius: 20px 20px 20px 20px; /* 只有底部两个角有圆角,匹配卡片的 20px 圆角 */
-  backdrop-filter: blur(1px);
-  box-sizing: border-box;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: all 0.3s ease;
-  position: absolute; /* 绝对定位 */
-  bottom: 0; /* 底部对齐 */
-  left: 0; /* 左侧对齐 */
-  right: 0; /* 右侧对齐 */
-  width: 100%; /* 宽度100% */
-  min-height: 90px; /* 确保有足够高度 */
-}
-
-.use-cases__card:hover .use-cases__card-description {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* 卡片描述右下角生成按钮 */
-.use-cases__generate-btn {
-  position: absolute;
-  bottom: 5px;
-  right: 5px;
-  width: 32px;
-  height: 32px;
-  background: rgba(32, 31, 31, 0.9);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 10;
-}
-
-.use-cases__generate-btn:hover {
-  background: rgba(60, 60, 60, 0.9);
-  border-color: rgba(255, 255, 255, 0.4);
-  transform: scale(1.05);
-}
-
-.use-cases__generate-btn svg {
-  width: 18px;
-  height: 18px;
-  fill: none;
-  stroke: white;
-  stroke-width: 2;
-  stroke-linecap: round;
-  stroke-linejoin: round;
-}
-
-/* ========================================
-   平板/移动端适配 - 顶部横向导航 + 3 列卡片
-   ======================================== */
-@media (max-width: 991px) {
+  /* Use Cases 主容器样式 */
   .use-cases {
-    overflow-x: hidden;
-    padding: var(--spacing-2xl) 0;
+    padding: var(--spacing-3xl) 0;
+    background: var(--color-bg);
+    position: relative;
+  }
+
+  /* 标题区域 */
+  .use-cases__header {
+    text-align: center;
+    margin-bottom: var(--spacing-xl);
+    /* 缩小间距，让内容区域上移 */
+  }
+
+
+  .use-cases__subtitle {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.2rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+    color: var(--color-text-secondary);
+    margin-bottom: var(--spacing-sm);
+    text-transform: uppercase;
   }
 
   .use-cases__title {
     font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--color-text);
+    margin-bottom: var(--spacing-md);
+    line-height: 1.2;
   }
 
   .use-cases__description {
-    font-size: 1.25rem;
-    max-width: 90%;
+    font-family: 'Sora', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--color-text-secondary);
+    max-width: 800px;
+    margin: 0 auto;
+    letter-spacing: 0.02em;
   }
 
-  /* 内容区域改为垂直布局 + 居中 */
+  /* 内容区域布局 */
   .use-cases__content {
-    flex-direction: column;   /* 改为垂直排列 */
-    align-items: center;      /* 🔑 子元素水平居中 */
+    display: flex;
     gap: var(--spacing-xl);
-    max-width: 100%;
+    align-items: flex-start;
+    justify-content: center;
+    /* 让左右两部分整体居中 */
+    max-width: 1400px;
+    /* 限制最大宽度 */
+    margin: 0 auto;
+    /* 容器本身也居中 */
   }
 
-  /* 分类导航改为横向排列 + 居中 */
+
+  /* 左侧分类导航（桌面端垂直布局）*/
   .use-cases__categories {
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: center;  /* 🔑 按钮居中对齐 */
-    min-width: 100%;
-    max-width: 100%;
-    margin-right: 0;          /* 移除右侧边距 */
-    gap: 12px;                /* 按钮间距 */
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    /* 缩小按钮间距 */
+    min-width: 260px;
+    /* 从 220px 增加到 260px，整体更宽 */
+    align-items: flex-start;
+    /* 按钮靠左对齐 */
+    margin-right: var(--spacing-2xl);
+    /* 增加与卡片的间距，导航栏向左移 */
   }
 
   .use-cases__category-btn {
-    flex: 0 0 auto;
-    width: auto;              /* 自动宽度 */
-    min-width: 120px;         /* 最小宽度 */
-    padding: 16px 20px;       /* 增大触摸区域 */
+    padding: 20px;
+    background: transparent;
+    /* 未选中时无背景 */
+    border: none;
+    /* 移除边框 */
+    border-radius: 50px;
+    color: var(--color-text);
+    /* 白色文字 */
+    font-size: 1.25rem;
+    /* 从 1.125rem 增加到 1.25rem (20px) */
+    font-weight: 500;
+    cursor: pointer;
+    transition: all var(--transition);
+    text-align: center;
+    /* 文字居中 */
+    white-space: nowrap;
+    width: 160px;
+    /* 按钮宽度，稍微变长 */
   }
 
-  /* 卡片网格保持 3 列，减小间距 + 居中 */
+  /* 移除空的 hover 规则，因为悬停时无特殊效果 */
+
+  .use-cases__category-btn.active {
+    background: rgba(255, 255, 255, 0.1);
+    /* 选中时和悬停一样的背景色 */
+    color: var(--color-text);
+    /* 选中时也保持白色文字 */
+    /* 移除 padding 和 width 设置，保持和未选中按钮一样的大小 */
+  }
+
+  /* 右侧卡片网格（桌面端）*/
   .use-cases__cards {
-    grid-template-columns: repeat(3, 1fr); /* 保持 3 列 */
-    justify-items: center;    /* 🔑 网格项居中 */
-    column-gap: 24px;         /* 减小左右间距 */
-    row-gap: 24px;            /* 减小上下间距 */
-    max-width: 100%;
-    margin-left: 0;           /* 移除左侧偏移 */
-    padding: 0 var(--spacing-md);
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 52px;
+    /* 左右间距 */
+    row-gap: 37.25px;
+    /* 上下间距缩小为 34px（原来 48px 的一半）*/
+    max-width: 940px;
+    /* 从 900px 增加到 940px，卡片变大 */
+    margin-left: -100px;
+    /* 卡片向左移动 */
   }
 
+  /* 单个卡片样式 */
   .use-cases__card {
-    width: 100%;              /* 卡片占满网格单元 */
-    max-width: 320px;         /* 限制卡片最大宽度 */
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    aspect-ratio: 3 / 3.22;
+    /* 稍微偏高一点 */
+    cursor: pointer;
+    transition: opacity 0.25s ease, transform 0.25s ease;
+    /* 只过渡需要的属性 */
+    opacity: 1;
+    transform: scale(1);
   }
 
-  /* 卡片标签和描述缩小 */
-  .use-cases__card-label {
-    font-size: 0.875rem;
+  .use-cases__card.hidden {
+    display: none;
+    /* 完全移除，不占用空间 */
   }
 
-  .use-cases__card-description {
-    font-size: 0.75rem;
-    padding: 12px 0 0 12px;
-    min-height: 70px;
-  }
-}
-
-/* 移动端适配 - 保持 3 列，进一步优化 */
-@media (max-width: 767px) {
-  .use-cases {
-    padding: var(--spacing-xl) 0;
-  }
-
-  .use-cases__title {
-    font-size: 2rem;
-  }
-
-  .use-cases__description {
-    font-size: 1rem;
-    max-width: 95%;
-  }
-
-  /* 分类按钮更紧凑 */
-  .use-cases__categories {
-    gap: 8px;
-    justify-content: center;  /* 保持居中 */
-  }
-
-  .use-cases__category-btn {
-    padding: 12px 16px;
-    font-size: 0.875rem;
-    min-width: 100px;
-    min-height: 44px; /* iOS 触摸标准 */
-  }
-
-  /* 卡片网格保持 3 列，最小间距 + 居中 */
-  .use-cases__cards {
-    grid-template-columns: repeat(3, 1fr); /* 保持 3 列 */
-    justify-items: center;    /* 🔑 居中对齐 */
-    column-gap: 12px;         /* 最小左右间距 */
-    row-gap: 12px;            /* 最小上下间距 */
-    max-width: 100%;
-    padding: 0 var(--spacing-sm);
-  }
-
-  .use-cases__card {
+  .use-cases__card-image,
+  .use-cases__card-video {
     width: 100%;
-    max-width: 100%;          /* 占满网格单元 */
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
-  /* 卡片元素进一步缩小 */
-  .use-cases__card-label {
-    font-size: 0.75rem;
-    padding-left: var(--spacing-sm);
+  .use-cases__card-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
 
-  .use-cases__card-description {
-    font-size: 0.65rem;
-    padding: 8px 0 0 8px;
-    min-height: 60px;
+  .use-cases__card[data-hover-video]:hover .use-cases__card-video {
+    opacity: 1;
   }
 
-  /* 生成按钮缩小 */
-  .use-cases__generate-btn {
-    width: 24px;
-    height: 24px;
-    bottom: 3px;
-    right: 3px;
-  }
+  /* 悬浮时保持图片可见,不让它消失 */
+  /* .use-cases__card[data-hover-video]:hover .use-cases__card-image {
+  opacity: 0;
+} */
 
-  .use-cases__generate-btn svg {
-    width: 14px;
-    height: 14px;
-  }
-}
-
-/* 触摸设备优化 - 禁用悬浮效果 */
-@media (hover: none) {
-  .use-cases__card:hover .use-cases__card-video {
-    opacity: 0;             /* 触摸设备不自动播放视频 */
+  /* 卡片叠加层 */
+  .use-cases__card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(180deg,
+        rgba(0, 0, 0, 0.5) 0%,
+        rgba(0, 0, 0, 0.2) 50%,
+        rgba(0, 0, 0, 0.7) 100%);
+    padding: var(--spacing-sm) 0;
+    /* 移除左右 padding,只保留上下 padding */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: background 0.3s ease;
   }
 
   .use-cases__card:hover .use-cases__card-overlay {
-    background: linear-gradient(
-      180deg,
-      rgba(0, 0, 0, 0.5) 0%,
-      rgba(0, 0, 0, 0.2) 50%,
-      rgba(0, 0, 0, 0.7) 100%
-    );                      /* 保持原始背景 */
+    background: linear-gradient(180deg,
+        rgba(0, 0, 0, 0.6) 0%,
+        rgba(0, 0, 0, 0.3) 50%,
+        rgba(0, 0, 0, 0.8) 100%);
+  }
+
+  /* 卡片标签 */
+  .use-cases__card-label {
+    display: inline-block;
+    padding: 0;
+    padding-left: var(--spacing-md);
+    /* 添加左边距,因为 overlay 已移除左右 padding */
+    background: transparent;
+    backdrop-filter: none;
+    border-radius: 0;
+    color: var(--color-text);
+    font-size: 1.125rem;
+    font-weight: 500;
+    align-self: flex-start;
+  }
+
+  /* 卡片描述文本 - 与 banner 描述框样式一致 */
+  .use-cases__card-description {
+    color: rgb(230, 229, 229);
+    /* 与 banner 一致的文字颜色 */
+    font-size: 0.5rem;
+    /* 与 banner 一致的字体大小 */
+    line-height: 1.6;
+    padding: 20px 0 0 20px;
+    /* 与 banner 一致的内边距：只要左边距和上边距 */
+    background: rgba(68, 68, 68, 0.451);
+    /* 与 banner 一致的灰色半透明背景 */
+    border: none;
+    /* 移除边框 */
+    border-radius: 20px 20px 20px 20px;
+    /* 只有底部两个角有圆角,匹配卡片的 20px 圆角 */
+    backdrop-filter: blur(1px);
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+    position: absolute;
+    /* 绝对定位 */
+    bottom: 0;
+    /* 底部对齐 */
+    left: 0;
+    /* 左侧对齐 */
+    right: 0;
+    /* 右侧对齐 */
+    width: 100%;
+    /* 宽度100% */
+    min-height: 90px;
+    /* 确保有足够高度 */
   }
 
   .use-cases__card:hover .use-cases__card-description {
-    opacity: 0;             /* 触摸设备不显示描述 */
-  }
-}
-
-/* 移动端触摸反馈 */
-@media (max-width: 991px) {
-  .use-cases__category-btn:active {
-    transform: scale(0.95);   /* 按下缩小 */
-    transition: transform 0.1s ease;
+    opacity: 1;
+    transform: translateY(0);
   }
 
-  .use-cases__card:active {
-    transform: scale(0.98);   /* 卡片按下缩小 */
+  /* 卡片描述右下角生成按钮 */
+  .use-cases__generate-btn {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 32px;
+    height: 32px;
+    background: rgba(32, 31, 31, 0.9);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
   }
 
-  .use-cases__generate-btn:active {
-    transform: scale(0.9);    /* 按钮按下缩小 */
+  .use-cases__generate-btn:hover {
+    background: rgba(60, 60, 60, 0.9);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: scale(1.05);
   }
-}
+
+  .use-cases__generate-btn svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: white;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* ========================================
+   平板/移动端适配 - 顶部横向导航 + 3 列卡片
+   ======================================== */
+  @media (max-width: 991px) {
+    .use-cases {
+      overflow-x: hidden;
+      padding: var(--spacing-2xl) 0;
+    }
+
+    .use-cases__title {
+      font-size: 2.5rem;
+    }
+
+    .use-cases__description {
+      font-size: 1.25rem;
+      max-width: 90%;
+    }
+
+    /* 内容区域改为垂直布局 + 居中 */
+    .use-cases__content {
+      flex-direction: column;
+      /* 改为垂直排列 */
+      align-items: center;
+      /* 🔑 子元素水平居中 */
+      gap: var(--spacing-xl);
+      max-width: 100%;
+    }
+
+    /* 分类导航改为横向排列 + 居中 */
+    .use-cases__categories {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      /* 🔑 按钮居中对齐 */
+      min-width: 100%;
+      max-width: 100%;
+      margin-right: 0;
+      /* 移除右侧边距 */
+      gap: 12px;
+      /* 按钮间距 */
+    }
+
+    .use-cases__category-btn {
+      flex: 0 0 auto;
+      width: auto;
+      /* 自动宽度 */
+      min-width: 120px;
+      /* 最小宽度 */
+      padding: 16px 20px;
+      /* 增大触摸区域 */
+    }
+
+    /* 卡片网格保持 3 列，减小间距 + 居中 */
+    .use-cases__cards {
+      grid-template-columns: repeat(3, 1fr);
+      /* 保持 3 列 */
+      justify-items: center;
+      /* 🔑 网格项居中 */
+      column-gap: 24px;
+      /* 减小左右间距 */
+      row-gap: 24px;
+      /* 减小上下间距 */
+      max-width: 100%;
+      margin-left: 0;
+      /* 移除左侧偏移 */
+      padding: 0 var(--spacing-md);
+    }
+
+    .use-cases__card {
+      width: 100%;
+      /* 卡片占满网格单元 */
+      max-width: 320px;
+      /* 限制卡片最大宽度 */
+    }
+
+    /* 卡片标签和描述缩小 */
+    .use-cases__card-label {
+      font-size: 0.875rem;
+    }
+
+    .use-cases__card-description {
+      font-size: 0.75rem;
+      padding: 12px 0 0 12px;
+      min-height: 70px;
+    }
+  }
+
+  /* 移动端适配 - 保持 3 列，进一步优化 */
+  @media (max-width: 767px) {
+    .use-cases {
+      padding: var(--spacing-xl) 0;
+    }
+
+    .use-cases__title {
+      font-size: 2rem;
+    }
+
+    .use-cases__description {
+      font-size: 1rem;
+      max-width: 95%;
+    }
+
+    /* 分类按钮更紧凑 */
+    .use-cases__categories {
+      gap: 8px;
+      justify-content: center;
+      /* 保持居中 */
+    }
+
+    .use-cases__category-btn {
+      padding: 12px 16px;
+      font-size: 0.875rem;
+      min-width: 100px;
+      min-height: 44px;
+      /* iOS 触摸标准 */
+    }
+
+    /* 卡片网格保持 3 列，最小间距 + 居中 */
+    .use-cases__cards {
+      grid-template-columns: repeat(3, 1fr);
+      /* 保持 3 列 */
+      justify-items: center;
+      /* 🔑 居中对齐 */
+      column-gap: 12px;
+      /* 最小左右间距 */
+      row-gap: 12px;
+      /* 最小上下间距 */
+      max-width: 100%;
+      padding: 0 var(--spacing-sm);
+    }
+
+    .use-cases__card {
+      width: 100%;
+      max-width: 100%;
+      /* 占满网格单元 */
+    }
+
+    /* 卡片元素进一步缩小 */
+    .use-cases__card-label {
+      font-size: 0.75rem;
+      padding-left: var(--spacing-sm);
+    }
+
+    .use-cases__card-description {
+      font-size: 0.65rem;
+      padding: 8px 0 0 8px;
+      min-height: 60px;
+    }
+
+    /* 生成按钮缩小 */
+    .use-cases__generate-btn {
+      width: 24px;
+      height: 24px;
+      bottom: 3px;
+      right: 3px;
+    }
+
+    .use-cases__generate-btn svg {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  /* 触摸设备优化 - 禁用悬浮效果 */
+  @media (hover: none) {
+    .use-cases__card:hover .use-cases__card-video {
+      opacity: 0;
+      /* 触摸设备不自动播放视频 */
+    }
+
+    .use-cases__card:hover .use-cases__card-overlay {
+      background: linear-gradient(180deg,
+          rgba(0, 0, 0, 0.5) 0%,
+          rgba(0, 0, 0, 0.2) 50%,
+          rgba(0, 0, 0, 0.7) 100%);
+      /* 保持原始背景 */
+    }
+
+    .use-cases__card:hover .use-cases__card-description {
+      opacity: 0;
+      /* 触摸设备不显示描述 */
+    }
+  }
+
+  /* 移动端触摸反馈 */
+  @media (max-width: 991px) {
+    .use-cases__category-btn:active {
+      transform: scale(0.95);
+      /* 按下缩小 */
+      transition: transform 0.1s ease;
+    }
+
+    .use-cases__card:active {
+      transform: scale(0.98);
+      /* 卡片按下缩小 */
+    }
+
+    .use-cases__generate-btn:active {
+      transform: scale(0.9);
+      /* 按钮按下缩小 */
+    }
+  }
 </style>
 
 <!-- HTML 结构 -->
@@ -1309,96 +1372,96 @@
 </section>
 
 <script>
-// Use Cases 模块交互逻辑
-(function() {
-  'use strict';
+  // Use Cases 模块交互逻辑
+  (function () {
+    'use strict';
 
-  const initUseCases = () => {
-    // 获取所有分类按钮和卡片
-    const categoryButtons = document.querySelectorAll('.use-cases__category-btn');
-    const cards = document.querySelectorAll('.use-cases__card');
+    const initUseCases = () => {
+      // 获取所有分类按钮和卡片
+      const categoryButtons = document.querySelectorAll('.use-cases__category-btn');
+      const cards = document.querySelectorAll('.use-cases__card');
 
-    // 分类过滤功能（优化版，添加淡入效果）
-    const filterCards = (category) => {
-      // 先隐藏所有不匹配的卡片
-      cards.forEach(card => {
-        const cardCategories = card.dataset.categories;
-
-        if (cardCategories !== category) {
-          card.style.opacity = '0';
-          card.style.transform = 'scale(0.98)';
-          // 延迟后完全隐藏
-          setTimeout(() => {
-            if (card.dataset.categories !== category) {
-              card.classList.add('hidden');
-            }
-          }, 250);
-        }
-      });
-
-      // 显示匹配的卡片（带淡入效果）
-      setTimeout(() => {
+      // 分类过滤功能（优化版，添加淡入效果）
+      const filterCards = (category) => {
+        // 先隐藏所有不匹配的卡片
         cards.forEach(card => {
           const cardCategories = card.dataset.categories;
 
-          if (cardCategories === category) {
-            card.classList.remove('hidden');
-            // 强制重排以触发过渡
-            card.offsetHeight;
-            card.style.opacity = '1';
-            card.style.transform = 'scale(1)';
+          if (cardCategories !== category) {
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.98)';
+            // 延迟后完全隐藏
+            setTimeout(() => {
+              if (card.dataset.categories !== category) {
+                card.classList.add('hidden');
+              }
+            }, 250);
           }
         });
-      }, 50);
+
+        // 显示匹配的卡片（带淡入效果）
+        setTimeout(() => {
+          cards.forEach(card => {
+            const cardCategories = card.dataset.categories;
+
+            if (cardCategories === category) {
+              card.classList.remove('hidden');
+              // 强制重排以触发过渡
+              card.offsetHeight;
+              card.style.opacity = '1';
+              card.style.transform = 'scale(1)';
+            }
+          });
+        }, 50);
+      };
+
+      // 为每个分类按钮添加点击事件
+      categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const category = button.dataset.category;
+
+          // 更新按钮激活状态
+          categoryButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+
+          // 过滤卡片
+          filterCards(category);
+        });
+      });
+
+      // 初始化：显示第一个分类（Education）的卡片，并激活第一个按钮
+      if (categoryButtons.length > 0) {
+        categoryButtons[0].classList.add('active');
+      }
+      filterCards('education');
+
+      // 视频悬浮播放功能（复用 gallery 模块逻辑）
+      const videoCards = document.querySelectorAll('.use-cases__card[data-hover-video]');
+
+      videoCards.forEach(card => {
+        const video = card.querySelector('video');
+
+        if (video) {
+          card.addEventListener('mouseenter', () => {
+            video.currentTime = 0;
+            video.play().catch(err => {
+              console.log('Video play prevented:', err);
+            });
+          });
+
+          card.addEventListener('mouseleave', () => {
+            video.pause();
+            video.currentTime = 0;
+          });
+        }
+      });
     };
 
-    // 为每个分类按钮添加点击事件
-    categoryButtons.forEach(button => {
-      button.addEventListener('click', () => {
-        const category = button.dataset.category;
-
-        // 更新按钮激活状态
-        categoryButtons.forEach(btn => btn.classList.remove('active'));
-        button.classList.add('active');
-
-        // 过滤卡片
-        filterCards(category);
-      });
-    });
-
-    // 初始化：显示第一个分类（Education）的卡片，并激活第一个按钮
-    if (categoryButtons.length > 0) {
-      categoryButtons[0].classList.add('active');
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initUseCases);
+    } else {
+      initUseCases();
     }
-    filterCards('education');
-
-    // 视频悬浮播放功能（复用 gallery 模块逻辑）
-    const videoCards = document.querySelectorAll('.use-cases__card[data-hover-video]');
-
-    videoCards.forEach(card => {
-      const video = card.querySelector('video');
-
-      if (video) {
-        card.addEventListener('mouseenter', () => {
-          video.currentTime = 0;
-          video.play().catch(err => {
-            console.log('Video play prevented:', err);
-          });
-        });
-
-        card.addEventListener('mouseleave', () => {
-          video.pause();
-          video.currentTime = 0;
-        });
-      }
-    });
-  };
-
-  // DOM 加载后初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initUseCases);
-  } else {
-    initUseCases();
-  }
-})();
+  })();
 </script>
