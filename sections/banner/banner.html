@@ -7,17 +7,42 @@
    Banner 专属样式
    ================================ */
 
-/* 1. 基础布局 - 宇航员全屏背景（延伸到导航栏上方）*/
+/* 1. 基础布局 - 全屏视频背景（延伸到导航栏上方）*/
 .banner {
   position: relative;
   min-height: 100vh;
-  background-image: url('sections/banner/1.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   padding-top: calc(var(--nav-height) + var(--spacing-lg)); /* 减小顶部内边距 */
   padding-bottom: calc(22rem + var(--spacing-2xl)); /* 增加底部内边距，为卡片留出空间 */
   overflow: visible; /* 允许内容溢出，确保卡片可见 */
+}
+
+/* 视频背景容器 */
+.banner-video-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.banner-video-bg video {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.banner-video-bg video.active {
+  opacity: 1;
 }
 
 /* 深色渐变遮罩层 - 已移除 */
@@ -574,6 +599,40 @@
 
 <!-- HTML 结构 -->
 <section class="banner">
+  <!-- 视频背景容器 -->
+  <div class="banner-video-bg">
+    <video class="banner-bg-video active" data-video-index="0" autoplay muted loop playsinline>
+      <source src="sections/banner/1.mp4" type="video/mp4">
+    </video>
+    <video class="banner-bg-video" data-video-index="1" muted loop playsinline>
+      <source src="sections/banner/2.mp4" type="video/mp4">
+    </video>
+    <video class="banner-bg-video" data-video-index="2" muted loop playsinline>
+      <source src="sections/banner/3.mp4" type="video/mp4">
+    </video>
+    <video class="banner-bg-video" data-video-index="3" muted loop playsinline>
+      <source src="sections/banner/4.mp4" type="video/mp4">
+    </video>
+    <video class="banner-bg-video" data-video-index="4" muted loop playsinline>
+      <source src="sections/banner/5.mp4" type="video/mp4">
+    </video>
+    <video class="banner-bg-video" data-video-index="5" muted loop playsinline>
+      <source src="sections/banner/6.mp4" type="video/mp4">
+    </video>
+    <video class="banner-bg-video" data-video-index="6" muted loop playsinline>
+      <source src="sections/banner/7.mp4" type="video/mp4">
+    </video>
+    <video class="banner-bg-video" data-video-index="7" muted loop playsinline>
+      <source src="sections/banner/8.mp4" type="video/mp4">
+    </video>
+    <video class="banner-bg-video" data-video-index="8" muted loop playsinline>
+      <source src="sections/banner/9.mp4" type="video/mp4">
+    </video>
+    <video class="banner-bg-video" data-video-index="9" muted loop playsinline>
+      <source src="sections/banner/10.mp4" type="video/mp4">
+    </video>
+  </div>
+
   <div class="banner-container">
     <!-- 左侧内容区 -->
     <div class="banner-left">
@@ -687,18 +746,8 @@
 (function() {
   'use strict';
 
-  const backgrounds = [
-    'sections/banner/1.png',
-    'sections/banner/2.jpg',
-    'sections/banner/3.png',
-    'sections/banner/4.png',
-    'sections/banner/5.png',
-    'sections/banner/6.png',
-    'sections/banner/7.png',
-    'sections/banner/8.png',
-    'sections/banner/9.png',
-    'sections/banner/10.png'
-  ];
+  // 获取所有背景视频元素
+  const bgVideos = Array.from(document.querySelectorAll('.banner-bg-video'));
 
   const DESKTOP_BREAKPOINT = 992;
   const VISIBLE_COUNT = 5;
@@ -784,7 +833,7 @@
   }
 
   function applyBackgroundByIndex(index, immediate = false) {
-    if (!banner) return;
+    if (!bgVideos.length) return;
 
     // 清除之前的延迟定时器
     if (backgroundUpdateTimeout) {
@@ -794,19 +843,24 @@
 
     // 实际应用背景的函数
     const doApplyBackground = () => {
-      // 直接从当前激活的卡片中获取图片路径
-      const activeCard = grid.querySelector('.video-card.active img');
-      if (activeCard && activeCard.src) {
-        // 从完整 URL 中提取相对路径部分
-        const imgSrc = activeCard.src;
-        banner.style.backgroundImage = `url('${imgSrc}')`;
-      } else {
-        // Fallback: 使用索引(兼容旧逻辑)
-        const bg = backgrounds[index % backgrounds.length];
-        if (bg) {
-          banner.style.backgroundImage = `url('${bg}')`;
+      const targetIndex = index % bgVideos.length;
+
+      // 隐藏所有视频
+      bgVideos.forEach((video, idx) => {
+        if (idx === targetIndex) {
+          video.classList.add('active');
+          // 确保视频正在播放
+          if (video.paused) {
+            video.play().catch(err => console.log('Video play error:', err));
+          }
+        } else {
+          video.classList.remove('active');
+          // 暂停非激活视频以节省资源
+          if (!video.paused) {
+            video.pause();
+          }
         }
-      }
+      });
     };
 
     // 如果是立即应用(点击、初始化等),直接执行
