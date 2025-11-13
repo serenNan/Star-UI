@@ -19,7 +19,7 @@ def generate_social_links():
     enabled_links = [link for link in config['links'] if link.get('enabled', True)]
 
     if not enabled_links:
-        print('⚠️  警告: 没有启用的社交媒体链接')
+        print('[warn] 警告: 没有启用的社交媒体链接')
         return
 
     # 生成 HTML
@@ -108,7 +108,7 @@ def generate_social_links():
         icon_path = available_icons.get(icon_name, '')
 
         if not icon_path:
-            print(f'⚠️  警告: 找不到图标 "{icon_name}"')
+            print(f'[warn] 警告: 找不到图标 "{icon_name}"')
             continue
 
         html_parts.extend([
@@ -132,7 +132,7 @@ def generate_social_links():
     with open(output_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(html_parts))
 
-    print(f'✅ 成功生成社交媒体链接 HTML')
+    print('[done] 成功生成社交媒体链接 HTML')
     print(f'   文件: {output_file}')
     print(f'   链接数: {len(enabled_links)}')
     for link in enabled_links:

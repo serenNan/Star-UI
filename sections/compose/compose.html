@@ -106,10 +106,10 @@
   .compose-description {
     font-family: 'Sora', sans-serif;
     width: 48%;
-    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    font-size: clamp(1rem, 1.8vw, 0.75rem);
     font-weight: 300;
     line-height: 1.6;
-    color: var(--color-text);
+    color: #FFFFFF;
     margin-bottom: var(--spacing-lg);
     text-align: left;
   }
@@ -165,8 +165,9 @@
     }
 
     .compose-description {
-      font-size: clamp(0.8rem, 2vw, 0.95rem);
+      font-size: clamp(0.95rem, 1.6vw, 1.25rem);
       margin-bottom: var(--spacing-md);
+      color: #FFFFFF;
     }
   }
 
@@ -198,9 +199,10 @@
     }
 
     .compose-description {
-      font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+      font-size: clamp(0.95rem, 1.6vw, 1.25rem);
       line-height: 1.5;
       margin-bottom: var(--spacing-md);
+      color: #FFFFFF;
     }
 
     .compose-button {
@@ -258,7 +260,7 @@
         });
 
         // 确保视频能够自动播放（compose模块不需要点击放大功能）
-        bgVideo.play().catch(function(error) {
+        bgVideo.play().catch(function (error) {
           console.warn('视频自动播放被阻止:', error);
         });
       }
