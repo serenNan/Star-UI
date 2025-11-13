@@ -27,6 +27,13 @@
   min-height: 400px;     /* 最小高度：可调整 */
 }
 
+.footer-main-box img.footer-logo {
+  object-fit: contain;
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
 .footer-main-box::before {
   content: '';
   position: absolute;
@@ -34,7 +41,7 @@
   left: 0;
   right: 0;
   bottom: -20px;
-  background-image: url('sections/footer/background.png');
+  background-image: url('assets/footer/images/footer-image-02.png');
   background-size: 100% auto;
   background-position: top left;
   background-repeat: no-repeat;
@@ -62,6 +69,7 @@
   margin-bottom: -10px;    /* 减少 logo 和描述文字的间距 */
   margin-top: -145px;    /* 与 logo 的 margin-top 保持一致 */
   margin-left: -43px;    /* 与 logo 的 margin-left 保持一致 */
+  overflow: hidden;      /* 避免 logo 溢出容器 */
 }
 
 .footer-logo {
@@ -174,7 +182,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('sections/footer/background.png');
+  background-image: url('assets/footer/images/footer-image-03.png');
   background-size: 100% auto;
   background-position-x: left;
   background-position-y: calc(-1 * (var(--footer-main-height) + 20px));
@@ -437,7 +445,7 @@
       <!-- 品牌区域 -->
       <div class="footer-brand">
         <div class="footer-logo-wrapper">
-          <img src="sections/footer/logo.png" alt="TreClip Studio Logo" class="footer-logo">
+          <img src="assets/footer/images/footer-image-01.png" alt="TreClip Studio Logo" class="footer-logo">
           <div>
             <div class="footer-brand-name">Treclipse</div>
             <div class="footer-brand-subtitle">Studio</div>
