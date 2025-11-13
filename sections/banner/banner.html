@@ -528,7 +528,7 @@
       <div class="video-cards-grid">
         <!-- 背景切换卡片 1 -->
         <div class="video-card-wrapper">
-          <div class="video-card active" data-bg-index="0">
+          <div class="video-card" data-bg-index="0">
             <img src="sections/banner/1.png" alt="AI SCROLL Background">
           </div>
           <div class="card-title">AI SCROLL</div>
@@ -565,6 +565,46 @@
           </div>
           <div class="card-title">AI SCROLL</div>
         </div>
+
+        <!-- 背景切换卡片 6 -->
+        <div class="video-card-wrapper">
+          <div class="video-card" data-bg-index="5">
+            <img src="sections/banner/6.png" alt="AI SCROLL Background">
+          </div>
+          <div class="card-title">AI SCROLL</div>
+        </div>
+
+        <!-- 背景切换卡片 7 -->
+        <div class="video-card-wrapper">
+          <div class="video-card" data-bg-index="6">
+            <img src="sections/banner/7.png" alt="AI SCROLL Background">
+          </div>
+          <div class="card-title">AI SCROLL</div>
+        </div>
+
+        <!-- 背景切换卡片 8 -->
+        <div class="video-card-wrapper">
+          <div class="video-card" data-bg-index="7">
+            <img src="sections/banner/8.png" alt="AI SCROLL Background">
+          </div>
+          <div class="card-title">AI SCROLL</div>
+        </div>
+
+        <!-- 背景切换卡片 9 -->
+        <div class="video-card-wrapper">
+          <div class="video-card" data-bg-index="8">
+            <img src="sections/banner/9.png" alt="AI SCROLL Background">
+          </div>
+          <div class="card-title">AI SCROLL</div>
+        </div>
+
+        <!-- 背景切换卡片 10 -->
+        <div class="video-card-wrapper">
+          <div class="video-card" data-bg-index="9">
+            <img src="sections/banner/10.png" alt="AI SCROLL Background">
+          </div>
+          <div class="card-title">AI SCROLL</div>
+        </div>
       </div>
     </div>
   </div>
@@ -574,14 +614,6 @@
 <script>
 (function() {
   'use strict';
-
-  const backgrounds = [
-    'sections/banner/1.png',
-    'sections/banner/2.jpg',
-    'sections/banner/3.png',
-    'sections/banner/4.png',
-    'sections/banner/5.png'
-  ];
 
   const DESKTOP_BREAKPOINT = 992;
   const VISIBLE_COUNT = 5;
@@ -612,26 +644,37 @@
       card.dataset.cardIndex = index;
       card.classList.remove('active', 'adjacent'); // 清理所有状态类名
     }
+    const img = clone.querySelector('img');
+    backgroundSources[index] = img ? img.getAttribute('src') : null;
     return clone;
   });
   const totalCards = templates.length;
   let stepSize = 0;
 
-  let activeIndex = (() => {
-    const activeCard = grid.querySelector('.video-card.active');
-    if (activeCard) {
-      const idx = parseInt(activeCard.getAttribute('data-bg-index'), 10);
-      if (!Number.isNaN(idx)) return idx % totalCards;
-    }
-    return CENTER_OFFSET;
-  })();
+  let activeIndex = CENTER_OFFSET; // 2 (第3张卡片,正中央)
 
   let currentMode = null;
   let isAnimating = false;
 
+  const backgroundSources = [];
+
+  function resolveBackground(index) {
+    if (!backgroundSources.length) return null;
+    const normalized = ((index % backgroundSources.length) + backgroundSources.length) % backgroundSources.length;
+    const template = templates[normalized];
+    if (template) {
+      const card = template.querySelector('.video-card');
+      const dataIdx = card ? parseInt(card.getAttribute('data-bg-index'), 10) : NaN;
+      if (!Number.isNaN(dataIdx) && backgroundSources[dataIdx]) {
+        return backgroundSources[dataIdx];
+      }
+    }
+    return backgroundSources[normalized] || null;
+  }
+
   function applyBackgroundByIndex(index) {
     if (!banner) return;
-    const bg = backgrounds[index % backgrounds.length];
+    const bg = resolveBackground(index);
     if (bg) {
       banner.style.backgroundImage = `url('${bg}')`;
     }
