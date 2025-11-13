@@ -163,7 +163,55 @@
   box-shadow: 0 4px 12px rgba(232, 232, 232, 0.3);
 }
 
-/* 响应式设计 */
+  /* 视频预览模态框 */
+  .video-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+  }
+
+  .video-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    width: auto;
+    height: auto;
+  }
+
+  .video-modal video {
+    width: 100%;
+    height: 100%;
+    max-width: 80vw;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .video-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+    transition: color 0.3s ease;
+  }
+
+  .video-modal-close:hover {
+    color: #ccc;
+  }
+
+  /* 响应式设计 */
 @media (max-width: 991px) {
   .brand-control__cards {
     gap: var(--spacing-lg);
@@ -241,11 +289,12 @@
       >
       <video
         class="brand-control__card-video"
-        loop
         muted
+        loop
         playsinline
+        data-video-src="videos/video_1.mp4"
       >
-        <source src="sections/brand-control/ai-avatar.mp4" type="video/mp4">
+        <source src="videos/video_1.mp4" type="video/mp4">
       </video>
       <div class="brand-control__card-content">
         <h3 class="brand-control__card-title">AI Avatar</h3>
@@ -262,11 +311,12 @@
       >
       <video
         class="brand-control__card-video"
-        loop
         muted
+        loop
         playsinline
+        data-video-src="videos/video_2.mp4"
       >
-        <source src="sections/brand-control/brand-kit.mp4" type="video/mp4">
+        <source src="videos/video_2.mp4" type="video/mp4">
       </video>
       <div class="brand-control__card-content">
         <h3 class="brand-control__card-title">Brand Kit</h3>
@@ -280,8 +330,19 @@
   </div>
 </section>
 
+<!-- 视频预览模态框 -->
+<div id="brandcontrol-video-modal" class="video-modal">
+  <span class="video-modal-close">&times;</span>
+  <div class="video-modal-content">
+    <video id="brandcontrol-modal-video" controls>
+      <source src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
 <script>
-// Brand Control Section Script - 视频悬浮播放效果
+// Brand Control Section Script - 视频悬浮播放和点击预览效果
 (function() {
   'use strict';
 
@@ -292,6 +353,9 @@
     brandControlVideoItems.forEach(item => {
       const video = item.querySelector('video');
       if (!video) return;
+
+      // 初始状态暂停视频
+      video.pause();
 
       // 鼠标进入 - 播放视频
       item.addEventListener('mouseenter', () => {
@@ -317,6 +381,50 @@
           video.currentTime = 0;
         }
       }, { passive: true });
+
+      // 点击打开模态框预览
+      item.addEventListener('click', function () {
+        openVideoModal(video.querySelector('source').src);
+      });
+    });
+
+    // 模态框功能
+    const modal = document.getElementById('brandcontrol-video-modal');
+    const modalVideo = document.getElementById('brandcontrol-modal-video');
+    const closeBtn = document.querySelector('#brandcontrol-video-modal .video-modal-close');
+
+    function openVideoModal(videoSrc) {
+      modalVideo.src = videoSrc;
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden'; // 防止背景滚动
+    }
+
+    function closeVideoModal() {
+      modal.style.display = 'none';
+      modalVideo.pause();
+      modalVideo.src = '';
+      document.body.style.overflow = ''; // 恢复滚动
+    }
+
+    // 关闭按钮事件
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeVideoModal);
+    }
+
+    // 点击模态框背景关闭
+    if (modal) {
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+          closeVideoModal();
+        }
+      });
+    }
+
+    // ESC键关闭模态框
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.style.display === 'block') {
+        closeVideoModal();
+      }
     });
   };
 

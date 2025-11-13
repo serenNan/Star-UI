@@ -109,6 +109,68 @@
   transform: scale(1.05);
 }
 
+/* 卡片视频 */
+.adaptation-card-video {
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+  cursor: pointer;
+}
+
+.adaptation-card:hover .adaptation-card-video {
+  transform: scale(1.05);
+}
+
+/* 视频预览模态框 */
+.video-modal {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+.video-modal-content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 90%;
+  max-height: 90%;
+  width: auto;
+  height: auto;
+}
+
+.video-modal video {
+  width: 100%;
+  height: 100%;
+  max-width: 80vw;
+  max-height: 80vh;
+  object-fit: contain;
+}
+
+.video-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 40px;
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  z-index: 10001;
+  transition: color 0.3s ease;
+}
+
+.video-modal-close:hover {
+  color: #ccc;
+}
+
 /* 卡片内容区域（图片下方）*/
 .adaptation-card-content {
   padding: 0 12px;
@@ -237,13 +299,17 @@
         <!-- 三个卡片 -->
         <div class="adaptation-cards">
       <!-- 卡片 1: From A Script -->
-      <div class="adaptation-card">
+      <div class="adaptation-card" data-video-card>
         <div class="adaptation-card-image-wrapper">
-          <img
-            src="sections/adaptation/1.png"
-            alt="From A Script"
-            class="adaptation-card-image"
+          <video
+            class="adaptation-card-video"
+            muted
+            loop
+            playsinline
+            data-video-src="videos/video_1.mp4"
           >
+            <source src="videos/video_1.mp4" type="video/mp4">
+          </video>
         </div>
         <div class="adaptation-card-content">
           <h3 class="adaptation-card-title">From A Script</h3>
@@ -254,13 +320,17 @@
       </div>
 
       <!-- 卡片 2: From A Concept -->
-      <div class="adaptation-card">
+      <div class="adaptation-card" data-video-card>
         <div class="adaptation-card-image-wrapper">
-          <img
-            src="sections/adaptation/2.jpg"
-            alt="From A Concept"
-            class="adaptation-card-image"
+          <video
+            class="adaptation-card-video"
+            muted
+            loop
+            playsinline
+            data-video-src="videos/video_2.mp4"
           >
+            <source src="videos/video_2.mp4" type="video/mp4">
+          </video>
         </div>
         <div class="adaptation-card-content">
           <h3 class="adaptation-card-title">From A Concept</h3>
@@ -271,13 +341,17 @@
       </div>
 
       <!-- 卡片 3: From An Image -->
-      <div class="adaptation-card">
+      <div class="adaptation-card" data-video-card>
         <div class="adaptation-card-image-wrapper">
-          <img
-            src="sections/adaptation/3.png"
-            alt="From An Image"
-            class="adaptation-card-image"
+          <video
+            class="adaptation-card-video"
+            muted
+            loop
+            playsinline
+            data-video-src="videos/总设计.mp4"
           >
+            <source src="videos/总设计.mp4" type="video/mp4">
+          </video>
         </div>
         <div class="adaptation-card-content">
           <h3 class="adaptation-card-title">From An Image</h3>
@@ -291,3 +365,105 @@
     </div>
   </div>
 </section>
+
+<!-- 视频预览模态框 -->
+<div id="adaptation-video-modal" class="video-modal">
+  <span class="video-modal-close">&times;</span>
+  <div class="video-modal-content">
+    <video id="adaptation-modal-video" controls>
+      <source src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
+<script>
+  // Adaptation 模块交互逻辑
+  (function () {
+    'use strict';
+
+    const initAdaptation = () => {
+      // 为每个卡片添加交互功能
+      const cards = document.querySelectorAll('.adaptation-card[data-video-card]');
+      cards.forEach(card => {
+        const video = card.querySelector('.adaptation-card-video');
+        if (!video) return;
+
+        // 视频加载错误处理
+        video.addEventListener('error', function() {
+          console.warn(`Failed to load video: ${this.querySelector('source').src}`);
+          this.style.display = 'none';
+        });
+
+        // 初始状态暂停视频
+        video.pause();
+
+        // 鼠标悬停时播放视频
+        card.addEventListener('mouseenter', () => {
+          video.play().catch(err => {
+            console.log('Adaptation video play failed:', err);
+          });
+        });
+
+        card.addEventListener('mouseleave', () => {
+          video.pause();
+          video.currentTime = 0;
+        });
+
+        // 点击打开模态框预览
+        card.addEventListener('click', function () {
+          openVideoModal(video.querySelector('source').src);
+        });
+
+        // 添加鼠标样式提示可点击
+        card.style.cursor = 'pointer';
+      });
+
+      // 模态框功能
+      const modal = document.getElementById('adaptation-video-modal');
+      const modalVideo = document.getElementById('adaptation-modal-video');
+      const closeBtn = document.querySelector('#adaptation-video-modal .video-modal-close');
+
+      function openVideoModal(videoSrc) {
+        modalVideo.src = videoSrc;
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // 防止背景滚动
+      }
+
+      function closeVideoModal() {
+        modal.style.display = 'none';
+        modalVideo.pause();
+        modalVideo.src = '';
+        document.body.style.overflow = ''; // 恢复滚动
+      }
+
+      // 关闭按钮事件
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeVideoModal);
+      }
+
+      // 点击模态框背景关闭
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) {
+            closeVideoModal();
+          }
+        });
+      }
+
+      // ESC键关闭模态框
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.style.display === 'block') {
+          closeVideoModal();
+        }
+      });
+    };
+
+    // DOM 加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAdaptation);
+    } else {
+      initAdaptation();
+    }
+  })();
+</script>

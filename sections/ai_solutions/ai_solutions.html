@@ -85,6 +85,66 @@
     box-sizing: border-box;
   }
 
+  /* 视频样式 */
+  .ai-solutions-video {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 12px;
+    display: block;
+    box-sizing: border-box;
+    cursor: pointer;
+  }
+
+  /* 视频预览模态框 */
+  .video-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+  }
+
+  .video-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    width: auto;
+    height: auto;
+  }
+
+  .video-modal video {
+    width: 100%;
+    height: 100%;
+    max-width: 80vw;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .video-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+    transition: color 0.3s ease;
+  }
+
+  .video-modal-close:hover {
+    color: #ccc;
+  }
+
   /* 图片下方的信任文字 */
   .ai-solutions-trust-text {
     text-align: center;
@@ -192,9 +252,11 @@
       </p>
     </div>
 
-    <!-- 图片区域 -->
+    <!-- 视频区域 -->
     <div class="ai-solutions-image-container">
-      <img src="sections/ai_solutions/bg.jpg" alt="AI Solutions" class="ai-solutions-image">
+      <video class="ai-solutions-video" autoplay muted loop playsinline data-video-src="videos/video_1.mp4">
+        <source src="videos/video_1.mp4" type="video/mp4">
+      </video>
     </div>
 
     <!-- 信任文字 -->
@@ -204,14 +266,83 @@
   </div>
 </section>
 
+<!-- 视频预览模态框 -->
+<div id="ai-solutions-video-modal" class="video-modal">
+  <span class="video-modal-close">&times;</span>
+  <div class="video-modal-content">
+    <video id="ai-solutions-modal-video" controls>
+      <source src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
 <script>
-  // AI Solutions 模块交互逻辑（如需要）
+  // AI Solutions 模块交互逻辑
   (function () {
     'use strict';
 
     const initAISolutions = () => {
-      // 可以在这里添加滚动动画、图片懒加载等功能
-      // 目前模块较为简单，暂不需要额外的 JavaScript 逻辑
+      // 获取视频元素
+      const video = document.querySelector('.ai-solutions-video');
+      if (!video) return;
+
+      // 视频加载错误处理
+      video.addEventListener('error', function() {
+        console.warn(`Failed to load video: ${this.querySelector('source').src}`);
+        this.style.display = 'none';
+      });
+
+      // 页面加载时自动播放（已设置autoplay属性）
+      // 点击打开模态框预览
+      const imageContainer = document.querySelector('.ai-solutions-image-container');
+      if (imageContainer) {
+        imageContainer.addEventListener('click', function () {
+          openVideoModal(video.querySelector('source').src);
+        });
+
+        // 添加鼠标样式提示可点击
+        imageContainer.style.cursor = 'pointer';
+      }
+
+      // 模态框功能
+      const modal = document.getElementById('ai-solutions-video-modal');
+      const modalVideo = document.getElementById('ai-solutions-modal-video');
+      const closeBtn = document.querySelector('#ai-solutions-video-modal .video-modal-close');
+
+      function openVideoModal(videoSrc) {
+        modalVideo.src = videoSrc;
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // 防止背景滚动
+      }
+
+      function closeVideoModal() {
+        modal.style.display = 'none';
+        modalVideo.pause();
+        modalVideo.src = '';
+        document.body.style.overflow = ''; // 恢复滚动
+      }
+
+      // 关闭按钮事件
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeVideoModal);
+      }
+
+      // 点击模态框背景关闭
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) {
+            closeVideoModal();
+          }
+        });
+      }
+
+      // ESC键关闭模态框
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.style.display === 'block') {
+          closeVideoModal();
+        }
+      });
     };
 
     // DOM 加载后初始化

@@ -60,6 +60,63 @@
     border-radius: 24px;
   }
 
+  /* 视频样式 */
+  .ai-creative-suite-video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 24px;
+    cursor: pointer;
+  }
+
+  /* 视频预览模态框 */
+  .video-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+  }
+
+  .video-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    width: auto;
+    height: auto;
+  }
+
+  .video-modal video {
+    width: 100%;
+    height: 100%;
+    max-width: 80vw;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .video-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+    transition: color 0.3s ease;
+  }
+
+  .video-modal-close:hover {
+    color: #ccc;
+  }
+
   /* 右侧内容块 */
   .ai-creative-suite-content-block {
     display: flex;
@@ -170,9 +227,11 @@
 
     <!-- 内容区域 - 左右布局 -->
     <div class="ai-creative-suite-content">
-      <!-- 左侧：图片 -->
-      <div class="ai-creative-suite-image-wrapper">
-        <img src="sections/ai_creative_suite/image.jpg" alt="AI Creative Suite" class="ai-creative-suite-image">
+      <!-- 左侧：视频 -->
+      <div class="ai-creative-suite-image-wrapper" data-video-wrapper>
+        <video class="ai-creative-suite-video" autoplay muted loop playsinline data-video-src="videos/video_2.mp4">
+          <source src="videos/video_2.mp4" type="video/mp4">
+        </video>
       </div>
 
       <!-- 右侧：内容块 -->
@@ -187,13 +246,81 @@
   </div>
 </section>
 
+<!-- 视频预览模态框 -->
+<div id="ai-creative-suite-video-modal" class="video-modal">
+  <span class="video-modal-close">&times;</span>
+  <div class="video-modal-content">
+    <video id="ai-creative-suite-modal-video" controls>
+      <source src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
 <script>
   // AI Creative Suite 模块交互逻辑
   (function () {
     'use strict';
 
     const initAICreativeSuite = () => {
-      // 可以在这里添加交互逻辑
+      // 获取视频元素
+      const video = document.querySelector('.ai-creative-suite-video');
+      const videoWrapper = document.querySelector('[data-video-wrapper]');
+      if (!video || !videoWrapper) return;
+
+      // 视频加载错误处理
+      video.addEventListener('error', function() {
+        console.warn(`Failed to load video: ${this.querySelector('source').src}`);
+        this.style.display = 'none';
+      });
+
+      // 页面加载时自动播放（已设置autoplay属性）
+      // 点击打开模态框预览
+      videoWrapper.addEventListener('click', function () {
+        openVideoModal(video.querySelector('source').src);
+      });
+
+      // 添加鼠标样式提示可点击
+      videoWrapper.style.cursor = 'pointer';
+
+      // 模态框功能
+      const modal = document.getElementById('ai-creative-suite-video-modal');
+      const modalVideo = document.getElementById('ai-creative-suite-modal-video');
+      const closeBtn = document.querySelector('#ai-creative-suite-video-modal .video-modal-close');
+
+      function openVideoModal(videoSrc) {
+        modalVideo.src = videoSrc;
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // 防止背景滚动
+      }
+
+      function closeVideoModal() {
+        modal.style.display = 'none';
+        modalVideo.pause();
+        modalVideo.src = '';
+        document.body.style.overflow = ''; // 恢复滚动
+      }
+
+      // 关闭按钮事件
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeVideoModal);
+      }
+
+      // 点击模态框背景关闭
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) {
+            closeVideoModal();
+          }
+        });
+      }
+
+      // ESC键关闭模态框
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.style.display === 'block') {
+          closeVideoModal();
+        }
+      });
     };
 
     // DOM 加载后初始化

@@ -93,6 +93,73 @@
     display: block;
   }
 
+  /* 卡片视频 */
+  .workflow-sl-card-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    cursor: pointer;
+  }
+
+  /* 选中卡片的样式 */
+  .workflow-sl-card.active {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  }
+
+  .workflow-sl-card.active .workflow-sl-card-video {
+    opacity: 1;
+  }
+
+  /* 视频预览模态框 */
+  .video-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+  }
+
+  .video-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    width: auto;
+    height: auto;
+  }
+
+  .video-modal video {
+    width: 100%;
+    height: 100%;
+    max-width: 80vw;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .video-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+    transition: color 0.3s ease;
+  }
+
+  .video-modal-close:hover {
+    color: #ccc;
+  }
+
   /* 渐变叠加层 - 从半透明过渡到黑色 */
   .workflow-sl-card-overlay {
     position: absolute;
@@ -221,14 +288,17 @@
     <!-- 卡片网格 -->
     <div class="workflow-sl-cards">
       <!-- 卡片 1: Generative -->
-      <div class="workflow-sl-card">
+      <div class="workflow-sl-card" data-video-card>
         <div class="workflow-sl-card-image-wrapper">
-          <img
-            src="images/1.png"
-            alt="Generative"
-            class="workflow-sl-card-image"
-            loading="lazy"
+          <video
+            class="workflow-sl-card-video"
+            muted
+            loop
+            playsinline
+            data-video-src="videos/video_1.mp4"
           >
+            <source src="videos/video_1.mp4" type="video/mp4">
+          </video>
           <div class="workflow-sl-card-overlay"></div>
           <div class="workflow-sl-card-content">
             <h3 class="workflow-sl-card-title">Generative</h3>
@@ -240,14 +310,17 @@
       </div>
 
       <!-- 卡片 2: Storyboard -->
-      <div class="workflow-sl-card">
+      <div class="workflow-sl-card" data-video-card>
         <div class="workflow-sl-card-image-wrapper">
-          <img
-            src="images/2.jpg"
-            alt="Storyboard"
-            class="workflow-sl-card-image"
-            loading="lazy"
+          <video
+            class="workflow-sl-card-video"
+            muted
+            loop
+            playsinline
+            data-video-src="videos/video_2.mp4"
           >
+            <source src="videos/video_2.mp4" type="video/mp4">
+          </video>
           <div class="workflow-sl-card-overlay"></div>
           <div class="workflow-sl-card-content">
             <h3 class="workflow-sl-card-title">Storyboard</h3>
@@ -259,14 +332,17 @@
       </div>
 
       <!-- 卡片 3: Timeline -->
-      <div class="workflow-sl-card">
+      <div class="workflow-sl-card" data-video-card>
         <div class="workflow-sl-card-image-wrapper">
-          <img
-            src="images/3.png"
-            alt="Timeline"
-            class="workflow-sl-card-image"
-            loading="lazy"
+          <video
+            class="workflow-sl-card-video"
+            muted
+            loop
+            playsinline
+            data-video-src="videos/总设计.mp4"
           >
+            <source src="videos/总设计.mp4" type="video/mp4">
+          </video>
           <div class="workflow-sl-card-overlay"></div>
           <div class="workflow-sl-card-content">
             <h3 class="workflow-sl-card-title">Timeline</h3>
@@ -280,25 +356,99 @@
   </div>
 </section>
 
+<!-- 视频预览模态框 -->
+<div id="workflow-sl-video-modal" class="video-modal">
+  <span class="video-modal-close">&times;</span>
+  <div class="video-modal-content">
+    <video id="workflow-sl-modal-video" controls>
+      <source src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
 <script>
   // Workflow SL 模块交互逻辑
   (function () {
     'use strict';
 
     const initWorkflowSL = () => {
-      // 可以在这里添加交互逻辑，如点击卡片展开详情等
-      const cards = document.querySelectorAll('.workflow-sl-card');
+      // 为每个卡片添加交互功能
+      const cards = document.querySelectorAll('.workflow-sl-card[data-video-card]');
       
       cards.forEach(card => {
-        // 图片加载错误处理
-        const img = card.querySelector('.workflow-sl-card-image');
-        if (img) {
-          img.addEventListener('error', function() {
-            console.warn(`Failed to load image: ${this.src}`);
+        const video = card.querySelector('.workflow-sl-card-video');
+        if (!video) return;
+
+        // 视频加载错误处理
+        video.addEventListener('error', function() {
+          console.warn(`Failed to load video: ${this.querySelector('source').src}`);
+          this.style.display = 'none';
+        });
+
+        // 初始状态暂停视频
+        video.pause();
+
+        // 鼠标悬停时播放视频
+        card.addEventListener('mouseenter', () => {
+          video.play().catch(err => {
+            console.log('Workflow SL video play failed:', err);
           });
-        }
+        });
+
+        card.addEventListener('mouseleave', () => {
+          video.pause();
+          video.currentTime = 0;
+        });
+
+        // 点击打开模态框预览
+        card.addEventListener('click', function () {
+          openVideoModal(video.querySelector('source').src);
+        });
+
+        // 添加鼠标样式提示可点击
+        card.style.cursor = 'pointer';
       });
     };
+
+    // 模态框功能
+    const modal = document.getElementById('workflow-sl-video-modal');
+    const modalVideo = document.getElementById('workflow-sl-modal-video');
+    const closeBtn = document.querySelector('#workflow-sl-video-modal .video-modal-close');
+
+    function openVideoModal(videoSrc) {
+      modalVideo.src = videoSrc;
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden'; // 防止背景滚动
+    }
+
+    function closeVideoModal() {
+      modal.style.display = 'none';
+      modalVideo.pause();
+      modalVideo.src = '';
+      document.body.style.overflow = ''; // 恢复滚动
+    }
+
+    // 关闭按钮事件
+    if (closeBtn) {
+      closeBtn.addEventListener('click', closeVideoModal);
+    }
+
+    // 点击模态框背景关闭
+    if (modal) {
+      modal.addEventListener('click', function (e) {
+        if (e.target === modal) {
+          closeVideoModal();
+        }
+      });
+    }
+
+    // ESC键关闭模态框
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modal.style.display === 'block') {
+        closeVideoModal();
+      }
+    });
 
     // DOM 加载后初始化
     if (document.readyState === 'loading') {
