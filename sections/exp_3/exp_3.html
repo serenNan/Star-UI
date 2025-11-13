@@ -142,7 +142,18 @@
     flex-shrink: 0;
   }
 
+  .exp-3-card video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
   .exp-3-card:hover .exp-3-card-image {
+    transform: scale(1.05);
+  }
+
+  .exp-3-card:hover video {
     transform: scale(1.05);
   }
 
@@ -206,6 +217,23 @@
     background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.3);
     transform: translateY(-2px);
+  }
+
+  /* 额外图片的动画效果 */
+  .exp-3-extra-images {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.6s ease-in-out;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+  .exp-3-extra-images.show {
+    opacity: 1;
+    max-height: 1000px;
+    margin-top: var(--spacing-2xl);
+    margin-bottom: var(--spacing-2xl);
   }
 
   /* 响应式设计 */
@@ -373,7 +401,10 @@
       <!-- 第一列 -->
       <div class="exp-3-column">
         <div class="exp-3-card">
-          <img src="images/4.png" alt="Explore 1" class="exp-3-card-image" loading="lazy">
+          <video class="exp-3-card-image" muted loop playsinline>
+            <source src="videos/video_1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
           <div class="exp-3-card exp-3-card-text">
             <p class="exp-3-card-text-content">
               a cinematic 8k video of a lone astronaut walking slowly across the surface of the moon under deep space
@@ -386,59 +417,160 @@
           </div>
         </div>
         <div class="exp-3-card">
-          <img src="images/logo.jpg" alt="Explore 2" class="exp-3-card-image" loading="lazy">
+          <video class="exp-3-card-image" muted loop playsinline>
+            <source src="videos/video_2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
 
       <!-- 第二列 -->
       <div class="exp-3-column">
         <div class="exp-3-card">
-          <img src="images/1.png" alt="Explore 3" class="exp-3-card-image" loading="lazy">
+          <video class="exp-3-card-image" muted loop playsinline>
+            <source src="videos/总设计.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
         <div class="exp-3-card">
-          <img src="images/5.png" alt="Explore 4" class="exp-3-card-image" loading="lazy">
+          <video class="exp-3-card-image" muted loop playsinline>
+            <source src="videos/video_1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
         <div class="exp-3-card">
-          <img src="images/2.jpg" alt="Explore 5" class="exp-3-card-image" loading="lazy">
+          <video class="exp-3-card-image" muted loop playsinline>
+            <source src="videos/video_2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
 
       <!-- 第三列 -->
       <div class="exp-3-column">
         <div class="exp-3-card">
-          <img src="images/3.png" alt="Explore 6" class="exp-3-card-image" loading="lazy">
+          <video class="exp-3-card-image" muted loop playsinline>
+            <source src="videos/video_1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
         <div class="exp-3-card">
-          <img src="images/4.png" alt="Explore 7" class="exp-3-card-image" loading="lazy">
+          <video class="exp-3-card-image" muted loop playsinline>
+            <source src="videos/video_2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
         <div class="exp-3-card">
-          <img src="images/logo.jpg" alt="Explore 8" class="exp-3-card-image" loading="lazy">
+          <video class="exp-3-card-image" muted loop playsinline>
+            <source src="videos/总设计.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
 
       <!-- 第四列 -->
       <div class="exp-3-column">
         <div class="exp-3-card">
-          <img src="images/1.png" alt="Explore 9" class="exp-3-card-image" loading="lazy">
+          <video class="exp-3-card-image" muted loop playsinline>
+            <source src="videos/video_1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
         <div class="exp-3-card">
-          <img src="images/3.png" alt="Explore 10" class="exp-3-card-image" loading="lazy">
+          <video class="exp-3-card-image" muted loop playsinline>
+            <source src="videos/video_2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
         <div class="exp-3-card">
-          <img src="images/5.png" alt="Explore 11" class="exp-3-card-image" loading="lazy">
+          <video class="exp-3-card-image" muted loop playsinline>
+            <source src="videos/总设计.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
       </div>
 
       <!-- 第五列 -->
       <div class="exp-3-column">
         <div class="exp-3-card">
-          <img src="images/2.jpg" alt="Explore 12" class="exp-3-card-image" loading="lazy">
+          <video class="exp-3-card-image" muted loop playsinline>
+            <source src="videos/video_1.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
         <div class="exp-3-card">
-          <img src="images/4.png" alt="Explore 13" class="exp-3-card-image" loading="lazy">
+          <video class="exp-3-card-image" muted loop playsinline>
+            <source src="videos/video_2.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </div>
         <div class="exp-3-card">
-          <img src="images/1.png" alt="Explore 14" class="exp-3-card-image" loading="lazy">
+          <video class="exp-3-card-image" muted loop playsinline>
+            <source src="videos/总设计.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
+        </div>
+      </div>
+    </div>
+
+    <!-- 额外的图片行（初始隐藏） -->
+    <div class="exp-3-columns exp-3-extra-images" style="display: none;">
+      <!-- 第六列 -->
+      <div class="exp-3-column">
+        <div class="exp-3-card">
+          <img src="sections/tools-showcase/images/avatar-1.png" alt="Extra 1" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="sections/tools-showcase/images/avatar-2.png" alt="Extra 2" class="exp-3-card-image" loading="lazy">
+        </div>
+      </div>
+
+      <!-- 第七列 -->
+      <div class="exp-3-column">
+        <div class="exp-3-card">
+          <img src="sections/tools-showcase/images/avatar-3.png" alt="Extra 3" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="sections/tools-showcase/images/avatar-4.png" alt="Extra 4" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="sections/tools-showcase/images/avatar-5.jpg" alt="Extra 5" class="exp-3-card-image" loading="lazy">
+        </div>
+      </div>
+
+      <!-- 第八列 -->
+      <div class="exp-3-column">
+        <div class="exp-3-card">
+          <img src="sections/tools-showcase/images/image-gen-1.png" alt="Extra 6" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="sections/tools-showcase/images/image-gen-2.jpg" alt="Extra 7" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="sections/tools-showcase/images/image-gen-3.png" alt="Extra 8" class="exp-3-card-image" loading="lazy">
+        </div>
+      </div>
+
+      <!-- 第九列 -->
+      <div class="exp-3-column">
+        <div class="exp-3-card">
+          <img src="sections/tools-showcase/images/image-gen-4.png" alt="Extra 9" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="sections/tools-showcase/images/image-gen-5.png" alt="Extra 10" class="exp-3-card-image" loading="lazy">
+        </div>
+      </div>
+
+      <!-- 第十列 -->
+      <div class="exp-3-column">
+        <div class="exp-3-card">
+          <img src="sections/tools-showcase/images/video-gen-1.png" alt="Extra 11" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="sections/tools-showcase/images/video-gen-2.png" alt="Extra 12" class="exp-3-card-image" loading="lazy">
+        </div>
+        <div class="exp-3-card">
+          <img src="sections/tools-showcase/images/video-gen-3.jpg" alt="Extra 13" class="exp-3-card-image" loading="lazy">
         </div>
       </div>
     </div>
@@ -456,21 +588,66 @@
     'use strict';
 
     const initExp3 = () => {
-      // 图片加载错误处理
-      const images = document.querySelectorAll('.exp-3-card-image');
-      images.forEach((img) => {
-        img.addEventListener('error', function () {
-          console.warn(`Failed to load image: ${this.src}`);
+      // 视频加载错误处理
+      const videos = document.querySelectorAll('.exp-3-card video');
+      videos.forEach((video) => {
+        video.addEventListener('error', function () {
+          console.warn(`Failed to load video: ${this.querySelector('source').src}`);
           this.style.display = 'none';
         });
+
+        // 初始状态暂停视频
+        video.pause();
+
+        // 鼠标悬停时播放视频
+        const card = video.closest('.exp-3-card');
+        if (card) {
+          card.addEventListener('mouseenter', () => {
+            video.play();
+          });
+          card.addEventListener('mouseleave', () => {
+            video.pause();
+          });
+        }
       });
 
       // Load More 按钮功能
       const loadMoreButton = document.querySelector('.exp-3-load-more-button');
-      if (loadMoreButton) {
+      const extraImages = document.querySelector('.exp-3-extra-images');
+      
+      if (loadMoreButton && extraImages) {
         loadMoreButton.addEventListener('click', function () {
-          // 这里可以添加加载更多内容的逻辑
-          console.log('Load more clicked');
+          // 显示额外的图片
+          if (extraImages.style.display === 'none') {
+            extraImages.style.display = 'flex';
+            // 触发重排以启动动画
+            void extraImages.offsetHeight;
+            // 添加显示类以触发动画
+            extraImages.classList.add('show');
+            // 平滑滚动到新加载的内容
+            setTimeout(() => {
+              extraImages.scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+              });
+            }, 100);
+            // 更新按钮文本
+            this.textContent = 'Show Less';
+          } else {
+            // 隐藏额外的图片
+            extraImages.classList.remove('show');
+            // 等待动画完成后隐藏
+            setTimeout(() => {
+              extraImages.style.display = 'none';
+              // 滚动回原始内容
+              document.querySelector('.exp-3-columns:not(.exp-3-extra-images)').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+              });
+            }, 600);
+            // 恢复按钮文本
+            this.textContent = 'Load More';
+          }
         });
       }
     };
