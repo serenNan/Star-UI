@@ -99,6 +99,14 @@
     display: block;
   }
 
+  .workflow-cmps-card-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    cursor: pointer;
+  }
+
   /* 渐变遮罩层 - 从透明到黑色，黑色比例更多 */
   .workflow-cmps-card-overlay {
     position: absolute;
@@ -182,6 +190,73 @@
     object-fit: cover;
     display: block;
     border-radius: 20px;
+  }
+
+  .workflow-cmps-visual-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    border-radius: 20px;
+    cursor: pointer;
+  }
+
+  /* 视频预览模态框 */
+  .video-modal {
+    display: none;
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(10px);
+  }
+
+  /* 选中卡片的样式 */
+  .workflow-cmps-card.active {
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+  }
+
+  .workflow-cmps-card.active .workflow-cmps-card-video {
+    opacity: 1;
+  }
+
+  .video-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90%;
+    max-height: 90%;
+    width: auto;
+    height: auto;
+  }
+
+  .video-modal video {
+    width: 100%;
+    height: 100%;
+    max-width: 80vw;
+    max-height: 80vh;
+    object-fit: contain;
+  }
+
+  .video-modal-close {
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10001;
+    transition: color 0.3s ease;
+  }
+
+  .video-modal-close:hover {
+    color: #ccc;
   }
 
   /* 响应式设计 */
@@ -281,7 +356,9 @@
         <!-- 卡片 1: Generative -->
         <div class="workflow-cmps-card">
           <div class="workflow-cmps-card-image-wrapper">
-            <img src="images/1.png" alt="Generative" class="workflow-cmps-card-image" loading="lazy">
+            <video class="workflow-cmps-card-video" muted loop playsinline data-video-src="videos/video_1.mp4">
+              <source src="videos/video_1.mp4" type="video/mp4">
+            </video>
             <div class="workflow-cmps-card-overlay"></div>
           </div>
           <div class="workflow-cmps-card-content">
@@ -298,7 +375,9 @@
         <!-- 卡片 2: Storyboard -->
         <div class="workflow-cmps-card">
           <div class="workflow-cmps-card-image-wrapper">
-            <img src="images/2.jpg" alt="Storyboard" class="workflow-cmps-card-image" loading="lazy">
+            <video class="workflow-cmps-card-video" muted loop playsinline data-video-src="videos/video_2.mp4">
+              <source src="videos/video_2.mp4" type="video/mp4">
+            </video>
             <div class="workflow-cmps-card-overlay"></div>
           </div>
           <div class="workflow-cmps-card-content">
@@ -315,7 +394,9 @@
         <!-- 卡片 3: Timeline -->
         <div class="workflow-cmps-card">
           <div class="workflow-cmps-card-image-wrapper">
-            <img src="images/3.png" alt="Timeline" class="workflow-cmps-card-image" loading="lazy">
+            <video class="workflow-cmps-card-video" muted loop playsinline data-video-src="videos/总设计.mp4">
+              <source src="videos/总设计.mp4" type="video/mp4">
+            </video>
             <div class="workflow-cmps-card-overlay"></div>
           </div>
           <div class="workflow-cmps-card-content">
@@ -349,24 +430,143 @@
 
       <!-- 右侧大图区域 -->
       <div class="workflow-cmps-visual">
-        <img src="images/1.png" alt="Workflow Visual" class="workflow-cmps-visual-image" loading="lazy">
+        <video class="workflow-cmps-visual-video" muted loop playsinline data-video-src="videos/video_1.mp4">
+          <source src="videos/video_1.mp4" type="video/mp4">
+        </video>
       </div>
     </div>
   </div>
 </section>
 
+<!-- 视频预览模态框 -->
+<div id="workflowcmps-video-modal" class="video-modal">
+  <span class="video-modal-close">&times;</span>
+  <div class="video-modal-content">
+    <video id="workflowcmps-modal-video" controls>
+      <source src="" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
 <script>
-  // Workflow CMPS 模块交互逻辑
+  // Workflow CMPS 模块交互逻辑 - 点击左侧卡片在右侧播放对应视频
   (function () {
     'use strict';
 
     const initWorkflowCmps = () => {
-      // 图片加载错误处理
-      const images = document.querySelectorAll('.workflow-cmps-card-image, .workflow-cmps-visual-image');
-      images.forEach(img => {
-        img.addEventListener('error', function () {
-          console.warn(`Failed to load image: ${this.src}`);
+      // 获取所有左侧卡片和右侧主视频区域
+      const cards = document.querySelectorAll('.workflow-cmps-card');
+      const mainVideo = document.querySelector('.workflow-cmps-visual-video');
+      
+      if (!mainVideo) return;
+
+      // 视频加载错误处理
+      const videos = document.querySelectorAll('.workflow-cmps-card-video, .workflow-cmps-visual-video');
+      videos.forEach((video) => {
+        video.addEventListener('error', function () {
+          console.warn(`Failed to load video: ${this.querySelector('source').src}`);
+          this.style.display = 'none';
         });
+
+        // 初始状态暂停视频
+        video.pause();
+      });
+
+      // 为每个左侧卡片添加点击事件
+      cards.forEach((card, index) => {
+        const cardVideo = card.querySelector('.workflow-cmps-card-video');
+        if (!cardVideo) return;
+
+        // 添加点击事件
+        card.addEventListener('click', function () {
+          // 获取当前卡片的视频源
+          const videoSrc = cardVideo.querySelector('source').src;
+          
+          // 更新右侧主视频
+          mainVideo.src = videoSrc;
+          mainVideo.play().catch(err => {
+            console.warn('主视频播放失败:', err);
+          });
+
+          // 高亮当前选中的卡片
+          cards.forEach(c => c.classList.remove('active'));
+          card.classList.add('active');
+        });
+
+        // 添加鼠标悬停预览（可选）
+        card.addEventListener('mouseenter', () => {
+          cardVideo.play().catch(err => {
+            console.warn('卡片视频预览播放失败:', err);
+          });
+        });
+
+        card.addEventListener('mouseleave', () => {
+          cardVideo.pause();
+          cardVideo.currentTime = 0;
+        });
+
+        // 添加鼠标样式提示可点击
+        card.style.cursor = 'pointer';
+      });
+
+      // 默认显示第一个卡片的视频
+      if (cards.length > 0) {
+        const firstCardVideo = cards[0].querySelector('.workflow-cmps-card-video');
+        if (firstCardVideo) {
+          mainVideo.src = firstCardVideo.querySelector('source').src;
+          cards[0].classList.add('active');
+        }
+      }
+
+      // 点击右侧主视频区域也可以打开模态框
+      const mainVideoWrapper = document.querySelector('.workflow-cmps-visual');
+      if (mainVideoWrapper) {
+        mainVideoWrapper.addEventListener('click', function () {
+          if (mainVideo.src) {
+            openVideoModal(mainVideo.src);
+          }
+        });
+        mainVideo.style.cursor = 'pointer';
+      }
+
+      // 模态框功能
+      const modal = document.getElementById('workflowcmps-video-modal');
+      const modalVideo = document.getElementById('workflowcmps-modal-video');
+      const closeBtn = document.querySelector('#workflowcmps-video-modal .video-modal-close');
+
+      function openVideoModal(videoSrc) {
+        modalVideo.src = videoSrc;
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden'; // 防止背景滚动
+      }
+
+      function closeVideoModal() {
+        modal.style.display = 'none';
+        modalVideo.pause();
+        modalVideo.src = '';
+        document.body.style.overflow = ''; // 恢复滚动
+      }
+
+      // 关闭按钮事件
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeVideoModal);
+      }
+
+      // 点击模态框背景关闭
+      if (modal) {
+        modal.addEventListener('click', function (e) {
+          if (e.target === modal) {
+            closeVideoModal();
+          }
+        });
+      }
+
+      // ESC键关闭模态框
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && modal.style.display === 'block') {
+          closeVideoModal();
+        }
       });
     };
 
