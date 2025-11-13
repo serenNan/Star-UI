@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -15,9 +16,11 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
   <!-- Lenis Smooth Scroll -->
@@ -32,14 +35,18 @@
     /* 隐藏所有浏览器的滚动条 */
     html {
       overflow-x: hidden;
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+      -ms-overflow-style: none;
+      /* IE and Edge */
     }
 
     body {
       overflow-x: hidden;
-      scrollbar-width: none; /* Firefox */
-      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none;
+      /* Firefox */
+      -ms-overflow-style: none;
+      /* IE and Edge */
     }
 
     /* 隐藏 Webkit 浏览器的滚动条 (Chrome, Safari, Opera) */
@@ -49,7 +56,302 @@
       width: 0;
       height: 0;
     }
+
+    /* ===== Launch Overlay ===== */
+    #launch-overlay {
+      position: fixed;
+      inset: 0;
+      background: #050505;
+      z-index: 9999;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 1.4s ease;
+    }
+
+    #launch-overlay.is-visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    #launch-overlay.is-exiting {
+      opacity: 0;
+    }
+
+    .launch-shell {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(550px, 90vw);
+      max-width: none;
+      padding: 0;
+    }
+
+    .launch-input {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 48px;
+      border-radius: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(0, 0, 0, 0.55);
+      box-shadow: none;
+      backdrop-filter: blur(10px);
+    }
+
+    .launch-text {
+      display: block;
+      min-height: 1.2em;
+      padding: 10px 140px 10px 20px;
+      white-space: normal;
+      overflow: hidden;
+      color: #f5f5f5;
+      font-size: 0.7rem;
+      font-family: 'Sora', 'Inter', sans-serif;
+      letter-spacing: 0.01em;
+      line-height: 1.4;
+      word-break: break-word;
+      text-align: left;
+    }
+
+    .launch-btn {
+      position: absolute;
+      top: 50%;
+      right: 6px;
+      transform: translateY(-50%);
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      background: #ffffff;
+      color: #111;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      box-shadow: none;
+      white-space: nowrap;
+    }
+
+    .launch-btn:disabled {
+      opacity: 0.8;
+      cursor: wait;
+    }
+
+    .launch-btn:not(:disabled):hover {
+      transform: translateY(calc(-50% - 2px));
+      box-shadow: 0 8px 18px rgba(255, 255, 255, 0.25);
+    }
+
+    .launch-btn:not(:disabled):active,
+    .launch-btn.is-pressed {
+      transform: translateY(calc(-50% + 1px)) scale(0.96);
+      box-shadow:
+        0 0 0 4px rgba(255, 255, 255, 0.25),
+        inset 0 4px 10px rgba(0, 0, 0, 0.25);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    body.launch-block-scroll {
+      overflow: hidden;
+    }
+
+    @media (max-width: 600px) {
+      .launch-text {
+        font-size: 0.7rem;
+        padding-right: 120px;
+      }
+
+      .launch-btn {
+        font-size: 0.85rem;
+        padding-inline: 1rem;
+      }
+    }
   </style>
+
+  <script>
+    (function () {
+      const STORAGE_KEY = 'treclipLaunchSeen';
+      const typedText = 'ultra-realistic close-up of an astronaut in a detailed white space suit, standing in the darkness of outer space.';
+
+      const path = window.location.pathname || '';
+      const isIndex = /(?:^|\/)index\.html?$/i.test(path) || path === '/' || path === '';
+      if (!isIndex) {
+        return;
+      }
+
+      let storageEnabled = true;
+      try {
+        const testKey = '__treclip_test__';
+        window.sessionStorage.setItem(testKey, '1');
+        window.sessionStorage.removeItem(testKey);
+      } catch (err) {
+        storageEnabled = false;
+      }
+
+      if (storageEnabled && window.sessionStorage.getItem(STORAGE_KEY)) {
+        return;
+      }
+
+      const overlayTemplate = `
+        <div class="launch-shell">
+          <div class="launch-input" role="status" aria-live="polite">
+            <span class="launch-text" data-launch-text></span>
+            <button class="launch-btn" type="button" data-launch-btn>Run Engine</button>
+          </div>
+        </div>`;
+
+      const overlay = document.createElement('div');
+      overlay.id = 'launch-overlay';
+      overlay.setAttribute('aria-hidden', 'true');
+      overlay.innerHTML = overlayTemplate;
+      const shell = overlay.querySelector('.launch-shell');
+
+      const attachOverlay = () => {
+        if (!document.body || overlay.parentNode) {
+          return;
+        }
+        document.body.appendChild(overlay);
+        document.body.classList.add('launch-block-scroll');
+      };
+
+      if (document.body) {
+        attachOverlay();
+      } else {
+        document.addEventListener('DOMContentLoaded', attachOverlay, { once: true });
+        const tryAttach = () => {
+          if (!overlay.parentNode) {
+            attachOverlay();
+            if (!overlay.parentNode) {
+              requestAnimationFrame(tryAttach);
+            }
+          }
+        };
+        requestAnimationFrame(tryAttach);
+      }
+
+      const textNode = overlay.querySelector('[data-launch-text]');
+      const runBtn = overlay.querySelector('[data-launch-btn]');
+      let index = 0;
+      let typingTimer = null;
+      let isClosing = false;
+      let heroTarget = null;
+      let heroObserver = null;
+      let pressTimer = null;
+      const heroSelector = '#hero-search-box';
+
+      const syncShellPosition = () => {
+        if (!shell || !heroTarget) return;
+        const rect = heroTarget.getBoundingClientRect();
+        shell.style.top = `${rect.top}px`;
+        shell.style.left = `${rect.left}px`;
+        shell.style.width = `${rect.width}px`;
+        shell.style.height = `${rect.height}px`;
+        shell.style.transform = 'none';
+      };
+
+      const handleResize = () => syncShellPosition();
+
+      const attachHeroTarget = (attempt = 0) => {
+        const MAX_ATTEMPTS = 180;
+        heroTarget = document.querySelector(heroSelector);
+        if (!heroTarget) {
+          if (attempt < MAX_ATTEMPTS) {
+            requestAnimationFrame(() => attachHeroTarget(attempt + 1));
+          }
+          return;
+        }
+
+        syncShellPosition();
+        window.addEventListener('resize', handleResize);
+        if (typeof ResizeObserver !== 'undefined') {
+          heroObserver = new ResizeObserver(syncShellPosition);
+          heroObserver.observe(heroTarget);
+        }
+      };
+
+      const markSeen = () => {
+        if (storageEnabled) {
+          window.sessionStorage.setItem(STORAGE_KEY, '1');
+        }
+      };
+
+      const finishLaunch = () => {
+        if (isClosing) return;
+        isClosing = true;
+        markSeen();
+        if (pressTimer) {
+          clearTimeout(pressTimer);
+          pressTimer = null;
+        }
+        if (typingTimer) {
+          clearTimeout(typingTimer);
+        }
+        if (runBtn) {
+          runBtn.disabled = true;
+        }
+        overlay.classList.add('is-exiting');
+        setTimeout(() => {
+          window.removeEventListener('resize', handleResize);
+          if (heroObserver) {
+            heroObserver.disconnect();
+          }
+          overlay.remove();
+          document.body?.classList.remove('launch-block-scroll');
+        }, 1500);
+      };
+
+      const typeNext = () => {
+        if (!textNode) return;
+        if (index < typedText.length) {
+          textNode.textContent += typedText.charAt(index);
+          index += 1;
+          const jitter = 30 + Math.random() * 70;
+          typingTimer = window.setTimeout(typeNext, jitter);
+        } else {
+          window.setTimeout(() => triggerFinishPress(true), 1800);
+        }
+      };
+
+      const triggerFinishPress = (withDelay = true) => {
+        if (isClosing || pressTimer) return;
+        if (runBtn) {
+          runBtn.classList.add('is-pressed');
+        }
+        const delay = withDelay ? 500 : 0;
+        pressTimer = window.setTimeout(() => {
+          if (runBtn) {
+            runBtn.classList.remove('is-pressed');
+          }
+          pressTimer = null;
+          finishLaunch();
+        }, delay);
+      };
+
+      if (runBtn) {
+        runBtn.addEventListener('click', () => triggerFinishPress(true));
+      }
+
+      overlay.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+          triggerFinishPress(true);
+        }
+      });
+
+      const startSequence = () => {
+        if (!overlay.parentNode) {
+          requestAnimationFrame(startSequence);
+          return;
+        }
+        syncShellPosition();
+        overlay.setAttribute('aria-hidden', 'false');
+        requestAnimationFrame(() => overlay.classList.add('is-visible'));
+        typingTimer = window.setTimeout(typeNext, 400);
+      };
+
+      attachHeroTarget();
+      startSequence();
+    })();
+  </script>
 </head>
 <body>
 
@@ -1053,10 +1355,10 @@
   .create-description {
     font-family: 'Sora', sans-serif;
     width: 48%;
-    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    font-size: clamp(1rem, 1.8vw, 0.75rem);
     font-weight: 300;
     line-height: 1.6;
-    color: var(--color-text);
+    color: #FFFFFF;
     margin-bottom: var(--spacing-lg);
     text-align: left;
   }
@@ -1112,8 +1414,9 @@
     }
 
     .create-description {
-      font-size: clamp(0.8rem, 2vw, 0.95rem);
+      font-size: clamp(0.95rem, 1.6vw, 1.25rem);
       margin-bottom: var(--spacing-md);
+      color: #FFFFFF;
     }
 
     .create-text-box {
@@ -1157,9 +1460,10 @@
     }
 
     .create-description {
-      font-size: clamp(0.75rem, 2.5vw, 0.85rem);
+      font-size: clamp(0.95rem, 1.6vw, 1.25rem);
       line-height: 1.5;
       margin-bottom: var(--spacing-md);
+      color: #FFFFFF;
     }
 
     .create-button {
@@ -1260,7 +1564,7 @@
         });
 
         // 确保视频能够自动播放
-        bgVideo.play().catch(function(error) {
+        bgVideo.play().catch(function (error) {
           console.warn('视频自动播放被阻止:', error);
           // 可以在这里添加用户交互提示
         });
