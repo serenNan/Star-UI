@@ -7,21 +7,27 @@
   <meta name="description" content="TreClip - AI short-form video created like art">
   <title>TreClip - AI Video Creation Platform</title>
 
+  <!-- 预加载CSS文件,确保样式优先加载,避免闪烁 -->
+  <link rel="preload" href="css/normalize.css" as="style">
+  <link rel="preload" href="css/webflow.css" as="style">
+  <link rel="preload" href="css/treclip.css" as="style">
+  <link rel="preload" href="global/global.css" as="style">
+
   <!-- CSS Files -->
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/webflow.css">
   <link rel="stylesheet" href="css/treclip.css">
   <link rel="stylesheet" href="global/global.css">
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts - 添加 display=block 防止字体加载闪烁 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=block"
     rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=block"
     rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=block" rel="stylesheet">
 
   <!-- Lenis Smooth Scroll -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.2.3/dist/lenis.css">
@@ -74,16 +80,23 @@
       z-index: 9999;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 1.4s ease;
+      visibility: hidden;  /* 防止闪动 */
+      transition: opacity 0.6s ease, visibility 0s linear 0.6s;  /* 加快淡入速度: 1.0s → 0.6s */
+      will-change: opacity, transform;  /* 添加 transform,强制 GPU 加速 */
+      transform: translateZ(0);  /* 强制创建独立合成层 */
     }
 
     #launch-overlay.is-visible {
       opacity: 1;
       pointer-events: auto;
+      visibility: visible;
+      transition: opacity 0.6s ease, visibility 0s linear 0s;  /* 立即显示 visibility */
     }
 
     #launch-overlay.is-exiting {
       opacity: 0;
+      visibility: visible;  /* 淡出时保持可见 */
+      transition: opacity 0.8s ease, visibility 0s linear 0.8s;  /* 加快淡出: 1.0s → 0.8s */
     }
 
     .launch-shell {
@@ -94,6 +107,12 @@
       width: min(550px, 90vw);
       max-width: none;
       padding: 0;
+      opacity: 0;  /* 初始隐藏内容,避免按钮提前可见 */
+      transition: opacity 0.4s ease 0.2s;  /* 延迟 0.2s 后淡入,持续 0.4s */
+    }
+
+    #launch-overlay.is-visible .launch-shell {
+      opacity: 1;  /* overlay 显示后,shell 才淡入 */
     }
 
     .launch-input {
@@ -102,24 +121,27 @@
       height: 100%;
       min-height: 48px;
       border-radius: 25px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(0, 0, 0, 0.55);
+      border: none !important;  /* 与 Banner 搜索框一致 */
+      background: rgba(0, 0, 0, 0.5);  /* 与 Banner 搜索框一致 */
       box-shadow: none;
       backdrop-filter: blur(10px);
+      transform: translateZ(0);  /* 为 backdrop-filter 创建独立合成层 */
+      will-change: transform;  /* 性能优化 */
     }
 
     .launch-text {
       display: block;
       min-height: 1.2em;
       padding: 10px 140px 10px 20px;
-      white-space: normal;
+      white-space: pre-wrap;  /* 与 Banner 搜索框一致 */
       overflow: hidden;
       color: #f5f5f5;
       font-size: 0.7rem;
-      font-family: 'Sora', 'Inter', sans-serif;
-      letter-spacing: 0.01em;
+      font-family: 'Sora', sans-serif;  /* 显式指定字体,避免继承链延迟 */
+      letter-spacing: 0;  /* 与 Banner 搜索框一致 */
       line-height: 1.4;
       word-break: break-word;
+      overflow-wrap: break-word;  /* 与 Banner 搜索框一致 */
       text-align: left;
     }
 
@@ -197,9 +219,10 @@
         storageEnabled = false;
       }
 
-      if (storageEnabled && window.sessionStorage.getItem(STORAGE_KEY)) {
-        return;
-      }
+      // 移除 sessionStorage 检查,使加载动画每次刷新都显示
+      // if (storageEnabled && window.sessionStorage.getItem(STORAGE_KEY)) {
+      //   return;
+      // }
 
       const overlayTemplate = `
         <div class="launch-shell">
@@ -215,12 +238,20 @@
       overlay.innerHTML = overlayTemplate;
       const shell = overlay.querySelector('.launch-shell');
 
+      const ensureOverlayVisible = () => {
+        overlay.setAttribute('aria-hidden', 'false');
+        if (!overlay.classList.contains('is-visible')) {
+          overlay.classList.add('is-visible');
+        }
+      };
+
       const attachOverlay = () => {
         if (!document.body || overlay.parentNode) {
           return;
         }
         document.body.appendChild(overlay);
         document.body.classList.add('launch-block-scroll');
+        ensureOverlayVisible();
       };
 
       if (document.body) {
@@ -247,6 +278,8 @@
       let heroObserver = null;
       let pressTimer = null;
       const heroSelector = '#hero-search-box';
+      const HERO_TIMEOUT = 3600; // ≈3.6s 等待 hero 渲染完成
+      const FONT_TIMEOUT = 1500;
 
       const syncShellPosition = () => {
         if (!shell || !heroTarget) return;
@@ -260,16 +293,8 @@
 
       const handleResize = () => syncShellPosition();
 
-      const attachHeroTarget = (attempt = 0) => {
-        const MAX_ATTEMPTS = 180;
-        heroTarget = document.querySelector(heroSelector);
-        if (!heroTarget) {
-          if (attempt < MAX_ATTEMPTS) {
-            requestAnimationFrame(() => attachHeroTarget(attempt + 1));
-          }
-          return;
-        }
-
+      const registerHeroTarget = (target) => {
+        heroTarget = target;
         syncShellPosition();
         window.addEventListener('resize', handleResize);
         if (typeof ResizeObserver !== 'undefined') {
@@ -278,10 +303,47 @@
         }
       };
 
-      const markSeen = () => {
-        if (storageEnabled) {
-          window.sessionStorage.setItem(STORAGE_KEY, '1');
+      const waitForHeroTarget = (timeout = HERO_TIMEOUT) => new Promise((resolve) => {
+        const start = performance.now();
+
+        const attempt = () => {
+          const candidate = document.querySelector(heroSelector);
+          if (candidate) {
+            const rect = candidate.getBoundingClientRect();
+            if (rect.width > 0 && rect.height > 0) {
+              registerHeroTarget(candidate);
+              resolve(true);
+              return;
+            }
+          }
+
+          if (performance.now() - start >= timeout) {
+            resolve(false);
+            return;
+          }
+
+          requestAnimationFrame(attempt);
+        };
+
+        attempt();
+      });
+
+      const waitForFonts = (timeout = FONT_TIMEOUT) => {
+        if (!document.fonts || typeof document.fonts.ready?.then !== 'function') {
+          return Promise.resolve(true);
         }
+
+        return Promise.race([
+          document.fonts.ready.then(() => true).catch(() => false),
+          new Promise((resolve) => setTimeout(() => resolve(false), timeout)),
+        ]);
+      };
+
+      const markSeen = () => {
+        // 移除 sessionStorage 记录功能,允许每次刷新都显示
+        // if (storageEnabled) {
+        //   window.sessionStorage.setItem(STORAGE_KEY, '1');
+        // }
       };
 
       const finishLaunch = () => {
@@ -306,7 +368,7 @@
           }
           overlay.remove();
           document.body?.classList.remove('launch-block-scroll');
-        }, 1500);
+        }, 1000);  // 加快关闭: 1500ms → 1000ms
       };
 
       const typeNext = () => {
@@ -314,10 +376,10 @@
         if (index < typedText.length) {
           textNode.textContent += typedText.charAt(index);
           index += 1;
-          const jitter = 30 + Math.random() * 70;
+          const jitter = 8 + Math.random() * 20;  // 进一步加快打字速度: 8-28ms (平均 18ms)
           typingTimer = window.setTimeout(typeNext, jitter);
         } else {
-          window.setTimeout(() => triggerFinishPress(true), 1800);
+          window.setTimeout(() => triggerFinishPress(true), 800);  // 再次减少等待时间: 1000ms → 800ms
         }
       };
 
@@ -326,7 +388,7 @@
         if (runBtn) {
           runBtn.classList.add('is-pressed');
         }
-        const delay = withDelay ? 500 : 0;
+        const delay = withDelay ? 400 : 0;  // 优化按钮反馈: 500ms → 400ms
         pressTimer = window.setTimeout(() => {
           if (runBtn) {
             runBtn.classList.remove('is-pressed');
@@ -351,14 +413,52 @@
           requestAnimationFrame(startSequence);
           return;
         }
+
+        // ✨ 关键优化: 在显示前完成所有初始化
+        // 1. 预同步位置 (在不可见时完成)
         syncShellPosition();
-        overlay.setAttribute('aria-hidden', 'false');
-        requestAnimationFrame(() => overlay.classList.add('is-visible'));
-        typingTimer = window.setTimeout(typeNext, 400);
+
+        // 2. 预填充第一个字符,避免空白期闪烁
+        if (textNode && typedText.length > 0) {
+          textNode.textContent = typedText.charAt(0);
+          index = 1;  // 从第二个字符开始打字
+        }
+
+        // 3. 确保 overlay 已可见,避免页面内容先显示
+        ensureOverlayVisible();
+
+        // 4. 强制浏览器重排,确保所有样式已应用
+        void overlay.offsetHeight;
+        void shell.offsetHeight;
+
+        // 5. 在下一帧启动打字动画 (等待 shell 淡入完成)
+        requestAnimationFrame(() => {
+          typingTimer = window.setTimeout(typeNext, 650);
+        });
       };
 
-      attachHeroTarget();
-      startSequence();
+      const initOverlay = () => {
+        ensureOverlayVisible();
+        waitForHeroTarget();
+        waitForFonts().finally(() => {
+          startSequence();
+        });
+      };
+
+      if (overlay.parentNode) {
+        ensureOverlayVisible();
+        initOverlay();
+      } else {
+        const startWhenAttached = () => {
+          if (!overlay.parentNode) {
+            requestAnimationFrame(startWhenAttached);
+            return;
+          }
+          ensureOverlayVisible();
+          initOverlay();
+        };
+        startWhenAttached();
+      }
     })();
   </script>
 </head>
@@ -1227,9 +1327,14 @@
 .banner {
   position: relative;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   padding-top: calc(var(--nav-height) + var(--spacing-lg)); /* 减小顶部内边距 */
-  padding-bottom: calc(22rem + var(--spacing-2xl)); /* 增加底部内边距，为卡片留出空间 */
-  overflow: visible; /* 允许内容溢出，确保卡片可见 */
+  padding-bottom: clamp(2rem, 5vh, 4rem); /* 减小底部内边距，卡片更靠近底部 */
+  overflow: hidden; /* 防止内容溢出视口 */
+  --banner-card-width: clamp(60px, 5vw, 81px);
+  --banner-card-height: clamp(80px, 6.67vw, 108px);
+  --banner-card-gap: clamp(0.5rem, 1.5vw, 1rem);
 }
 
 /* 视频背景容器 */
@@ -1299,8 +1404,13 @@
   position: relative;
   max-width: 100%; /* 使用全宽，不限制容器宽度 */
   margin: 0 auto;
-  padding: 0 3rem; /* 减小左右内边距 */
-  height: 100%;
+  padding: 0 clamp(1.5rem, 3vw, 3rem); /* 响应式左右内边距 */
+  flex: 1; /* 占据剩余空间 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 垂直居中对齐 */
+  align-items: center; /* 水平居中对齐 */
+  gap: clamp(2rem, 4vh, 4rem); /* 内容之间保持固定间距 */
   z-index: 2;
 }
 
@@ -1310,10 +1420,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-md); /* 减小内部间距 */
-  max-width: 800px; /* 调整最大宽度 */
+  gap: clamp(1rem, 2vh, 1.5rem); /* 响应式内部间距 */
+  max-width: min(800px, 90vw); /* 响应式最大宽度 */
   margin: 0 auto; /* 改为居中 */
-  margin-top: clamp(2.5rem, 5vw, 4.5rem); /* 中等幅度下移 */
   text-align: center; /* 子元素文字居中 */
   z-index: 3;
 }
@@ -1349,7 +1458,7 @@
 .search-box-container {
   position: relative;
   width: 100%;
-  max-width: 550px; /* 减小宽度：从 700px 改为 550px */
+  max-width: min(550px, 90vw); /* 响应式宽度 */
   margin: 0 auto;
 }
 
@@ -1414,19 +1523,22 @@
 
 /* 3. 右下角背景切换卡片区 - 水平排列不换行 */
 .video-cards-container {
-  position: absolute; /* 相对于 banner-container 定位 */
-  left: 50%; /* 居中定位 */
-  transform: translateX(-50%);
-  bottom: -29rem; /* 适度上移，避免遮挡 */
+  position: relative; /* 改为相对定位，在文档流中 */
+  left: auto;
+  transform: none;
+  bottom: auto;
+  margin: 0 auto; /* 水平居中 */
+  margin-top: auto; /* 自动上边距，让卡片靠底部 */
+  margin-bottom: 0; /* 移除底部间距 */
   z-index: 100; /* 提高层级,确保在所有内容之上 */
   overflow: hidden; /* 隐藏溢出部分 */
-  width: calc(5 * 81px + 4 * 1rem); /* 显示5张卡片及间距 */
+  width: 100%; /* 默认全宽，在桌面端通过媒体查询覆盖 */
   padding: 1.25rem 0; /* 为放大卡片预留垂直空间 */
 }
 
 .video-cards-grid {
   display: flex;
-  gap: 1rem; /* 间距 16px */
+  gap: var(--banner-card-gap); /* 响应式间距 */
   flex-wrap: nowrap; /* 禁止换行 */
   align-items: center; /* 垂直居中对齐 */
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* 滑动动画 */
@@ -1486,8 +1598,8 @@
 /* 背景切换卡片 - 更长的高度 */
 .video-card {
   position: relative;
-  width: 81px; /* 减小宽度：从 90px 改为 70px */
-  height: 108px; /* 减小高度：从 120px 改为 100px */
+  width: var(--banner-card-width); /* 响应式宽度 */
+  height: var(--banner-card-height); /* 响应式高度，保持宽高比 */
   border-radius: 4px; /* 减小圆角：从 6px 改为 3px */
   overflow: hidden;
   cursor: pointer;
@@ -1566,6 +1678,13 @@
 
 /* 5. 响应式样式 */
 
+/* 桌面端 (≥992px) - 固定容器宽度以容纳5个卡片 */
+@media (min-width: 992px) {
+  .video-cards-container {
+    width: min(calc(5 * var(--banner-card-width) + 4 * var(--banner-card-gap)), 90vw);
+  }
+}
+
 /* 平板端 (768px - 991px) */
 @media (max-width: 991px) {
   /* Banner 主容器 - 改为自动高度,允许卡片溢出 */
@@ -1589,9 +1708,9 @@
 
   /* 左侧内容区 - 占满宽度,居中对齐 */
   .banner-left {
-    max-width: 100%;
-    margin-left: 0;
-    margin-top: var(--spacing-xl);
+    width: 100%;
+    max-width: min(640px, 100%);
+    margin: var(--spacing-xl) auto 0;
     text-align: center;  /* 文字居中 */
     display: flex;
     flex-direction: column;
@@ -1613,8 +1732,8 @@
     left: auto;
     transform: none;
     bottom: auto;
-    max-width: 100%;
-    width: 100%;
+    max-width: 100% !important; /* 强制覆盖桌面端样式 */
+    width: 100% !important; /* 强制全宽,确保居中和滚动 */
     margin: 0 auto;
     overflow-x: auto;
     overflow-y: visible; /* 改为 visible,允许卡片向上浮动 */
@@ -1653,21 +1772,16 @@
     background: rgba(255, 255, 255, 0.3);
   }
 
-  /* 滚动提示渐变遮罩 */
-  .video-cards-container::after {
-    content: '';
-    position: absolute;
-    right: 0;
-    top: 0;
-    bottom: 6px;
-    width: 40px;
-    background: linear-gradient(to left, var(--color-bg), transparent);
-    pointer-events: none;
-  }
 }
 
 /* 移动端 (< 768px) */
 @media (max-width: 767px) {
+  .banner {
+    --banner-card-width: 100px;
+    --banner-card-height: 133px;
+    --banner-card-gap: 0.75rem;
+  }
+
   /* Banner 容器 */
   .banner {
     padding-top: calc(var(--nav-height) + var(--spacing-xl));
@@ -1689,7 +1803,8 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    margin-top: var(--spacing-lg);
+    max-width: min(640px, 100%);
+    margin: var(--spacing-lg) auto 0;
   }
 
   .banner-title {
@@ -1721,11 +1836,6 @@
   }
 
   /* 卡片 */
-  .video-card {
-    width: 100px;
-    height: 133px; /* 保持比例: 100/81 * 108 ≈ 133 */
-  }
-
   .card-title {
     font-size: 0.75rem;
   }
@@ -1733,6 +1843,12 @@
 
 /* 小屏手机 (< 480px) */
 @media (max-width: 479px) {
+  .banner {
+    --banner-card-width: 85px;
+    --banner-card-height: 113px;
+    --banner-card-gap: 0.5rem;
+  }
+
   .banner-container {
     padding: 0 var(--spacing-md);
     align-items: center;  /* 确保居中 */
@@ -1755,11 +1871,6 @@
     padding: 10px 16px;
     font-size: 0.85rem;
     right: 3px;
-  }
-
-  .video-card {
-    width: 85px;
-    height: 113px; /* 保持比例: 85/81 * 108 ≈ 113 */
   }
 
   .card-title {
@@ -1998,6 +2109,7 @@
   });
   const totalCards = templates.length;
   let stepSize = 0;
+  let containerGap = 0;
 
   let activeIndex = (() => {
     const activeCard = grid.querySelector('.video-card.active');
@@ -2093,6 +2205,21 @@
     if (!sample) return;
     const gap = parseFloat(window.getComputedStyle(grid).gap) || 0;
     stepSize = sample.getBoundingClientRect().width + gap;
+    containerGap = gap;
+  }
+
+  function applyCarouselWidth() {
+    if (!cardsContainer || !stepSize) return;
+    const visibleWidth = Math.max((stepSize * VISIBLE_COUNT) - containerGap, 0);
+    cardsContainer.style.width = `${visibleWidth}px`;
+    cardsContainer.style.maxWidth = `${visibleWidth}px`;
+  }
+
+  function clearCarouselWidth() {
+    if (!cardsContainer) return;
+    // 彻底清除 inline styles,让 CSS 媒体查询生效
+    cardsContainer.style.removeProperty('width');
+    cardsContainer.style.removeProperty('max-width');
   }
 
   function buildCarouselGrid() {
@@ -2146,6 +2273,7 @@
     }
 
     measureStepSize();
+    applyCarouselWidth();
     // updateCarouselClasses(); // 已在上面应用，此处可省略
     resetCarouselTransform(); // 再重置 transform
 
@@ -2405,11 +2533,13 @@
 
   function buildStaticGrid() {
     grid.innerHTML = '';
-    templates.forEach((template) => {
+    // 🔧 只显示前 5 个卡片,避免移动端展开成 10 个
+    const displayCount = Math.min(5, templates.length);
+    templates.slice(0, displayCount).forEach((template, index) => {
       const node = template.cloneNode(true);
-      node.dataset.cardIndex = template.dataset.cardIndex;
+      node.dataset.cardIndex = index;
       const card = node.querySelector('.video-card');
-      if (card) card.dataset.cardIndex = template.dataset.cardIndex;
+      if (card) card.dataset.cardIndex = index;
       grid.appendChild(node);
     });
     updateStaticClasses();
@@ -2470,18 +2600,27 @@
     }
 
     grid.addEventListener('click', handleStaticClick);
+    clearCarouselWidth();
     buildStaticGrid();
     releaseScrollHijack();
   }
 
   function handleResize() {
     const nextMode = window.innerWidth >= DESKTOP_BREAKPOINT ? 'carousel' : 'static';
-    if (nextMode === currentMode) return;
-    currentMode = nextMode;
+    if (nextMode !== currentMode) {
+      currentMode = nextMode;
+      if (currentMode === 'carousel') {
+        initCarouselMode();
+      } else {
+        initStaticMode();
+      }
+      return;
+    }
+
     if (currentMode === 'carousel') {
-      initCarouselMode();
-    } else {
-      initStaticMode();
+      measureStepSize();
+      applyCarouselWidth();
+      resetCarouselTransform();
     }
   }
 
@@ -10500,9 +10639,10 @@
 
 .footer-container {
   position: relative;
-  max-width: 1520px;
-  margin: 0 auto;
+  width: 100%;
   padding: 0 3rem;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 /* 上方大框 */

@@ -2,9 +2,29 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## 快速开始
+
+```bash
+# 启动开发服务器（自动构建 + 启动 HTTP 服务器）
+./start-dev.sh
+
+# 或手动构建
+python3 tools/build.py
+
+# 访问网站
+# http://localhost:8000 - 主页
+# http://localhost:8000/explore.html - 探索页
+# http://localhost:8000/solutions.html - 解决方案页
+```
+
+**⚠️ 重要提示**:
+- ✨ 不要手动编辑生成的 HTML 文件（index.html, explore.html 等）
+- 📝 所有修改都应在 `sections/` 目录下的模块文件中进行
+- 🔨 修改后必须运行 `python3 tools/build.py` 重新构建
+
 ## 项目概述
 
-Star-UI 是一个现代化的 AI 视频创作平台落地页（TreClip），采用静态 HTML + CSS + JavaScript 架构。主题为宇宙、太空和未来科技，设计风格简洁专业。
+Star-UI 是一个现代化的 AI 视频创作平台落地页（TreClip），采用静态 HTML + CSS + JavaScript 架构，使用**模块化构建系统**。主题为宇宙、太空和未来科技，设计风格简洁专业。
 
 **设计理念**：简洁为主，不要过于花哨。参考网站：
 - https://www.florafauna.ai/
@@ -85,11 +105,11 @@ Star-UI/
 # 1. 启动开发服务器（自动构建 + 启动服务器）
 ./start-dev.sh
 
-# 2. 编辑某个模块（例如修改 Hero 区域）
-vim sections/hero.html
+# 2. 编辑某个模块（例如修改 Banner 区域）
+vim sections/banner/banner.html
 
-# 3. 重新构建
-python3 build.py
+# 3. 重新构建（脚本在 tools 文件夹下）
+python3 tools/build.py
 
 # 4. 刷新浏览器查看效果
 # 访问 http://localhost:8000
@@ -97,34 +117,50 @@ python3 build.py
 
 #### 构建系统说明
 
-**build.py** - 自动将模块文件合并成完整的 `index.html`
+**tools/build.py** - 自动将模块文件合并成完整的页面文件
 
 ```bash
-# 运行构建
-python3 build.py
+# 构建所有页面（index.html, explore.html, solutions.html, compose.html, create.html）
+python3 tools/build.py
 
 # 构建输出示例：
 # 🔨 Building Star-UI...
 #   ✅ navigation
-#   ✅ hero
-#   ✅ gallery
+#   ✅ banner
+#   ✅ links
 #   ... (其他模块)
 # ✅ Build complete!
 ```
 
-**build.config.json** - 定义模块加载顺序
+**多页面支持**：项目支持构建多个独立页面，每个页面有自己的配置文件：
+- `tools/build.config.json` → `index.html` (主页)
+- `tools/build.explore.config.json` → `explore.html` (探索页)
+- `tools/build.solutions.config.json` → `solutions.html` (解决方案页)
+- `tools/build.compose.config.json` → `compose.html` (创作页)
+- `tools/build.create.config.json` → `create.html` (制作页)
+
+**build.config.json** - 主页模块加载顺序
 
 ```json
 {
   "sections": [
-    "navigation",  // 导航栏
-    "hero",        // 主横幅
-    "gallery",     // 产品画廊
-    "stats",       // 统计数据
-    "features",    // 功能特性
-    "cta",         // 行动号召
-    "footer"       // 页脚
-  ]
+    "navigation",      // 导航栏
+    "banner",          // 主横幅（全屏视频背景）
+    "links",           // 社交媒体链接
+    "eclipses-engine", // 引擎介绍
+    "compare",         // 对比区块
+    "use-cases",       // 用例展示
+    "workflow",        // 工作流程
+    "assistant",       // AI 助手
+    "styles",          // 风格展示
+    "adaptation",      // 适配说明
+    "APIs",            // API 介绍
+    "explore_more",    // 更多探索
+    "question",        // 常见问题
+    "footer"           // 页脚
+  ],
+  "bodyClass": "page-index",
+  "output": "index.html"
 }
 ```
 
@@ -186,15 +222,16 @@ python3 tools/build.py
 ```
 
 **修改步骤**：
-1. 编辑 `sections/模块名.html`
-2. 运行 `python3 build.py`
+1. 编辑 `sections/模块名/模块名.html`（注意文件夹结构）
+2. 运行 `python3 tools/build.py`
 3. 刷新浏览器
 
 ### 添加新模块
 
 ```bash
-# 1. 创建新模块文件
-cat > sections/new-section.html << 'EOF'
+# 1. 创建模块文件夹和文件（模块名必须与文件夹名一致）
+mkdir sections/new-section
+cat > sections/new-section/new-section.html << 'EOF'
 <style>
 .new-section { ... }
 </style>
@@ -209,27 +246,28 @@ cat > sections/new-section.html << 'EOF'
 EOF
 
 # 2. 添加到构建配置
-# 编辑 build.config.json，在 sections 数组中添加 "new-section"
+# 编辑 tools/build.config.json，在 sections 数组中添加 "new-section"
 
 # 3. 重新构建
-python3 build.py
+python3 tools/build.py
 ```
 
 ### 调整模块顺序
 
-只需编辑 `build.config.json`，调整 `sections` 数组的顺序：
+只需编辑 `tools/build.config.json`，调整 `sections` 数组的顺序：
 
 ```json
 {
   "sections": [
     "navigation",
-    "stats",      // 移到前面
-    "hero",
-    "gallery",
-    "features",
-    "cta",
+    "banner",
+    "compare",      // 移到前面
+    "use-cases",
+    "workflow",
     "footer"
-  ]
+  ],
+  "bodyClass": "page-index",
+  "output": "index.html"
 }
 ```
 
@@ -260,14 +298,18 @@ python3 build.py
 ### 本地开发服务器
 
 ```bash
-# 方式 1：使用开发脚本（推荐，自动构建）
+# 方式 1：使用开发脚本（推荐，自动构建所有页面）
 ./start-dev.sh
 
 # 方式 2：手动构建 + 启动服务器
-python3 build.py && python3 -m http.server 8000
+python3 tools/build.py && python3 -m http.server 8000
 
 # 访问地址
-http://localhost:8000
+http://localhost:8000              # 主页
+http://localhost:8000/explore.html # 探索页
+http://localhost:8000/solutions.html # 解决方案页
+http://localhost:8000/compose.html # 创作页
+http://localhost:8000/create.html  # 制作页
 ```
 
 **重要**：必须使用 HTTP 服务器，不要直接用 `file://` 打开 HTML。
@@ -294,43 +336,50 @@ F12 → Toggle Device Toolbar (Ctrl+Shift+M)
 
 ```
 sections/
-├── navigation.html    # 导航栏（所有代码在此）
-├── hero.html          # Hero 区（所有代码在此）
-├── gallery.html       # 画廊区（所有代码在此）
+├── navigation/
+│   └── navigation.html    # 导航栏（所有代码在此）
+├── banner/
+│   └── banner.html        # Banner 区（所有代码在此）
+├── use-cases/
+│   └── use-cases.html     # 用例展示区（所有代码在此）
 ...
 ```
 
 **模块文件格式**：
 
 ```html
-<!-- sections/hero.html -->
+<!-- sections/banner/banner.html -->
 <style>
-/* 仅包含 Hero 区的样式 */
-.hero { ... }
-.hero-container { ... }
+/* 仅包含 Banner 区的样式 */
+.banner { ... }
+.banner-container { ... }
 /* 响应式样式 */
 @media (max-width: 991px) { ... }
 </style>
 
-<section class="hero">
-  <!-- Hero 区的 HTML 结构 -->
-  <div class="hero-container">...</div>
+<section class="banner">
+  <!-- Banner 区的 HTML 结构 -->
+  <div class="banner-container">...</div>
 </section>
 
 <script>
-// Hero 区的交互逻辑（用 IIFE 包裹）
+// Banner 区的交互逻辑（用 IIFE 包裹）
 (function() {
   'use strict';
-  // 视频悬浮播放等逻辑
+  // 视频背景切换等逻辑
 })();
 </script>
 ```
 
 **优势**：
 - ✅ **完全独立**：每个模块包含所有相关代码
-- ✅ **易于移动**：调整 `build.config.json` 即可改变顺序
+- ✅ **易于移动**：调整 `tools/build.config.json` 即可改变顺序
 - ✅ **便于维护**：修改某个区块不影响其他部分
 - ✅ **无需工具**：使用简单的 Python 脚本即可构建
+
+**重要规范**：
+- 模块文件夹名必须与模块 HTML 文件名一致（如 `sections/banner/banner.html`）
+- 构建脚本会查找 `sections/{模块名}/{模块名}.html` 路径
 
 ### 视频处理规范
 
@@ -369,69 +418,39 @@ sections/
 - 禁用某些悬浮效果（使用 `@media (hover: none)`）
 - 触摸友好的交互设计
 
-## 模块列表
+## 主页模块列表
 
-### 7 个核心模块
+### 核心模块概览
+
+主页 (index.html) 包含 14 个模块,按照以下顺序排列:
 
 | 模块 | 文件 | 功能说明 | 交互 |
 |------|------|---------|------|
-| **Navigation** | `sections/navigation.html` | 固定顶部导航栏，包含 Logo、菜单、登录/注册按钮 | ✅ 移动菜单、滚动效果 |
-| **Hero** | `sections/hero.html` | 主横幅区，包含大标题、画廊、右侧特色面板 | ✅ 视频悬浮播放 |
-| **Gallery** | `sections/gallery.html` | 产品展示画廊（6 个视频卡片，网格布局） | ✅ 视频悬浮播放 |
-| **Stats** | `sections/stats.html` | 数据统计展示（4 个统计项：300K 用户等） | 无 |
-| **Features** | `sections/features.html` | 功能特性介绍（6 个功能卡片） | ✅ 滚动动画 |
-| **CTA** | `sections/cta.html` | 行动号召区（标题 + 按钮） | 无 |
-| **Footer** | `sections/footer.html` | 页脚（品牌信息 + 5 列链接 + 版权） | 无 |
+| **Navigation** | `sections/navigation/navigation.html` | 固定顶部导航栏 | ✅ 移动菜单 |
+| **Banner** | `sections/banner/banner.html` | 全屏视频背景主横幅 | ✅ 视频背景 |
+| **Links** | `sections/links/links.html` | 社交媒体链接（自动生成）| 无 |
+| **Eclipses Engine** | `sections/eclipses-engine/eclipses-engine.html` | AI 引擎介绍 | ✅ 视频播放 |
+| **Compare** | `sections/compare/compare.html` | 对比展示区 | 无 |
+| **Use Cases** | `sections/use-cases/use-cases.html` | 应用场景展示 | ✅ 视频播放 |
+| **Workflow** | `sections/workflow/workflow.html` | 工作流程说明 | 无 |
+| **Assistant** | `sections/assistant/assistant.html` | AI 助手介绍 | 无 |
+| **Styles** | `sections/styles/styles.html` | 风格展示 | ✅ 图片/视频 |
+| **Adaptation** | `sections/adaptation/adaptation.html` | 自适应功能 | 无 |
+| **APIs** | `sections/APIs/APIs.html` | API 集成说明 | 无 |
+| **Explore More** | `sections/explore_more/explore_more.html` | 探索更多内容 | 无 |
+| **Question** | `sections/question/question.html` | 常见问题 FAQ | ✅ 折叠面板 |
+| **Footer** | `sections/footer/footer.html` | 页脚（链接+版权）| 无 |
 
-### 模块详细说明
+### 其他页面
 
-#### 1. Navigation（导航栏）
-- **位置**：固定在页面顶部
-- **内容**：Logo、5 个菜单项、Sign in/Sign up 按钮
-- **交互**：
-  - 移动端显示汉堡菜单
-  - 滚动超过 100px 后背景加深
-- **响应式**：991px 以下隐藏菜单，显示汉堡按钮
+项目还包含其他独立页面：
 
-#### 2. Hero（主横幅）
-- **布局**：三栏（左侧内容 + 中间画廊 + 右侧面板）
-- **内容**：
-  - 左侧：标题"AI SHORT-FORM VIDEOS, DESIGNED LIKE ART"、副标题、CTA 按钮
-  - 中间：3 个视频卡片（垂直排列）
-  - 右侧：特色视频、创作工具标签
-- **交互**：所有视频支持悬浮播放
-- **响应式**：991px 以下单列布局
+- **explore.html**: 探索页（exp_1, exp_2, exp_3 模块）
+- **solutions.html**: 解决方案页（多种解决方案展示）
+- **compose.html**: 创作页（创作工具介绍）
+- **create.html**: 制作页（制作流程说明）
 
-#### 3. Gallery（产品画廊）
-- **布局**：CSS Grid 3 列，支持跨行/跨列
-- **内容**：6 个视频卡片，包含标题和副标题叠加层
-- **交互**：悬浮显示叠加层，视频自动播放
-- **响应式**：991px 以下 2 列，767px 以下 1 列
-
-#### 4. Stats（统计数据）
-- **布局**：4 列网格
-- **内容**：4 个统计项（用户数、视频数、满意度、国家数）
-- **样式**：大号数字 + 灰色标签
-- **响应式**：991px 以下 2 列，767px 以下 1 列
-
-#### 5. Features（功能特性）
-- **布局**：2 列网格
-- **内容**：6 个功能卡片，每个包含图片、标题、描述、链接
-- **交互**：滚动进入视口时触发淡入动画
-- **响应式**：767px 以下 1 列
-
-#### 6. CTA（行动号召）
-- **内容**：标题、副标题、2 个按钮（主按钮 + 次按钮）
-- **样式**：居中对齐，渐变边框背景
-- **响应式**：按钮在移动端堆叠
-
-#### 7. Footer（页脚）
-- **布局**：5 列（品牌 + 4 个链接列）
-- **内容**：
-  - 品牌信息、社交链接
-  - Product、Resources、Company、Legal 链接列
-  - 底部版权和法律链接
-- **响应式**：991px 以下 2 列，767px 以下 1 列
+每个页面都有自己的 `tools/build.*.config.json` 配置文件。
 
 ## 资源管理
 
@@ -475,38 +494,36 @@ ffmpeg -i input.mp4 \
 
 ## 常见开发任务
 
-### 添加新区块
-
-1. 在 `index.html` 中找到合适位置
-2. 复制相似区块作为模板
-3. 修改内容和类名
-4. 在 `css/star-ui.css` 添加样式（如需要）
-5. 在 `js/star-ui.js` 添加交互（如需要）
-
 ### 修改配色方案
 
-编辑 `css/star-ui.css:6-18`：
+编辑 `global/global.css` 中的 CSS 变量：
 
 ```css
 :root {
   /* 修改这些变量 */
-  --space-black: #0a0e27;
-  --cosmic-purple: #6366f1;
-  --cosmic-pink: #ec4899;
-  /* ...其他变量 */
+  --color-bg: #0D0D0D;
+  --color-bg-secondary: #1A1A1A;
+  --color-text: #FFFFFF;
+  --color-accent: #FF3366;
+  --color-border: #2A2A2A;
 }
 ```
 
-### 调整滚动动画
+然后运行 `python3 tools/build.py` 重新构建所有页面。
 
-编辑 `js/star-ui.js:46-66` 的 `initScrollAnimations()` 函数：
+### 修改某个模块的样式
 
-```javascript
-const observerOptions = {
-  threshold: 0.1,              // 触发阈值（0-1）
-  rootMargin: '0px 0px -100px 0px'  // 触发偏移
-};
-```
+1. 找到对应的模块文件（如 `sections/banner/banner.html`）
+2. 编辑文件中的 `<style>` 标签内容
+3. 运行 `python3 tools/build.py`
+4. 刷新浏览器查看效果
+
+### 添加新页面
+
+1. 创建新的构建配置文件 `tools/build.newpage.config.json`
+2. 指定页面使用的模块列表
+3. 在 `tools/build.py` 的 `PAGES` 数组中添加页面配置
+4. 运行构建脚本生成新页面
 
 ### 调试视频播放问题
 
@@ -634,7 +651,11 @@ git push origin main
 4. **国际化**：支持多语言切换（中文/英文）
 5. **深色/浅色模式切换**：添加主题切换器
 6. **分析追踪**：集成 Google Analytics 或 Plausible
-- 本项目的界面语言要全英，注释可中文
-- 回答我请使用中文回答，只是网站展示界面是英文，注释也使用中文
-- 构建的脚本文件在tools文件夹下
-- 改完代码要运行 build.py
+
+## 开发规范
+
+- **界面语言**: 网站展示界面使用全英文
+- **代码注释**: 注释使用中文
+- **沟通语言**: 与开发者沟通使用中文
+- **构建脚本位置**: `tools/` 文件夹下
+- **修改后必做**: 改完代码后必须运行 `python3 tools/build.py` 重新构建所有页面
