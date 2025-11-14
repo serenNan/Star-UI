@@ -70,6 +70,7 @@
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.4s ease, box-shadow 0.4s ease;
+    z-index: 1;
   }
 
   .explore-card:hover {
@@ -85,8 +86,41 @@
     transition: transform 0.4s ease;
   }
 
+  .explore-card-media {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .explore-card-image,
+  .explore-card-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    display: block;
+  }
+
+  .explore-card-image {
+    z-index: 1;
+  }
+
+  .explore-card-video {
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
   .explore-card:hover .explore-card-image {
     transform: scale(1.05);
+  }
+
+  .explore-card:hover .explore-card-video {
+    opacity: 1;
   }
 
   /* 卡片 1: CREATE - 左上角 */
@@ -521,42 +555,60 @@
     <div class="explore-grid">
       <!-- 卡片 1: CREATE -->
       <div class="explore-card explore-card-1">
-        <img src="assets/explore_more/images/explore_more-image-01.png" alt="Create" class="explore-card-image">
+        <div class="explore-card-media">
+          <img src="assets/explore_more/images/explore_more-image-01.png" alt="Create" class="explore-card-image">
+          <video class="explore-card-video" muted loop playsinline preload="none" data-src="assets/explore_more/videos/explore_more-video-01.mp4"></video>
+        </div>
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">CREATE</div>
       </div>
 
       <!-- 卡片 2: COMPOSE -->
       <div class="explore-card explore-card-2">
-        <img src="assets/explore_more/images/explore_more-image-02.jpg" alt="Compose" class="explore-card-image">
+        <div class="explore-card-media">
+          <img src="assets/explore_more/images/explore_more-image-02.jpg" alt="Compose" class="explore-card-image">
+          <video class="explore-card-video" muted loop playsinline preload="none" data-src="assets/explore_more/videos/explore_more-video-02.mp4"></video>
+        </div>
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">COMPOSE</div>
       </div>
 
       <!-- 卡片 3: STUDIO -->
       <div class="explore-card explore-card-3">
-        <img src="assets/explore_more/images/explore_more-image-03.png" alt="Studio" class="explore-card-image">
+        <div class="explore-card-media">
+          <img src="assets/explore_more/images/explore_more-image-03.png" alt="Studio" class="explore-card-image">
+          <video class="explore-card-video" muted loop playsinline preload="none" data-src="assets/explore_more/videos/explore_more-video-03.mp4"></video>
+        </div>
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">STUDIO</div>
       </div>
 
       <!-- 卡片 4: Brand Modeling -->
       <div class="explore-card explore-card-4">
-        <img src="assets/explore_more/images/explore_more-image-04.png" alt="Brand Modeling" class="explore-card-image">
+        <div class="explore-card-media">
+          <img src="assets/explore_more/images/explore_more-image-04.png" alt="Brand Modeling" class="explore-card-image">
+          <video class="explore-card-video" muted loop playsinline preload="none" data-src="assets/explore_more/videos/explore_more-video-04.mp4"></video>
+        </div>
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">Brand Modeling</div>
       </div>
 
       <!-- 卡片 5: Storytelling -->
       <div class="explore-card explore-card-5">
-        <img src="assets/explore_more/images/explore_more-image-05.png" alt="Storytelling" class="explore-card-image">
+        <div class="explore-card-media">
+          <img src="assets/explore_more/images/explore_more-image-05.png" alt="Storytelling" class="explore-card-image">
+          <video class="explore-card-video" muted loop playsinline preload="none" data-src="assets/explore_more/videos/explore_more-video-05.mp4"></video>
+        </div>
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">Storytelling</div>
       </div>
 
       <!-- 卡片 6: Entertainment -->
       <div class="explore-card explore-card-6">
-        <img src="assets/explore_more/images/explore_more-image-06.png" alt="Entertainment" class="explore-card-image">
+        <div class="explore-card-media">
+          <img src="assets/explore_more/images/explore_more-image-06.png" alt="Entertainment" class="explore-card-image">
+          <video class="explore-card-video" muted loop playsinline preload="none" data-src="assets/explore_more/videos/explore_more-video-06.mp4"></video>
+        </div>
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">Entertainment</div>
       </div>
@@ -606,6 +658,53 @@
         card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
         observer.observe(card);
       });
+
+      const initCardVideoHover = () => {
+        const videos = document.querySelectorAll('.explore-card-video[data-src]');
+        if (!videos.length) return;
+
+        const ensureVideoLoaded = (video) => {
+          if (video.dataset.loaded === 'true') return;
+          const src = video.dataset.src;
+          if (!src) return;
+          video.src = src;
+          video.load();
+          video.dataset.loaded = 'true';
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              ensureVideoLoaded(entry.target);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.25, rootMargin: '0px 0px 120px 0px' });
+
+        videos.forEach(video => observer.observe(video));
+
+        cards.forEach(card => {
+          const video = card.querySelector('.explore-card-video');
+          if (!video) return;
+
+          const playVideo = () => {
+            ensureVideoLoaded(video);
+            video.play().catch(err => console.warn('Explore video play failed:', err));
+          };
+
+          const stopVideo = () => {
+            video.pause();
+            video.currentTime = 0;
+          };
+
+          card.addEventListener('mouseenter', playVideo);
+          card.addEventListener('mouseleave', stopVideo);
+          card.addEventListener('focusin', playVideo);
+          card.addEventListener('focusout', stopVideo);
+        });
+      };
+
+      initCardVideoHover();
     }
 
     // 页面加载完成后初始化
