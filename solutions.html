@@ -1242,9 +1242,20 @@
         if (!href || !href.startsWith('#')) return;
 
         const sectionId = href.substring(1);
-        const section = document.getElementById(sectionId) ||
-                       document.querySelector(`.${sectionId}`) ||
-                       document.querySelector(`[class*="${sectionId}"]`);
+        // ✅ 防御性检查: 空字符串会导致 querySelector 语法错误
+        if (!sectionId) return;
+
+        // ✅ 使用 try-catch 捕获无效选择器错误
+        let section = document.getElementById(sectionId);
+        if (!section) {
+          try {
+            section = document.querySelector(`.${sectionId}`) ||
+                     document.querySelector(`[class*="${sectionId}"]`);
+          } catch (e) {
+            // 忽略无效选择器错误(如特殊字符导致的语法错误)
+            return;
+          }
+        }
 
         if (section) {
           const sectionTop = section.offsetTop;
@@ -1909,6 +1920,7 @@
     overflow: hidden;
     border-radius: 16px;
     margin-bottom: 24px;
+    position: relative;
   }
 
   /* 卡片图片 */
@@ -1917,11 +1929,7 @@
     height: 280px;
     object-fit: cover;
     display: block;
-    transition: transform 0.4s ease;
-  }
-
-  .adaptation-card:hover .adaptation-card-image {
-    transform: scale(1.05);
+    transition: opacity 0.3s ease;
   }
 
   /* 卡片视频 */
@@ -1930,60 +1938,21 @@
     height: 280px;
     object-fit: cover;
     display: block;
-    transition: transform 0.4s ease;
-    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* 悬浮时显示视频，隐藏图片 */
+  .adaptation-card:hover .adaptation-card-image {
+    opacity: 0;
   }
 
   .adaptation-card:hover .adaptation-card-video {
-    transform: scale(1.05);
-  }
-
-  /* 视频预览模态框 */
-  .video-modal {
-    display: none;
-    position: fixed;
-    z-index: 10000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    backdrop-filter: blur(10px);
-  }
-
-  .video-modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 90%;
-    max-height: 90%;
-    width: auto;
-    height: auto;
-  }
-
-  .video-modal video {
-    width: 100%;
-    height: 100%;
-    max-width: 80vw;
-    max-height: 80vh;
-    object-fit: contain;
-  }
-
-  .video-modal-close {
-    position: absolute;
-    top: 20px;
-    right: 40px;
-    color: white;
-    font-size: 40px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 10001;
-    transition: color 0.3s ease;
-  }
-
-  .video-modal-close:hover {
-    color: #ccc;
+    opacity: 1;
   }
 
   /* 卡片内容区域（图片下方）*/
@@ -2117,10 +2086,11 @@
         <!-- 三个卡片 -->
         <div class="adaptation-cards">
           <!-- 卡片 1: From A Script -->
-          <div class="adaptation-card" data-video-card>
+          <div class="adaptation-card" data-hover-video>
             <div class="adaptation-card-image-wrapper">
-              <video class="adaptation-card-video" muted loop playsinline data-video-src="assets/adaptation/videos/adaptation-video-01.mp4">
-                <source src="assets/adaptation/videos/adaptation-video-02.mp4" type="video/mp4">
+              <img class="adaptation-card-image" src="assets/adaptation/images/adaptation-image-01.jpg" alt="From A Script" loading="lazy">
+              <video class="adaptation-card-video" muted loop preload="none">
+                <source src="assets/adaptation/videos/adaptation-video-01.mp4" type="video/mp4">
               </video>
             </div>
             <div class="adaptation-card-content">
@@ -2132,10 +2102,11 @@
           </div>
 
           <!-- 卡片 2: From A Concept -->
-          <div class="adaptation-card" data-video-card>
+          <div class="adaptation-card" data-hover-video>
             <div class="adaptation-card-image-wrapper">
-              <video class="adaptation-card-video" muted loop playsinline data-video-src="assets/adaptation/videos/adaptation-video-03.mp4">
-                <source src="assets/adaptation/videos/adaptation-video-04.mp4" type="video/mp4">
+              <img class="adaptation-card-image" src="assets/adaptation/images/adaptation-image-02.jpg" alt="From A Concept" loading="lazy">
+              <video class="adaptation-card-video" muted loop preload="none">
+                <source src="assets/adaptation/videos/adaptation-video-02.mp4" type="video/mp4">
               </video>
             </div>
             <div class="adaptation-card-content">
@@ -2147,10 +2118,11 @@
           </div>
 
           <!-- 卡片 3: From An Image -->
-          <div class="adaptation-card" data-video-card>
+          <div class="adaptation-card" data-hover-video>
             <div class="adaptation-card-image-wrapper">
-              <video class="adaptation-card-video" muted loop playsinline data-video-src="assets/adaptation/videos/adaptation-video-05.mp4">
-                <source src="assets/adaptation/videos/adaptation-video-06.mp4" type="video/mp4">
+              <img class="adaptation-card-image" src="assets/adaptation/images/adaptation-image-03.jpg" alt="From An Image" loading="lazy">
+              <video class="adaptation-card-video" muted loop preload="none">
+                <source src="assets/adaptation/videos/adaptation-video-03.mp4" type="video/mp4">
               </video>
             </div>
             <div class="adaptation-card-content">
@@ -2166,97 +2138,38 @@
   </div>
 </section>
 
-<!-- 视频预览模态框 -->
-<div id="adaptation-video-modal" class="video-modal">
-  <span class="video-modal-close">&times;</span>
-  <div class="video-modal-content">
-    <video id="adaptation-modal-video" controls>
-      <source src="" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </div>
-</div>
-
 <script>
   // Adaptation 模块交互逻辑
   (function () {
     'use strict';
 
+    /**
+     * 初始化 Adaptation 模块
+     * 功能：鼠标悬浮时播放视频，离开时暂停并重置
+     */
     const initAdaptation = () => {
-      // 为每个卡片添加交互功能
-      const cards = document.querySelectorAll('.adaptation-card[data-video-card]');
-      cards.forEach(card => {
+      const videoCards = document.querySelectorAll('[data-hover-video]');
+
+      videoCards.forEach(card => {
         const video = card.querySelector('.adaptation-card-video');
         if (!video) return;
 
-        // 视频加载错误处理
-        video.addEventListener('error', function () {
-          console.warn(`Failed to load video: ${this.querySelector('source').src}`);
-          this.style.display = 'none';
-        });
-
-        // 初始状态暂停视频
-        video.pause();
-
-        // 鼠标悬停时播放视频
+        // 鼠标进入时播放视频
         card.addEventListener('mouseenter', () => {
+          video.currentTime = 0; // 从头开始播放
           video.play().catch(err => {
-            console.log('Adaptation video play failed:', err);
+            console.warn('Adaptation video play failed:', err);
           });
         });
 
+        // 鼠标离开时暂停并重置视频
         card.addEventListener('mouseleave', () => {
           video.pause();
-          video.currentTime = 0;
+          video.currentTime = 0; // 重置到开头
         });
-
-        // 点击打开模态框预览
-        card.addEventListener('click', function () {
-          openVideoModal(video.querySelector('source').src);
-        });
-
-        // 添加鼠标样式提示可点击
-        card.style.cursor = 'pointer';
       });
 
-      // 模态框功能
-      const modal = document.getElementById('adaptation-video-modal');
-      const modalVideo = document.getElementById('adaptation-modal-video');
-      const closeBtn = document.querySelector('#adaptation-video-modal .video-modal-close');
-
-      function openVideoModal(videoSrc) {
-        modalVideo.src = videoSrc;
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden'; // 防止背景滚动
-      }
-
-      function closeVideoModal() {
-        modal.style.display = 'none';
-        modalVideo.pause();
-        modalVideo.src = '';
-        document.body.style.overflow = ''; // 恢复滚动
-      }
-
-      // 关闭按钮事件
-      if (closeBtn) {
-        closeBtn.addEventListener('click', closeVideoModal);
-      }
-
-      // 点击模态框背景关闭
-      if (modal) {
-        modal.addEventListener('click', function (e) {
-          if (e.target === modal) {
-            closeVideoModal();
-          }
-        });
-      }
-
-      // ESC键关闭模态框
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && modal.style.display === 'block') {
-          closeVideoModal();
-        }
-      });
+      console.log('✅ Adaptation module initialized with', videoCards.length, 'hover videos');
     };
 
     // DOM 加载后初始化
@@ -5426,19 +5339,46 @@
   display: block;
 }
 
-.footer-main-box::before {
-  content: '';
+/* 背景封面图 */
+.footer-background-image {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: -20px;
-  background-image: url('assets/footer/images/footer-image-02.png');
-  background-size: 100% auto;
-  background-position: top left;
-  background-repeat: no-repeat;
+  width: 100%;
+  height: calc(100% + 20px);
+  object-fit: cover;
+  object-position: top left;
   opacity: 0.5;
   z-index: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* 背景视频 */
+.footer-background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: -20px;
+  width: 100%;
+  height: calc(100% + 20px);
+  object-fit: cover;
+  object-position: top left;
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* 悬浮时显示视频，隐藏图片（上方大框）*/
+.footer-main-box.active .footer-background-image {
+  opacity: 0;
+}
+
+.footer-main-box.active .footer-background-video {
+  opacity: 0.5;
 }
 
 .footer-main {
@@ -5562,25 +5502,51 @@
   border-radius: 16px;
   padding: 23px 60px;
   overflow: hidden;
-  width: 100%;         
-  height: auto;         
+  width: 100%;
+  height: auto;
   min-height: 70px;      /* 最小高度：可调整 */
 }
 
-.footer-bottom-box::before {
-  content: '';
+/* 下方小框背景封面图 */
+.footer-bottom-background-image {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('assets/footer/images/footer-image-03.png');
-  background-size: 100% auto;
-  background-position-x: left;
-  background-position-y: calc(-1 * (var(--footer-main-height) + 20px));
-  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left calc(-1 * (var(--footer-main-height) + 20px));
   opacity: 0.5;
   z-index: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* 下方小框背景视频 */
+.footer-bottom-background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left calc(-1 * (var(--footer-main-height) + 20px));
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* 悬浮时显示视频，隐藏图片（下方小框）*/
+.footer-bottom-box.active .footer-bottom-background-image {
+  opacity: 0;
+}
+
+.footer-bottom-box.active .footer-bottom-background-video {
+  opacity: 0.5;
 }
 
 .footer-bottom {
@@ -5832,7 +5798,13 @@
 <footer class="footer-section">
   <div class="footer-container">
     <!-- 上方大框：主要内容区域 -->
-    <div class="footer-main-box">
+    <div class="footer-main-box" data-hover-video>
+      <!-- 背景封面图 -->
+      <img class="footer-background-image" src="assets/footer/images/footer-image-02.png" alt="Footer Background">
+      <!-- 背景视频 -->
+      <video class="footer-background-video" muted loop preload="none">
+        <source src="assets/footer/video/footer-video-01.mp4" type="video/mp4">
+      </video>
       <div class="footer-main">
       <!-- 品牌区域 -->
       <div class="footer-brand">
@@ -5896,7 +5868,13 @@
     </div>
 
     <!-- 下方小框：版权区域 -->
-    <div class="footer-bottom-box">
+    <div class="footer-bottom-box" data-hover-video>
+      <!-- 背景封面图 -->
+      <img class="footer-bottom-background-image" src="assets/footer/images/footer-image-03.png" alt="Footer Bottom Background">
+      <!-- 背景视频 -->
+      <video class="footer-bottom-background-video" muted loop preload="none">
+        <source src="assets/footer/video/footer-video-02.mp4" type="video/mp4">
+      </video>
       <div class="footer-bottom">
       <p class="footer-copyright">© TreClip Studio. All rights reserved.</p>
       <ul class="footer-legal-links">
@@ -5912,8 +5890,14 @@
 (function() {
   'use strict';
 
-  // 设置 footer 背景图的尺寸，确保两个框拼接成完整图片
-  function setFooterBackgroundSize() {
+  /**
+   * 初始化 Footer 模块
+   * 功能：
+   * 1. 设置 footer 背景图的尺寸
+   * 2. 鼠标悬浮在任意一个框上时，两个视频同时播放
+   */
+  function initFooter() {
+    // 设置 footer 背景图的尺寸，确保两个框拼接成完整图片
     const mainBox = document.querySelector('.footer-main-box');
     const bottomBox = document.querySelector('.footer-bottom-box');
 
@@ -5925,20 +5909,81 @@
       document.documentElement.style.setProperty('--footer-main-height', mainHeight + 'px');
       document.documentElement.style.setProperty('--footer-bottom-height', bottomHeight + 'px');
     }
+
+    // 悬浮视频播放逻辑 - 两个框联动
+    const mainVideo = mainBox ? mainBox.querySelector('.footer-background-video') : null;
+    const bottomVideo = bottomBox ? bottomBox.querySelector('.footer-bottom-background-video') : null;
+
+    // 播放所有视频
+    function playAllVideos() {
+      // 添加 active 类显示视频
+      if (mainBox) mainBox.classList.add('active');
+      if (bottomBox) bottomBox.classList.add('active');
+
+      // 播放视频
+      if (mainVideo) {
+        mainVideo.currentTime = 0;
+        mainVideo.play().catch(err => console.warn('Main video play failed:', err));
+      }
+      if (bottomVideo) {
+        bottomVideo.currentTime = 0;
+        bottomVideo.play().catch(err => console.warn('Bottom video play failed:', err));
+      }
+    }
+
+    // 暂停所有视频
+    function pauseAllVideos() {
+      // 移除 active 类隐藏视频
+      if (mainBox) mainBox.classList.remove('active');
+      if (bottomBox) bottomBox.classList.remove('active');
+
+      // 暂停并重置视频
+      if (mainVideo) {
+        mainVideo.pause();
+        mainVideo.currentTime = 0;
+      }
+      if (bottomVideo) {
+        bottomVideo.pause();
+        bottomVideo.currentTime = 0;
+      }
+    }
+
+    // 为上方大框添加事件监听
+    if (mainBox) {
+      mainBox.addEventListener('mouseenter', playAllVideos);
+      mainBox.addEventListener('mouseleave', pauseAllVideos);
+    }
+
+    // 为下方小框添加事件监听
+    if (bottomBox) {
+      bottomBox.addEventListener('mouseenter', playAllVideos);
+      bottomBox.addEventListener('mouseleave', pauseAllVideos);
+    }
+
+    console.log('✅ Footer synchronized hover videos initialized');
   }
 
   // 页面加载时设置
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setFooterBackgroundSize);
+    document.addEventListener('DOMContentLoaded', initFooter);
   } else {
-    setFooterBackgroundSize();
+    initFooter();
   }
 
-  // 窗口大小改变时重新计算
+  // 窗口大小改变时重新计算背景尺寸
   let resizeTimer;
   window.addEventListener('resize', function() {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(setFooterBackgroundSize, 100);
+    resizeTimer = setTimeout(function() {
+      const mainBox = document.querySelector('.footer-main-box');
+      const bottomBox = document.querySelector('.footer-bottom-box');
+      if (mainBox && bottomBox) {
+        const mainHeight = mainBox.offsetHeight;
+        const bottomHeight = bottomBox.offsetHeight;
+        document.documentElement.style.setProperty('--footer-main-height', mainHeight + 'px');
+        document.documentElement.style.setProperty('--footer-bottom-height', bottomHeight + 'px');
+      }
+    }, 100);
   });
 })();
 </script>

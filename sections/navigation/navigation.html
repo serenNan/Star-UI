@@ -775,9 +775,20 @@
         if (!href || !href.startsWith('#')) return;
 
         const sectionId = href.substring(1);
-        const section = document.getElementById(sectionId) ||
-                       document.querySelector(`.${sectionId}`) ||
-                       document.querySelector(`[class*="${sectionId}"]`);
+        // ✅ 防御性检查: 空字符串会导致 querySelector 语法错误
+        if (!sectionId) return;
+
+        // ✅ 使用 try-catch 捕获无效选择器错误
+        let section = document.getElementById(sectionId);
+        if (!section) {
+          try {
+            section = document.querySelector(`.${sectionId}`) ||
+                     document.querySelector(`[class*="${sectionId}"]`);
+          } catch (e) {
+            // 忽略无效选择器错误(如特殊字符导致的语法错误)
+            return;
+          }
+        }
 
         if (section) {
           const sectionTop = section.offsetTop;
