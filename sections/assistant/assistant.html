@@ -172,15 +172,19 @@
     /* 固定右侧图片高度 */
   }
 
-  .assistant-feature-visual img {
+  .assistant-feature-visual video {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.6s ease;
   }
 
-  .assistant-card:hover .assistant-feature-visual img {
+  .assistant-card:hover .assistant-feature-visual video {
     transform: scale(1.05);
+  }
+
+  .assistant-feature-visual video {
+    display: block;
   }
 
   .assistant-feature-content {
@@ -216,14 +220,14 @@
     height: 250px;
   }
 
-  .assistant-feature-visual-right img {
+  .assistant-feature-visual-right video {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.6s ease;
   }
 
-  .assistant-card:hover .assistant-feature-visual-right img {
+  .assistant-card:hover .assistant-feature-visual-right video {
     transform: scale(1.05);
   }
 
@@ -626,7 +630,7 @@
           <!-- 功能项 1: Script, Story & Hooks -->
           <div class="assistant-feature-item">
             <div class="assistant-feature-visual">
-              <img src="assets/assistant/images/assistant-image-01.jpg" alt="Script, Story & Hooks" loading="lazy">
+              <video class="assistant-feature-video" muted loop playsinline preload="none" data-src="assets/assistant/videos/assistant-video-01.mp4"></video>
             </div>
             <div class="assistant-feature-content">
               <h3 class="assistant-feature-title">Script, Story & Hooks</h3>
@@ -640,7 +644,7 @@
           <!-- 功能项 2: Adaptive Intelligence -->
           <div class="assistant-feature-item">
             <div class="assistant-feature-visual">
-              <img src="assets/assistant/images/assistant-image-02.jpg" alt="Adaptive Intelligence" loading="lazy">
+              <video class="assistant-feature-video" muted loop playsinline preload="none" data-src="assets/assistant/videos/assistant-video-02.mp4"></video>
             </div>
             <div class="assistant-feature-content">
               <h3 class="assistant-feature-title">Adaptive Intelligence</h3>
@@ -664,7 +668,7 @@
           <!-- 功能项：Analytical Insight - 独立类名 -->
           <div class="assistant-feature-item-right">
             <div class="assistant-feature-visual-right">
-              <img src="assets/assistant/images/assistant-image-03.jpg" alt="Analytical Insight" loading="lazy">
+              <video class="assistant-feature-video" muted loop playsinline preload="none" data-src="assets/assistant/videos/assistant-video-03.mp4"></video>
             </div>
             <div class="assistant-feature-content-right">
               <h3 class="assistant-feature-title-right">Analytical Insight</h3>
@@ -716,6 +720,55 @@
       animateElements.forEach(element => {
         observer.observe(element);
       });
+      const initAssistantVideoHover = () => {
+        const videos = document.querySelectorAll('.assistant-section .assistant-feature-video[data-src]');
+        if (!videos.length) return;
+
+        const ensureVideoLoaded = (video) => {
+          if (video.dataset.loaded === 'true') return;
+          const src = video.dataset.src;
+          if (!src) return;
+          video.src = src;
+          video.load();
+          video.dataset.loaded = 'true';
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              ensureVideoLoaded(entry.target);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.3, rootMargin: '0px 0px 100px 0px' });
+
+        videos.forEach(video => observer.observe(video));
+
+        videos.forEach(video => {
+          const container = video.closest('.assistant-feature-visual') ||
+            video.closest('.assistant-feature-visual-right') ||
+            video.parentElement;
+
+          if (!container) return;
+
+          const playVideo = () => {
+            ensureVideoLoaded(video);
+            video.play().catch(err => console.warn('Assistant video play failed:', err));
+          };
+
+          const stopVideo = () => {
+            video.pause();
+            video.currentTime = 0;
+          };
+
+          container.addEventListener('mouseenter', playVideo);
+          container.addEventListener('mouseleave', stopVideo);
+          container.addEventListener('focusin', playVideo);
+          container.addEventListener('focusout', stopVideo);
+        });
+      };
+
+      initAssistantVideoHover();
     };
 
     // DOM 加载完成后初始化

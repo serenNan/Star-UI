@@ -1340,619 +1340,598 @@
 
 
   <!-- ===== BANNER SECTION ===== -->
-<!-- ================================
-     Banner 区域 - 宇航员全屏背景设计
+﻿<!-- ================================
+     Banner 鍖哄煙 - 瀹囪埅鍛樺叏灞忚儗鏅璁?
      ================================ -->
 
 <style>
-/* ================================
-   Banner 专属样式
+  /* ================================
+   Banner 涓撳睘鏍峰紡
    ================================ */
 
-/* 1. 基础布局 - 全屏视频背景（延伸到导航栏上方）*/
-.banner {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  padding-top: calc(var(--nav-height) + var(--spacing-lg)); /* 减小顶部内边距 */
-  padding-bottom: clamp(2rem, 5vh, 4rem); /* 减小底部内边距，卡片更靠近底部 */
-  overflow: hidden; /* 防止内容溢出视口 */
-  --banner-card-width: clamp(60px, 5vw, 81px);
-  --banner-card-height: clamp(80px, 6.67vw, 108px);
-  --banner-card-gap: clamp(0.5rem, 1.5vw, 1rem);
-}
-
-/* 视频背景容器 */
-.banner-video-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  z-index: 0;
-}
-
-.banner-video-bg video {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  transform: translate(-50%, -50%);
-  object-fit: cover;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-}
-
-.banner-video-bg video.active {
-  opacity: 1;
-}
-
-/* 深色渐变遮罩层 - 已移除 */
-/* .banner::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to right,
-    rgba(0, 0, 0, 0.2) 0%,
-    rgba(0, 0, 0, 0.1) 50%,
-    rgba(0, 0, 0, 0.15) 100%
-  );
-  z-index: 0;
-} */
-
-/* 星空背景效果 */
-.banner::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image:
-    radial-gradient(2px 2px at 20% 30%, white, transparent),
-    radial-gradient(2px 2px at 60% 70%, white, transparent),
-    radial-gradient(1px 1px at 50% 50%, white, transparent),
-    radial-gradient(2px 2px at 80% 10%, white, transparent),
-    radial-gradient(1px 1px at 30% 80%, white, transparent);
-  background-size: 200px 200px;
-  opacity: 0.2;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.banner-container {
-  position: relative;
-  max-width: 100%; /* 使用全宽，不限制容器宽度 */
-  margin: 0 auto;
-  padding: 0 clamp(1.5rem, 3vw, 3rem); /* 响应式左右内边距 */
-  flex: 1; /* 占据剩余空间 */
-  display: flex;
-  flex-direction: column;
-  justify-content: center; /* 垂直居中对齐 */
-  align-items: center; /* 水平居中对齐 */
-  gap: clamp(2rem, 4vh, 4rem); /* 内容之间保持固定间距 */
-  z-index: 2;
-}
-
-/* 2. 左侧内容区 */
-.banner-left {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: clamp(1rem, 2vh, 1.5rem); /* 响应式内部间距 */
-  max-width: min(800px, 90vw); /* 响应式最大宽度 */
-  margin: 0 auto; /* 改为居中 */
-  text-align: center; /* 子元素文字居中 */
-  z-index: 3;
-}
-
-.banner-title {
-  font-size: clamp(1.5rem, 3vw, 2.5rem); /* 减小字体：从 1.75-3rem 改为 1.5-2.5rem */
-  font-weight: 700;
-  font-style: italic; /* 设置为斜体 */
-  line-height: 1.2; /* 设置行高 */
-  color: var(--color-text);
-  margin: 0;
-  margin-bottom: -0.5rem; /* 负间距,让副标题向上移动 */
-  letter-spacing: -0.02em;
-  max-width: 900px; /* 增大最大宽度：从 700px 改为 900px，减少换行 */
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.banner-subtitle {
-  font-size: clamp(0.875rem, 1.5vw, 1rem);
-  line-height: 1.6;
-  color: #FFFFFF; /* 改为白色：从 var(--color-text-secondary) 改为纯白 */
-  margin: 0;
-  margin-bottom: var(--spacing-xs);
-  max-width: 500px;
-  text-align: center;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-/* 搜索框区域 */
-.search-box-container {
-  position: relative;
-  width: 100%;
-  max-width: min(550px, 90vw); /* 响应式宽度 */
-  margin: 0 auto;
-}
-
-.search-input {
-  width: 100%;
-  padding: 10px 140px 10px 20px; /* 上下边距相等：都设为 10px，使文字垂直居中 */
-  background: rgba(0, 0, 0, 0.5); /* 改为黑色背景，透明度0.5 */
-  border: none !important; /* 强制去除边框 */
-  outline: none !important; /* 强制去除轮廓线 */
-  box-shadow: none !important; /* 强制去除阴影 */
-  border-radius: 25px; /* 增大圆角：从 10px 改为 25px */
-  color: var(--color-text);
-  font-size: 0.7rem; /* 进一步减小字体：从 0.75rem 改为 0.7rem */
-  font-family: inherit;
-  line-height: 1.4; /* 设置行高，便于多行显示 */
-  transition: all var(--transition);
-  backdrop-filter: blur(10px);
-  white-space: pre-wrap; /* 保留空格并允许换行 */
-  word-wrap: break-word; /* 强制长单词换行 */
-  overflow-wrap: break-word; /* 确保内容不溢出 */
-  min-height: 48px; /* 保持最小高度 48px */
-  resize: none; /* 如果是 textarea，禁止调整大小 */
-  vertical-align: middle; /* 垂直对齐 */
-}
-
-.search-input::placeholder {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.search-input:focus {
-  outline: none !important; /* 强制去除默认外边框 */
-  background: rgba(0, 0, 0, 0.6); /* 焦点时背景更深 */
-  box-shadow: none !important; /* 强制去除焦点时的阴影 */
-  border: none !important; /* 强制去除边框 */
-}
-
-.btn-run-engine {
-  position: absolute;
-  right: 6px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 8px 16px; /* 减小内边距：从 12px 24px 改为 8px 16px */
-  background: white;
-  color: black;
-  font-size: 1rem; /* 字体保持不变 */
-  font-weight: 600;
-  border: none;
-  border-radius: 20px; /* 增大圆角：从 10px 改为 20px，与搜索框匹配 */
-  cursor: pointer;
-  transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
-  white-space: nowrap;
-}
-
-.btn-run-engine:hover {
-  transform: translateY(calc(-50% - 2px));
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.95);
-}
-
-/* 3. 右下角背景切换卡片区 - 水平排列不换行 */
-.video-cards-container {
-  position: relative; /* 改为相对定位，在文档流中 */
-  left: auto;
-  transform: none;
-  bottom: auto;
-  margin: 0 auto; /* 水平居中 */
-  margin-top: auto; /* 自动上边距，让卡片靠底部 */
-  margin-bottom: 0; /* 移除底部间距 */
-  z-index: 100; /* 提高层级,确保在所有内容之上 */
-  overflow: hidden; /* 隐藏溢出部分 */
-  width: 100%; /* 默认全宽，在桌面端通过媒体查询覆盖 */
-  padding: 1.25rem 0; /* 为放大卡片预留垂直空间 */
-}
-
-.video-cards-grid {
-  display: flex;
-  gap: var(--banner-card-gap); /* 响应式间距 */
-  flex-wrap: nowrap; /* 禁止换行 */
-  align-items: center; /* 垂直居中对齐 */
-  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* 滑动动画 */
-  will-change: transform; /* 性能优化 */
-}
-
-/* 单个卡片包装器（包含标题）*/
-.video-card-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-start; /* 从顶部开始布局 */
-  flex-shrink: 0; /* 防止收缩 */
-  position: relative; /* 为 z-index 生效创建定位上下文 */
-  z-index: 10; /* 确保包装器也在高层级 */
-  min-height: 150px; /* 设置最小高度,确保有足够空间 */
-  padding-top: 21px; /* 顶部padding = (150px - 108px) / 2,让卡片在包装器中垂直居中 */
-  --title-spacing: 0.5rem;
-  --title-opacity: 0.85;
-}
-
-/* 卡片标题（显示在卡片下方）*/
-.card-title {
-  font-size: 0.7rem; /* 字体放大：从 0.6rem 改为 0.7rem */
-  font-weight: 600;
-  color: var(--color-text);
-  text-align: center; /* 居中对齐 */
-  letter-spacing: 0.05em;
-  white-space: nowrap;
-  display: block;
-  width: 100%;
-  margin: 0;
-  margin-top: var(--title-spacing); /* 保留动态间距效果 */
-  opacity: var(--title-opacity);
-  transition: margin-top 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-    opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: margin-top, opacity;
-}
-
-.video-card-wrapper.gap-small {
-  --title-spacing: 0.05rem; /* 最外侧：距离最近 */
-  --title-opacity: 0.55;
-}
-
-.video-card-wrapper.gap-medium {
-  --title-spacing: 0.95rem; /* 左右两侧：适中距离 */
-  --title-opacity: 0.85;
-}
-
-.video-card-wrapper.gap-large {
-  --title-spacing: 1.75rem; /* 中心卡片：距离最大 */
-  --title-opacity: 1;
-}
-
-/* 卡片主体 - order属性已移除,因标题改为绝对定位 */
-
-/* 背景切换卡片 - 更长的高度 */
-.video-card {
-  position: relative;
-  width: var(--banner-card-width); /* 响应式宽度 */
-  height: var(--banner-card-height); /* 响应式高度，保持宽高比 */
-  border-radius: 4px; /* 减小圆角：从 6px 改为 3px */
-  overflow: hidden;
-  cursor: pointer;
-  background: var(--color-bg-secondary);
-  border: 1px solid transparent; /* 默认透明边框 */
-  transform: scale(0.7);
-  opacity: 0.6;
-  z-index: 1;
-  transform-style: preserve-3d; /* 启用3D变换 */
-  perspective: 1000px; /* 3D透视距离 */
-  transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-              opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  will-change: transform; /* 性能优化 */
-}
-
-/* 选中状态 - 外围白色边框 */
-.video-card.active {
-  transform: scale(1);
-  opacity: 1;
-  z-index: 3;
-  outline: 1px solid white;
-  outline-offset: 1.5px;
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
-}
-
-/* 相邻卡片 - 第二层 */
-.video-card.adjacent {
-  transform: scale(0.85);
-  opacity: 0.8;
-  z-index: 2;
-}
-
-/* 卡片图片 */
-.video-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-/* ✨ 五个位置的倾斜样式(加入 translateY 让可见中心对齐) */
-/* 位置0 - 最左侧卡片,向左倾斜12度 */
-.video-card.position-0 {
-  transform: translateY(-16px) scale(0.7) rotateY(-12deg);
-  opacity: 0.5;
-  box-shadow: -5px 10px 25px rgba(0, 0, 0, 0.4);
-}
-
-/* 位置1 - 左侧卡片,向左倾斜6度 */
-.video-card.position-1 {
-  transform: translateY(-8px) scale(0.85) rotateY(-6deg);
-  opacity: 0.7;
-  box-shadow: -3px 8px 20px rgba(0, 0, 0, 0.35);
-}
-
-/* 位置2 - 中间卡片,不倾斜(激活状态) */
-.video-card.position-2 {
-  transform: translateY(0px) scale(1) rotateY(0deg);
-  opacity: 1;
-  box-shadow: 0 15px 40px rgba(255, 255, 255, 0.2);
-}
-
-/* 位置3 - 右侧卡片,向右倾斜6度 */
-.video-card.position-3 {
-  transform: translateY(-8px) scale(0.85) rotateY(6deg);
-  opacity: 0.7;
-  box-shadow: 3px 8px 20px rgba(0, 0, 0, 0.35);
-}
-
-/* 位置4 - 最右侧卡片,向右倾斜12度 */
-.video-card.position-4 {
-  transform: translateY(-16px) scale(0.7) rotateY(12deg);
-  opacity: 0.5;
-  box-shadow: 5px 10px 25px rgba(0, 0, 0, 0.4);
-}
-
-/* 5. 响应式样式 */
-
-/* 桌面端 (≥992px) - 固定容器宽度以容纳5个卡片 */
-@media (min-width: 992px) {
-  .video-cards-container {
-    width: min(calc(5 * var(--banner-card-width) + 4 * var(--banner-card-gap)), 90vw);
-  }
-}
-
-/* 平板端 (768px - 991px) */
-@media (max-width: 991px) {
-  /* Banner 主容器 - 改为自动高度,允许卡片溢出 */
+  /* 1. 鍩虹甯冨眬 - 鍏ㄥ睆瑙嗛鑳屾櫙锛堝欢浼稿埌瀵艰埅鏍忎笂鏂癸級*/
   .banner {
-    min-height: auto;
-    padding-top: calc(var(--nav-height) + var(--spacing-2xl));
-    padding-bottom: var(--spacing-3xl);
-    background-position: center center;
-    overflow-x: hidden; /* 只隐藏横向溢出 */
-    overflow-y: visible; /* 允许纵向溢出,卡片向上浮动不被裁剪 */
-  }
-
-  /* 内容容器 - 改为垂直流式布局,居中对齐 */
-  .banner-container {
+    position: relative;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    align-items: center;  /* 所有子元素水平居中 */
-    gap: var(--spacing-xl);
-    padding: 0 2rem;
+    padding-top: calc(var(--nav-height) + var(--spacing-lg));
+    /* 鍑忓皬椤堕儴鍐呰竟璺?*/
+    padding-bottom: clamp(2rem, 5vh, 4rem);
+    /* 鍑忓皬搴曢儴鍐呰竟璺濓紝鍗＄墖鏇撮潬杩戝簳閮?*/
+    overflow: hidden;
+    /* 闃叉鍐呭婧㈠嚭瑙嗗彛 */
+    --banner-card-width: clamp(60px, 5vw, 81px);
+    --banner-card-height: clamp(80px, 6.67vw, 108px);
+    --banner-card-gap: clamp(0.5rem, 1.5vw, 1rem);
   }
 
-  /* 左侧内容区 - 占满宽度,居中对齐 */
-  .banner-left {
+  /* 瑙嗛鑳屾櫙瀹瑰櫒 */
+  .banner-video-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
-    max-width: min(640px, 100%);
-    margin: var(--spacing-xl) auto 0;
-    text-align: center;  /* 文字居中 */
-    display: flex;
-    flex-direction: column;
-    align-items: center;  /* 子元素居中 */
+    height: 100%;
+    overflow: hidden;
+    z-index: 0;
   }
 
-  /* 标题和副标题居中 */
-  .banner-title,
-  .banner-subtitle {
+  .banner-video-bg video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .banner-video-bg video.active {
+    opacity: 1;
+  }
+
+  /* 鏄熺┖鑳屾櫙鏁堟灉 */
+  .banner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image:
+      radial-gradient(2px 2px at 20% 30%, white, transparent),
+      radial-gradient(2px 2px at 60% 70%, white, transparent),
+      radial-gradient(1px 1px at 50% 50%, white, transparent),
+      radial-gradient(2px 2px at 80% 10%, white, transparent),
+      radial-gradient(1px 1px at 30% 80%, white, transparent);
+    background-size: 200px 200px;
+    opacity: 0.2;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .banner-container {
+    position: relative;
+    max-width: 100%;
+    /* 浣跨敤鍏ㄥ锛屼笉闄愬埗瀹瑰櫒瀹藉害 */
+    margin: 0 auto;
+    padding: 0 clamp(1.5rem, 3vw, 3rem);
+    /* 鍝嶅簲寮忓乏鍙冲唴杈硅窛 */
+    flex: 1;
+    /* 鍗犳嵁鍓╀綑绌洪棿 */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /* 鍨傜洿灞呬腑瀵归綈 */
+    align-items: center;
+    /* 姘村钩灞呬腑瀵归綈 */
+    gap: clamp(2rem, 4vh, 4rem);
+    /* 鍐呭涔嬮棿淇濇寔鍥哄畾闂磋窛 */
+    z-index: 2;
+  }
+
+  /* 2. 宸︿晶鍐呭鍖?*/
+  .banner-left {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(1rem, 2vh, 1.5rem);
+    /* 鍝嶅簲寮忓唴閮ㄩ棿璺?*/
+    max-width: min(800px, 90vw);
+    /* 鍝嶅簲寮忔渶澶у搴?*/
+    margin: 0 auto;
+    /* 鏀逛负灞呬腑 */
+    text-align: center;
+    /* 瀛愬厓绱犳枃瀛楀眳涓?*/
+    z-index: 3;
+  }
+
+  .banner-title {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    /* 鍑忓皬瀛椾綋锛氫粠 1.75-3rem 鏀逛负 1.5-2.5rem */
+    font-weight: 700;
+    font-style: italic;
+    /* 璁剧疆涓烘枩浣?*/
+    line-height: 1.2;
+    /* 璁剧疆琛岄珮 */
+    color: var(--color-text);
+    margin: 0;
+    margin-bottom: -0.5rem;
+    /* 璐熼棿璺?璁╁壇鏍囬鍚戜笂绉诲姩 */
+    letter-spacing: -0.02em;
+    max-width: 900px;
+    /* 澧炲ぇ鏈€澶у搴︼細浠?700px 鏀逛负 900px锛屽噺灏戞崲琛?*/
     text-align: center;
     margin-left: auto;
     margin-right: auto;
   }
 
-  /* 卡片容器 - 改为静态定位 + 水平滚动,居中对齐 */
+  .banner-subtitle {
+    font-size: clamp(0.875rem, 1.5vw, 1rem);
+    line-height: 1.6;
+    color: #FFFFFF;
+    /* 鏀逛负鐧借壊锛氫粠 var(--color-text-secondary) 鏀逛负绾櫧 */
+    margin: 0;
+    margin-bottom: var(--spacing-xs);
+    max-width: 500px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* 鎼滅储妗嗗尯鍩?*/
+  .search-box-container {
+    position: relative;
+    width: 100%;
+    max-width: min(550px, 90vw);
+    /* 鍝嶅簲寮忓搴?*/
+    margin: 0 auto;
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 10px 140px 10px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 25px;
+    color: var(--color-text);
+    font-size: 0.7rem;
+    font-family: inherit;
+    line-height: 1.4;
+    transition: all var(--transition);
+    backdrop-filter: blur(10px);
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    min-height: 48px;
+    max-height: 48px;
+    overflow: hidden;
+    resize: none;
+    vertical-align: middle;
+  }
+
+  .search-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .search-input:focus {
+    outline: none !important;
+    /* 寮哄埗鍘婚櫎榛樿澶栬竟妗?*/
+    background: rgba(0, 0, 0, 0.6);
+    /* 鐒︾偣鏃惰儗鏅洿娣?*/
+    box-shadow: none !important;
+    /* 寮哄埗鍘婚櫎鐒︾偣鏃剁殑闃村奖 */
+    border: none !important;
+    /* 寮哄埗鍘婚櫎杈规 */
+  }
+
+  .btn-run-engine {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    /* 鍑忓皬鍐呰竟璺濓細浠?12px 24px 鏀逛负 8px 16px */
+    background: white;
+    color: black;
+    font-size: 1rem;
+    /* 瀛椾綋淇濇寔涓嶅彉 */
+    font-weight: 600;
+    border: none;
+    border-radius: 20px;
+    /* 澧炲ぇ鍦嗚锛氫粠 10px 鏀逛负 20px锛屼笌鎼滅储妗嗗尮閰?*/
+    cursor: pointer;
+    transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
+    white-space: nowrap;
+  }
+
+  .btn-run-engine:hover {
+    transform: translateY(calc(-50% - 2px));
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.95);
+  }
+
+  /* 3. 鍙充笅瑙掕儗鏅垏鎹㈠崱鐗囧尯 - 姘村钩鎺掑垪涓嶆崲琛?*/
   .video-cards-container {
-    position: static;
-    right: auto;
+    position: relative;
     left: auto;
     transform: none;
     bottom: auto;
-    max-width: 100% !important; /* 强制覆盖桌面端样式 */
-    width: 100% !important; /* 强制全宽,确保居中和滚动 */
     margin: 0 auto;
-    overflow-x: auto;
-    overflow-y: visible; /* 改为 visible,允许卡片向上浮动 */
-    padding: 1rem; /* 增加上下 padding,为悬浮效果留空间 */
-    display: flex;
-    justify-content: center;  /* 卡片网格居中 */
+    margin-top: auto;
+    margin-bottom: var(--spacing-sm);
+    z-index: 100;
+    overflow: hidden;
+    width: min(calc(5 * var(--banner-card-width) + 4 * var(--banner-card-gap)), 90vw);
+    padding: 1.25rem 0;
   }
 
-  /* 卡片网格 - 支持滚动 */
   .video-cards-grid {
-    gap: 0.75rem;
-    padding: var(--spacing-sm) 0; /* 上下留出空间 */
-    justify-content: center;  /* 卡片居中 */
+    display: flex;
+    gap: var(--banner-card-gap);
+    /* 鍝嶅簲寮忛棿璺?*/
+    flex-wrap: nowrap;
+    /* 绂佹鎹㈣ */
+    align-items: center;
+    /* 鍨傜洿灞呬腑瀵归綈 */
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    /* 婊戝姩鍔ㄧ敾 */
+    will-change: transform;
+    /* 鎬ц兘浼樺寲 */
   }
 
+  /* 单个卡片包装器（包含标题） */
   .video-card-wrapper {
-    flex-shrink: 0;
-  }
-
-  /* 滚动条美化 */
-  .video-cards-container::-webkit-scrollbar {
-    height: 6px;
-  }
-
-  .video-cards-container::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 3px;
-  }
-
-  .video-cards-container::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
-  }
-
-  .video-cards-container::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
-  }
-
-}
-
-/* 移动端 (< 768px) */
-@media (max-width: 767px) {
-  .banner {
-    --banner-card-width: 100px;
-    --banner-card-height: 133px;
-    --banner-card-gap: 0.75rem;
-  }
-
-  /* Banner 容器 */
-  .banner {
-    padding-top: calc(var(--nav-height) + var(--spacing-xl));
-    padding-bottom: var(--spacing-2xl);
-    min-height: auto;
-  }
-
-  /* 内容容器 - 减小左右边距,确保居中 */
-  .banner-container {
-    padding: 0 1.5rem;
-    gap: var(--spacing-lg);
-    align-items: center;  /* 强制所有子元素居中 */
-  }
-
-  /* 左侧内容 - 居中对齐 */
-  .banner-left {
-    text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: flex-start;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 10;
+    min-height: 150px;
+    padding-top: 8px;
+    gap: 0.2rem;
+    --title-spacing: 0.25rem;
+    --title-opacity: 0.85;
+  }
+
+  /* 卡片标题（显示在卡片下方） */
+  .card-title {
+    font-size: clamp(0.52rem, 0.8vw, 0.6rem);
+    font-weight: 600;
+    color: var(--color-text);
+    text-align: center;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    display: block;
     width: 100%;
-    max-width: min(640px, 100%);
-    margin: var(--spacing-lg) auto 0;
+    margin: -2.5rem;
+    margin-top: var(--title-spacing);
+    opacity: var(--title-opacity);
+    transition: margin-top 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+      font-size 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: margin-top, opacity;
   }
 
-  .banner-title {
-    font-size: 2rem;
-    max-width: 100%;
-    text-align: center;
+  .video-card-wrapper.gap-small {
+    --title-spacing: -0.15rem;
+    --title-opacity: 0.55;
   }
 
-  .banner-subtitle {
-    font-size: 0.875rem;
-    max-width: 100%;
-    text-align: center;
+  .video-card-wrapper.gap-small .card-title {
+    font-size: clamp(0.44rem, 0.65vw, 0.52rem);
+    opacity: 0.55;
+    margin: -2.5rem;
   }
 
-  /* 搜索框 - 居中显示 */
-  .search-box-container {
-    max-width: 100%;
+  .video-card-wrapper.gap-medium {
+    --title-spacing: 0rem;
+    --title-opacity: 0.8;
   }
 
-  .search-input {
-    padding: 12px 120px 12px 16px;
-    font-size: 0.9rem;
+  .video-card-wrapper.gap-medium .card-title {
+    font-size: clamp(0.48rem, 0.72vw, 0.56rem);
+    opacity: 0.8;
+    margin: -1.5rem;
   }
 
-  .btn-run-engine {
-    padding: 10px 20px;
-    font-size: 0.9rem;
-    right: 4px;
+  .video-card-wrapper.gap-large {
+    --title-spacing: 0.28rem;
+    --title-opacity: 1;
+    margin: 0.5rem;
   }
 
-  /* 卡片 */
-  .card-title {
-    font-size: 0.75rem;
-  }
-}
-
-/* 小屏手机 (< 480px) */
-@media (max-width: 479px) {
-  .banner {
-    --banner-card-width: 85px;
-    --banner-card-height: 113px;
-    --banner-card-gap: 0.5rem;
+  .video-card-wrapper.gap-large .card-title {
+    font-size: clamp(0.55rem, 0.85vw, 0.68rem);
+    opacity: 1;
   }
 
-  .banner-container {
-    padding: 0 var(--spacing-md);
-    align-items: center;  /* 确保居中 */
+  /* 鍗＄墖涓讳綋 - order灞炴€у凡绉婚櫎,鍥犳爣棰樻敼涓虹粷瀵瑰畾浣?*/
+
+  /* 鑳屾櫙鍒囨崲鍗＄墖 - 鏇撮暱鐨勯珮搴?*/
+  .video-card {
+    position: relative;
+    width: var(--banner-card-width);
+    /* 鍝嶅簲寮忓搴?*/
+    height: var(--banner-card-height);
+    /* 鍝嶅簲寮忛珮搴︼紝淇濇寔瀹介珮姣?*/
+    border-radius: 4px;
+    /* 鍑忓皬鍦嗚锛氫粠 6px 鏀逛负 3px */
+    overflow: hidden;
+    cursor: pointer;
+    background: var(--color-bg-secondary);
+    border: 1px solid transparent;
+    /* 榛樿閫忔槑杈规 */
+    transform: scale(0.7);
+    opacity: 0.6;
+    z-index: 1;
+    transform-style: preserve-3d;
+    /* 鍚敤3D鍙樻崲 */
+    perspective: 1000px;
+    /* 3D閫忚璺濈 */
+    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    /* 鎬ц兘浼樺寲 */
   }
 
-  .banner-title {
-    font-size: clamp(1.5rem, 8vw, 1.75rem);
-    text-align: center;
+  /* 閫変腑鐘舵€?- 澶栧洿鐧借壊杈规 */
+  .video-card.active {
+    transform: scale(1);
+    opacity: 1;
+    z-index: 3;
+    outline: 1px solid white;
+    outline-offset: 1.5px;
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
   }
 
-  .banner-subtitle {
-    text-align: center;
+  /* 鐩搁偦鍗＄墖 - 绗簩灞?*/
+  .video-card.adjacent {
+    transform: scale(0.85);
+    opacity: 0.8;
+    z-index: 2;
   }
 
-  .search-input {
-    padding: 12px 110px 12px 14px;
+  /* 鍗＄墖鍥剧墖 */
+  .video-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
-  .btn-run-engine {
-    padding: 10px 16px;
-    font-size: 0.85rem;
-    right: 3px;
+  /* 鉁?浜斾釜浣嶇疆鐨勫€炬枩鏍峰紡(鍔犲叆 translateY 璁╁彲瑙佷腑蹇冨榻? */
+  /* 浣嶇疆0 - 鏈€宸︿晶鍗＄墖,鍚戝乏鍊炬枩12搴?*/
+  .video-card.position-0 {
+    transform: translateY(-22px) scale(0.55) rotateY(-16deg);
+    opacity: 0.3;
+    box-shadow: -8px 14px 30px rgba(0, 0, 0, 0.45);
   }
 
-  .card-title {
-    font-size: 0.7rem;
-  }
-}
-
-/* 触摸设备优化 */
-@media (max-width: 991px) {
-  /* 触摸反馈 */
-  .video-card:active {
-    transform: scale(0.95);
-    transition: transform 0.1s ease;
+  /* 位置1 - 左侧卡片,向左倾斜9°*/
+  .video-card.position-1 {
+    transform: translateY(-12px) scale(0.75) rotateY(-9deg);
+    opacity: 0.55;
+    box-shadow: -4px 11px 25px rgba(0, 0, 0, 0.4);
   }
 
-  .btn-run-engine:active {
-    transform: translateY(-50%) scale(0.98);
-  }
-}
-
-/* 移动端禁用倾斜效果 - 保持简洁 */
-@media (max-width: 991px) {
-  /* 重置所有倾斜位置类,移除 rotateY 并保持视觉中心对齐 */
-  .video-card.position-0,
-  .video-card.position-4 {
-    transform: translateY(-16px) scale(0.7) rotateY(0deg) !important;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
-  }
-
-  .video-card.position-1,
-  .video-card.position-3 {
-    transform: translateY(-8px) scale(0.85) rotateY(0deg) !important;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
-  }
-
+  /* 位置2 - 中间卡片 */
   .video-card.position-2 {
-    transform: translateY(0px) scale(1) rotateY(0deg) !important;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3) !important;
+    transform: translateY(0px) scale(1.12) rotateY(0deg);
+    opacity: 1;
+    box-shadow: 0 20px 48px rgba(255, 255, 255, 0.25);
   }
 
-/* 性能优化 - 禁用动画偏好 */
-@media (prefers-reduced-motion: reduce) {
-  .video-card,
-  .btn-run-engine {
-    transition: none !important;
+  /* 位置3 - 右侧卡片,向右倾斜9°*/
+  .video-card.position-3 {
+    transform: translateY(-12px) scale(0.75) rotateY(9deg);
+    opacity: 0.55;
+    box-shadow: 4px 11px 25px rgba(0, 0, 0, 0.4);
   }
 
-  .banner::before {
-    animation: none !important;
+  /* 位置4 - 最右侧卡片,向右倾斜16°*/
+  .video-card.position-4 {
+    transform: translateY(-22px) scale(0.55) rotateY(16deg);
+    opacity: 0.3;
+    box-shadow: 8px 14px 30px rgba(0, 0, 0, 0.45);
   }
-}
+
+  /* 5. 鍝嶅簲寮忔牱寮?*/
+
+  /* 妗岄潰绔?(鈮?92px) - 鍥哄畾瀹瑰櫒瀹藉害浠ュ绾?涓崱鐗?*/
+  @media (min-width: 992px) {
+    .video-cards-container {
+      width: min(calc(5 * var(--banner-card-width) + 4 * var(--banner-card-gap)), 90vw);
+    }
+  }
+
+  /* 骞虫澘绔?(768px - 991px) */
+  @media (max-width: 991px) {
+
+    /* Banner 涓诲鍣?- 鏀逛负鑷姩楂樺害,鍏佽鍗＄墖婧㈠嚭 */
+    .banner {
+      min-height: auto;
+      padding-top: calc(var(--nav-height) + var(--spacing-2xl));
+      padding-bottom: var(--spacing-3xl);
+      background-position: center center;
+      overflow-x: hidden;
+      /* 鍙殣钘忔í鍚戞孩鍑?*/
+      overflow-y: visible;
+      /* 鍏佽绾靛悜婧㈠嚭,鍗＄墖鍚戜笂娴姩涓嶈瑁佸壀 */
+    }
+
+    /* 鍐呭瀹瑰櫒 - 鏀逛负鍨傜洿娴佸紡甯冨眬,灞呬腑瀵归綈 */
+    .banner-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* 鎵€鏈夊瓙鍏冪礌姘村钩灞呬腑 */
+      gap: var(--spacing-xl);
+      padding: 0 2rem;
+    }
+
+    /* 宸︿晶鍐呭鍖?- 鍗犳弧瀹藉害,灞呬腑瀵归綈 */
+    .banner-left {
+      width: 100%;
+      max-width: min(640px, 100%);
+      margin: var(--spacing-xl) auto 0;
+      text-align: center;
+      /* 鏂囧瓧灞呬腑 */
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* 瀛愬厓绱犲眳涓?*/
+    }
+
+    /* 鏍囬鍜屽壇鏍囬灞呬腑 */
+    .banner-title,
+    .banner-subtitle {
+      text-align: center;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+
+  }
+
+  /* 绉诲姩绔?(< 768px) */
+  @media (max-width: 767px) {
+
+    /* Banner 瀹瑰櫒 */
+    .banner {
+      padding-top: calc(var(--nav-height) + var(--spacing-xl));
+      padding-bottom: var(--spacing-2xl);
+      min-height: auto;
+    }
+
+    /* 鍐呭瀹瑰櫒 - 鍑忓皬宸﹀彸杈硅窛,纭繚灞呬腑 */
+    .banner-container {
+      padding: 0 1.5rem;
+      gap: var(--spacing-lg);
+      align-items: center;
+      /* 寮哄埗鎵€鏈夊瓙鍏冪礌灞呬腑 */
+    }
+
+    /* 宸︿晶鍐呭 - 灞呬腑瀵归綈 */
+    .banner-left {
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+      max-width: min(640px, 100%);
+      margin: var(--spacing-lg) auto 0;
+    }
+
+    .banner-title {
+      font-size: 2rem;
+      max-width: 100%;
+      text-align: center;
+    }
+
+    .banner-subtitle {
+      font-size: 0.875rem;
+      max-width: 100%;
+      text-align: center;
+    }
+
+    /* 鎼滅储妗?- 灞呬腑鏄剧ず */
+    .search-box-container {
+      max-width: 100%;
+    }
+
+    .search-input {
+      padding: 12px 120px 12px 16px;
+      font-size: 8px;
+    }
+
+    .btn-run-engine {
+      padding: 10px 20px;
+      font-size: 0.9rem;
+      right: 4px;
+    }
+
+    /* 鍗＄墖 */
+    .card-title {
+      font-size: 0.55rem;
+    }
+  }
+
+  /* 灏忓睆鎵嬫満 (< 480px) */
+  @media (max-width: 479px) {
+    .banner-container {
+      padding: 0 var(--spacing-md);
+      align-items: center;
+      /* 纭繚灞呬腑 */
+    }
+
+    .banner-title {
+      font-size: clamp(1.5rem, 8vw, 1.75rem);
+      text-align: center;
+    }
+
+    .banner-subtitle {
+      text-align: center;
+    }
+
+    .search-input {
+      padding: 12px 110px 12px 14px;
+    }
+
+    .btn-run-engine {
+      padding: 10px 16px;
+      font-size: 0.85rem;
+      right: 3px;
+    }
+
+  }
+
+  /* 瑙︽懜璁惧浼樺寲 */
+  @media (max-width: 991px) {
+
+    /* 瑙︽懜鍙嶉 */
+    .video-card:active {
+      transform: scale(0.95);
+      transition: transform 0.1s ease;
+    }
+
+    .btn-run-engine:active {
+      transform: translateY(-50%) scale(0.98);
+    }
+  }
+
+
+
+  /* 鎬ц兘浼樺寲 - 绂佺敤鍔ㄧ敾鍋忓ソ */
+  @media (prefers-reduced-motion: reduce) {
+
+    .video-card,
+    .btn-run-engine {
+      transition: none !important;
+    }
+
+    .banner::before {
+      animation: none !important;
+    }
+  }
 </style>
 
-<!-- HTML 结构 -->
+<!-- HTML 缁撴瀯 -->
 <section class="banner">
-  <!-- 视频背景容器 -->
+  <!-- 瑙嗛鑳屾櫙瀹瑰櫒 -->
   <div class="banner-video-bg">
     <video class="banner-bg-video active" data-video-index="0" autoplay muted loop playsinline>
       <source src="assets/banner/videos/banner-video-01.mp4" type="video/mp4">
@@ -1987,7 +1966,7 @@
   </div>
 
   <div class="banner-container">
-    <!-- 左侧内容区 -->
+    <!-- 宸︿晶鍐呭鍖?-->
     <div class="banner-left">
       <h1 class="banner-title">
         WHERE IMAGINATION ECLIPSES REALITY
@@ -1998,19 +1977,16 @@
       </p>
 
       <div class="search-box-container" id="hero-search-box">
-        <textarea
-          class="search-input"
-          rows="2"
-          placeholder="ultra-realistic close-up of an astronaut in a detailed white space suit, standing in the darkness of outer space..."
-        ></textarea>
+        <textarea class="search-input" rows="2"
+          placeholder="ultra-realistic close-up of an astronaut in a detailed white space suit, standing in the darkness of outer space..."></textarea>
         <button class="btn-run-engine" type="button">Run Engine</button>
       </div>
     </div>
 
-    <!-- 右下角背景切换卡片 - 水平排列不换行 -->
+    <!-- 鍙充笅瑙掕儗鏅垏鎹㈠崱鐗?- 姘村钩鎺掑垪涓嶆崲琛?-->
     <div class="video-cards-container">
       <div class="video-cards-grid">
-        <!-- 背景切换卡片 1 -->
+        <!-- 鑳屾櫙鍒囨崲鍗＄墖 1 -->
         <div class="video-card-wrapper">
           <div class="video-card active" data-bg-index="0">
             <img src="assets/banner/images/banner-image-01.png" alt="AI SCROLL Background">
@@ -2018,7 +1994,7 @@
           <div class="card-title">AI SCROLL</div>
         </div>
 
-        <!-- 背景切换卡片 2 -->
+        <!-- 鑳屾櫙鍒囨崲鍗＄墖 2 -->
         <div class="video-card-wrapper">
           <div class="video-card" data-bg-index="1">
             <img src="assets/banner/images/banner-image-02.jpg" alt="AI SCROLL Background">
@@ -2026,7 +2002,7 @@
           <div class="card-title">AI SCROLL</div>
         </div>
 
-        <!-- 背景切换卡片 3 -->
+        <!-- 鑳屾櫙鍒囨崲鍗＄墖 3 -->
         <div class="video-card-wrapper">
           <div class="video-card" data-bg-index="2">
             <img src="assets/banner/images/banner-image-03.png" alt="AI SCROLL Background">
@@ -2034,7 +2010,7 @@
           <div class="card-title">AI SCROLL</div>
         </div>
 
-        <!-- 背景切换卡片 4 -->
+        <!-- 鑳屾櫙鍒囨崲鍗＄墖 4 -->
         <div class="video-card-wrapper">
           <div class="video-card" data-bg-index="3">
             <img src="assets/banner/images/banner-image-04.png" alt="AI SCROLL Background">
@@ -2042,7 +2018,7 @@
           <div class="card-title">AI SCROLL</div>
         </div>
 
-        <!-- 背景切换卡片 5 -->
+        <!-- 鑳屾櫙鍒囨崲鍗＄墖 5 -->
         <div class="video-card-wrapper">
           <div class="video-card" data-bg-index="4">
             <img src="assets/banner/images/banner-image-05.png" alt="AI SCROLL Background">
@@ -2050,7 +2026,7 @@
           <div class="card-title">AI SCROLL</div>
         </div>
 
-        <!-- 背景切换卡片 6 -->
+        <!-- 鑳屾櫙鍒囨崲鍗＄墖 6 -->
         <div class="video-card-wrapper">
           <div class="video-card" data-bg-index="5">
             <img src="assets/banner/images/banner-image-06.png" alt="AI SCROLL Background">
@@ -2058,7 +2034,7 @@
           <div class="card-title">AI SCROLL</div>
         </div>
 
-        <!-- 背景切换卡片 7 -->
+        <!-- 鑳屾櫙鍒囨崲鍗＄墖 7 -->
         <div class="video-card-wrapper">
           <div class="video-card" data-bg-index="6">
             <img src="assets/banner/images/banner-image-07.png" alt="AI SCROLL Background">
@@ -2066,7 +2042,7 @@
           <div class="card-title">AI SCROLL</div>
         </div>
 
-        <!-- 背景切换卡片 8 -->
+        <!-- 鑳屾櫙鍒囨崲鍗＄墖 8 -->
         <div class="video-card-wrapper">
           <div class="video-card" data-bg-index="7">
             <img src="assets/banner/images/banner-image-08.png" alt="AI SCROLL Background">
@@ -2074,7 +2050,7 @@
           <div class="card-title">AI SCROLL</div>
         </div>
 
-        <!-- 背景切换卡片 9 -->
+        <!-- 鑳屾櫙鍒囨崲鍗＄墖 9 -->
         <div class="video-card-wrapper">
           <div class="video-card" data-bg-index="8">
             <img src="assets/banner/images/banner-image-09.png" alt="AI SCROLL Background">
@@ -2082,7 +2058,7 @@
           <div class="card-title">AI SCROLL</div>
         </div>
 
-        <!-- 背景切换卡片 10 -->
+        <!-- 鑳屾櫙鍒囨崲鍗＄墖 10 -->
         <div class="video-card-wrapper">
           <div class="video-card" data-bg-index="9">
             <img src="assets/banner/images/banner-image-10.png" alt="AI SCROLL Background">
@@ -2094,599 +2070,674 @@
   </div>
 </section>
 
-<!-- JavaScript 交互逻辑 -->
+<!-- JavaScript 浜や簰閫昏緫 -->
 <script>
-(function() {
-  'use strict';
+  (function () {
+    'use strict';
 
-  // 获取所有背景视频元素
-  const bgVideos = Array.from(document.querySelectorAll('.banner-bg-video'));
+    // 鑾峰彇鎵€鏈夎儗鏅棰戝厓绱?
+    const bgVideos = Array.from(document.querySelectorAll('.banner-bg-video'));
 
-  const DESKTOP_BREAKPOINT = 992;
-  const VISIBLE_COUNT = 5;
-  const CENTER_OFFSET = Math.floor(VISIBLE_COUNT / 2); // 2
-  const CLONE_COUNT = CENTER_OFFSET; // 2 个卡片缓存区
-  const TRANSITION_MS = 500;
-  const TRANSITION_EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
+    const DESKTOP_BREAKPOINT = 0;
+    const VISIBLE_COUNT = 5;
+    const CENTER_OFFSET = Math.floor(VISIBLE_COUNT / 2); // 2
+    const CLONE_COUNT = CENTER_OFFSET; // 2 涓崱鐗囩紦瀛樺尯
+    const TRANSITION_MS = 500;
+    const TRANSITION_EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
+    const CARD_ASPECT_RATIO = 108 / 81;
+    const CARD_MIN_WIDTH = 52;
+    const CARD_MAX_WIDTH = 80;
+    const CONTAINER_MAX_WIDTH = 960;
 
-  const banner = document.querySelector('.banner');
-  const cardsContainer = document.querySelector('.video-cards-container');
-  const grid = document.querySelector('.video-cards-grid');
-  if (!grid) {
-    initSearchBox();
-    return;
-  }
-
-  const originalWrappers = Array.from(grid.querySelectorAll('.video-card-wrapper'));
-  if (!originalWrappers.length) {
-    initSearchBox();
-    return;
-  }
-
-  const templates = originalWrappers.map((wrapper, index) => {
-    const clone = wrapper.cloneNode(true);
-    clone.dataset.cardIndex = index;
-    const card = clone.querySelector('.video-card');
-    if (card) {
-      card.dataset.cardIndex = index;
-      card.classList.remove('active', 'adjacent'); // 清理所有状态类名
-    }
-    return clone;
-  });
-  const totalCards = templates.length;
-  let stepSize = 0;
-  let containerGap = 0;
-
-  let activeIndex = (() => {
-    const activeCard = grid.querySelector('.video-card.active');
-    if (activeCard) {
-      const idx = parseInt(activeCard.getAttribute('data-bg-index'), 10);
-      if (!Number.isNaN(idx)) return idx % totalCards;
-    }
-    return CENTER_OFFSET;
-  })();
-
-  let currentMode = null;
-  let isAnimating = false;
-  let isScrollHijacked = false;
-  let scrollHijackTimeout = null;
-  let backgroundUpdateTimeout = null; // 背景更新延迟定时器
-  const SCROLL_HIJACK_TIMEOUT = 500;
-  const BACKGROUND_UPDATE_DELAY = 300; // 滚动停止后延迟更新背景(毫秒)
-  const wheelBlockerOptions = { passive: false, capture: true };
-
-  function applyPositionClass(card, positionIndex) {
-    const clamped = Math.max(0, Math.min(VISIBLE_COUNT - 1, positionIndex));
-    card.classList.add(`position-${clamped}`);
-  }
-
-  function preventPageScroll(event) {
-    if (!isScrollHijacked) return;
-    event.preventDefault();
-  }
-
-  function activateScrollHijack() {
-    if (isScrollHijacked) return;
-    isScrollHijacked = true;
-    window.addEventListener('wheel', preventPageScroll, wheelBlockerOptions);
-  }
-
-  function releaseScrollHijack() {
-    if (!isScrollHijacked) return;
-    window.removeEventListener('wheel', preventPageScroll, wheelBlockerOptions);
-    isScrollHijacked = false;
-  }
-
-  function scheduleScrollHijackRelease() {
-    clearTimeout(scrollHijackTimeout);
-    scrollHijackTimeout = setTimeout(() => {
-      if (!isAnimating) {
-        releaseScrollHijack();
-      }
-    }, SCROLL_HIJACK_TIMEOUT);
-  }
-
-  function applyBackgroundByIndex(index, immediate = false) {
-    if (!bgVideos.length) return;
-
-    // 清除之前的延迟定时器
-    if (backgroundUpdateTimeout) {
-      clearTimeout(backgroundUpdateTimeout);
-      backgroundUpdateTimeout = null;
+    const banner = document.querySelector('.banner');
+    const cardsContainer = document.querySelector('.video-cards-container');
+    const grid = document.querySelector('.video-cards-grid');
+    if (!grid) {
+      initSearchBox();
+      return;
     }
 
-    // 实际应用背景的函数
-    const doApplyBackground = () => {
-      const targetIndex = index % bgVideos.length;
-
-      // 隐藏所有视频
-      bgVideos.forEach((video, idx) => {
-        if (idx === targetIndex) {
-          video.classList.add('active');
-          // 确保视频正在播放
-          if (video.paused) {
-            video.play().catch(err => console.log('Video play error:', err));
-          }
-        } else {
-          video.classList.remove('active');
-          // 暂停非激活视频以节省资源
-          if (!video.paused) {
-            video.pause();
-          }
-        }
-      });
-    };
-
-    // 如果是立即应用(点击、初始化等),直接执行
-    if (immediate) {
-      doApplyBackground();
-    } else {
-      // 否则延迟应用(滚动时)
-      backgroundUpdateTimeout = setTimeout(doApplyBackground, BACKGROUND_UPDATE_DELAY);
+    const originalWrappers = Array.from(grid.querySelectorAll('.video-card-wrapper'));
+    if (!originalWrappers.length) {
+      initSearchBox();
+      return;
     }
-  }
 
-  function measureStepSize() {
-    const sample = grid.querySelector('.video-card-wrapper');
-    if (!sample) return;
-    const gap = parseFloat(window.getComputedStyle(grid).gap) || 0;
-    stepSize = sample.getBoundingClientRect().width + gap;
-    containerGap = gap;
-  }
-
-  function applyCarouselWidth() {
-    if (!cardsContainer || !stepSize) return;
-    const visibleWidth = Math.max((stepSize * VISIBLE_COUNT) - containerGap, 0);
-    cardsContainer.style.width = `${visibleWidth}px`;
-    cardsContainer.style.maxWidth = `${visibleWidth}px`;
-  }
-
-  function clearCarouselWidth() {
-    if (!cardsContainer) return;
-    // 彻底清除 inline styles,让 CSS 媒体查询生效
-    cardsContainer.style.removeProperty('width');
-    cardsContainer.style.removeProperty('max-width');
-  }
-
-  function buildCarouselGrid() {
-    grid.innerHTML = '';
-    const newCards = [];
-
-    for (let offset = -CLONE_COUNT; offset < totalCards + CLONE_COUNT; offset++) {
-      const idx = (activeIndex + offset + totalCards) % totalCards;
-      const node = templates[idx].cloneNode(true);
-      node.dataset.cardIndex = idx;
-      const card = node.querySelector('.video-card');
+    const templates = originalWrappers.map((wrapper, index) => {
+      const clone = wrapper.cloneNode(true);
+      clone.dataset.cardIndex = index;
+      const card = clone.querySelector('.video-card');
       if (card) {
-        card.dataset.cardIndex = idx;
+        card.dataset.cardIndex = index;
+        card.classList.remove('active', 'adjacent'); // 娓呯悊鎵€鏈夌姸鎬佺被鍚?
+      }
+      return clone;
+    });
+    const totalCards = templates.length;
+    let stepSize = 0;
+    let containerGap = 0;
 
-        // ✨ 立即计算并应用最终状态，避免闪烁
-        card.classList.remove('active', 'adjacent', 'position-0', 'position-1', 'position-2', 'position-3', 'position-4');
-        node.classList.remove('gap-small', 'gap-medium', 'gap-large');
+    let activeIndex = (() => {
+      const activeCard = grid.querySelector('.video-card.active');
+      if (activeCard) {
+        const idx = parseInt(activeCard.getAttribute('data-bg-index'), 10);
+        if (!Number.isNaN(idx)) return idx % totalCards;
+      }
+      return CENTER_OFFSET;
+    })();
 
-        // 计算当前节点在可见区域的位置
+    let currentMode = null;
+    let isAnimating = false;
+    let isScrollHijacked = false;
+    let scrollHijackTimeout = null;
+    let backgroundUpdateTimeout = null; // 鑳屾櫙鏇存柊寤惰繜瀹氭椂鍣?
+    const SCROLL_HIJACK_TIMEOUT = 500;
+    const BACKGROUND_UPDATE_DELAY = 300; // 婊氬姩鍋滄鍚庡欢杩熸洿鏂拌儗鏅?姣)
+    const wheelBlockerOptions = { passive: false, capture: true };
+    let containerResizeObserver = null;
+    let pendingLayoutSync = false;
+
+    function applyPositionClass(card, positionIndex) {
+      const clamped = Math.max(0, Math.min(VISIBLE_COUNT - 1, positionIndex));
+      card.classList.add(`position-${clamped}`);
+    }
+
+    function preventPageScroll(event) {
+      if (!isScrollHijacked) return;
+      event.preventDefault();
+    }
+
+    function activateScrollHijack() {
+      if (isScrollHijacked) return;
+      isScrollHijacked = true;
+      window.addEventListener('wheel', preventPageScroll, wheelBlockerOptions);
+    }
+
+    function releaseScrollHijack() {
+      if (!isScrollHijacked) return;
+      window.removeEventListener('wheel', preventPageScroll, wheelBlockerOptions);
+      isScrollHijacked = false;
+    }
+
+    function scheduleScrollHijackRelease() {
+      clearTimeout(scrollHijackTimeout);
+      scrollHijackTimeout = setTimeout(() => {
+        if (!isAnimating) {
+          releaseScrollHijack();
+        }
+      }, SCROLL_HIJACK_TIMEOUT);
+    }
+
+    function applyBackgroundByIndex(index, immediate = false) {
+      if (!bgVideos.length) return;
+
+      // 娓呴櫎涔嬪墠鐨勫欢杩熷畾鏃跺櫒
+      if (backgroundUpdateTimeout) {
+        clearTimeout(backgroundUpdateTimeout);
+        backgroundUpdateTimeout = null;
+      }
+
+      // 瀹為檯搴旂敤鑳屾櫙鐨勫嚱鏁?
+      const doApplyBackground = () => {
+        const targetIndex = index % bgVideos.length;
+
+        // 闅愯棌鎵€鏈夎棰?
+        bgVideos.forEach((video, idx) => {
+          if (idx === targetIndex) {
+            video.classList.add('active');
+            // 纭繚瑙嗛姝ｅ湪鎾斁
+            if (video.paused) {
+              video.play().catch(err => console.log('Video play error:', err));
+            }
+          } else {
+            video.classList.remove('active');
+            // 鏆傚仠闈炴縺娲昏棰戜互鑺傜渷璧勬簮
+            if (!video.paused) {
+              video.pause();
+            }
+          }
+        });
+      };
+
+      // 濡傛灉鏄珛鍗冲簲鐢?鐐瑰嚮銆佸垵濮嬪寲绛?,鐩存帴鎵ц
+      if (immediate) {
+        doApplyBackground();
+      } else {
+        // 鍚﹀垯寤惰繜搴旂敤(婊氬姩鏃?
+        backgroundUpdateTimeout = setTimeout(doApplyBackground, BACKGROUND_UPDATE_DELAY);
+      }
+    }
+
+    function measureStepSize() {
+      const sample = grid.querySelector('.video-card-wrapper');
+      if (!sample) return;
+      const gap = parseFloat(window.getComputedStyle(grid).gap) || 0;
+      stepSize = sample.getBoundingClientRect().width + gap;
+      containerGap = gap;
+    }
+
+    function updateCardDimensions() {
+      if (window.innerWidth < DESKTOP_BREAKPOINT) {
+        resetCardDimensions();
+        return;
+      }
+      if (!banner || !cardsContainer || !grid) return;
+      const gap = parseFloat(window.getComputedStyle(grid).gap) || 0;
+      const hostWidth = Math.min(banner.clientWidth || window.innerWidth, window.innerWidth * 0.95);
+      const containerParentWidth = cardsContainer.parentElement
+        ? cardsContainer.parentElement.getBoundingClientRect().width
+        : hostWidth;
+      const maxContainerWidth = Math.max(CARD_MIN_WIDTH * VISIBLE_COUNT + gap * (VISIBLE_COUNT - 1),
+        Math.min(CONTAINER_MAX_WIDTH, containerParentWidth, hostWidth));
+      const rawCardWidth = (maxContainerWidth - gap * (VISIBLE_COUNT - 1)) / VISIBLE_COUNT;
+      const clampedCardWidth = Math.max(CARD_MIN_WIDTH, Math.min(CARD_MAX_WIDTH, rawCardWidth));
+      const clampedCardHeight = clampedCardWidth * CARD_ASPECT_RATIO;
+      banner.style.setProperty('--banner-card-width', `${clampedCardWidth}px`);
+      banner.style.setProperty('--banner-card-height', `${clampedCardHeight}px`);
+    }
+
+    function resetCardDimensions() {
+      if (!banner) return;
+      banner.style.removeProperty('--banner-card-width');
+      banner.style.removeProperty('--banner-card-height');
+    }
+
+    function applyCarouselWidth() {
+      if (!cardsContainer || !stepSize) return;
+      const visibleWidth = Math.max((stepSize * VISIBLE_COUNT) - containerGap, 0);
+      cardsContainer.style.width = `${visibleWidth}px`;
+      cardsContainer.style.maxWidth = `${visibleWidth}px`;
+    }
+
+    function clearCarouselWidth() {
+      if (!cardsContainer) return;
+      // 褰诲簳娓呴櫎 inline styles,璁?CSS 濯掍綋鏌ヨ鐢熸晥
+      cardsContainer.style.removeProperty('width');
+      cardsContainer.style.removeProperty('max-width');
+    }
+
+    async function syncCarouselLayout() {
+      pendingLayoutSync = false;
+      if (currentMode !== 'carousel' || isAnimating) return;
+      updateCardDimensions();
+      await scheduleMeasureStepSize();
+      applyCarouselWidth();
+      resetCarouselTransform();
+    }
+
+    function scheduleCarouselLayoutSync() {
+      if (pendingLayoutSync) return;
+      pendingLayoutSync = true;
+      setTimeout(syncCarouselLayout, 16);
+    }
+
+    function observeContainerResize() {
+      if (!window.ResizeObserver || !cardsContainer) return;
+      if (containerResizeObserver) return;
+      containerResizeObserver = new ResizeObserver(() => {
+        scheduleCarouselLayoutSync();
+      });
+      containerResizeObserver.observe(cardsContainer);
+    }
+
+    function disconnectContainerResize() {
+      if (!containerResizeObserver) return;
+      containerResizeObserver.disconnect();
+      containerResizeObserver = null;
+      pendingLayoutSync = false;
+    }
+
+    function scheduleMeasureStepSize() {
+      // 鈿狅笍 requestAnimationFrame 鍦ㄧ缉鏀炬椂涓嶄細鍒锋柊,鏀圭敤 setTimeout
+      return new Promise(resolve => {
+        setTimeout(() => {
+          measureStepSize();
+          resolve();
+        }, 16);
+      });
+    }
+
+    function buildCarouselGrid() {
+      grid.innerHTML = '';
+      const newCards = [];
+
+      for (let offset = -CLONE_COUNT; offset < totalCards + CLONE_COUNT; offset++) {
+        const idx = (activeIndex + offset + totalCards) % totalCards;
+        const node = templates[idx].cloneNode(true);
+        node.dataset.cardIndex = idx;
+        const card = node.querySelector('.video-card');
+        if (card) {
+          card.dataset.cardIndex = idx;
+
+          // 鉁?绔嬪嵆璁＄畻骞跺簲鐢ㄦ渶缁堢姸鎬侊紝閬垮厤闂儊
+          card.classList.remove('active', 'adjacent', 'position-0', 'position-1', 'position-2', 'position-3', 'position-4');
+          node.classList.remove('gap-small', 'gap-medium', 'gap-large');
+
+          // 璁＄畻褰撳墠鑺傜偣鍦ㄥ彲瑙佸尯鍩熺殑浣嶇疆
+          const visibleStart = CLONE_COUNT;
+          const visibleEnd = CLONE_COUNT + VISIBLE_COUNT - 1;
+          const centerPos = visibleStart + CENTER_OFFSET;
+          const position = CLONE_COUNT + offset;
+          const visiblePosition = position - visibleStart;
+
+          // 搴旂敤鍗＄墖鐘舵€佺被
+          if (position === centerPos) {
+            card.classList.add('active');
+          } else if (position === centerPos - 1 || position === centerPos + 1) {
+            card.classList.add('adjacent');
+          }
+
+          // 鍏堟牴鎹洰鏍囦綅缃簲鐢ㄥ€炬枩浣嶇疆绫?闅愯棌鍗＄墖鍚屾牱淇濇寔瀵归綈
+          applyPositionClass(card, visiblePosition);
+
+          // 搴旂敤闂磋窛绫伙紙浠呴檺鍙鍖哄煙锛?
+          if (position >= visibleStart && position <= visibleEnd) {
+            if (visiblePosition === 0 || visiblePosition === VISIBLE_COUNT - 1) {
+              node.classList.add('gap-small');
+            } else if (visiblePosition === 1 || visiblePosition === VISIBLE_COUNT - 2) {
+              node.classList.add('gap-medium');
+            } else if (visiblePosition === CENTER_OFFSET) {
+              node.classList.add('gap-large');
+            }
+          }
+
+          card.style.transition = 'none'; // 绂佺敤 transition
+          newCards.push(card);
+        }
+        grid.appendChild(node);
+      }
+
+      updateCardDimensions();
+      measureStepSize();
+      applyCarouselWidth();
+      // updateCarouselClasses(); // 宸插湪涓婇潰搴旂敤锛屾澶勫彲鐪佺暐
+      resetCarouselTransform(); // 鍐嶉噸缃?transform
+
+      // 寮哄埗 reflow 鍚庨噸鏂板惎鐢?transition
+      grid.offsetHeight;
+      requestAnimationFrame(() => {
+        newCards.forEach(card => {
+          card.style.transition = ''; // 鎭㈠ CSS 瀹氫箟鐨?transition
+        });
+      });
+
+      // 鏇存柊鑳屾櫙(寤惰繜搴旂敤,婊氬姩鍋滄鍚庢墠鍒囨崲)
+      applyBackgroundByIndex(activeIndex, false);
+    }
+
+    function resetCarouselTransform() {
+      const base = -(CLONE_COUNT * stepSize);
+      grid.style.transition = 'none';
+      grid.style.transform = `translateX(${base}px)`;
+      grid.offsetHeight; // force reflow
+      grid.style.transition = `transform ${TRANSITION_MS}ms ${TRANSITION_EASING}`;
+    }
+
+    function updateCarouselClasses() {
+      const wrappers = Array.from(grid.children);
+      wrappers.forEach((wrapper, idx) => {
+        const card = wrapper.querySelector('.video-card');
+        if (!card) return;
+        card.classList.remove('active', 'adjacent');
+        wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
+
         const visibleStart = CLONE_COUNT;
         const visibleEnd = CLONE_COUNT + VISIBLE_COUNT - 1;
         const centerPos = visibleStart + CENTER_OFFSET;
-        const position = CLONE_COUNT + offset;
-        const visiblePosition = position - visibleStart;
 
-        // 应用卡片状态类
-        if (position === centerPos) {
-          card.classList.add('active');
-        } else if (position === centerPos - 1 || position === centerPos + 1) {
-          card.classList.add('adjacent');
-        }
+        if (idx >= visibleStart && idx <= visibleEnd) {
+          // 璁剧疆鍗＄墖婵€娲荤姸鎬?
+          if (idx === centerPos) {
+            card.classList.add('active');
+          } else if (idx === centerPos - 1 || idx === centerPos + 1) {
+            card.classList.add('adjacent');
+          }
 
-        // 先根据目标位置应用倾斜位置类,隐藏卡片同样保持对齐
-        applyPositionClass(card, visiblePosition);
-
-        // 应用间距类（仅限可见区域）
-        if (position >= visibleStart && position <= visibleEnd) {
+          const visiblePosition = idx - visibleStart;
           if (visiblePosition === 0 || visiblePosition === VISIBLE_COUNT - 1) {
-            node.classList.add('gap-small');
+            wrapper.classList.add('gap-small');
           } else if (visiblePosition === 1 || visiblePosition === VISIBLE_COUNT - 2) {
-            node.classList.add('gap-medium');
+            wrapper.classList.add('gap-medium');
           } else if (visiblePosition === CENTER_OFFSET) {
-            node.classList.add('gap-large');
+            wrapper.classList.add('gap-large');
           }
         }
-
-        card.style.transition = 'none'; // 禁用 transition
-        newCards.push(card);
-      }
-      grid.appendChild(node);
+      });
+      // 娉ㄦ剰: updateCarouselClasses 褰撳墠鏈浣跨敤,濡傞渶璋冪敤搴旀牴鎹満鏅喅瀹?immediate 鍙傛暟
+      // applyBackgroundByIndex(activeIndex);
     }
 
-    measureStepSize();
-    applyCarouselWidth();
-    // updateCarouselClasses(); // 已在上面应用，此处可省略
-    resetCarouselTransform(); // 再重置 transform
+    function previewClassesForDirection(direction) {
+      const wrappers = Array.from(grid.children);
+      const centerPos = CLONE_COUNT + CENTER_OFFSET;
+      const nextCenter = centerPos + (direction === 'left' ? 1 : -1);
 
-    // 强制 reflow 后重新启用 transition
-    grid.offsetHeight;
-    requestAnimationFrame(() => {
-      newCards.forEach(card => {
-        card.style.transition = ''; // 恢复 CSS 定义的 transition
-      });
-    });
+      wrappers.forEach((wrapper, idx) => {
+        const card = wrapper.querySelector('.video-card');
+        if (!card) return;
 
-    // 更新背景(延迟应用,滚动停止后才切换)
-    applyBackgroundByIndex(activeIndex, false);
-  }
-
-  function resetCarouselTransform() {
-    const base = -(CLONE_COUNT * stepSize);
-    grid.style.transition = 'none';
-    grid.style.transform = `translateX(${base}px)`;
-    grid.offsetHeight; // force reflow
-    grid.style.transition = `transform ${TRANSITION_MS}ms ${TRANSITION_EASING}`;
-  }
-
-  function updateCarouselClasses() {
-    const wrappers = Array.from(grid.children);
-    wrappers.forEach((wrapper, idx) => {
-      const card = wrapper.querySelector('.video-card');
-      if (!card) return;
-      card.classList.remove('active', 'adjacent');
-      wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
-
-      const visibleStart = CLONE_COUNT;
-      const visibleEnd = CLONE_COUNT + VISIBLE_COUNT - 1;
-      const centerPos = visibleStart + CENTER_OFFSET;
-
-      if (idx >= visibleStart && idx <= visibleEnd) {
-        // 设置卡片激活状态
-        if (idx === centerPos) {
+        // 淇敼鍗＄墖鐘舵€佺被
+        card.classList.remove('active', 'adjacent', 'position-0', 'position-1', 'position-2', 'position-3', 'position-4');
+        if (idx === nextCenter) {
           card.classList.add('active');
-        } else if (idx === centerPos - 1 || idx === centerPos + 1) {
+        } else if (idx === nextCenter - 1 || idx === nextCenter + 1) {
           card.classList.add('adjacent');
         }
 
-        const visiblePosition = idx - visibleStart;
-        if (visiblePosition === 0 || visiblePosition === VISIBLE_COUNT - 1) {
-          wrapper.classList.add('gap-small');
-        } else if (visiblePosition === 1 || visiblePosition === VISIBLE_COUNT - 2) {
-          wrapper.classList.add('gap-medium');
-        } else if (visiblePosition === CENTER_OFFSET) {
-          wrapper.classList.add('gap-large');
+        // 鉁?鎻愬墠璁＄畻骞跺簲鐢ㄧ洰鏍囦綅缃殑闂磋窛绫诲拰鍊炬枩绫伙紝瀹炵幇鏂滃悜骞虫粦杩囨浮
+        wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
+
+        // 璁＄畻鍗＄墖鍦ㄥ姩鐢诲悗鐨勫彲瑙佷綅缃?
+        const currentVisiblePos = idx - CLONE_COUNT;
+        const targetVisiblePos = direction === 'left'
+          ? currentVisiblePos - 1  // 宸︽粦鏃讹紝姣忎釜鍗＄墖鍚戝乏绉诲姩涓€涓綅缃?
+          : currentVisiblePos + 1; // 鍙虫粦鏃讹紝姣忎釜鍗＄墖鍚戝彸绉诲姩涓€涓綅缃?
+
+        // 闅愯棌鍗＄墖鍚屾牱鎻愬墠搴旂敤鍊炬枩浣嶇疆绫?淇濇寔瑙嗚瀵归綈
+        applyPositionClass(card, targetVisiblePos);
+
+        // 鏍规嵁鐩爣浣嶇疆搴旂敤瀵瑰簲鐨勯棿璺濈被锛堜粎闄愬彲瑙佸尯鍩燂級
+        if (targetVisiblePos >= 0 && targetVisiblePos < VISIBLE_COUNT) {
+          if (targetVisiblePos === 0 || targetVisiblePos === VISIBLE_COUNT - 1) {
+            wrapper.classList.add('gap-small');
+          } else if (targetVisiblePos === 1 || targetVisiblePos === VISIBLE_COUNT - 2) {
+            wrapper.classList.add('gap-medium');
+          } else if (targetVisiblePos === CENTER_OFFSET) {
+            wrapper.classList.add('gap-large');
+          }
         }
-      }
-    });
-    // 注意: updateCarouselClasses 当前未被使用,如需调用应根据场景决定 immediate 参数
-    // applyBackgroundByIndex(activeIndex);
-  }
-
-  function previewClassesForDirection(direction) {
-    const wrappers = Array.from(grid.children);
-    const centerPos = CLONE_COUNT + CENTER_OFFSET;
-    const nextCenter = centerPos + (direction === 'left' ? 1 : -1);
-
-    wrappers.forEach((wrapper, idx) => {
-      const card = wrapper.querySelector('.video-card');
-      if (!card) return;
-
-      // 修改卡片状态类
-      card.classList.remove('active', 'adjacent', 'position-0', 'position-1', 'position-2', 'position-3', 'position-4');
-      if (idx === nextCenter) {
-        card.classList.add('active');
-      } else if (idx === nextCenter - 1 || idx === nextCenter + 1) {
-        card.classList.add('adjacent');
-      }
-
-      // ✨ 提前计算并应用目标位置的间距类和倾斜类，实现斜向平滑过渡
-      wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
-
-      // 计算卡片在动画后的可见位置
-      const currentVisiblePos = idx - CLONE_COUNT;
-      const targetVisiblePos = direction === 'left'
-        ? currentVisiblePos - 1  // 左滑时，每个卡片向左移动一个位置
-        : currentVisiblePos + 1; // 右滑时，每个卡片向右移动一个位置
-
-      // 隐藏卡片同样提前应用倾斜位置类,保持视觉对齐
-      applyPositionClass(card, targetVisiblePos);
-
-      // 根据目标位置应用对应的间距类（仅限可见区域）
-      if (targetVisiblePos >= 0 && targetVisiblePos < VISIBLE_COUNT) {
-        if (targetVisiblePos === 0 || targetVisiblePos === VISIBLE_COUNT - 1) {
-          wrapper.classList.add('gap-small');
-        } else if (targetVisiblePos === 1 || targetVisiblePos === VISIBLE_COUNT - 2) {
-          wrapper.classList.add('gap-medium');
-        } else if (targetVisiblePos === CENTER_OFFSET) {
-          wrapper.classList.add('gap-large');
-        }
-      }
-    });
-  }
-
-  function animateSlide(direction) {
-    return new Promise((resolve) => {
-      if (!stepSize) {
-        resolve();
-        return;
-      }
-      const base = -(CLONE_COUNT * stepSize);
-      const target = direction === 'left'
-        ? base - stepSize
-        : base + stepSize;
-
-      previewClassesForDirection(direction);
-
-      const handleEnd = (event) => {
-        if (event.target !== grid) return;
-        grid.removeEventListener('transitionend', handleEnd);
-        resolve();
-      };
-
-      grid.addEventListener('transitionend', handleEnd);
-      requestAnimationFrame(() => {
-        grid.style.transform = `translateX(${target}px)`;
       });
-    });
-  }
-
-  // 多步滑动动画（一次性到达目标，不显示中间状态）
-  function animateMultiStepSlide(direction, steps) {
-    return new Promise((resolve) => {
-      if (!stepSize || steps === 0) {
-        resolve();
-        return;
-      }
-
-      const base = -(CLONE_COUNT * stepSize);
-      const offset = stepSize * steps;
-      const target = direction === 'left' ? base - offset : base + offset;
-
-      // 提前预览最终状态的类名
-      previewMultiStepClasses(direction, steps);
-
-      const handleEnd = (event) => {
-        if (event.target !== grid) return;
-        grid.removeEventListener('transitionend', handleEnd);
-        resolve();
-      };
-
-      grid.addEventListener('transitionend', handleEnd);
-      requestAnimationFrame(() => {
-        grid.style.transform = `translateX(${target}px)`;
-      });
-    });
-  }
-
-  // 预览多步跳转后的最终状态类名
-  function previewMultiStepClasses(direction, steps) {
-    const wrappers = Array.from(grid.children);
-    const centerPos = CLONE_COUNT + CENTER_OFFSET;
-    const offset = direction === 'left' ? steps : -steps;
-    const nextCenter = centerPos + offset;
-
-    wrappers.forEach((wrapper, idx) => {
-      const card = wrapper.querySelector('.video-card');
-      if (!card) return;
-
-      // 修改卡片状态类
-      card.classList.remove('active', 'adjacent', 'position-0', 'position-1', 'position-2', 'position-3', 'position-4');
-      if (idx === nextCenter) {
-        card.classList.add('active');
-      } else if (idx === nextCenter - 1 || idx === nextCenter + 1) {
-        card.classList.add('adjacent');
-      }
-
-      // 提前应用目标位置的间距类和倾斜位置类
-      wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
-
-      const currentVisiblePos = idx - CLONE_COUNT;
-      const targetVisiblePos = currentVisiblePos - offset;
-
-      // 隐藏卡片同样应用倾斜位置类
-      applyPositionClass(card, targetVisiblePos);
-
-      if (targetVisiblePos >= 0 && targetVisiblePos < VISIBLE_COUNT) {
-        if (targetVisiblePos === 0 || targetVisiblePos === VISIBLE_COUNT - 1) {
-          wrapper.classList.add('gap-small');
-        } else if (targetVisiblePos === 1 || targetVisiblePos === VISIBLE_COUNT - 2) {
-          wrapper.classList.add('gap-medium');
-        } else if (targetVisiblePos === CENTER_OFFSET) {
-          wrapper.classList.add('gap-large');
-        }
-      }
-    });
-  }
-
-  async function slide(direction, steps) {
-    if (isAnimating || steps === 0) return;
-    isAnimating = true;
-
-    // 计算最终目标索引
-    const indexChange = direction === 'left' ? steps : -steps;
-    const targetIndex = (activeIndex + indexChange + totalCards) % totalCards;
-
-    // 一次性动画到目标位置（不显示中间状态）
-    await animateMultiStepSlide(direction, steps);
-
-    // 更新索引并重建DOM（仅一次）
-    activeIndex = targetIndex;
-    buildCarouselGrid();
-
-    isAnimating = false;
-  }
-
-  function handleCarouselClick(event) {
-    const card = event.target.closest('.video-card');
-    if (!card || isAnimating) return;
-    const wrapper = card.closest('.video-card-wrapper');
-    const wrappers = Array.from(grid.children);
-    const targetPos = wrappers.indexOf(wrapper);
-    const centerPos = CLONE_COUNT + CENTER_OFFSET;
-    if (targetPos === -1 || targetPos === centerPos) {
-      applyBackgroundByIndex(activeIndex, true); // 点击已选中卡片,立即应用背景
-      return;
     }
-    const direction = targetPos > centerPos ? 'left' : 'right';
-    const steps = Math.abs(targetPos - centerPos);
-    slide(direction, steps);
-  }
+
+    function animateSlide(direction) {
+      return new Promise((resolve) => {
+        if (!stepSize) {
+          resolve();
+          return;
+        }
+        const base = -(CLONE_COUNT * stepSize);
+        const target = direction === 'left'
+          ? base - stepSize
+          : base + stepSize;
+
+        previewClassesForDirection(direction);
+
+        const handleEnd = (event) => {
+          if (event.target !== grid) return;
+          grid.removeEventListener('transitionend', handleEnd);
+          resolve();
+        };
+
+        grid.addEventListener('transitionend', handleEnd);
+        requestAnimationFrame(() => {
+          grid.style.transform = `translateX(${target}px)`;
+        });
+      });
+    }
+
+    // 澶氭婊戝姩鍔ㄧ敾锛堜竴娆℃€у埌杈剧洰鏍囷紝涓嶆樉绀轰腑闂寸姸鎬侊級
+    function animateMultiStepSlide(direction, steps) {
+      return new Promise((resolve) => {
+        if (!stepSize || steps === 0) {
+          resolve();
+          return;
+        }
+
+        const base = -(CLONE_COUNT * stepSize);
+        const offset = stepSize * steps;
+        const target = direction === 'left' ? base - offset : base + offset;
+
+        // 鎻愬墠棰勮鏈€缁堢姸鎬佺殑绫诲悕
+        previewMultiStepClasses(direction, steps);
+
+        const handleEnd = (event) => {
+          if (event.target !== grid) return;
+          grid.removeEventListener('transitionend', handleEnd);
+          resolve();
+        };
+
+        grid.addEventListener('transitionend', handleEnd);
+        requestAnimationFrame(() => {
+          grid.style.transform = `translateX(${target}px)`;
+        });
+      });
+    }
+
+    // 棰勮澶氭璺宠浆鍚庣殑鏈€缁堢姸鎬佺被鍚?
+    function previewMultiStepClasses(direction, steps) {
+      const wrappers = Array.from(grid.children);
+      const centerPos = CLONE_COUNT + CENTER_OFFSET;
+      const offset = direction === 'left' ? steps : -steps;
+      const nextCenter = centerPos + offset;
+
+      wrappers.forEach((wrapper, idx) => {
+        const card = wrapper.querySelector('.video-card');
+        if (!card) return;
+
+        // 淇敼鍗＄墖鐘舵€佺被
+        card.classList.remove('active', 'adjacent', 'position-0', 'position-1', 'position-2', 'position-3', 'position-4');
+        if (idx === nextCenter) {
+          card.classList.add('active');
+        } else if (idx === nextCenter - 1 || idx === nextCenter + 1) {
+          card.classList.add('adjacent');
+        }
+
+        // 鎻愬墠搴旂敤鐩爣浣嶇疆鐨勯棿璺濈被鍜屽€炬枩浣嶇疆绫?
+        wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
+
+        const currentVisiblePos = idx - CLONE_COUNT;
+        const targetVisiblePos = currentVisiblePos - offset;
+
+        // 闅愯棌鍗＄墖鍚屾牱搴旂敤鍊炬枩浣嶇疆绫?
+        applyPositionClass(card, targetVisiblePos);
+
+        if (targetVisiblePos >= 0 && targetVisiblePos < VISIBLE_COUNT) {
+          if (targetVisiblePos === 0 || targetVisiblePos === VISIBLE_COUNT - 1) {
+            wrapper.classList.add('gap-small');
+          } else if (targetVisiblePos === 1 || targetVisiblePos === VISIBLE_COUNT - 2) {
+            wrapper.classList.add('gap-medium');
+          } else if (targetVisiblePos === CENTER_OFFSET) {
+            wrapper.classList.add('gap-large');
+          }
+        }
+      });
+    }
+
+    async function slide(direction, steps) {
+      if (isAnimating || steps === 0) return;
+      isAnimating = true;
+
+      // 璁＄畻鏈€缁堢洰鏍囩储寮?
+      const indexChange = direction === 'left' ? steps : -steps;
+      const targetIndex = (activeIndex + indexChange + totalCards) % totalCards;
+
+      // 涓€娆℃€у姩鐢诲埌鐩爣浣嶇疆锛堜笉鏄剧ず涓棿鐘舵€侊級
+      await animateMultiStepSlide(direction, steps);
+
+      // 鏇存柊绱㈠紩骞堕噸寤篋OM锛堜粎涓€娆★級
+      activeIndex = targetIndex;
+      buildCarouselGrid();
+
+      isAnimating = false;
+    }
+
+    function handleCarouselClick(event) {
+      const card = event.target.closest('.video-card');
+      if (!card || isAnimating) return;
+      const wrapper = card.closest('.video-card-wrapper');
+      const wrappers = Array.from(grid.children);
+      const targetPos = wrappers.indexOf(wrapper);
+      const centerPos = CLONE_COUNT + CENTER_OFFSET;
+      if (targetPos === -1 || targetPos === centerPos) {
+        applyBackgroundByIndex(activeIndex, true); // 鐐瑰嚮宸查€変腑鍗＄墖,绔嬪嵆搴旂敤鑳屾櫙
+        return;
+      }
+      const direction = targetPos > centerPos ? 'left' : 'right';
+      const steps = Math.abs(targetPos - centerPos);
+      slide(direction, steps);
+    }
 
 
-  // 滚轮事件处理：无论纵向/横向，统一劫持并转为横向切换
-  function handleCarouselWheel(event) {
-    if (isAnimating) {
+    // 婊氳疆浜嬩欢澶勭悊锛氭棤璁虹旱鍚?妯悜锛岀粺涓€鍔寔骞惰浆涓烘í鍚戝垏鎹?
+    function handleCarouselWheel(event) {
+      if (isAnimating) {
+        event.preventDefault();
+        event.stopPropagation();
+        activateScrollHijack();
+        scheduleScrollHijackRelease();
+        return;
+      }
       event.preventDefault();
       event.stopPropagation();
+
       activateScrollHijack();
-      scheduleScrollHijackRelease();
-      return;
-    }
-    event.preventDefault();
-    event.stopPropagation();
 
-    activateScrollHijack();
+      const absDeltaX = Math.abs(event.deltaX);
+      const absDeltaY = Math.abs(event.deltaY);
+      const primaryDelta = absDeltaX > absDeltaY ? event.deltaX : event.deltaY;
 
-    const absDeltaX = Math.abs(event.deltaX);
-    const absDeltaY = Math.abs(event.deltaY);
-    const primaryDelta = absDeltaX > absDeltaY ? event.deltaX : event.deltaY;
-
-    if (Math.abs(primaryDelta) < 1) {
-      scheduleScrollHijackRelease();
-      return;
-    }
-
-    // 🎯 持续滚动策略: 每次滚轮事件都切换一个卡片,不管滚动量大小
-    // 只要持续滚动,就持续切换
-    const direction = primaryDelta > 0 ? 'left' : 'right';
-    slide(direction, 1).finally(scheduleScrollHijackRelease);
-  }
-
-  function buildStaticGrid() {
-    grid.innerHTML = '';
-    // 🔧 只显示前 5 个卡片,避免移动端展开成 10 个
-    const displayCount = Math.min(5, templates.length);
-    templates.slice(0, displayCount).forEach((template, index) => {
-      const node = template.cloneNode(true);
-      node.dataset.cardIndex = index;
-      const card = node.querySelector('.video-card');
-      if (card) card.dataset.cardIndex = index;
-      grid.appendChild(node);
-    });
-    updateStaticClasses();
-  }
-
-  function updateStaticClasses() {
-    const wrappers = Array.from(grid.children);
-    wrappers.forEach((wrapper, idx) => {
-      const card = wrapper.querySelector('.video-card');
-      if (!card) return;
-      card.classList.remove('active', 'adjacent');
-      wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
-      const distance = Math.abs(idx - activeIndex);
-      if (distance === 0) {
-        card.classList.add('active');
-        wrapper.classList.add('gap-large');
-      } else if (distance === 1) {
-        card.classList.add('adjacent');
-        wrapper.classList.add('gap-medium');
-      } else if (distance === 2) {
-        wrapper.classList.add('gap-small');
+      if (Math.abs(primaryDelta) < 1) {
+        scheduleScrollHijackRelease();
+        return;
       }
-    });
-    applyBackgroundByIndex(activeIndex, true); // 移动端点击,立即应用背景
-  }
 
-  function handleStaticClick(event) {
-    const card = event.target.closest('.video-card');
-    if (!card) return;
-    const wrapper = card.closest('.video-card-wrapper');
-    const index = parseInt(wrapper.dataset.cardIndex, 10);
-    if (Number.isNaN(index)) return;
-    activeIndex = index;
-    updateStaticClasses();
-    if (cardsContainer) {
-      wrapper.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-    }
-  }
-
-  function initCarouselMode() {
-    grid.removeEventListener('click', handleStaticClick);
-    grid.addEventListener('click', handleCarouselClick);
-
-    // 添加滚轮监听（支持横向滚动切换卡片）
-    if (cardsContainer) {
-      cardsContainer.addEventListener('wheel', handleCarouselWheel, { passive: false });
+      // 馃幆 鎸佺画婊氬姩绛栫暐: 姣忔婊氳疆浜嬩欢閮藉垏鎹竴涓崱鐗?涓嶇婊氬姩閲忓ぇ灏?
+      // 鍙鎸佺画婊氬姩,灏辨寔缁垏鎹?
+      const direction = primaryDelta > 0 ? 'left' : 'right';
+      slide(direction, 1).finally(scheduleScrollHijackRelease);
     }
 
-    buildCarouselGrid();
-  }
-
-  function initStaticMode() {
-    grid.removeEventListener('click', handleCarouselClick);
-
-    // 移除滚轮监听
-    if (cardsContainer) {
-      cardsContainer.removeEventListener('wheel', handleCarouselWheel);
+    function buildStaticGrid() {
+      grid.innerHTML = '';
+      templates.forEach((template, index) => {
+        const node = template.cloneNode(true);
+        node.dataset.cardIndex = index;
+        const card = node.querySelector('.video-card');
+        if (card) card.dataset.cardIndex = index;
+        grid.appendChild(node);
+      });
+      updateStaticClasses();
     }
 
-    grid.addEventListener('click', handleStaticClick);
-    clearCarouselWidth();
-    buildStaticGrid();
-    releaseScrollHijack();
-  }
+    function updateStaticClasses() {
+      const wrappers = Array.from(grid.children);
+      wrappers.forEach((wrapper, idx) => {
+        const card = wrapper.querySelector('.video-card');
+        if (!card) return;
+        card.classList.remove('active', 'adjacent');
+        wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
+        const distance = Math.abs(idx - activeIndex);
+        if (distance === 0) {
+          card.classList.add('active');
+          wrapper.classList.add('gap-large');
+        } else if (distance === 1) {
+          card.classList.add('adjacent');
+          wrapper.classList.add('gap-medium');
+        } else if (distance === 2) {
+          wrapper.classList.add('gap-small');
+        }
+      });
+      applyBackgroundByIndex(activeIndex, true); // 绉诲姩绔偣鍑?绔嬪嵆搴旂敤鑳屾櫙
+    }
 
-  function handleResize() {
-    const nextMode = window.innerWidth >= DESKTOP_BREAKPOINT ? 'carousel' : 'static';
-    if (nextMode !== currentMode) {
-      currentMode = nextMode;
+    function handleStaticClick(event) {
+      const card = event.target.closest('.video-card');
+      if (!card) return;
+      const wrapper = card.closest('.video-card-wrapper');
+      const index = parseInt(wrapper.dataset.cardIndex, 10);
+      if (Number.isNaN(index)) return;
+      activeIndex = index;
+      updateStaticClasses();
+      if (cardsContainer) {
+        wrapper.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+    }
+
+    function initCarouselMode() {
+      grid.removeEventListener('click', handleStaticClick);
+      grid.addEventListener('click', handleCarouselClick);
+
+      // 娣诲姞婊氳疆鐩戝惉锛堟敮鎸佹í鍚戞粴鍔ㄥ垏鎹㈠崱鐗囷級
+      if (cardsContainer) {
+        cardsContainer.addEventListener('wheel', handleCarouselWheel, { passive: false });
+      }
+
+      buildCarouselGrid();
+      observeContainerResize();
+    }
+
+    function initStaticMode() {
+      grid.removeEventListener('click', handleCarouselClick);
+
+      // 绉婚櫎婊氳疆鐩戝惉
+      if (cardsContainer) {
+        cardsContainer.removeEventListener('wheel', handleCarouselWheel);
+      }
+
+      grid.addEventListener('click', handleStaticClick);
+      resetCardDimensions();
+      clearCarouselWidth();
+      buildStaticGrid();
+      releaseScrollHijack();
+      disconnectContainerResize();
+    }
+
+    function handleResize() {
+      const nextMode = window.innerWidth >= DESKTOP_BREAKPOINT ? 'carousel' : 'static';
+      if (nextMode !== currentMode) {
+        currentMode = nextMode;
+        if (currentMode === 'carousel') {
+          initCarouselMode();
+        } else {
+          initStaticMode();
+        }
+        return;
+      }
+
+      if (currentMode === 'carousel') {
+        scheduleCarouselLayoutSync();
+      }
+    }
+
+    function initSearchBox() {
+      const searchInput = document.querySelector('.search-input');
+      const runEngineBtn = document.querySelector('.btn-run-engine');
+
+      if (searchInput && runEngineBtn) {
+        runEngineBtn.addEventListener('click', () => {
+          const query = searchInput.value.trim();
+          if (!query) {
+            searchInput.focus();
+            return;
+          }
+          console.log('Search query:', query);
+        });
+
+        searchInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') {
+            runEngineBtn.click();
+          }
+        });
+      }
+    }
+
+    function init() {
+      currentMode = window.innerWidth >= DESKTOP_BREAKPOINT ? 'carousel' : 'static';
       if (currentMode === 'carousel') {
         initCarouselMode();
       } else {
         initStaticMode();
       }
-      return;
+      window.addEventListener('resize', handleResize);
+      if (window.visualViewport && typeof window.visualViewport.addEventListener === 'function') {
+        window.visualViewport.addEventListener('resize', handleResize);
+      }
+      initSearchBox();
     }
 
-    if (currentMode === 'carousel') {
-      measureStepSize();
-      applyCarouselWidth();
-      resetCarouselTransform();
-    }
-  }
-
-  function initSearchBox() {
-    const searchInput = document.querySelector('.search-input');
-    const runEngineBtn = document.querySelector('.btn-run-engine');
-
-    if (searchInput && runEngineBtn) {
-      runEngineBtn.addEventListener('click', () => {
-        const query = searchInput.value.trim();
-        if (!query) {
-          searchInput.focus();
-          return;
-        }
-        console.log('Search query:', query);
-      });
-
-      searchInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') {
-          runEngineBtn.click();
-        }
-      });
-    }
-  }
-
-  function init() {
-    currentMode = window.innerWidth >= DESKTOP_BREAKPOINT ? 'carousel' : 'static';
-    if (currentMode === 'carousel') {
-      initCarouselMode();
-    } else {
-      initStaticMode();
-    }
-    window.addEventListener('resize', handleResize);
-    initSearchBox();
-  }
-
-  init();
-})();
+    init();
+  })();
 </script>
-
 
   <!-- ===== LINKS SECTION ===== -->
 <!-- 社交媒体链接区域 -->
@@ -7210,15 +7261,19 @@
     /* 固定右侧图片高度 */
   }
 
-  .assistant-feature-visual img {
+  .assistant-feature-visual video {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.6s ease;
   }
 
-  .assistant-card:hover .assistant-feature-visual img {
+  .assistant-card:hover .assistant-feature-visual video {
     transform: scale(1.05);
+  }
+
+  .assistant-feature-visual video {
+    display: block;
   }
 
   .assistant-feature-content {
@@ -7254,14 +7309,14 @@
     height: 250px;
   }
 
-  .assistant-feature-visual-right img {
+  .assistant-feature-visual-right video {
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.6s ease;
   }
 
-  .assistant-card:hover .assistant-feature-visual-right img {
+  .assistant-card:hover .assistant-feature-visual-right video {
     transform: scale(1.05);
   }
 
@@ -7664,7 +7719,7 @@
           <!-- 功能项 1: Script, Story & Hooks -->
           <div class="assistant-feature-item">
             <div class="assistant-feature-visual">
-              <img src="assets/assistant/images/assistant-image-01.jpg" alt="Script, Story & Hooks" loading="lazy">
+              <video class="assistant-feature-video" muted loop playsinline preload="none" data-src="assets/assistant/videos/assistant-video-01.mp4"></video>
             </div>
             <div class="assistant-feature-content">
               <h3 class="assistant-feature-title">Script, Story & Hooks</h3>
@@ -7678,7 +7733,7 @@
           <!-- 功能项 2: Adaptive Intelligence -->
           <div class="assistant-feature-item">
             <div class="assistant-feature-visual">
-              <img src="assets/assistant/images/assistant-image-02.jpg" alt="Adaptive Intelligence" loading="lazy">
+              <video class="assistant-feature-video" muted loop playsinline preload="none" data-src="assets/assistant/videos/assistant-video-02.mp4"></video>
             </div>
             <div class="assistant-feature-content">
               <h3 class="assistant-feature-title">Adaptive Intelligence</h3>
@@ -7702,7 +7757,7 @@
           <!-- 功能项：Analytical Insight - 独立类名 -->
           <div class="assistant-feature-item-right">
             <div class="assistant-feature-visual-right">
-              <img src="assets/assistant/images/assistant-image-03.jpg" alt="Analytical Insight" loading="lazy">
+              <video class="assistant-feature-video" muted loop playsinline preload="none" data-src="assets/assistant/videos/assistant-video-03.mp4"></video>
             </div>
             <div class="assistant-feature-content-right">
               <h3 class="assistant-feature-title-right">Analytical Insight</h3>
@@ -7754,6 +7809,55 @@
       animateElements.forEach(element => {
         observer.observe(element);
       });
+      const initAssistantVideoHover = () => {
+        const videos = document.querySelectorAll('.assistant-section .assistant-feature-video[data-src]');
+        if (!videos.length) return;
+
+        const ensureVideoLoaded = (video) => {
+          if (video.dataset.loaded === 'true') return;
+          const src = video.dataset.src;
+          if (!src) return;
+          video.src = src;
+          video.load();
+          video.dataset.loaded = 'true';
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              ensureVideoLoaded(entry.target);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.3, rootMargin: '0px 0px 100px 0px' });
+
+        videos.forEach(video => observer.observe(video));
+
+        videos.forEach(video => {
+          const container = video.closest('.assistant-feature-visual') ||
+            video.closest('.assistant-feature-visual-right') ||
+            video.parentElement;
+
+          if (!container) return;
+
+          const playVideo = () => {
+            ensureVideoLoaded(video);
+            video.play().catch(err => console.warn('Assistant video play failed:', err));
+          };
+
+          const stopVideo = () => {
+            video.pause();
+            video.currentTime = 0;
+          };
+
+          container.addEventListener('mouseenter', playVideo);
+          container.addEventListener('mouseleave', stopVideo);
+          container.addEventListener('focusin', playVideo);
+          container.addEventListener('focusout', stopVideo);
+        });
+      };
+
+      initAssistantVideoHover();
     };
 
     // DOM 加载完成后初始化
@@ -7764,6 +7868,7 @@
     }
   })();
 </script>
+
 
   <!-- ===== STYLES SECTION ===== -->
 <!-- ===================================
@@ -9050,6 +9155,9 @@
     position: absolute;
     /* 改为绝对定位，方便自由摆放 */
     cursor: pointer;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
   }
 
   .api-card:hover {
@@ -9145,6 +9253,38 @@
 
   .api-card:hover .api-image {
     transform: scale(1.05);
+  }
+
+  .api-card-media {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .api-image,
+  .api-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .api-image {
+    z-index: 0;
+  }
+
+  .api-video {
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    pointer-events: none;
+  }
+
+  .api-card:hover .api-video {
+    opacity: 1;
   }
 
   /* API Overlay Content - 始终显示在左上角 */
@@ -9603,7 +9743,10 @@
   <div class="apis-grid">
     <!-- API Card 1 - Voice & Likeness -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-01.png" alt="Voice & Likeness API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-01.png" alt="Voice & Likeness API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-01.mp4"></video>
+      </div>
       <span class="api-number">1</span>
       <div class="api-overlay">
         <h3 class="api-title">Voice & Likeness.</h3>
@@ -9613,7 +9756,10 @@
 
     <!-- API Card 2 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-02.jpg" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-02.jpg" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-02.mp4"></video>
+      </div>
       <span class="api-number">2</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -9623,7 +9769,10 @@
 
     <!-- API Card 3 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-03.png" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-03.png" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-03.mp4"></video>
+      </div>
       <span class="api-number">3</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -9633,7 +9782,10 @@
 
     <!-- API Card 4 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-04.png" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-04.png" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-04.mp4"></video>
+      </div>
       <span class="api-number">4</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -9643,7 +9795,10 @@
 
     <!-- API Card 5 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-05.png" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-05.png" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-05.mp4"></video>
+      </div>
       <span class="api-number">5</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -9653,7 +9808,10 @@
 
     <!-- API Card 6 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-06.png" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-06.png" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-06.mp4"></video>
+      </div>
       <span class="api-number">6</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -9663,7 +9821,10 @@
 
     <!-- API Card 7 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-07.jpg" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-07.jpg" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-07.mp4"></video>
+      </div>
       <span class="api-number">7</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -9673,7 +9834,10 @@
 
     <!-- API Card 8 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-08.png" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-08.png" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-08.mp4"></video>
+      </div>
       <span class="api-number">8</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -9683,7 +9847,10 @@
 
     <!-- API Card 9 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-09.png" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-09.png" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-09.mp4"></video>
+      </div>
       <span class="api-number">9</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -9693,7 +9860,10 @@
 
     <!-- API Card 10 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-10.png" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-10.png" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-10.mp4"></video>
+      </div>
       <span class="api-number">10</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -9740,6 +9910,53 @@
           // 这里可以添加更多交互逻辑，比如打开模态框或跳转到详情页
         });
       });
+
+      const initApiVideoHover = () => {
+        const videos = document.querySelectorAll('.api-card .api-video[data-src]');
+        if (!videos.length) return;
+
+        const ensureVideoLoaded = (video) => {
+          if (video.dataset.loaded === 'true') return;
+          const src = video.dataset.src;
+          if (!src) return;
+          video.src = src;
+          video.load();
+          video.dataset.loaded = 'true';
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              ensureVideoLoaded(entry.target);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.3, rootMargin: '0px 0px 100px 0px' });
+
+        videos.forEach(video => observer.observe(video));
+
+        apiCards.forEach(card => {
+          const video = card.querySelector('.api-video');
+          if (!video) return;
+
+          const playVideo = () => {
+            ensureVideoLoaded(video);
+            video.play().catch(err => console.warn('API video play failed:', err));
+          };
+
+          const stopVideo = () => {
+            video.pause();
+            video.currentTime = 0;
+          };
+
+          card.addEventListener('mouseenter', playVideo);
+          card.addEventListener('mouseleave', stopVideo);
+          card.addEventListener('focusin', playVideo);
+          card.addEventListener('focusout', stopVideo);
+        });
+      };
+
+      initApiVideoHover();
     };
 
     // Initialize on DOM ready
@@ -9750,6 +9967,7 @@
     }
   })();
 </script>
+
 
   <!-- ===== EXPLORE_MORE SECTION ===== -->
 <style>
@@ -9824,6 +10042,7 @@
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.4s ease, box-shadow 0.4s ease;
+    z-index: 1;
   }
 
   .explore-card:hover {
@@ -9839,8 +10058,41 @@
     transition: transform 0.4s ease;
   }
 
+  .explore-card-media {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .explore-card-image,
+  .explore-card-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+    display: block;
+  }
+
+  .explore-card-image {
+    z-index: 1;
+  }
+
+  .explore-card-video {
+    z-index: 2;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+  }
+
   .explore-card:hover .explore-card-image {
     transform: scale(1.05);
+  }
+
+  .explore-card:hover .explore-card-video {
+    opacity: 1;
   }
 
   /* 卡片 1: CREATE - 左上角 */
@@ -10275,42 +10527,60 @@
     <div class="explore-grid">
       <!-- 卡片 1: CREATE -->
       <div class="explore-card explore-card-1">
-        <img src="assets/explore_more/images/explore_more-image-01.png" alt="Create" class="explore-card-image">
+        <div class="explore-card-media">
+          <img src="assets/explore_more/images/explore_more-image-01.png" alt="Create" class="explore-card-image">
+          <video class="explore-card-video" muted loop playsinline preload="none" data-src="assets/explore_more/videos/explore_more-video-01.mp4"></video>
+        </div>
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">CREATE</div>
       </div>
 
       <!-- 卡片 2: COMPOSE -->
       <div class="explore-card explore-card-2">
-        <img src="assets/explore_more/images/explore_more-image-02.jpg" alt="Compose" class="explore-card-image">
+        <div class="explore-card-media">
+          <img src="assets/explore_more/images/explore_more-image-02.jpg" alt="Compose" class="explore-card-image">
+          <video class="explore-card-video" muted loop playsinline preload="none" data-src="assets/explore_more/videos/explore_more-video-02.mp4"></video>
+        </div>
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">COMPOSE</div>
       </div>
 
       <!-- 卡片 3: STUDIO -->
       <div class="explore-card explore-card-3">
-        <img src="assets/explore_more/images/explore_more-image-03.png" alt="Studio" class="explore-card-image">
+        <div class="explore-card-media">
+          <img src="assets/explore_more/images/explore_more-image-03.png" alt="Studio" class="explore-card-image">
+          <video class="explore-card-video" muted loop playsinline preload="none" data-src="assets/explore_more/videos/explore_more-video-03.mp4"></video>
+        </div>
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">STUDIO</div>
       </div>
 
       <!-- 卡片 4: Brand Modeling -->
       <div class="explore-card explore-card-4">
-        <img src="assets/explore_more/images/explore_more-image-04.png" alt="Brand Modeling" class="explore-card-image">
+        <div class="explore-card-media">
+          <img src="assets/explore_more/images/explore_more-image-04.png" alt="Brand Modeling" class="explore-card-image">
+          <video class="explore-card-video" muted loop playsinline preload="none" data-src="assets/explore_more/videos/explore_more-video-04.mp4"></video>
+        </div>
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">Brand Modeling</div>
       </div>
 
       <!-- 卡片 5: Storytelling -->
       <div class="explore-card explore-card-5">
-        <img src="assets/explore_more/images/explore_more-image-05.png" alt="Storytelling" class="explore-card-image">
+        <div class="explore-card-media">
+          <img src="assets/explore_more/images/explore_more-image-05.png" alt="Storytelling" class="explore-card-image">
+          <video class="explore-card-video" muted loop playsinline preload="none" data-src="assets/explore_more/videos/explore_more-video-05.mp4"></video>
+        </div>
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">Storytelling</div>
       </div>
 
       <!-- 卡片 6: Entertainment -->
       <div class="explore-card explore-card-6">
-        <img src="assets/explore_more/images/explore_more-image-06.png" alt="Entertainment" class="explore-card-image">
+        <div class="explore-card-media">
+          <img src="assets/explore_more/images/explore_more-image-06.png" alt="Entertainment" class="explore-card-image">
+          <video class="explore-card-video" muted loop playsinline preload="none" data-src="assets/explore_more/videos/explore_more-video-06.mp4"></video>
+        </div>
         <div class="explore-card-overlay"></div>
         <div class="explore-card-label">Entertainment</div>
       </div>
@@ -10360,6 +10630,53 @@
         card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
         observer.observe(card);
       });
+
+      const initCardVideoHover = () => {
+        const videos = document.querySelectorAll('.explore-card-video[data-src]');
+        if (!videos.length) return;
+
+        const ensureVideoLoaded = (video) => {
+          if (video.dataset.loaded === 'true') return;
+          const src = video.dataset.src;
+          if (!src) return;
+          video.src = src;
+          video.load();
+          video.dataset.loaded = 'true';
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              ensureVideoLoaded(entry.target);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.25, rootMargin: '0px 0px 120px 0px' });
+
+        videos.forEach(video => observer.observe(video));
+
+        cards.forEach(card => {
+          const video = card.querySelector('.explore-card-video');
+          if (!video) return;
+
+          const playVideo = () => {
+            ensureVideoLoaded(video);
+            video.play().catch(err => console.warn('Explore video play failed:', err));
+          };
+
+          const stopVideo = () => {
+            video.pause();
+            video.currentTime = 0;
+          };
+
+          card.addEventListener('mouseenter', playVideo);
+          card.addEventListener('mouseleave', stopVideo);
+          card.addEventListener('focusin', playVideo);
+          card.addEventListener('focusout', stopVideo);
+        });
+      };
+
+      initCardVideoHover();
     }
 
     // 页面加载完成后初始化
@@ -10370,6 +10687,7 @@
     }
   })();
 </script>
+
 
   <!-- ===== QUESTION SECTION ===== -->
 <!-- ===== Question (FAQ) Section Module ===== -->

@@ -60,6 +60,9 @@
     position: absolute;
     /* 改为绝对定位，方便自由摆放 */
     cursor: pointer;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
   }
 
   .api-card:hover {
@@ -155,6 +158,38 @@
 
   .api-card:hover .api-image {
     transform: scale(1.05);
+  }
+
+  .api-card-media {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+
+  .api-image,
+  .api-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .api-image {
+    z-index: 0;
+  }
+
+  .api-video {
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.45s ease;
+    pointer-events: none;
+  }
+
+  .api-card:hover .api-video {
+    opacity: 1;
   }
 
   /* API Overlay Content - 始终显示在左上角 */
@@ -613,7 +648,10 @@
   <div class="apis-grid">
     <!-- API Card 1 - Voice & Likeness -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-01.png" alt="Voice & Likeness API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-01.png" alt="Voice & Likeness API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-01.mp4"></video>
+      </div>
       <span class="api-number">1</span>
       <div class="api-overlay">
         <h3 class="api-title">Voice & Likeness.</h3>
@@ -623,7 +661,10 @@
 
     <!-- API Card 2 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-02.jpg" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-02.jpg" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-02.mp4"></video>
+      </div>
       <span class="api-number">2</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -633,7 +674,10 @@
 
     <!-- API Card 3 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-03.png" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-03.png" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-03.mp4"></video>
+      </div>
       <span class="api-number">3</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -643,7 +687,10 @@
 
     <!-- API Card 4 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-04.png" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-04.png" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-04.mp4"></video>
+      </div>
       <span class="api-number">4</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -653,7 +700,10 @@
 
     <!-- API Card 5 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-05.png" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-05.png" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-05.mp4"></video>
+      </div>
       <span class="api-number">5</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -663,7 +713,10 @@
 
     <!-- API Card 6 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-06.png" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-06.png" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-06.mp4"></video>
+      </div>
       <span class="api-number">6</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -673,7 +726,10 @@
 
     <!-- API Card 7 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-07.jpg" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-07.jpg" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-07.mp4"></video>
+      </div>
       <span class="api-number">7</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -683,7 +739,10 @@
 
     <!-- API Card 8 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-08.png" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-08.png" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-08.mp4"></video>
+      </div>
       <span class="api-number">8</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -693,7 +752,10 @@
 
     <!-- API Card 9 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-09.png" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-09.png" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-09.mp4"></video>
+      </div>
       <span class="api-number">9</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -703,7 +765,10 @@
 
     <!-- API Card 10 - Brand Safety -->
     <div class="api-card">
-      <img src="assets/APIs/images/APIs-image-10.png" alt="Brand Safety API" class="api-image">
+      <div class="api-card-media">
+        <img src="assets/APIs/images/APIs-image-10.png" alt="Brand Safety API" class="api-image">
+        <video class="api-video" muted loop playsinline preload="none" data-src="assets/APIs/videos/api-video-10.mp4"></video>
+      </div>
       <span class="api-number">10</span>
       <div class="api-overlay">
         <h3 class="api-title">Brand Safety</h3>
@@ -750,6 +815,53 @@
           // 这里可以添加更多交互逻辑，比如打开模态框或跳转到详情页
         });
       });
+
+      const initApiVideoHover = () => {
+        const videos = document.querySelectorAll('.api-card .api-video[data-src]');
+        if (!videos.length) return;
+
+        const ensureVideoLoaded = (video) => {
+          if (video.dataset.loaded === 'true') return;
+          const src = video.dataset.src;
+          if (!src) return;
+          video.src = src;
+          video.load();
+          video.dataset.loaded = 'true';
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              ensureVideoLoaded(entry.target);
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.3, rootMargin: '0px 0px 100px 0px' });
+
+        videos.forEach(video => observer.observe(video));
+
+        apiCards.forEach(card => {
+          const video = card.querySelector('.api-video');
+          if (!video) return;
+
+          const playVideo = () => {
+            ensureVideoLoaded(video);
+            video.play().catch(err => console.warn('API video play failed:', err));
+          };
+
+          const stopVideo = () => {
+            video.pause();
+            video.currentTime = 0;
+          };
+
+          card.addEventListener('mouseenter', playVideo);
+          card.addEventListener('mouseleave', stopVideo);
+          card.addEventListener('focusin', playVideo);
+          card.addEventListener('focusout', stopVideo);
+        });
+      };
+
+      initApiVideoHover();
     };
 
     // Initialize on DOM ready
