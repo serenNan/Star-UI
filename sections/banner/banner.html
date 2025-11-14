@@ -11,9 +11,11 @@
 .banner {
   position: relative;
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   padding-top: calc(var(--nav-height) + var(--spacing-lg)); /* 减小顶部内边距 */
-  padding-bottom: calc(22rem + var(--spacing-2xl)); /* 增加底部内边距，为卡片留出空间 */
-  overflow: visible; /* 允许内容溢出，确保卡片可见 */
+  padding-bottom: clamp(2rem, 5vh, 4rem); /* 减小底部内边距，卡片更靠近底部 */
+  overflow: hidden; /* 防止内容溢出视口 */
 }
 
 /* 视频背景容器 */
@@ -83,8 +85,11 @@
   position: relative;
   max-width: 100%; /* 使用全宽，不限制容器宽度 */
   margin: 0 auto;
-  padding: 0 3rem; /* 减小左右内边距 */
-  height: 100%;
+  padding: 0 clamp(1.5rem, 3vw, 3rem); /* 响应式左右内边距 */
+  flex: 1; /* 占据剩余空间 */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* 上下内容分散对齐 */
   z-index: 2;
 }
 
@@ -94,10 +99,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--spacing-md); /* 减小内部间距 */
-  max-width: 800px; /* 调整最大宽度 */
+  gap: clamp(1rem, 2vh, 1.5rem); /* 响应式内部间距 */
+  max-width: min(800px, 90vw); /* 响应式最大宽度 */
   margin: 0 auto; /* 改为居中 */
-  margin-top: clamp(2.5rem, 5vw, 4.5rem); /* 中等幅度下移 */
+  margin-top: clamp(2rem, 5vh, 4.5rem); /* 响应式顶部间距 */
   text-align: center; /* 子元素文字居中 */
   z-index: 3;
 }
@@ -133,7 +138,7 @@
 .search-box-container {
   position: relative;
   width: 100%;
-  max-width: 550px; /* 减小宽度：从 700px 改为 550px */
+  max-width: min(550px, 90vw); /* 响应式宽度 */
   margin: 0 auto;
 }
 
@@ -198,19 +203,22 @@
 
 /* 3. 右下角背景切换卡片区 - 水平排列不换行 */
 .video-cards-container {
-  position: absolute; /* 相对于 banner-container 定位 */
-  left: 50%; /* 居中定位 */
-  transform: translateX(-50%);
-  bottom: -29rem; /* 适度上移，避免遮挡 */
+  position: relative; /* 改为相对定位，在文档流中 */
+  left: auto;
+  transform: none;
+  bottom: auto;
+  margin: 0 auto; /* 水平居中 */
+  margin-top: auto; /* 自动上边距，让卡片靠底部 */
+  margin-bottom: 0; /* 移除底部间距 */
   z-index: 100; /* 提高层级,确保在所有内容之上 */
   overflow: hidden; /* 隐藏溢出部分 */
-  width: calc(5 * 81px + 4 * 1rem); /* 显示5张卡片及间距 */
+  width: min(calc(5 * 81px + 4 * 1rem), 90vw); /* 响应式宽度，最大90%视口宽度 */
   padding: 1.25rem 0; /* 为放大卡片预留垂直空间 */
 }
 
 .video-cards-grid {
   display: flex;
-  gap: 1rem; /* 间距 16px */
+  gap: clamp(0.5rem, 1.5vw, 1rem); /* 响应式间距 */
   flex-wrap: nowrap; /* 禁止换行 */
   align-items: center; /* 垂直居中对齐 */
   transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* 滑动动画 */
@@ -270,8 +278,8 @@
 /* 背景切换卡片 - 更长的高度 */
 .video-card {
   position: relative;
-  width: 81px; /* 减小宽度：从 90px 改为 70px */
-  height: 108px; /* 减小高度：从 120px 改为 100px */
+  width: clamp(60px, 5vw, 81px); /* 响应式宽度 */
+  height: clamp(80px, 6.67vw, 108px); /* 响应式高度，保持宽高比 */
   border-radius: 4px; /* 减小圆角：从 6px 改为 3px */
   overflow: hidden;
   cursor: pointer;
