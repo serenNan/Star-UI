@@ -735,6 +735,15 @@
   let isAnimating = false;
   let currentData = toolsData[currentTool];
 
+  // ===== 滚动缩放参数 =====
+  const minScale = 1.0; // 最小缩放值
+  const maxScale = 1.5; // 最大缩放值
+  const maxPushDistance = 100; // 左右卡片最大推开距离（px）
+
+  let rafId = null; // requestAnimationFrame ID
+  let currentScale = minScale; // 当前缩放值
+  let targetScale = minScale; // 目标缩放值
+
   // 动态检测是否为移动设备
   function isMobileDevice() {
     return window.innerWidth < 991;
@@ -770,6 +779,7 @@
     attachEventListeners();
     initCompareSlider();
     initHoverVideoControl();
+    updateScaleBasedOnScroll();
   }
 
   // ===== 更新卡片显示 =====
@@ -820,6 +830,95 @@
       beforeVideo.currentTime = 0;
       afterVideo.currentTime = 0;
     });
+  }
+
+  // ===== 应用缩放效果（平滑跟随滚动）=====
+  function applyScaleTransform(scale) {
+    // 更新中央卡片缩放
+    mainCard.style.transform = `scale(${scale})`;
+
+    // 桌面端才处理左右卡片的推开动画
+    if (!isMobileDevice() && leftSide && rightSide) {
+      // 计算左右卡片的推开距离（线性映射）
+      // scale 1.0 → 0px, scale 1.5 → maxPushDistance
+      const progress = (scale - minScale) / (maxScale - minScale);
+      const pushDistance = progress * maxPushDistance;
+
+      // 应用视差效果
+      leftSide.style.transform = `translateX(-${pushDistance}px)`;
+      rightSide.style.transform = `translateX(${pushDistance}px)`;
+    }
+  }
+
+  // ===== 使用 RAF 平滑更新缩放（性能优化）=====
+  function updateScaleAnimation() {
+    // 平滑插值（Lerp），避免突变
+    currentScale += (targetScale - currentScale) * 0.15;
+
+    // 应用变换
+    applyScaleTransform(currentScale);
+
+    // 如果还有差距，继续下一帧
+    if (Math.abs(targetScale - currentScale) > 0.001) {
+      rafId = requestAnimationFrame(updateScaleAnimation);
+    } else {
+      currentScale = targetScale;
+      rafId = null;
+    }
+  }
+
+  // ===== 基于滚动位置计算缩放（不劫持滚动）=====
+  function updateScaleBasedOnScroll() {
+    if (!showcaseSection) return;
+    const rect = showcaseSection.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+
+    // 计算区域相对于视口的位置
+    const sectionTop = rect.top;
+    const sectionBottom = rect.bottom;
+    const viewportCenter = viewportHeight / 2;
+
+    // 如果区域还未进入视口，保持初始缩放
+    if (sectionBottom < 0 || sectionTop > viewportHeight) {
+      targetScale = minScale;
+      if (!rafId) {
+        rafId = requestAnimationFrame(updateScaleAnimation);
+      }
+      return;
+    }
+
+    // 计算区域中心相对于视口中心的偏移
+    const sectionCenter = sectionTop + rect.height / 2;
+    const offset = sectionCenter - viewportCenter;
+
+    // 定义缩放触发区域
+    const scaleRange = viewportHeight * 0.8; // 缩放过渡范围
+
+    // 计算缩放进度
+    let progress = 0;
+
+    if (offset > 0) {
+      // 区域中心在视口中心下方（尚未滚动到居中位置）
+      // 从下方进入，逐渐放大
+      progress = Math.max(0, 1 - offset / scaleRange);
+    } else {
+      // 区域中心在视口中心上方或对齐（已经滚动到居中或更上方）
+      // 保持最大缩放，不缩小
+      progress = 1;
+    }
+
+    // 映射到缩放值 (1.0 ~ 1.5)
+    targetScale = minScale + (maxScale - minScale) * progress;
+
+    // 启动平滑动画
+    if (!rafId) {
+      rafId = requestAnimationFrame(updateScaleAnimation);
+    }
+  }
+
+  // ===== 监听页面滚动 =====
+  function handleScroll() {
+    updateScaleBasedOnScroll();
   }
 
   // ===== 对比滑块交互逻辑 =====
@@ -926,6 +1025,7 @@
     resizeRaf = requestAnimationFrame(() => {
       resizeRaf = null;
       updateResponsiveLayout();
+      updateScaleBasedOnScroll();
     });
   }
 
@@ -959,12 +1059,17 @@
     // 在内容淡出后切换
     setTimeout(() => {
       updateCardsDisplay();
+      // 保持当前缩放状态，不重置为 minScale
+      applyScaleTransform(currentScale);
 
       // 立即淡入新内容
       setTimeout(() => {
         [...allImages, ...allVideos].forEach(el => {
           el.style.opacity = '1';
         });
+
+        // 重新计算基于当前滚动位置的缩放
+        updateScaleBasedOnScroll();
 
         // 动画完成后清理
         setTimeout(() => {
@@ -985,6 +1090,8 @@
 
   // ===== 绑定事件监听器 =====
   function attachEventListeners() {
+    // 监听页面滚动（被动式，不劫持）
+    window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleResize);
 
     // 标签切换

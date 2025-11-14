@@ -3222,7 +3222,7 @@
 }
 
 /* ===== 响应式：移动端 ===== */
-@media (max-width: 767px) {
+@media (max-width: 990px) {
   .tools-showcase {
     padding: 60px 0;
     overflow-x: hidden; /* 防止横向滚动 */
@@ -3619,7 +3619,7 @@
 
   // 动态检测是否为移动设备（支持窗口大小变化）
   function isMobileDevice() {
-    return window.innerWidth < 768;
+    return window.innerWidth < 991;
   }
 
   // ===== DOM 元素 =====
@@ -4415,7 +4415,7 @@
 }
 
 /* ===== 响应式：移动端 ===== */
-@media (max-width: 767px) {
+@media (max-width: 990px) {
   .compare-showcase {
     padding: 60px 0;
     overflow-x: hidden;
@@ -4752,9 +4752,18 @@
   let isAnimating = false;
   let currentData = toolsData[currentTool];
 
+  // ===== 滚动缩放参数 =====
+  const minScale = 1.0; // 最小缩放值
+  const maxScale = 1.5; // 最大缩放值
+  const maxPushDistance = 100; // 左右卡片最大推开距离（px）
+
+  let rafId = null; // requestAnimationFrame ID
+  let currentScale = minScale; // 当前缩放值
+  let targetScale = minScale; // 目标缩放值
+
   // 动态检测是否为移动设备
   function isMobileDevice() {
-    return window.innerWidth < 768;
+    return window.innerWidth < 991;
   }
 
   // ===== DOM 元素 =====
@@ -4787,6 +4796,7 @@
     attachEventListeners();
     initCompareSlider();
     initHoverVideoControl();
+    updateScaleBasedOnScroll();
   }
 
   // ===== 更新卡片显示 =====
@@ -4837,6 +4847,95 @@
       beforeVideo.currentTime = 0;
       afterVideo.currentTime = 0;
     });
+  }
+
+  // ===== 应用缩放效果（平滑跟随滚动）=====
+  function applyScaleTransform(scale) {
+    // 更新中央卡片缩放
+    mainCard.style.transform = `scale(${scale})`;
+
+    // 桌面端才处理左右卡片的推开动画
+    if (!isMobileDevice() && leftSide && rightSide) {
+      // 计算左右卡片的推开距离（线性映射）
+      // scale 1.0 → 0px, scale 1.5 → maxPushDistance
+      const progress = (scale - minScale) / (maxScale - minScale);
+      const pushDistance = progress * maxPushDistance;
+
+      // 应用视差效果
+      leftSide.style.transform = `translateX(-${pushDistance}px)`;
+      rightSide.style.transform = `translateX(${pushDistance}px)`;
+    }
+  }
+
+  // ===== 使用 RAF 平滑更新缩放（性能优化）=====
+  function updateScaleAnimation() {
+    // 平滑插值（Lerp），避免突变
+    currentScale += (targetScale - currentScale) * 0.15;
+
+    // 应用变换
+    applyScaleTransform(currentScale);
+
+    // 如果还有差距，继续下一帧
+    if (Math.abs(targetScale - currentScale) > 0.001) {
+      rafId = requestAnimationFrame(updateScaleAnimation);
+    } else {
+      currentScale = targetScale;
+      rafId = null;
+    }
+  }
+
+  // ===== 基于滚动位置计算缩放（不劫持滚动）=====
+  function updateScaleBasedOnScroll() {
+    if (!showcaseSection) return;
+    const rect = showcaseSection.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+
+    // 计算区域相对于视口的位置
+    const sectionTop = rect.top;
+    const sectionBottom = rect.bottom;
+    const viewportCenter = viewportHeight / 2;
+
+    // 如果区域还未进入视口，保持初始缩放
+    if (sectionBottom < 0 || sectionTop > viewportHeight) {
+      targetScale = minScale;
+      if (!rafId) {
+        rafId = requestAnimationFrame(updateScaleAnimation);
+      }
+      return;
+    }
+
+    // 计算区域中心相对于视口中心的偏移
+    const sectionCenter = sectionTop + rect.height / 2;
+    const offset = sectionCenter - viewportCenter;
+
+    // 定义缩放触发区域
+    const scaleRange = viewportHeight * 0.8; // 缩放过渡范围
+
+    // 计算缩放进度
+    let progress = 0;
+
+    if (offset > 0) {
+      // 区域中心在视口中心下方（尚未滚动到居中位置）
+      // 从下方进入，逐渐放大
+      progress = Math.max(0, 1 - offset / scaleRange);
+    } else {
+      // 区域中心在视口中心上方或对齐（已经滚动到居中或更上方）
+      // 保持最大缩放，不缩小
+      progress = 1;
+    }
+
+    // 映射到缩放值 (1.0 ~ 1.5)
+    targetScale = minScale + (maxScale - minScale) * progress;
+
+    // 启动平滑动画
+    if (!rafId) {
+      rafId = requestAnimationFrame(updateScaleAnimation);
+    }
+  }
+
+  // ===== 监听页面滚动 =====
+  function handleScroll() {
+    updateScaleBasedOnScroll();
   }
 
   // ===== 对比滑块交互逻辑 =====
@@ -4943,6 +5042,7 @@
     resizeRaf = requestAnimationFrame(() => {
       resizeRaf = null;
       updateResponsiveLayout();
+      updateScaleBasedOnScroll();
     });
   }
 
@@ -4976,12 +5076,17 @@
     // 在内容淡出后切换
     setTimeout(() => {
       updateCardsDisplay();
+      // 保持当前缩放状态，不重置为 minScale
+      applyScaleTransform(currentScale);
 
       // 立即淡入新内容
       setTimeout(() => {
         [...allImages, ...allVideos].forEach(el => {
           el.style.opacity = '1';
         });
+
+        // 重新计算基于当前滚动位置的缩放
+        updateScaleBasedOnScroll();
 
         // 动画完成后清理
         setTimeout(() => {
@@ -5002,6 +5107,8 @@
 
   // ===== 绑定事件监听器 =====
   function attachEventListeners() {
+    // 监听页面滚动（被动式，不劫持）
+    window.addEventListener('scroll', handleScroll, { passive: true });
     window.addEventListener('resize', handleResize);
 
     // 标签切换
@@ -8113,7 +8220,8 @@
     /* 不使用 transform，避免覆盖位置偏移 */
   }
 
-  .styles-card img {
+  .styles-card img,
+  .styles-card video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -8121,9 +8229,22 @@
     transition: transform var(--transition);
   }
 
+  /* 视频初始隐藏 */
+  .styles-card video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* 悬浮时显示视频，隐藏图片 */
   .styles-card:hover img {
-    transform: scale(1.1);
-    /* 悬浮时图片放大 */
+    opacity: 0;
+  }
+
+  .styles-card:hover video {
+    opacity: 1;
   }
 
   /* ==================== 右侧：内容区域 ==================== */
@@ -8519,23 +8640,41 @@
 
     <!-- 左侧：风格卡片画廊 -->
     <div class="styles-gallery">
-      <div class="styles-card">
+      <div class="styles-card" data-hover-video>
         <img src="assets/styles/images/styles-image-01.png" alt="Style 1" loading="lazy">
+        <video muted loop preload="none">
+          <source src="assets/styles/videos/styles-video-01.mp4" type="video/mp4">
+        </video>
       </div>
-      <div class="styles-card">
+      <div class="styles-card" data-hover-video>
         <img src="assets/styles/images/styles-image-02.jpg" alt="Style 2" loading="lazy">
+        <video muted loop preload="none">
+          <source src="assets/styles/videos/styles-video-02.mp4" type="video/mp4">
+        </video>
       </div>
-      <div class="styles-card">
+      <div class="styles-card" data-hover-video>
         <img src="assets/styles/images/styles-image-03.png" alt="Style 3" loading="lazy">
+        <video muted loop preload="none">
+          <source src="assets/styles/videos/styles-video-03.mp4" type="video/mp4">
+        </video>
       </div>
-      <div class="styles-card">
+      <div class="styles-card" data-hover-video>
         <img src="assets/styles/images/styles-image-04.png" alt="Style 4" loading="lazy">
+        <video muted loop preload="none">
+          <source src="assets/styles/videos/styles-video-04.mp4" type="video/mp4">
+        </video>
       </div>
-      <div class="styles-card">
+      <div class="styles-card" data-hover-video>
         <img src="assets/styles/images/styles-image-05.png" alt="Style 5" loading="lazy">
+        <video muted loop preload="none">
+          <source src="assets/styles/videos/styles-video-05.mp4" type="video/mp4">
+        </video>
       </div>
-      <div class="styles-card">
+      <div class="styles-card" data-hover-video>
         <img src="assets/styles/images/styles-image-06.png" alt="Style 6" loading="lazy">
+        <video muted loop preload="none">
+          <source src="assets/styles/videos/styles-video-06.mp4" type="video/mp4">
+        </video>
       </div>
     </div>
 
@@ -8589,7 +8728,9 @@
 
     /**
      * 初始化 Styles 模块
-     * 功能：滚动进入视口时触发卡片淡入动画
+     * 功能：
+     * 1. 滚动进入视口时触发卡片淡入动画
+     * 2. 鼠标悬浮时播放视频，离开时暂停并重置
      */
     const initStyles = () => {
       const cards = document.querySelectorAll('.styles-card');
@@ -8597,7 +8738,7 @@
       // 检查元素是否存在
       if (cards.length === 0) return;
 
-      // 创建 Intersection Observer 实例
+      // 创建 Intersection Observer 实例（用于卡片动画）
       const observerOptions = {
         threshold: 0.2,  // 当 20% 的元素可见时触发
         rootMargin: '0px 0px -50px 0px'  // 提前触发动画
@@ -8619,7 +8760,29 @@
         observer.observe(card);
       });
 
-      console.log('✅ Styles module initialized with', cards.length, 'cards');
+      // 悬浮视频播放逻辑
+      const videoCards = document.querySelectorAll('[data-hover-video]');
+
+      videoCards.forEach(card => {
+        const video = card.querySelector('video');
+        if (!video) return;
+
+        // 鼠标进入时播放视频
+        card.addEventListener('mouseenter', () => {
+          video.currentTime = 0; // 从头开始播放
+          video.play().catch(err => {
+            console.warn('Video play failed:', err);
+          });
+        });
+
+        // 鼠标离开时暂停并重置视频
+        card.addEventListener('mouseleave', () => {
+          video.pause();
+          video.currentTime = 0; // 重置到开头
+        });
+      });
+
+      console.log('✅ Styles module initialized with', cards.length, 'cards and', videoCards.length, 'hover videos');
     };
 
     // DOM 加载完成后初始化
@@ -8732,6 +8895,7 @@
     overflow: hidden;
     border-radius: 16px;
     margin-bottom: 24px;
+    position: relative;
   }
 
   /* 卡片图片 */
@@ -8740,11 +8904,7 @@
     height: 280px;
     object-fit: cover;
     display: block;
-    transition: transform 0.4s ease;
-  }
-
-  .adaptation-card:hover .adaptation-card-image {
-    transform: scale(1.05);
+    transition: opacity 0.3s ease;
   }
 
   /* 卡片视频 */
@@ -8753,60 +8913,21 @@
     height: 280px;
     object-fit: cover;
     display: block;
-    transition: transform 0.4s ease;
-    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+
+  /* 悬浮时显示视频，隐藏图片 */
+  .adaptation-card:hover .adaptation-card-image {
+    opacity: 0;
   }
 
   .adaptation-card:hover .adaptation-card-video {
-    transform: scale(1.05);
-  }
-
-  /* 视频预览模态框 */
-  .video-modal {
-    display: none;
-    position: fixed;
-    z-index: 10000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    backdrop-filter: blur(10px);
-  }
-
-  .video-modal-content {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    max-width: 90%;
-    max-height: 90%;
-    width: auto;
-    height: auto;
-  }
-
-  .video-modal video {
-    width: 100%;
-    height: 100%;
-    max-width: 80vw;
-    max-height: 80vh;
-    object-fit: contain;
-  }
-
-  .video-modal-close {
-    position: absolute;
-    top: 20px;
-    right: 40px;
-    color: white;
-    font-size: 40px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 10001;
-    transition: color 0.3s ease;
-  }
-
-  .video-modal-close:hover {
-    color: #ccc;
+    opacity: 1;
   }
 
   /* 卡片内容区域（图片下方）*/
@@ -8940,10 +9061,11 @@
         <!-- 三个卡片 -->
         <div class="adaptation-cards">
           <!-- 卡片 1: From A Script -->
-          <div class="adaptation-card" data-video-card>
+          <div class="adaptation-card" data-hover-video>
             <div class="adaptation-card-image-wrapper">
-              <video class="adaptation-card-video" muted loop playsinline data-video-src="assets/adaptation/videos/adaptation-video-01.mp4">
-                <source src="assets/adaptation/videos/adaptation-video-02.mp4" type="video/mp4">
+              <img class="adaptation-card-image" src="assets/adaptation/images/adaptation-image-01.jpg" alt="From A Script" loading="lazy">
+              <video class="adaptation-card-video" muted loop preload="none">
+                <source src="assets/adaptation/videos/adaptation-video-01.mp4" type="video/mp4">
               </video>
             </div>
             <div class="adaptation-card-content">
@@ -8955,10 +9077,11 @@
           </div>
 
           <!-- 卡片 2: From A Concept -->
-          <div class="adaptation-card" data-video-card>
+          <div class="adaptation-card" data-hover-video>
             <div class="adaptation-card-image-wrapper">
-              <video class="adaptation-card-video" muted loop playsinline data-video-src="assets/adaptation/videos/adaptation-video-03.mp4">
-                <source src="assets/adaptation/videos/adaptation-video-04.mp4" type="video/mp4">
+              <img class="adaptation-card-image" src="assets/adaptation/images/adaptation-image-02.jpg" alt="From A Concept" loading="lazy">
+              <video class="adaptation-card-video" muted loop preload="none">
+                <source src="assets/adaptation/videos/adaptation-video-02.mp4" type="video/mp4">
               </video>
             </div>
             <div class="adaptation-card-content">
@@ -8970,10 +9093,11 @@
           </div>
 
           <!-- 卡片 3: From An Image -->
-          <div class="adaptation-card" data-video-card>
+          <div class="adaptation-card" data-hover-video>
             <div class="adaptation-card-image-wrapper">
-              <video class="adaptation-card-video" muted loop playsinline data-video-src="assets/adaptation/videos/adaptation-video-05.mp4">
-                <source src="assets/adaptation/videos/adaptation-video-06.mp4" type="video/mp4">
+              <img class="adaptation-card-image" src="assets/adaptation/images/adaptation-image-03.jpg" alt="From An Image" loading="lazy">
+              <video class="adaptation-card-video" muted loop preload="none">
+                <source src="assets/adaptation/videos/adaptation-video-03.mp4" type="video/mp4">
               </video>
             </div>
             <div class="adaptation-card-content">
@@ -8989,97 +9113,38 @@
   </div>
 </section>
 
-<!-- 视频预览模态框 -->
-<div id="adaptation-video-modal" class="video-modal">
-  <span class="video-modal-close">&times;</span>
-  <div class="video-modal-content">
-    <video id="adaptation-modal-video" controls>
-      <source src="" type="video/mp4">
-      Your browser does not support the video tag.
-    </video>
-  </div>
-</div>
-
 <script>
   // Adaptation 模块交互逻辑
   (function () {
     'use strict';
 
+    /**
+     * 初始化 Adaptation 模块
+     * 功能：鼠标悬浮时播放视频，离开时暂停并重置
+     */
     const initAdaptation = () => {
-      // 为每个卡片添加交互功能
-      const cards = document.querySelectorAll('.adaptation-card[data-video-card]');
-      cards.forEach(card => {
+      const videoCards = document.querySelectorAll('[data-hover-video]');
+
+      videoCards.forEach(card => {
         const video = card.querySelector('.adaptation-card-video');
         if (!video) return;
 
-        // 视频加载错误处理
-        video.addEventListener('error', function () {
-          console.warn(`Failed to load video: ${this.querySelector('source').src}`);
-          this.style.display = 'none';
-        });
-
-        // 初始状态暂停视频
-        video.pause();
-
-        // 鼠标悬停时播放视频
+        // 鼠标进入时播放视频
         card.addEventListener('mouseenter', () => {
+          video.currentTime = 0; // 从头开始播放
           video.play().catch(err => {
-            console.log('Adaptation video play failed:', err);
+            console.warn('Adaptation video play failed:', err);
           });
         });
 
+        // 鼠标离开时暂停并重置视频
         card.addEventListener('mouseleave', () => {
           video.pause();
-          video.currentTime = 0;
+          video.currentTime = 0; // 重置到开头
         });
-
-        // 点击打开模态框预览
-        card.addEventListener('click', function () {
-          openVideoModal(video.querySelector('source').src);
-        });
-
-        // 添加鼠标样式提示可点击
-        card.style.cursor = 'pointer';
       });
 
-      // 模态框功能
-      const modal = document.getElementById('adaptation-video-modal');
-      const modalVideo = document.getElementById('adaptation-modal-video');
-      const closeBtn = document.querySelector('#adaptation-video-modal .video-modal-close');
-
-      function openVideoModal(videoSrc) {
-        modalVideo.src = videoSrc;
-        modal.style.display = 'block';
-        document.body.style.overflow = 'hidden'; // 防止背景滚动
-      }
-
-      function closeVideoModal() {
-        modal.style.display = 'none';
-        modalVideo.pause();
-        modalVideo.src = '';
-        document.body.style.overflow = ''; // 恢复滚动
-      }
-
-      // 关闭按钮事件
-      if (closeBtn) {
-        closeBtn.addEventListener('click', closeVideoModal);
-      }
-
-      // 点击模态框背景关闭
-      if (modal) {
-        modal.addEventListener('click', function (e) {
-          if (e.target === modal) {
-            closeVideoModal();
-          }
-        });
-      }
-
-      // ESC键关闭模态框
-      document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && modal.style.display === 'block') {
-          closeVideoModal();
-        }
-      });
+      console.log('✅ Adaptation module initialized with', videoCards.length, 'hover videos');
     };
 
     // DOM 加载后初始化
