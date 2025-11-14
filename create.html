@@ -445,7 +445,7 @@
   position: relative;
   background: rgba(128, 128, 128, 0.15); /* 灰色半透明背景 */
   border: 1px solid rgba(128, 128, 128, 0.25);
-  border-radius: 6px;
+  border-radius: 999px; /* 始终保持圆角胶囊形状 */
   color: var(--color-text);
   font-weight: 500;
   /* 移除 backdrop-filter，避免与导航栏的 backdrop-filter 冲突 */
@@ -476,6 +476,7 @@
   z-index: -1;
   transition: opacity 0.3s ease; /* 明确指定过渡属性 */
   will-change: opacity; /* 提示浏览器优化此属性 */
+  border-radius: inherit;
   /* 使用 GPU 加速，创建独立渲染层 */
   transform: translate3d(0, 0, 0);
   -webkit-transform: translate3d(0, 0, 0);
@@ -647,10 +648,15 @@
   font-weight: 600;
   text-align: center;
   align-self: flex-start;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  will-change: transform;
 }
 
 .dropdown-cta:hover {
   color: #FFFFFF !important;
+  background: #3A3A3A;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 /* 右侧横向图片 */
@@ -722,11 +728,14 @@
 .solutions-cards .dropdown-card {
   width: 135px;
   height: 190px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
+  will-change: transform;
 }
 
-/* Solutions 卡片不显示副文字 */
-.solutions-cards .card-overlay p {
-  display: none;
+.solutions-cards .dropdown-card:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+  filter: brightness(1.08);
 }
 
 /* ===== Pricing 下拉面板专属样式 ===== */
@@ -766,11 +775,28 @@
   border-radius: 6px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease, opacity 0.35s ease;
+  will-change: transform, filter;
+}
+
+.dropdown-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
 }
 
 .dropdown-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  filter: brightness(1.04);
+}
+
+.dropdown-card:hover::after {
+  opacity: 1;
 }
 
 .dropdown-card img {
@@ -1230,7 +1256,7 @@
   .create-container {
     max-width: 100%;
     margin: 1.5rem auto;
-    padding: var(--spacing-lg) 3rem;
+    padding: 4.5rem 3rem;
     width: 100%;
     position: relative;
     min-height: 100vh;
@@ -1267,22 +1293,27 @@
   /* 左下角文本框 */
   .create-text-box {
     position: absolute;
-    bottom: 20px;
-    left: 20px;
-    max-width: 50%;
+    bottom: var(--spacing-lg);
+    left: var(--spacing-lg);
+    width: min(520px, 45%);
+    max-width: calc(100% - 2 * var(--spacing-lg));
+    min-height: 200px;
+    height: auto;
+    max-height: 340px;
     background: rgba(0, 0, 0, 0.7);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 12px;
-    padding: 16px;
+    padding: clamp(12px, 2vw, 24px);
     color: var(--color-text);
     font-family: 'Sora', sans-serif;
-    font-size: 0.875rem;
+    font-size: clamp(0.85rem, 1vw, 1rem);
     line-height: 1.5;
     z-index: 3;
     display: flex;
     flex-direction: column;
     gap: 12px;
+    overflow: hidden;
   }
 
   .create-text-content {
@@ -1294,30 +1325,34 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    gap: 0.5rem;
   }
 
-  .create-copy-button {
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 6px;
-    padding: 8px 12px;
-    color: var(--color-text);
-    font-size: 0.75rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
+  .create-play-button {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.08);
+    display: inline-flex;
     align-items: center;
-    gap: 6px;
+    justify-content: center;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+    padding: 0;
+    font-size: 0.85rem;
+    text-decoration: none;
+    background-image: url('assets/images/generate.png');
+    background-size: 90%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-origin: content-box;
   }
 
-  .create-copy-button:hover {
+  .create-play-button:hover {
     background: rgba(255, 255, 255, 0.2);
-    border-color: rgba(255, 255, 255, 0.3);
-  }
-
-  .create-copy-icon {
-    width: 14px;
-    height: 14px;
+    border-color: rgba(255, 255, 255, 0.6);
   }
 
   .create-background-image {
@@ -1429,11 +1464,13 @@
     }
 
     .create-text-box {
-      max-width: 300px;
-      bottom: 15px;
-      left: 15px;
-      padding: 12px;
-      font-size: 0.8rem;
+      width: calc(100% - 2 * var(--spacing-md));
+      left: var(--spacing-md);
+      bottom: var(--spacing-md);
+      padding: 14px;
+      font-size: 0.85rem;
+      height: auto;
+      max-height: none;
     }
 
     .create-background-video {
@@ -1481,25 +1518,26 @@
     }
 
     .create-text-box {
-      max-width: 250px;
-      bottom: 10px;
-      left: 10px;
-      padding: 10px;
-      font-size: 0.75rem;
+      width: calc(100% - 2 * var(--spacing-sm));
+      left: var(--spacing-sm);
+      bottom: var(--spacing-sm);
+      padding: 12px;
+      font-size: 0.78rem;
+      height: auto;
+      min-height: 0;
+      max-height: none;
     }
 
     .create-background-video {
       object-fit: cover;
     }
 
-    .create-copy-button {
-      padding: 6px 10px;
+    .create-play-button {
+      width: 42px;
+      height: 42px;
       font-size: 0.7rem;
-    }
-
-    .create-copy-icon {
-      width: 12px;
-      height: 12px;
+      background-size: 80%;
+      padding: 6px;
     }
   }
 </style>
@@ -1536,21 +1574,13 @@
       <!-- 左下角文本框 -->
       <div class="create-text-box">
         <p class="create-text-content">
-          A cinematic 8K video of a lone astronaut walking slowly across the surface of the moon under deep space
-          darkness. The camera circles gently, capturing the texture of the dusty lunar ground and the intricate folds
-          of the astronaut's suit. Subtle reflections of distant stars glimmer across the helmet visor. Soft blue-gray
-          light from Earth bathes the scene, creating a quiet, ethereal atmosphere. The astronaut pauses, looks up
-          toward the horizon, and faint dust drifts upward with each step — conveying isolation, wonder, and the vast
-          silence of space.
+          A cinematic 8K shot follows a lone astronaut gliding across the moon. The camera drifts in an arc, capturing
+          dust that curls behind each step and the mirrored glow across the visor. Pale light from Earth paints the
+          ground in silver-blue, revealing etched craters and drifting particles. The pause at the horizon feels like
+          breathing in the silence of space.
         </p>
         <div class="create-text-actions">
-          <button class="create-copy-button" onclick="copyCreateText()">
-            <svg class="create-copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-            </svg>
-            Copy
-          </button>
+          <a href="explore.html" class="create-play-button" aria-label="Explore more experiences"></a>
         </div>
       </div>
     </div>
@@ -1563,86 +1593,19 @@
     'use strict';
 
     const initCreate = () => {
-      // 视频加载错误处理
       const bgVideo = document.querySelector('.create-background-video');
       if (bgVideo) {
         bgVideo.addEventListener('error', function () {
           console.warn(`Failed to load background video: ${this.querySelector('source').src}`);
-          // 可以设置默认背景色
           this.style.display = 'none';
         });
 
-        // 确保视频能够自动播放
         bgVideo.play().catch(function (error) {
-          console.warn('视频自动播放被阻止:', error);
-          // 可以在这里添加用户交互提示
+          console.warn('Video autoplay prevented', error);
         });
       }
     };
 
-    // 复制文本功能
-    window.copyCreateText = function () {
-      const textContent = document.querySelector('.create-text-content').textContent;
-
-      // 使用现代的Clipboard API
-      if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(textContent).then(function () {
-          // 成功复制后的反馈
-          showCopyFeedback();
-        }).catch(function (err) {
-          console.error('复制失败:', err);
-          fallbackCopyText(textContent);
-        });
-      } else {
-        // 降级方案
-        fallbackCopyText(textContent);
-      }
-    };
-
-    // 降级复制方案
-    function fallbackCopyText(text) {
-      const textArea = document.createElement('textarea');
-      textArea.value = text;
-      textArea.style.position = 'fixed';
-      textArea.style.left = '-999999px';
-      textArea.style.top = '-999999px';
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-
-      try {
-        document.execCommand('copy');
-        showCopyFeedback();
-      } catch (err) {
-        console.error('复制失败:', err);
-      } finally {
-        document.body.removeChild(textArea);
-      }
-    }
-
-    // 显示复制成功反馈
-    function showCopyFeedback() {
-      const button = document.querySelector('.create-copy-button');
-      const originalText = button.innerHTML;
-
-      button.innerHTML = `
-        <svg class="create-copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="20 6 9 17 4 12"></polyline>
-        </svg>
-        Copied!
-      `;
-
-      button.style.background = 'rgba(76, 175, 80, 0.2)';
-      button.style.borderColor = 'rgba(76, 175, 80, 0.4)';
-
-      setTimeout(function () {
-        button.innerHTML = originalText;
-        button.style.background = 'rgba(255, 255, 255, 0.1)';
-        button.style.borderColor = 'rgba(255, 255, 255, 0.2)';
-      }, 2000);
-    }
-
-    // DOM 加载后初始化
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', initCreate);
     } else {

@@ -445,7 +445,7 @@
   position: relative;
   background: rgba(128, 128, 128, 0.15); /* 灰色半透明背景 */
   border: 1px solid rgba(128, 128, 128, 0.25);
-  border-radius: 6px;
+  border-radius: 999px; /* 始终保持圆角胶囊形状 */
   color: var(--color-text);
   font-weight: 500;
   /* 移除 backdrop-filter，避免与导航栏的 backdrop-filter 冲突 */
@@ -476,6 +476,7 @@
   z-index: -1;
   transition: opacity 0.3s ease; /* 明确指定过渡属性 */
   will-change: opacity; /* 提示浏览器优化此属性 */
+  border-radius: inherit;
   /* 使用 GPU 加速，创建独立渲染层 */
   transform: translate3d(0, 0, 0);
   -webkit-transform: translate3d(0, 0, 0);
@@ -647,10 +648,15 @@
   font-weight: 600;
   text-align: center;
   align-self: flex-start;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  will-change: transform;
 }
 
 .dropdown-cta:hover {
   color: #FFFFFF !important;
+  background: #3A3A3A;
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
 }
 
 /* 右侧横向图片 */
@@ -722,11 +728,14 @@
 .solutions-cards .dropdown-card {
   width: 135px;
   height: 190px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
+  will-change: transform;
 }
 
-/* Solutions 卡片不显示副文字 */
-.solutions-cards .card-overlay p {
-  display: none;
+.solutions-cards .dropdown-card:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+  filter: brightness(1.08);
 }
 
 /* ===== Pricing 下拉面板专属样式 ===== */
@@ -766,11 +775,28 @@
   border-radius: 6px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease, opacity 0.35s ease;
+  will-change: transform, filter;
+}
+
+.dropdown-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
 }
 
 .dropdown-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  filter: brightness(1.04);
+}
+
+.dropdown-card:hover::after {
+  opacity: 1;
 }
 
 .dropdown-card img {
@@ -1230,7 +1256,7 @@
   .compose-container {
     max-width: 100%;
     margin: 0 auto;
-    padding: var(--spacing-lg) 3rem;
+    padding: 4.5rem 3rem;
     width: 100%;
     position: relative;
     min-height: 100vh;

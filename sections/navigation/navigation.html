@@ -361,12 +361,14 @@
 .solutions-cards .dropdown-card {
   width: 135px;
   height: 190px;
+  transition: transform 0.4s ease, box-shadow 0.4s ease, filter 0.4s ease;
+  will-change: transform;
 }
 
 .solutions-cards .dropdown-card:hover {
-  transform: translateY(-8px) scale(1.03);
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.35);
-  filter: brightness(1.05);
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4);
+  filter: brightness(1.08);
 }
 
 /* ===== Pricing 下拉面板专属样式 ===== */
@@ -406,14 +408,28 @@
   border-radius: 6px;
   overflow: hidden;
   cursor: pointer;
-  transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease;
-  will-change: transform;
+  transition: transform 0.35s ease, box-shadow 0.35s ease, filter 0.35s ease, opacity 0.35s ease;
+  will-change: transform, filter;
+}
+
+.dropdown-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  pointer-events: none;
 }
 
 .dropdown-card:hover {
-  transform: translateY(-8px) scale(1.03);
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.35);
-  filter: brightness(1.05);
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  filter: brightness(1.04);
+}
+
+.dropdown-card:hover::after {
+  opacity: 1;
 }
 
 .dropdown-card img {
