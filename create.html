@@ -2980,19 +2980,46 @@
   display: block;
 }
 
-.footer-main-box::before {
-  content: '';
+/* 背景封面图 */
+.footer-background-image {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: -20px;
-  background-image: url('assets/footer/images/footer-image-02.png');
-  background-size: 100% auto;
-  background-position: top left;
-  background-repeat: no-repeat;
+  width: 100%;
+  height: calc(100% + 20px);
+  object-fit: cover;
+  object-position: top left;
   opacity: 0.5;
   z-index: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* 背景视频 */
+.footer-background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: -20px;
+  width: 100%;
+  height: calc(100% + 20px);
+  object-fit: cover;
+  object-position: top left;
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* 悬浮时显示视频，隐藏图片（上方大框）*/
+.footer-main-box.active .footer-background-image {
+  opacity: 0;
+}
+
+.footer-main-box.active .footer-background-video {
+  opacity: 0.5;
 }
 
 .footer-main {
@@ -3116,25 +3143,51 @@
   border-radius: 16px;
   padding: 23px 60px;
   overflow: hidden;
-  width: 100%;         
-  height: auto;         
+  width: 100%;
+  height: auto;
   min-height: 70px;      /* 最小高度：可调整 */
 }
 
-.footer-bottom-box::before {
-  content: '';
+/* 下方小框背景封面图 */
+.footer-bottom-background-image {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: url('assets/footer/images/footer-image-03.png');
-  background-size: 100% auto;
-  background-position-x: left;
-  background-position-y: calc(-1 * (var(--footer-main-height) + 20px));
-  background-repeat: no-repeat;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left calc(-1 * (var(--footer-main-height) + 20px));
   opacity: 0.5;
   z-index: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* 下方小框背景视频 */
+.footer-bottom-background-video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: left calc(-1 * (var(--footer-main-height) + 20px));
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+/* 悬浮时显示视频，隐藏图片（下方小框）*/
+.footer-bottom-box.active .footer-bottom-background-image {
+  opacity: 0;
+}
+
+.footer-bottom-box.active .footer-bottom-background-video {
+  opacity: 0.5;
 }
 
 .footer-bottom {
@@ -3386,7 +3439,13 @@
 <footer class="footer-section">
   <div class="footer-container">
     <!-- 上方大框：主要内容区域 -->
-    <div class="footer-main-box">
+    <div class="footer-main-box" data-hover-video>
+      <!-- 背景封面图 -->
+      <img class="footer-background-image" src="assets/footer/images/footer-image-02.png" alt="Footer Background">
+      <!-- 背景视频 -->
+      <video class="footer-background-video" muted loop preload="none">
+        <source src="assets/footer/video/footer-video-01.mp4" type="video/mp4">
+      </video>
       <div class="footer-main">
       <!-- 品牌区域 -->
       <div class="footer-brand">
@@ -3450,7 +3509,13 @@
     </div>
 
     <!-- 下方小框：版权区域 -->
-    <div class="footer-bottom-box">
+    <div class="footer-bottom-box" data-hover-video>
+      <!-- 背景封面图 -->
+      <img class="footer-bottom-background-image" src="assets/footer/images/footer-image-03.png" alt="Footer Bottom Background">
+      <!-- 背景视频 -->
+      <video class="footer-bottom-background-video" muted loop preload="none">
+        <source src="assets/footer/video/footer-video-02.mp4" type="video/mp4">
+      </video>
       <div class="footer-bottom">
       <p class="footer-copyright">© TreClip Studio. All rights reserved.</p>
       <ul class="footer-legal-links">
@@ -3466,8 +3531,14 @@
 (function() {
   'use strict';
 
-  // 设置 footer 背景图的尺寸，确保两个框拼接成完整图片
-  function setFooterBackgroundSize() {
+  /**
+   * 初始化 Footer 模块
+   * 功能：
+   * 1. 设置 footer 背景图的尺寸
+   * 2. 鼠标悬浮在任意一个框上时，两个视频同时播放
+   */
+  function initFooter() {
+    // 设置 footer 背景图的尺寸，确保两个框拼接成完整图片
     const mainBox = document.querySelector('.footer-main-box');
     const bottomBox = document.querySelector('.footer-bottom-box');
 
@@ -3479,20 +3550,81 @@
       document.documentElement.style.setProperty('--footer-main-height', mainHeight + 'px');
       document.documentElement.style.setProperty('--footer-bottom-height', bottomHeight + 'px');
     }
+
+    // 悬浮视频播放逻辑 - 两个框联动
+    const mainVideo = mainBox ? mainBox.querySelector('.footer-background-video') : null;
+    const bottomVideo = bottomBox ? bottomBox.querySelector('.footer-bottom-background-video') : null;
+
+    // 播放所有视频
+    function playAllVideos() {
+      // 添加 active 类显示视频
+      if (mainBox) mainBox.classList.add('active');
+      if (bottomBox) bottomBox.classList.add('active');
+
+      // 播放视频
+      if (mainVideo) {
+        mainVideo.currentTime = 0;
+        mainVideo.play().catch(err => console.warn('Main video play failed:', err));
+      }
+      if (bottomVideo) {
+        bottomVideo.currentTime = 0;
+        bottomVideo.play().catch(err => console.warn('Bottom video play failed:', err));
+      }
+    }
+
+    // 暂停所有视频
+    function pauseAllVideos() {
+      // 移除 active 类隐藏视频
+      if (mainBox) mainBox.classList.remove('active');
+      if (bottomBox) bottomBox.classList.remove('active');
+
+      // 暂停并重置视频
+      if (mainVideo) {
+        mainVideo.pause();
+        mainVideo.currentTime = 0;
+      }
+      if (bottomVideo) {
+        bottomVideo.pause();
+        bottomVideo.currentTime = 0;
+      }
+    }
+
+    // 为上方大框添加事件监听
+    if (mainBox) {
+      mainBox.addEventListener('mouseenter', playAllVideos);
+      mainBox.addEventListener('mouseleave', pauseAllVideos);
+    }
+
+    // 为下方小框添加事件监听
+    if (bottomBox) {
+      bottomBox.addEventListener('mouseenter', playAllVideos);
+      bottomBox.addEventListener('mouseleave', pauseAllVideos);
+    }
+
+    console.log('✅ Footer synchronized hover videos initialized');
   }
 
   // 页面加载时设置
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setFooterBackgroundSize);
+    document.addEventListener('DOMContentLoaded', initFooter);
   } else {
-    setFooterBackgroundSize();
+    initFooter();
   }
 
-  // 窗口大小改变时重新计算
+  // 窗口大小改变时重新计算背景尺寸
   let resizeTimer;
   window.addEventListener('resize', function() {
     clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(setFooterBackgroundSize, 100);
+    resizeTimer = setTimeout(function() {
+      const mainBox = document.querySelector('.footer-main-box');
+      const bottomBox = document.querySelector('.footer-bottom-box');
+      if (mainBox && bottomBox) {
+        const mainHeight = mainBox.offsetHeight;
+        const bottomHeight = bottomBox.offsetHeight;
+        document.documentElement.style.setProperty('--footer-main-height', mainHeight + 'px');
+        document.documentElement.style.setProperty('--footer-bottom-height', bottomHeight + 'px');
+      }
+    }, 100);
   });
 })();
 </script>
