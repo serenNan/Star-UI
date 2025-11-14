@@ -7,21 +7,27 @@
   <meta name="description" content="TreClip - AI short-form video created like art">
   <title>TreClip - AI Video Creation Platform</title>
 
+  <!-- 预加载CSS文件,确保样式优先加载,避免闪烁 -->
+  <link rel="preload" href="css/normalize.css" as="style">
+  <link rel="preload" href="css/webflow.css" as="style">
+  <link rel="preload" href="css/treclip.css" as="style">
+  <link rel="preload" href="global/global.css" as="style">
+
   <!-- CSS Files -->
   <link rel="stylesheet" href="css/normalize.css">
   <link rel="stylesheet" href="css/webflow.css">
   <link rel="stylesheet" href="css/treclip.css">
   <link rel="stylesheet" href="global/global.css">
 
-  <!-- Google Fonts -->
+  <!-- Google Fonts - 添加 display=block 防止字体加载闪烁 -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=block"
     rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=block" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=block"
     rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=block" rel="stylesheet">
 
   <!-- Lenis Smooth Scroll -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lenis@1.2.3/dist/lenis.css">
@@ -74,16 +80,23 @@
       z-index: 9999;
       opacity: 0;
       pointer-events: none;
-      transition: opacity 1.4s ease;
+      visibility: hidden;  /* 防止闪动 */
+      transition: opacity 0.6s ease, visibility 0s linear 0.6s;  /* 加快淡入速度: 1.0s → 0.6s */
+      will-change: opacity, transform;  /* 添加 transform,强制 GPU 加速 */
+      transform: translateZ(0);  /* 强制创建独立合成层 */
     }
 
     #launch-overlay.is-visible {
       opacity: 1;
       pointer-events: auto;
+      visibility: visible;
+      transition: opacity 0.6s ease, visibility 0s linear 0s;  /* 立即显示 visibility */
     }
 
     #launch-overlay.is-exiting {
       opacity: 0;
+      visibility: visible;  /* 淡出时保持可见 */
+      transition: opacity 0.8s ease, visibility 0s linear 0.8s;  /* 加快淡出: 1.0s → 0.8s */
     }
 
     .launch-shell {
@@ -94,6 +107,12 @@
       width: min(550px, 90vw);
       max-width: none;
       padding: 0;
+      opacity: 0;  /* 初始隐藏内容,避免按钮提前可见 */
+      transition: opacity 0.4s ease 0.2s;  /* 延迟 0.2s 后淡入,持续 0.4s */
+    }
+
+    #launch-overlay.is-visible .launch-shell {
+      opacity: 1;  /* overlay 显示后,shell 才淡入 */
     }
 
     .launch-input {
@@ -102,24 +121,27 @@
       height: 100%;
       min-height: 48px;
       border-radius: 25px;
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(0, 0, 0, 0.55);
+      border: none !important;  /* 与 Banner 搜索框一致 */
+      background: rgba(0, 0, 0, 0.5);  /* 与 Banner 搜索框一致 */
       box-shadow: none;
       backdrop-filter: blur(10px);
+      transform: translateZ(0);  /* 为 backdrop-filter 创建独立合成层 */
+      will-change: transform;  /* 性能优化 */
     }
 
     .launch-text {
       display: block;
       min-height: 1.2em;
       padding: 10px 140px 10px 20px;
-      white-space: normal;
+      white-space: pre-wrap;  /* 与 Banner 搜索框一致 */
       overflow: hidden;
       color: #f5f5f5;
       font-size: 0.7rem;
-      font-family: 'Sora', 'Inter', sans-serif;
-      letter-spacing: 0.01em;
+      font-family: 'Sora', sans-serif;  /* 显式指定字体,避免继承链延迟 */
+      letter-spacing: 0;  /* 与 Banner 搜索框一致 */
       line-height: 1.4;
       word-break: break-word;
+      overflow-wrap: break-word;  /* 与 Banner 搜索框一致 */
       text-align: left;
     }
 
@@ -197,9 +219,10 @@
         storageEnabled = false;
       }
 
-      if (storageEnabled && window.sessionStorage.getItem(STORAGE_KEY)) {
-        return;
-      }
+      // 移除 sessionStorage 检查,使加载动画每次刷新都显示
+      // if (storageEnabled && window.sessionStorage.getItem(STORAGE_KEY)) {
+      //   return;
+      // }
 
       const overlayTemplate = `
         <div class="launch-shell">
@@ -215,12 +238,20 @@
       overlay.innerHTML = overlayTemplate;
       const shell = overlay.querySelector('.launch-shell');
 
+      const ensureOverlayVisible = () => {
+        overlay.setAttribute('aria-hidden', 'false');
+        if (!overlay.classList.contains('is-visible')) {
+          overlay.classList.add('is-visible');
+        }
+      };
+
       const attachOverlay = () => {
         if (!document.body || overlay.parentNode) {
           return;
         }
         document.body.appendChild(overlay);
         document.body.classList.add('launch-block-scroll');
+        ensureOverlayVisible();
       };
 
       if (document.body) {
@@ -247,6 +278,8 @@
       let heroObserver = null;
       let pressTimer = null;
       const heroSelector = '#hero-search-box';
+      const HERO_TIMEOUT = 3600; // ≈3.6s 等待 hero 渲染完成
+      const FONT_TIMEOUT = 1500;
 
       const syncShellPosition = () => {
         if (!shell || !heroTarget) return;
@@ -260,16 +293,8 @@
 
       const handleResize = () => syncShellPosition();
 
-      const attachHeroTarget = (attempt = 0) => {
-        const MAX_ATTEMPTS = 180;
-        heroTarget = document.querySelector(heroSelector);
-        if (!heroTarget) {
-          if (attempt < MAX_ATTEMPTS) {
-            requestAnimationFrame(() => attachHeroTarget(attempt + 1));
-          }
-          return;
-        }
-
+      const registerHeroTarget = (target) => {
+        heroTarget = target;
         syncShellPosition();
         window.addEventListener('resize', handleResize);
         if (typeof ResizeObserver !== 'undefined') {
@@ -278,10 +303,47 @@
         }
       };
 
-      const markSeen = () => {
-        if (storageEnabled) {
-          window.sessionStorage.setItem(STORAGE_KEY, '1');
+      const waitForHeroTarget = (timeout = HERO_TIMEOUT) => new Promise((resolve) => {
+        const start = performance.now();
+
+        const attempt = () => {
+          const candidate = document.querySelector(heroSelector);
+          if (candidate) {
+            const rect = candidate.getBoundingClientRect();
+            if (rect.width > 0 && rect.height > 0) {
+              registerHeroTarget(candidate);
+              resolve(true);
+              return;
+            }
+          }
+
+          if (performance.now() - start >= timeout) {
+            resolve(false);
+            return;
+          }
+
+          requestAnimationFrame(attempt);
+        };
+
+        attempt();
+      });
+
+      const waitForFonts = (timeout = FONT_TIMEOUT) => {
+        if (!document.fonts || typeof document.fonts.ready?.then !== 'function') {
+          return Promise.resolve(true);
         }
+
+        return Promise.race([
+          document.fonts.ready.then(() => true).catch(() => false),
+          new Promise((resolve) => setTimeout(() => resolve(false), timeout)),
+        ]);
+      };
+
+      const markSeen = () => {
+        // 移除 sessionStorage 记录功能,允许每次刷新都显示
+        // if (storageEnabled) {
+        //   window.sessionStorage.setItem(STORAGE_KEY, '1');
+        // }
       };
 
       const finishLaunch = () => {
@@ -306,7 +368,7 @@
           }
           overlay.remove();
           document.body?.classList.remove('launch-block-scroll');
-        }, 1500);
+        }, 1000);  // 加快关闭: 1500ms → 1000ms
       };
 
       const typeNext = () => {
@@ -314,10 +376,10 @@
         if (index < typedText.length) {
           textNode.textContent += typedText.charAt(index);
           index += 1;
-          const jitter = 30 + Math.random() * 70;
+          const jitter = 8 + Math.random() * 20;  // 进一步加快打字速度: 8-28ms (平均 18ms)
           typingTimer = window.setTimeout(typeNext, jitter);
         } else {
-          window.setTimeout(() => triggerFinishPress(true), 1800);
+          window.setTimeout(() => triggerFinishPress(true), 800);  // 再次减少等待时间: 1000ms → 800ms
         }
       };
 
@@ -326,7 +388,7 @@
         if (runBtn) {
           runBtn.classList.add('is-pressed');
         }
-        const delay = withDelay ? 500 : 0;
+        const delay = withDelay ? 400 : 0;  // 优化按钮反馈: 500ms → 400ms
         pressTimer = window.setTimeout(() => {
           if (runBtn) {
             runBtn.classList.remove('is-pressed');
@@ -351,14 +413,52 @@
           requestAnimationFrame(startSequence);
           return;
         }
+
+        // ✨ 关键优化: 在显示前完成所有初始化
+        // 1. 预同步位置 (在不可见时完成)
         syncShellPosition();
-        overlay.setAttribute('aria-hidden', 'false');
-        requestAnimationFrame(() => overlay.classList.add('is-visible'));
-        typingTimer = window.setTimeout(typeNext, 400);
+
+        // 2. 预填充第一个字符,避免空白期闪烁
+        if (textNode && typedText.length > 0) {
+          textNode.textContent = typedText.charAt(0);
+          index = 1;  // 从第二个字符开始打字
+        }
+
+        // 3. 确保 overlay 已可见,避免页面内容先显示
+        ensureOverlayVisible();
+
+        // 4. 强制浏览器重排,确保所有样式已应用
+        void overlay.offsetHeight;
+        void shell.offsetHeight;
+
+        // 5. 在下一帧启动打字动画 (等待 shell 淡入完成)
+        requestAnimationFrame(() => {
+          typingTimer = window.setTimeout(typeNext, 650);
+        });
       };
 
-      attachHeroTarget();
-      startSequence();
+      const initOverlay = () => {
+        ensureOverlayVisible();
+        waitForHeroTarget();
+        waitForFonts().finally(() => {
+          startSequence();
+        });
+      };
+
+      if (overlay.parentNode) {
+        ensureOverlayVisible();
+        initOverlay();
+      } else {
+        const startWhenAttached = () => {
+          if (!overlay.parentNode) {
+            requestAnimationFrame(startWhenAttached);
+            return;
+          }
+          ensureOverlayVisible();
+          initOverlay();
+        };
+        startWhenAttached();
+      }
     })();
   </script>
 </head>
@@ -2635,9 +2735,10 @@
 
 .footer-container {
   position: relative;
-  max-width: 1520px;
-  margin: 0 auto;
+  width: 100%;
   padding: 0 3rem;
+  margin: 0;
+  box-sizing: border-box;
 }
 
 /* 上方大框 */
