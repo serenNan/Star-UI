@@ -422,13 +422,9 @@
       order: 1;
     }
 
-    /* 平板端：保持交错布局 */
+    /* 平板端：隐藏左侧卡片 */
     .styles-gallery {
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--spacing-sm);
-      order: 2;
-      padding: var(--spacing-md);
-      transform: rotate(35deg);
+      display: none;
     }
 
     .styles-title {
@@ -455,79 +451,9 @@
       /* 所有内容居中 */
     }
 
-    /* 移动端：简化为2列网格，保留旋转效果 */
+    /* 移动端：隐藏左侧卡片 */
     .styles-gallery {
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--spacing-sm);
-      transform: rotate(35deg);
-      padding: var(--spacing-md);
-      max-width: 500px;
-      /* 限制最大宽度 */
-      margin: 0 auto;
-      /* 居中 */
-    }
-
-    /* 移动端：重置交错布局，改为简单的2列排列 */
-    .styles-card:nth-child(1) {
-      grid-column: 1 / 2;
-      grid-row: 1;
-      transform: translate(0, 0);
-      /* 重置transform */
-      width: 100%;
-      height: auto;
-    }
-
-    .styles-card:nth-child(2) {
-      grid-column: 2 / 3;
-      grid-row: 1;
-      transform: translate(0, 0);
-      width: 100%;
-      height: auto;
-    }
-
-    .styles-card:nth-child(3) {
-      grid-column: 1 / 2;
-      grid-row: 2;
-      transform: translate(0, 0);
-      width: 100%;
-      height: auto;
-    }
-
-    .styles-card:nth-child(4) {
-      grid-column: 2 / 3;
-      grid-row: 2;
-      transform: translate(0, 0);
-      width: 100%;
-      height: auto;
-    }
-
-    .styles-card:nth-child(5) {
-      grid-column: 1 / 2;
-      grid-row: 3;
-      transform: translate(0, 0);
-      width: 100%;
-      height: auto;
-    }
-
-    .styles-card:nth-child(6) {
-      grid-column: 2 / 3;
-      grid-row: 3;
-      transform: translate(0, 0);
-      width: 100%;
-      height: auto;
-    }
-
-    /* 移除单个卡片的动画，但保持显示 */
-    .styles-card {
-      opacity: 1 !important;
-      /* 强制显示卡片 */
-      animation: none !important;
-      /* 移除动画 */
-    }
-
-    .styles-card.animate-in {
-      animation: none;
-      opacity: 1;
+      display: none;
     }
 
     /* 右侧内容区域 */
@@ -612,15 +538,9 @@
       font-size: 0.9rem;
     }
 
+    /* 小屏移动端：隐藏左侧卡片 */
     .styles-gallery {
-      gap: 0.5rem;
-      padding: var(--spacing-sm);
-      max-width: 400px;
-    }
-
-    .styles-card {
-      opacity: 1 !important;
-      /* 确保卡片可见 */
+      display: none;
     }
 
     .styles-features {
