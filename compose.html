@@ -933,8 +933,8 @@
 
 /* Mobile Responsive */
 @media (max-width: 991px) {
-  .nav-left .nav-menu,
-  .nav-actions {
+  /* 隐藏左侧导航菜单,但保留登录注册按钮 */
+  .nav-left .nav-menu {
     display: none;
   }
 
@@ -945,6 +945,24 @@
   /* 移动端隐藏下拉面板 */
   .nav-dropdown {
     display: none;
+  }
+
+  /* 调整右侧按钮组布局 */
+  .nav-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-right: var(--spacing-md);
+  }
+
+  /* 调整按钮尺寸以适应小屏幕 */
+  .btn-text {
+    font-size: 12px;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .btn-primary {
+    font-size: 12px;
+    padding: 0.5rem 1rem;
   }
 
   /* Mobile menu expanded (if needed) */
@@ -1739,7 +1757,7 @@
 
   <!-- ===== WORKFLOW_CMPS SECTION ===== -->
 <!-- ===== WORKFLOW_CMPS SECTION ===== -->
-<!-- ===== WORKFLOW_CMPS ?? ===== -->
+<!-- ===== WORKFLOW_CMPS 模块 ===== -->
 <style>
   /* Workflow CMPS Section Styles */
   .workflow-cmps {
@@ -1753,7 +1771,7 @@
     padding: 0 var(--spacing-lg);
   }
 
-  /* ???? */
+  /* 标题区域 */
   .workflow-cmps-header {
     text-align: center;
     margin-bottom: 3rem;
@@ -1788,7 +1806,7 @@
     margin: 0 auto;
   }
 
-  /* ????? - ????,??????,???? */
+  /* 主要内容区 - 左侧卡片,右侧可视化区域,响应式 */
   .workflow-cmps-content {
     display: grid;
     grid-template-columns: 1fr 2.2fr;
@@ -1798,14 +1816,14 @@
     margin: 0 auto;
   }
 
-  /* ?????? */
+  /* 卡片容器 */
   .workflow-cmps-cards {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-lg);
   }
 
-  /* ???? - ????,????,???? */
+  /* 单个卡片 - 圆角背景,阴影效果,悬浮动画 */
   .workflow-cmps-card {
     background: var(--color-bg-secondary);
     border-radius: 16px;
@@ -1822,7 +1840,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 
-  /* ?????? - ?????? */
+  /* 卡片图片容器 - 绝对定位背景 */
   .workflow-cmps-card-image-wrapper {
     width: 100%;
     height: 100%;
@@ -1848,7 +1866,7 @@
     cursor: pointer;
   }
 
-  /* ????? - ??????,?????? */
+  /* 卡片遮罩层 - 底部渐变黑色,保护文字可读性 */
   .workflow-cmps-card-overlay {
     position: absolute;
     bottom: 0;
@@ -1867,7 +1885,7 @@
     pointer-events: none;
   }
 
-  /* ?????? - ?????????,??padding???????? */
+  /* 卡片文字层 - 绝对定位在顶部,通过padding控制边距和间距 */
   .workflow-cmps-card-content {
     position: absolute;
     top: 0;
@@ -1881,7 +1899,7 @@
     justify-content: space-between;
   }
 
-  /* ????? - ???????? */
+  /* 卡片顶部标题 - 序号和标题横排 */
   .workflow-cmps-card-header {
     display: flex;
     align-items: baseline;
@@ -1904,7 +1922,7 @@
     line-height: 1;
   }
 
-  /* ???? - ?????,???? */
+  /* 卡片描述 - 底部对齐,淡色文字 */
 .workflow-cmps-card-description {
     font-family: 'Sora', sans-serif;
     font-size: 0.875rem;
@@ -1915,7 +1933,7 @@
     margin-top: auto;
   }
 
-  /* ?????? - ????????????? */
+  /* 右侧可视化区域 - 显示大图和底部提示词输入框 */
   .workflow-cmps-visual {
     position: relative;
     width: 100%;
@@ -2007,7 +2025,7 @@
     cursor: pointer;
   }
 
-  /* ??????? */
+  /* 视频弹窗容器 */
   .video-modal {
     display: none;
     position: fixed;
@@ -2020,7 +2038,7 @@
     backdrop-filter: blur(10px);
   }
 
-  /* ??????? */
+  /* 激活状态的卡片 */
   .workflow-cmps-card.active {
     border: 1px solid rgba(255, 255, 255, 0.511);
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
@@ -2065,7 +2083,7 @@
     color: #ccc;
   }
 
-  /* ????? */
+  /* 响应式布局 */
   @media (max-width: 991px) {
     .workflow-cmps {
       padding: var(--spacing-2xl) 0;
@@ -2142,10 +2160,10 @@
   }
 </style>
 
-<!-- HTML ?? -->
+<!-- HTML 结构 -->
 <section class="workflow-cmps" id="workflow-cmps">
   <div class="workflow-cmps-container">
-    <!-- ???? -->
+    <!-- 标题区域 -->
     <div class="workflow-cmps-header">
       <p class="workflow-cmps-label">TRECLIPSE PRODUCTION</p>
       <h2 class="workflow-cmps-title">From the Treclipse Studio</h2>
@@ -2154,11 +2172,11 @@
       </p>
     </div>
 
-    <!-- ????? - ???? -->
+    <!-- 主要内容区 - 左右布局 -->
     <div class="workflow-cmps-content">
-      <!-- ?????? -->
+      <!-- 左侧卡片列表 -->
       <div class="workflow-cmps-cards">
-        <!-- ?? 1: Generative -->
+        <!-- 卡片 1: Noir Cinematic -->
         <div class="workflow-cmps-card">
           <div class="workflow-cmps-card-image-wrapper">
             <video class="workflow-cmps-card-video" muted loop playsinline data-video-src="assets/workflow_cmps/videos/workflow_cmps-video-01.mp4">
@@ -2177,7 +2195,7 @@
           </div>
         </div>
 
-        <!-- ?? 2: Storyboard -->
+        <!-- 卡片 2: Art-House Minimalism -->
         <div class="workflow-cmps-card">
           <div class="workflow-cmps-card-image-wrapper">
             <video class="workflow-cmps-card-video" muted loop playsinline data-video-src="assets/workflow_cmps/videos/workflow_cmps-video-03.mp4">
@@ -2196,7 +2214,7 @@
           </div>
         </div>
 
-        <!-- ?? 3: Timeline -->
+        <!-- 卡片 3: Campaigns -->
         <div class="workflow-cmps-card">
           <div class="workflow-cmps-card-image-wrapper">
             <video class="workflow-cmps-card-video" muted loop playsinline data-video-src="assets/workflow_cmps/videos/workflow_cmps-video-05.mp4">
@@ -2215,7 +2233,7 @@
           </div>
         </div>
 
-        <!-- ?? 4: Edit Timeline -->
+        <!-- 卡片 4: Stylized Cinematics -->
         <div class="workflow-cmps-card">
           <div class="workflow-cmps-card-image-wrapper">
             <video class="workflow-cmps-card-video" muted loop playsinline data-video-src="assets/workflow_cmps/videos/workflow_cmps-video-07.mp4">
@@ -2235,7 +2253,7 @@
         </div>
       </div>
 
-      <!-- ?????? -->
+      <!-- 右侧可视化区域 -->
       <div class="workflow-cmps-visual">
         <video class="workflow-cmps-visual-video" muted loop playsinline data-video-src="assets/workflow_cmps/videos/workflow_cmps-video-07.mp4">
           <source src="assets/workflow_cmps/videos/workflow_cmps-video-08.mp4" type="video/mp4">
@@ -2256,7 +2274,7 @@
   </div>
 </section>
 
-<!-- ??????? -->
+<!-- 视频弹窗模态框 -->
 <div id="workflowcmps-video-modal" class="video-modal">
   <span class="video-modal-close">&times;</span>
   <div class="video-modal-content">
@@ -2268,12 +2286,12 @@
 </div>
 
 <script>
-  // Workflow CMPS ?????? - ???????????????
+  // Workflow CMPS 模块初始化 - 处理卡片点击、视频切换和弹窗功能
   (function () {
     'use strict';
 
     const initWorkflowCmps = () => {
-      // ????????????????
+      // 获取所有需要的DOM元素
       const cards = document.querySelectorAll('.workflow-cmps-card');
       const mainVideo = document.querySelector('.workflow-cmps-visual-video');
       const promptInput = document.querySelector('.workflow-cmps-prompt-input');
@@ -2322,7 +2340,7 @@
 
       if (!mainVideo) return;
 
-      // ????????
+      // 视频错误处理
       const videos = document.querySelectorAll('.workflow-cmps-card-video, .workflow-cmps-visual-video');
       videos.forEach((video) => {
         video.addEventListener('error', function () {
@@ -2330,36 +2348,36 @@
           this.style.display = 'none';
         });
 
-        // ????????
+        // 初始暂停视频
         video.pause();
       });
 
-      // ?????????????
+      // 为每个卡片添加点击和悬浮事件
       cards.forEach((card, index) => {
         const cardVideo = card.querySelector('.workflow-cmps-card-video');
         if (!cardVideo) return;
 
-        // ??????
+        // 点击卡片切换主视频
         card.addEventListener('click', function () {
-          // ??????????
+          // 获取卡片视频源
           const videoSrc = cardVideo.querySelector('source').src;
 
-          // ???????
+          // 切换主视频
           mainVideo.src = videoSrc;
           mainVideo.play().catch(err => {
-            console.warn('???????:', err);
+            console.warn('主视频播放失败:', err);
           });
 
-          // ?????????
+          // 更新激活状态
           cards.forEach(c => c.classList.remove('active'));
           card.classList.add('active');
           applyWorkflowPrompt(index);
         });
 
-        // ????????(??)
+        // 鼠标悬浮播放卡片视频(可选)
         card.addEventListener('mouseenter', () => {
           cardVideo.play().catch(err => {
-            console.warn('??????????:', err);
+            console.warn('卡片视频播放失败:', err);
           });
         });
 
@@ -2368,11 +2386,11 @@
           cardVideo.currentTime = 0;
         });
 
-        // ???????????
+        // 设置卡片为可点击状态
         card.style.cursor = 'pointer';
       });
 
-      // ????????????
+      // 默认激活第一个卡片
       if (cards.length > 0) {
         const firstCardVideo = cards[0].querySelector('.workflow-cmps-card-video');
         if (firstCardVideo) {
@@ -2384,7 +2402,7 @@
         applyWorkflowPrompt(0);
       }
 
-      // ?????????????????
+      // 点击主视频区域打开全屏弹窗
       const mainVideoWrapper = document.querySelector('.workflow-cmps-visual');
       if (mainVideoWrapper) {
         mainVideoWrapper.addEventListener('click', function () {
@@ -2395,7 +2413,7 @@
         mainVideo.style.cursor = 'pointer';
       }
 
-      // ?????
+      // 弹窗逻辑
       const modal = document.getElementById('workflowcmps-video-modal');
       const modalVideo = document.getElementById('workflowcmps-modal-video');
       const closeBtn = document.querySelector('#workflowcmps-video-modal .video-modal-close');
@@ -2403,22 +2421,22 @@
       function openVideoModal(videoSrc) {
         modalVideo.src = videoSrc;
         modal.style.display = 'block';
-        document.body.style.overflow = 'hidden'; // ??????
+        document.body.style.overflow = 'hidden'; // 禁止页面滚动
       }
 
       function closeVideoModal() {
         modal.style.display = 'none';
         modalVideo.pause();
         modalVideo.src = '';
-        document.body.style.overflow = ''; // ????
+        document.body.style.overflow = ''; // 恢复滚动
       }
 
-      // ??????
+      // 关闭按钮
       if (closeBtn) {
         closeBtn.addEventListener('click', closeVideoModal);
       }
 
-      // ?????????
+      // 点击背景关闭
       if (modal) {
         modal.addEventListener('click', function (e) {
           if (e.target === modal) {
@@ -2427,7 +2445,7 @@
         });
       }
 
-      // ESC??????
+      // ESC键关闭
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && modal.style.display === 'block') {
           closeVideoModal();
@@ -2435,7 +2453,7 @@
       });
     };
 
-    // DOM ??????
+    // DOM 加载完成后初始化
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', initWorkflowCmps);
     } else {

@@ -466,8 +466,8 @@
 
 /* Mobile Responsive */
 @media (max-width: 991px) {
-  .nav-left .nav-menu,
-  .nav-actions {
+  /* 隐藏左侧导航菜单,但保留登录注册按钮 */
+  .nav-left .nav-menu {
     display: none;
   }
 
@@ -478,6 +478,24 @@
   /* 移动端隐藏下拉面板 */
   .nav-dropdown {
     display: none;
+  }
+
+  /* 调整右侧按钮组布局 */
+  .nav-actions {
+    display: flex;
+    gap: var(--spacing-sm);
+    margin-right: var(--spacing-md);
+  }
+
+  /* 调整按钮尺寸以适应小屏幕 */
+  .btn-text {
+    font-size: 12px;
+    padding: 0.5rem 0.75rem;
+  }
+
+  .btn-primary {
+    font-size: 12px;
+    padding: 0.5rem 1rem;
   }
 
   /* Mobile menu expanded (if needed) */
