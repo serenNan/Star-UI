@@ -1738,7 +1738,8 @@
 </section>
 
   <!-- ===== WORKFLOW_CMPS SECTION ===== -->
-<!-- ===== WORKFLOW_CMPS 模块 ===== -->
+<!-- ===== WORKFLOW_CMPS SECTION ===== -->
+<!-- ===== WORKFLOW_CMPS ?? ===== -->
 <style>
   /* Workflow CMPS Section Styles */
   .workflow-cmps {
@@ -1752,7 +1753,7 @@
     padding: 0 var(--spacing-lg);
   }
 
-  /* 标题区域 */
+  /* ???? */
   .workflow-cmps-header {
     text-align: center;
     margin-bottom: 3rem;
@@ -1787,7 +1788,7 @@
     margin: 0 auto;
   }
 
-  /* 主内容区域 - 左右分栏，右侧图片更大，等高对齐 */
+  /* ????? - ????,??????,???? */
   .workflow-cmps-content {
     display: grid;
     grid-template-columns: 1fr 2.2fr;
@@ -1797,14 +1798,14 @@
     margin: 0 auto;
   }
 
-  /* 左侧卡片区域 */
+  /* ?????? */
   .workflow-cmps-cards {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-lg);
   }
 
-  /* 单个卡片 - 图片占满，文字叠加，更高更宽 */
+  /* ???? - ????,????,???? */
   .workflow-cmps-card {
     background: var(--color-bg-secondary);
     border-radius: 16px;
@@ -1821,7 +1822,7 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   }
 
-  /* 卡片图片区域 - 占满整个卡片 */
+  /* ?????? - ?????? */
   .workflow-cmps-card-image-wrapper {
     width: 100%;
     height: 100%;
@@ -1847,7 +1848,7 @@
     cursor: pointer;
   }
 
-  /* 渐变遮罩层 - 从透明到黑色，黑色比例更多 */
+  /* ????? - ??????,?????? */
   .workflow-cmps-card-overlay {
     position: absolute;
     bottom: 0;
@@ -1866,7 +1867,7 @@
     pointer-events: none;
   }
 
-  /* 卡片内容区域 - 绝对定位在图片上方，减少padding让文字更贴左上角 */
+  /* ?????? - ?????????,??padding???????? */
   .workflow-cmps-card-content {
     position: absolute;
     top: 0;
@@ -1880,7 +1881,7 @@
     justify-content: space-between;
   }
 
-  /* 卡片上部分 - 左上角数字和标题 */
+  /* ????? - ???????? */
   .workflow-cmps-card-header {
     display: flex;
     align-items: baseline;
@@ -1903,7 +1904,7 @@
     line-height: 1;
   }
 
-  /* 卡片描述 - 在卡片下部，灰色细体 */
+  /* ???? - ?????,???? */
 .workflow-cmps-card-description {
     font-family: 'Sora', sans-serif;
     font-size: 0.875rem;
@@ -1914,7 +1915,7 @@
     margin-top: auto;
   }
 
-  /* 右侧大图区域 - 高度自动适配左侧卡片总高度 */
+  /* ?????? - ????????????? */
   .workflow-cmps-visual {
     position: relative;
     width: 100%;
@@ -1922,6 +1923,71 @@
     border-radius: 20px;
     overflow: hidden;
     background: #2a2a2a;
+  }
+
+  .workflow-cmps-prompt {
+    position: absolute;
+    left: 50%;
+    bottom: 1.5rem;
+    transform: translateX(-50%);
+    width: min(93%, 840px);
+    padding: 0;
+    z-index: 5;
+  }
+
+  .workflow-cmps-prompt-box {
+    position: relative;
+  }
+
+  .workflow-cmps-prompt-input {
+    width: 100%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    background: rgba(0, 0, 0, 0.45);
+    color: white;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    padding: 0.85rem 220px 0.85rem 1.1rem;
+    resize: none;
+    overflow: hidden;
+    min-height: 56px;
+    max-height: 56px;
+    outline: none;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.25);
+  }
+
+  .workflow-cmps-prompt-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  .workflow-cmps-prompt-btn {
+    position: absolute;
+    top: 45%;
+    right: 8px;
+    transform: translateY(-50%);
+    border: none;
+    border-radius: 8px;
+    background: white;
+    color: black;
+    font-weight: 600;
+    font-size: 0.95rem;
+    padding: 0.6rem 1.6rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  .workflow-cmps-prompt-btn svg {
+    width: 1rem;
+    height: 0.8rem;
+    fill: currentColor;
+  }
+
+  .workflow-cmps-prompt-btn:hover {
+    transform: translateY(-50%) scale(1.02);
+    background: rgba(255, 255, 255, 0.92);
   }
 
   .workflow-cmps-visual-image {
@@ -1941,7 +2007,7 @@
     cursor: pointer;
   }
 
-  /* 视频预览模态框 */
+  /* ??????? */
   .video-modal {
     display: none;
     position: fixed;
@@ -1954,9 +2020,9 @@
     backdrop-filter: blur(10px);
   }
 
-  /* 选中卡片的样式 */
+  /* ??????? */
   .workflow-cmps-card.active {
-    border: 2px solid rgba(255, 255, 255, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.511);
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
   }
 
@@ -1999,7 +2065,7 @@
     color: #ccc;
   }
 
-  /* 响应式设计 */
+  /* ????? */
   @media (max-width: 991px) {
     .workflow-cmps {
       padding: var(--spacing-2xl) 0;
@@ -2076,109 +2142,121 @@
   }
 </style>
 
-<!-- HTML 结构 -->
+<!-- HTML ?? -->
 <section class="workflow-cmps" id="workflow-cmps">
   <div class="workflow-cmps-container">
-    <!-- 标题区域 -->
+    <!-- ???? -->
     <div class="workflow-cmps-header">
-      <p class="workflow-cmps-label">WORKFLOW</p>
-      <h2 class="workflow-cmps-title">A Seamless Creative Workflow</h2>
+      <p class="workflow-cmps-label">TRECLIPSE PRODUCTION</p>
+      <h2 class="workflow-cmps-title">From the Treclipse Studio</h2>
       <p class="workflow-cmps-description">
-        Every step is connected through the Eclipse Engine and guided by an intelligent assistant built to enhance your
-        process.
+        Click to experience with sound.
       </p>
     </div>
 
-    <!-- 主内容区域 - 左右分栏 -->
+    <!-- ????? - ???? -->
     <div class="workflow-cmps-content">
-      <!-- 左侧卡片区域 -->
+      <!-- ?????? -->
       <div class="workflow-cmps-cards">
-        <!-- 卡片 1: Generative -->
+        <!-- ?? 1: Generative -->
         <div class="workflow-cmps-card">
           <div class="workflow-cmps-card-image-wrapper">
             <video class="workflow-cmps-card-video" muted loop playsinline data-video-src="assets/workflow_cmps/videos/workflow_cmps-video-01.mp4">
-              <source src="assets/workflow_cmps/videos/workflow_cmps-video-02.mp4" type="video/mp4">
+              <source src="assets/workflow_cmps/videos/workflow_cmps-video-10.mp4" type="video/mp4">
             </video>
             <div class="workflow-cmps-card-overlay"></div>
           </div>
           <div class="workflow-cmps-card-content">
             <div class="workflow-cmps-card-header">
-              <span class="workflow-cmps-card-number">1</span>
-              <h3 class="workflow-cmps-card-title">Generative</h3>
+              <span class="workflow-cmps-card-number"></span>
+              <h3 class="workflow-cmps-card-title">Noir Cinematic</h3>
             </div>
             <p class="workflow-cmps-card-description">
-              Colors, fonts, lower thirds, logo safe-zones, intro/outro.
+              Moody shadows, dramatic lighting, and tension-filled, atmospheric storytelling.
             </p>
           </div>
         </div>
 
-        <!-- 卡片 2: Storyboard -->
+        <!-- ?? 2: Storyboard -->
         <div class="workflow-cmps-card">
           <div class="workflow-cmps-card-image-wrapper">
             <video class="workflow-cmps-card-video" muted loop playsinline data-video-src="assets/workflow_cmps/videos/workflow_cmps-video-03.mp4">
-              <source src="assets/workflow_cmps/videos/workflow_cmps-video-04.mp4" type="video/mp4">
+              <source src="assets/workflow_cmps/videos/workflow_cmps-video-14.mp4" type="video/mp4">
             </video>
             <div class="workflow-cmps-card-overlay"></div>
           </div>
           <div class="workflow-cmps-card-content">
             <div class="workflow-cmps-card-header">
-              <span class="workflow-cmps-card-number">2</span>
-              <h3 class="workflow-cmps-card-title">Storyboard</h3>
+              <span class="workflow-cmps-card-number"></span>
+              <h3 class="workflow-cmps-card-title">Art-House Minimalism</h3>
             </div>
             <p class="workflow-cmps-card-description">
-              Captures tone, pacing, motion and composition preferences.
+              Quiet compositions, subtle emotion, and refined, understated visual poetry.
             </p>
           </div>
         </div>
 
-        <!-- 卡片 3: Timeline -->
+        <!-- ?? 3: Timeline -->
         <div class="workflow-cmps-card">
           <div class="workflow-cmps-card-image-wrapper">
             <video class="workflow-cmps-card-video" muted loop playsinline data-video-src="assets/workflow_cmps/videos/workflow_cmps-video-05.mp4">
-              <source src="assets/workflow_cmps/videos/workflow_cmps-video-06.mp4" type="video/mp4">
+              <source src="assets/workflow_cmps/videos/workflow_cmps-video-00.mp4" type="video/mp4">
             </video>
             <div class="workflow-cmps-card-overlay"></div>
           </div>
           <div class="workflow-cmps-card-content">
             <div class="workflow-cmps-card-header">
-              <span class="workflow-cmps-card-number">3</span>
-              <h3 class="workflow-cmps-card-title">Timeline</h3>
+              <span class="workflow-cmps-card-number"></span>
+              <h3 class="workflow-cmps-card-title">Campaigns</h3>
             </div>
             <p class="workflow-cmps-card-description">
-              Brand recipes prevent drift and keep every render consistent.
+              Produce cinematic ads and campaign films with studio-grade quality.
             </p>
           </div>
         </div>
 
-        <!-- 卡片 4: Storyboard -->
+        <!-- ?? 4: Edit Timeline -->
         <div class="workflow-cmps-card">
           <div class="workflow-cmps-card-image-wrapper">
-            <img src="assets/workflow_cmps/images/workflow_cmps-image-01.jpg" alt="Storyboard" class="workflow-cmps-card-image" loading="lazy">
+            <video class="workflow-cmps-card-video" muted loop playsinline data-video-src="assets/workflow_cmps/videos/workflow_cmps-video-07.mp4">
+              <source src="assets/workflow_cmps/videos/workflow_cmps-video-16.mp4" type="video/mp4">
+            </video>
             <div class="workflow-cmps-card-overlay"></div>
           </div>
           <div class="workflow-cmps-card-content">
             <div class="workflow-cmps-card-header">
-              <span class="workflow-cmps-card-number">4</span>
-              <h3 class="workflow-cmps-card-title">Storyboard</h3>
+              <span class="workflow-cmps-card-number"></span>
+              <h3 class="workflow-cmps-card-title">Stylized Cinematics</h3>
             </div>
             <p class="workflow-cmps-card-description">
-              Captures tone, pacing, motion and composition preferences.
+              Comic, stop-motion, collage, and mixed-media aesthetics for expressive storytelling.
             </p>
           </div>
         </div>
       </div>
 
-      <!-- 右侧大图区域 -->
+      <!-- ?????? -->
       <div class="workflow-cmps-visual">
         <video class="workflow-cmps-visual-video" muted loop playsinline data-video-src="assets/workflow_cmps/videos/workflow_cmps-video-07.mp4">
           <source src="assets/workflow_cmps/videos/workflow_cmps-video-08.mp4" type="video/mp4">
         </video>
+        <div class="workflow-cmps-prompt" role="region" aria-live="polite">
+          <div class="workflow-cmps-prompt-box">
+            <textarea class="workflow-cmps-prompt-input" rows="2" placeholder="A cinematic noir cityscape drenched in rain and reflective neon." spellcheck="false"></textarea>
+            <button class="workflow-cmps-prompt-btn" type="button">
+              <span>Generate Similar</span>
+              <svg viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <path d="M20 14c1.2 0 2 0.8 2 2s-0.8 2-2 2-2-0.8-2-2 0.8-2 2-2zm12-8c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zm12 4c3 0 6 3 6 6s-3 6-6 6-6-3-6-6 3-6 6-6zm-12 12c1.5 0 3 1.5 3 3s-1.5 3-3 3-3-1.5-3-3 1.5-3 3-3z" />
+              </svg>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- 视频预览模态框 -->
+<!-- ??????? -->
 <div id="workflowcmps-video-modal" class="video-modal">
   <span class="video-modal-close">&times;</span>
   <div class="video-modal-content">
@@ -2190,18 +2268,61 @@
 </div>
 
 <script>
-  // Workflow CMPS 模块交互逻辑 - 点击左侧卡片在右侧播放对应视频
+  // Workflow CMPS ?????? - ???????????????
   (function () {
     'use strict';
 
     const initWorkflowCmps = () => {
-      // 获取所有左侧卡片和右侧主视频区域
+      // ????????????????
       const cards = document.querySelectorAll('.workflow-cmps-card');
       const mainVideo = document.querySelector('.workflow-cmps-visual-video');
+      const promptInput = document.querySelector('.workflow-cmps-prompt-input');
+      const promptButton = document.querySelector('.workflow-cmps-prompt-btn');
+      const promptContainer = document.querySelector('.workflow-cmps-prompt');
+      const WORKFLOW_PROMPTS = [
+        'A Nike-style motivational saga following an African-American boxer who rises from childhood defeat to become a world champion.',
+        'A melancholic narrative following an aging man reflecting on his past through fragmented moments of reality and surreal memory.',
+        'A luxurious furniture campaign showcasing craftsmanship and opulence through atmospheric, artfully composed scenes.',
+        'An anime spy adventure featuring a secret agent and his companion in a James-Bond-inspired tale of romance and action.'
+      ];
+
+      const goWaitlist = () => {
+        window.location.href = 'waitlist.html';
+      };
+
+      const applyWorkflowPrompt = (index = 0) => {
+        if (!promptInput || !WORKFLOW_PROMPTS.length) return;
+        const prompt = WORKFLOW_PROMPTS[index % WORKFLOW_PROMPTS.length];
+        promptInput.value = prompt;
+        promptInput.setAttribute('data-active-index', index.toString());
+      };
+
+      if (promptContainer) {
+        promptContainer.addEventListener('click', (event) => {
+          event.stopPropagation();
+        });
+      }
+
+      if (promptInput) {
+        promptInput.addEventListener('click', (event) => event.stopPropagation());
+        promptInput.addEventListener('keypress', (event) => {
+          if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault();
+            goWaitlist();
+          }
+        });
+      }
+
+      if (promptButton) {
+        promptButton.addEventListener('click', (event) => {
+          event.stopPropagation();
+          goWaitlist();
+        });
+      }
 
       if (!mainVideo) return;
 
-      // 视频加载错误处理
+      // ????????
       const videos = document.querySelectorAll('.workflow-cmps-card-video, .workflow-cmps-visual-video');
       videos.forEach((video) => {
         video.addEventListener('error', function () {
@@ -2209,35 +2330,36 @@
           this.style.display = 'none';
         });
 
-        // 初始状态暂停视频
+        // ????????
         video.pause();
       });
 
-      // 为每个左侧卡片添加点击事件
+      // ?????????????
       cards.forEach((card, index) => {
         const cardVideo = card.querySelector('.workflow-cmps-card-video');
         if (!cardVideo) return;
 
-        // 添加点击事件
+        // ??????
         card.addEventListener('click', function () {
-          // 获取当前卡片的视频源
+          // ??????????
           const videoSrc = cardVideo.querySelector('source').src;
 
-          // 更新右侧主视频
+          // ???????
           mainVideo.src = videoSrc;
           mainVideo.play().catch(err => {
-            console.warn('主视频播放失败:', err);
+            console.warn('???????:', err);
           });
 
-          // 高亮当前选中的卡片
+          // ?????????
           cards.forEach(c => c.classList.remove('active'));
           card.classList.add('active');
+          applyWorkflowPrompt(index);
         });
 
-        // 添加鼠标悬停预览（可选）
+        // ????????(??)
         card.addEventListener('mouseenter', () => {
           cardVideo.play().catch(err => {
-            console.warn('卡片视频预览播放失败:', err);
+            console.warn('??????????:', err);
           });
         });
 
@@ -2246,20 +2368,23 @@
           cardVideo.currentTime = 0;
         });
 
-        // 添加鼠标样式提示可点击
+        // ???????????
         card.style.cursor = 'pointer';
       });
 
-      // 默认显示第一个卡片的视频
+      // ????????????
       if (cards.length > 0) {
         const firstCardVideo = cards[0].querySelector('.workflow-cmps-card-video');
         if (firstCardVideo) {
           mainVideo.src = firstCardVideo.querySelector('source').src;
           cards[0].classList.add('active');
         }
+        applyWorkflowPrompt(0);
+      } else {
+        applyWorkflowPrompt(0);
       }
 
-      // 点击右侧主视频区域也可以打开模态框
+      // ?????????????????
       const mainVideoWrapper = document.querySelector('.workflow-cmps-visual');
       if (mainVideoWrapper) {
         mainVideoWrapper.addEventListener('click', function () {
@@ -2270,7 +2395,7 @@
         mainVideo.style.cursor = 'pointer';
       }
 
-      // 模态框功能
+      // ?????
       const modal = document.getElementById('workflowcmps-video-modal');
       const modalVideo = document.getElementById('workflowcmps-modal-video');
       const closeBtn = document.querySelector('#workflowcmps-video-modal .video-modal-close');
@@ -2278,22 +2403,22 @@
       function openVideoModal(videoSrc) {
         modalVideo.src = videoSrc;
         modal.style.display = 'block';
-        document.body.style.overflow = 'hidden'; // 防止背景滚动
+        document.body.style.overflow = 'hidden'; // ??????
       }
 
       function closeVideoModal() {
         modal.style.display = 'none';
         modalVideo.pause();
         modalVideo.src = '';
-        document.body.style.overflow = ''; // 恢复滚动
+        document.body.style.overflow = ''; // ????
       }
 
-      // 关闭按钮事件
+      // ??????
       if (closeBtn) {
         closeBtn.addEventListener('click', closeVideoModal);
       }
 
-      // 点击模态框背景关闭
+      // ?????????
       if (modal) {
         modal.addEventListener('click', function (e) {
           if (e.target === modal) {
@@ -2302,7 +2427,7 @@
         });
       }
 
-      // ESC键关闭模态框
+      // ESC??????
       document.addEventListener('keydown', function (e) {
         if (e.key === 'Escape' && modal.style.display === 'block') {
           closeVideoModal();
@@ -2310,7 +2435,7 @@
       });
     };
 
-    // DOM 加载后初始化
+    // DOM ??????
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', initWorkflowCmps);
     } else {

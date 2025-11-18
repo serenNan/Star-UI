@@ -7884,15 +7884,13 @@
     max-width: var(--container-width);
     margin: 0 auto;
     padding: 0 var(--spacing-lg);
-    display: flex;
-    justify-content: flex-end;
-    /* 内容靠右对齐 */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-xl);
     align-items: start;
     /* 改为顶部对齐，避免挤压 */
     position: relative;
     /* 定位上下文 */
-    min-height: 100vh;
-    /* 确保容器有足够高度 */
   }
 
   /* ==================== 左侧：风格卡片网格 ==================== */
@@ -7906,22 +7904,14 @@
     padding: var(--spacing-lg);
     overflow: visible;
     /* 允许卡片超出容器 */
-    position: absolute;
-    /* 绝对定位，相对于父容器 */
-    left: 0;
-    /* 固定在左侧 */
-    top: 50%;
-    /* 垂直居中 */
-    transform: translateY(-50%) rotate(35deg);
-    /* 垂直居中并旋转 */
+    position: relative;
+    /* 定位上下文 */
     min-height: 600px;
     /* 设置最小高度，防止容器塌陷 */
     width: 100%;
     /* 固定宽度为父容器的100% */
     max-width: 600px;
     /* 限制最大宽度，防止过度扩张 */
-    z-index: 1;
-    /* 确保在内容下方 */
   }
 
   .styles-card {
@@ -8153,9 +8143,6 @@
     gap: var(--spacing-lg);
     margin-top: 120px;
     /* 向下偏移 120px */
-    max-width: 50%;
-    /* 占据右侧一半空间 */
-    width: 100%;
   }
 
   /* 标题区域 */
@@ -8295,15 +8282,12 @@
   /* 平板端（≤ 991px）*/
   @media (max-width: 991px) {
     .styles-container {
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      min-height: auto;
+      grid-template-columns: 1fr;
+      gap: var(--spacing-xl);
     }
 
     .styles-content {
-      max-width: 100%;
-      margin-top: 0;
+      order: 1;
     }
 
     /* 平板端：隐藏左侧卡片 */
@@ -8345,7 +8329,7 @@
       margin-top: 0;
       /* 移除桌面端的 120px 偏移 */
       width: 100%;
-      max-width: 100%;
+      max-width: 600px;
       display: flex;
       flex-direction: column;
       align-items: center;
