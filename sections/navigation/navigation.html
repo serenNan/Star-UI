@@ -193,6 +193,11 @@
   position: relative;
 }
 
+/* 桌面端隐藏移动端子链接 */
+.mobile-sub-links {
+  display: none;
+}
+
 .nav-dropdown {
   position: absolute;
   top: 100%;
@@ -510,6 +515,49 @@
     padding: var(--spacing-lg);
     border-bottom: 1px solid var(--color-border);
   }
+
+  /* 移动端菜单项布局 */
+  .nav-menu.active .nav-item-dropdown {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: var(--spacing-xs) 0;
+  }
+
+  /* 主菜单项 */
+  .nav-menu.active .nav-item-dropdown > a {
+    font-size: 16px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  /* 子链接容器 */
+  .nav-menu.active .mobile-sub-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+    flex: 1;
+  }
+
+  /* 子链接样式 */
+  .nav-menu.active .mobile-sub-links a {
+    font-size: 11px;
+    color: var(--color-text-secondary);
+    padding: 0.25rem 0.5rem;
+    white-space: nowrap;
+    transition: all 0.2s ease;
+  }
+
+  .nav-menu.active .mobile-sub-links a:hover {
+    color: var(--color-text);
+  }
+
+  /* Eclipse Engine 按钮在移动端的样式 */
+  .nav-menu.active .btn-style {
+    align-self: flex-start;
+    margin-top: var(--spacing-sm);
+  }
 }
 
 @media (max-width: 767px) {
@@ -534,6 +582,12 @@
       <ul class="nav-menu">
         <li class="nav-item-dropdown">
           <a href="#features">Features</a>
+          <!-- 移动端子链接 -->
+          <div class="mobile-sub-links">
+            <a href="#create">Create</a>
+            <a href="#compose">Compose</a>
+            <a href="#studio">Studio</a>
+          </div>
           <!-- Features 下拉面板 -->
           <div class="nav-dropdown">
             <div class="dropdown-container">
@@ -582,6 +636,13 @@
         </li>
         <li class="nav-item-dropdown">
           <a href="solutions.html">Solutions</a>
+          <!-- 移动端子链接 -->
+          <div class="mobile-sub-links">
+            <a href="solutions.html#brands">Brands</a>
+            <a href="solutions.html#agencies">Agencies</a>
+            <a href="solutions.html#creators">Creators</a>
+            <a href="solutions.html#artists">Artists</a>
+          </div>
           <!-- Solutions 下拉面板 -->
           <div class="nav-dropdown">
             <div class="dropdown-container solutions-dropdown">
@@ -620,6 +681,12 @@
         </li>
         <li class="nav-item-dropdown">
           <a href="#resources">Resources</a>
+          <!-- 移动端子链接 -->
+          <div class="mobile-sub-links">
+            <a href="#docs">Docs</a>
+            <a href="#tutorials">Tutorials</a>
+            <a href="#blog">Blog</a>
+          </div>
           <!-- Resources 下拉面板 -->
           <div class="nav-dropdown">
             <div class="dropdown-container">
@@ -668,6 +735,11 @@
         </li>
         <li class="nav-item-dropdown">
           <a href="#pricing">Pricing</a>
+          <!-- 移动端子链接 -->
+          <div class="mobile-sub-links">
+            <a href="#pricing-basic">Basic</a>
+            <a href="#pricing-pro">Pro</a>
+          </div>
           <!-- Pricing 下拉面板 -->
           <div class="nav-dropdown">
             <div class="dropdown-container pricing-dropdown">
