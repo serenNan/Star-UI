@@ -1441,30 +1441,32 @@
 
 
   <!-- ===== BANNER SECTION ===== -->
-﻿<!-- Banner 区块：全屏视频背景 -->
+<!-- Banner  -->
 <style>
   /* ================================
-   Banner 涓撳睘鏍峰紡
+   Banner
    ================================ */
-  /* 1. 鍩虹甯冨眬 - 鍏ㄥ睆瑙嗛鑳屾櫙锛堝欢浼稿埌瀵艰埅鏍忎笂鏂癸級*/
-  .banner {
-    position: relative;
-    min-height: 120vh;
-    display: flex;
-    flex-direction: column;
-    padding: 0;
-    /* 防止内容溢出视口，同时让背景视频覆盖整个区域 */
+  /* 1.  - */
+.banner {
+  position: relative;
+  min-height: 118vh;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  /*  */
     --banner-card-width: clamp(60px, 5vw, 81px);
     --banner-card-height: clamp(80px, 6.67vw, 108px);
     --banner-card-gap: clamp(0.5rem, 1.5vw, 1rem);
   }
 
-  /* 瑙嗛鑳屾櫙瀹瑰櫒 */
+  /*  */
   .banner-video-bg {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: calc(var(--banner-card-height) + var(--banner-card-gap) * 1 + 1rem);
     width: 100%;
-    height: auto;
     overflow: hidden;
     margin-top: -4rem;
     z-index: 0;
@@ -1472,10 +1474,10 @@
 
   .banner-video-bg video {
     position: absolute;
-    top: 45%;
+    top: 50%;
     left: 50%;
     min-width: 100%;
-    min-height: 85%;
+    min-height: 100%;
     width: auto;
     height: auto;
     transform: translate(-50%, -50%);
@@ -1488,116 +1490,112 @@
     opacity: 1;
   }
 
+  .banner-nbg-video {
+    width: 120%;
+    height: 120%;
+  }
 
-  /* 鏄熺┖鑳屾櫙鏁堟灉 */
+  /*  */
   .banner::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-      radial-gradient(2px 2px at 20% 30%, white, transparent),
-      radial-gradient(2px 2px at 60% 70%, white, transparent),
-      radial-gradient(1px 1px at 50% 50%, white, transparent),
-      radial-gradient(2px 2px at 80% 10%, white, transparent),
-      radial-gradient(1px 1px at 30% 80%, white, transparent);
-    background-size: 200px 200px;
-    opacity: 0.2;
-    pointer-events: none;
-    z-index: 1;
+    content: none;
   }
 
-  .banner-container {
-    position: relative;
-    max-width: 100%;
-    /* 使用全宽，不限制容器宽度 */
-    margin: 0 auto;
-    padding: calc(var(--nav-height) + var(--spacing-lg)) clamp(1.5rem, 3vw, 3rem) clamp(2rem, 5vh, 4rem);
-    /* 响应式上下左右内边距 */
-    flex: 1;
-    /* 鍗犳嵁鍓╀綑绌洪棿 */
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    /* 鍨傜洿灞呬腑瀵归綈 */
-    align-items: center;
-    /* 姘村钩灞呬腑瀵归綈 */
-    gap: clamp(2rem, 4vh, 4rem);
-    /* 鍐呭涔嬮棿淇濇寔鍥哄畾闂磋窛 */
-    z-index: 2;
-  }
+.banner-container {
+  position: relative;
+  max-width: 100%;
+  margin: 0 auto;
 
-  /* 左侧内容区 */
+  /* ↓↓↓ Move content lower ↓↓↓ */
+  padding-top: calc(var(--nav-height) + 21vh);
+  padding-bottom: 10vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;   /* instead of center */
+  align-items: center;
+  gap: clamp(2rem, 4vh, 4rem);
+  z-index: 2;
+}
+
+
+  /*  */
   .banner-left {
     position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: clamp(1rem, 2vh, 1.5rem);
-    /* 子元素间距自适应 */
+    /*  */
     max-width: min(800px, 90vw);
-    /* 最大宽度随屏幕变化 */
-    margin: 0 auto;
-    /* 保持水平居中 */
+    /*  */
+    margin: clamp(2.5rem, 7vh, 6rem) auto 0;
+    /*  */
     text-align: center;
-    /* 子元素文本居中 */
+    /*  */
     z-index: 3;
   }
 
-  .banner-title {
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
-    /* 限制主标题字号范围 */
-    font-weight: 700;
-    font-style: italic;
-    /* 使用倾斜字形 */
-    line-height: 1.2;
-    /* 设置行高 */
-    color: var(--color-text);
-    margin: 0;
-    margin-bottom: -0.5rem;
-    /* 微调主标题位置 */
-    letter-spacing: -0.02em;
-    max-width: 900px;
-    /* 最大宽度扩展到 900px，减少换行 */
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
-  }
+.banner-title {
+  display: block;
+  font-size: clamp(1.7rem, 5vw, 4.5rem);
+  font-family: 'Times New Roman', serif;
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.1;
+  color: var(--color-text);
+  margin: 0 auto -0.5rem;
+  letter-spacing: 0.02em;
+  max-width: 32ch;
+  text-align: center;
+  white-space: nowrap;
+
+  /* 🔥 TRUE CENTERING */
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.banner-title__accent {
+  font-family: 'LEDLIGHT', 'Times New Roman', serif;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: inherit;
+}
+
+
 
   .banner-subtitle {
     font-size: clamp(0.875rem, 1.5vw, 1rem);
     line-height: 1.6;
     color: #FFFFFF;
-    /* 副标题保持纯白 */
+    /*  */
     margin: 0;
     margin-bottom: var(--spacing-xs);
     max-width: 500px;
     text-align: center;
     margin-left: auto;
-    margin-right: auto;
+    margin-right: auto;   white-space: nowrap;
   }
 
-  /* 搜索框区域 */
+  /*  */
   .search-box-container {
     position: relative;
     width: 100%;
     max-width: min(550px, 90vw);
-    /* 宽度随屏幕调整 */
+    /*  */
     margin: 0 auto;
   }
 
-  .search-input {
-    width: 100%;
-    padding: 10px 140px 10px 20px;
-    background: rgba(0, 0, 0, 0.5);
-    border: none !important;
+.search-input {
+  width: 100%;
+  padding: 10px 160px 10px 20px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 0.25px solid rgba(184, 184, 184, 0.9);
     outline: none !important;
-    box-shadow: none !important;
+    box-shadow: none;
     border-radius: 25px;
     color: var(--color-text);
-    font-size: 0.7rem;
+    font-size: 0.6rem;
     font-family: inherit;
     line-height: 1.4;
     transition: all var(--transition);
@@ -1618,13 +1616,13 @@
 
   .search-input:focus {
     outline: none !important;
-    /* 去除默认焦点描边 */
+    /*  */
     background: rgba(0, 0, 0, 0.6);
-    /* 聚焦时加深背景 */
-    box-shadow: none !important;
-    /* 移除聚焦阴影 */
+    /*  */
+    box-shadow: none;
+    /*  */
     border: none !important;
-    /* 去掉边框 */
+    /*  */
   }
 
   .btn-run-engine {
@@ -1635,224 +1633,176 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 0.075rem;
     padding: 8px 16px;
-    /* 内边距从 12×24 调整为 8×16 */
+    /*  1224  816 */
     background: white;
     color: black;
     font-size: 1rem;
-    /* 保持按钮字号 */
+    /*  */
     font-weight: 600;
     border: none;
     border-radius: 20px;
-    /* 圆角从 10px 增至 20px，以匹配搜索框 */
+    /*  10px  20px */
     cursor: pointer;
     transition: transform var(--transition), box-shadow var(--transition), background var(--transition);
     white-space: nowrap;
   }
 
+  .btn-run-engine .btn-icon {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .btn-run-engine .btn-icon svg {
+    width: 1.2rem;
+    height: 0.9rem;
+    fill: currentColor;
+  }
+
   .btn-run-engine:hover {
     transform: translateY(calc(-50% - 2px));
-    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+    box-shadow: none;
     background: rgba(255, 255, 255, 0.95);
   }
 
-  /* 视频卡片区域：保持单行排列 */
-  .video-cards-container {
-    position: relative;
-    left: auto;
-    transform: none;
-    bottom: auto;
-    margin: 0 auto;
-    margin-top: auto;
-    margin-bottom: var(--spacing-sm);
-    z-index: 100;
-    overflow: hidden;
-    width: min(calc(5 * var(--banner-card-width) + 4 * var(--banner-card-gap)), 90vw);
-    padding: 8.25rem 0;
-  }
+  /*  */
+.video-cards-container {
+  position: relative;
+  margin: clamp(-6rem, -10vh, -2rem) auto 0;
+  z-index: 100;
+  overflow: hidden;
+  width: min(720px, 94vw);
+  display: flex;
+  justify-content: center;
+
+  /* ↓↓↓ ADD THIS ↓↓↓ */
+  padding: clamp(0.2rem, 0.8vh, 0.5rem) 0;
+}
+
 
   .video-cards-grid {
     display: flex;
-    gap: var(--banner-card-gap);
-    /* 自适应卡片间距 */
+    gap: clamp(1rem, 4vw, 2.5rem);
     flex-wrap: nowrap;
-    /* 绂佹鎹㈣ */
     align-items: center;
-    /* 鍨傜洿灞呬腑瀵归綈 */
-    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    /* 婊戝姩鍔ㄧ敾 */
-    will-change: transform;
-    /* 提前 hint 以优化性能 */
+    justify-content: center;
   }
 
-  /* 单个卡片包装器（包含标题） */
+  /*  */
   .video-card-wrapper {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
-    flex-shrink: 0;
+    justify-content: center;
     position: relative;
-    z-index: 10;
-    min-height: 150px;
-    padding-top: 8px;
-    gap: 0.2rem;
-    --title-spacing: 0.25rem;
-    --title-opacity: 0.85;
+    flex: 0 0 auto;
   }
-
-  /* 卡片标题（显示在卡片下方） */
-  .card-title {
-    font-size: clamp(0.52rem, 0.8vw, 0.6rem);
-    font-weight: 600;
-    color: var(--color-text);
-    text-align: center;
-    letter-spacing: 0.05em;
-    white-space: nowrap;
-    display: block;
-    width: 100%;
-    margin: -2.5rem;
-    opacity: var(--title-opacity);
-    transition: margin-top 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1),
-      font-size 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: margin-top, opacity;
-  }
-
-  .video-card-wrapper.gap-small {
-    --title-spacing: -0.15rem;
-    --title-opacity: 0.55;
-  }
-
-  .video-card-wrapper.gap-small .card-title {
-    font-size: clamp(0.44rem, 0.65vw, 0.52rem);
-    opacity: 0.55;
-    margin: -2.5rem;
-  }
-
-  .video-card-wrapper.gap-medium {
-    --title-spacing: 0rem;
-    --title-opacity: 0.8;
-  }
-
-  .video-card-wrapper.gap-medium .card-title {
-    font-size: clamp(0.48rem, 0.72vw, 0.56rem);
-    opacity: 0.8;
-    margin: -1.5rem;
-  }
-
-  .video-card-wrapper.gap-large {
-    --title-spacing: 0.28rem;
-    --title-opacity: 1;
-  }
-
-  .video-card-wrapper.gap-large .card-title {
-    font-size: clamp(0.55rem, 0.85vw, 0.68rem);
-    opacity: 1;
-    margin: 0.5rem;
-  }
-
-  /* 卡片主体：固定层级并使用绝对定位 */
-  /* 背景切换卡片：增大高度表现力 */
+  /*  */
+  /*  */
   .video-card {
-    position: relative;
-    width: var(--banner-card-width);
-    /* 宽度自适应 */
-    height: var(--banner-card-height);
-    /* 高度与宽度保持比例 */
-    border-radius: 4px;
-    /* 圆角由 6px 减少到 3px */
-    overflow: hidden;
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.55);
+    font-size: clamp(0.95rem, 1.8vw, 1.5rem);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-align: center;
     cursor: pointer;
-    background: var(--color-bg-secondary);
-    border: 1px solid transparent;
-    /* 默认透明描边 */
-    transform: scale(0.7);
-    opacity: 0.6;
-    z-index: 1;
-    transform-style: preserve-3d;
-    /* 启用 3D 过渡 */
-    perspective: 1000px;
-    /* 设置 3D 透视距离 */
-    transition: transform 0.45s cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-      box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    will-change: transform;
-    /* 鎬ц兘浼樺寲 */
+    padding: 0;
+    margin: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease, transform 0.2s ease;
   }
 
-  /* 激活状态：加亮描边 */
-  .video-card.active {
-    transform: scale(1);
-    opacity: 1;
-    z-index: 3;
-    outline: 1px solid white;
-    outline-offset: 1.5px;
-    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.25);
+  .video-card:focus {
+    outline: none;
   }
 
-  /* 相邻卡片的第二层级 */
-  .video-card.adjacent {
-    transform: scale(0.85);
-    opacity: 0.8;
-    z-index: 2;
+  .video-card:focus-visible {
+    outline: none;
+    color: #ffffff;
   }
 
-  /* 卡片封面 */
-  .video-card img {
+  .video-card:not(.is-active):hover {
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
+
+  .video-card.is-active {
+    color: #ffffff;
+    font-weight: 600;
+    transform: none;
+  }
+
+
+  /*  */
+
+  /* ===== Static card layout overrides ===== */
+ .banner .video-cards-container {
+  width: 100%;
+  padding: clamp(0.5rem, 1.5vw, 1.5rem) 0;
+  margin: clamp(-0.5rem, -4vh, -0.75rem) auto 0; /* moves the pills up */
+}
+
+
+  .banner .video-cards-grid {
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: clamp(1.25rem, 4vw, 3rem);
     width: 100%;
-    height: 100%;
-    object-fit: cover;
   }
 
-  /* 配置 5 个位置的 transform 样式（含 translateY 保持中心） */
-  /* 位置 0：最左侧卡片，左倾 12° */
-  .video-card.position-0 {
-    transform: translateY(-22px) scale(0.55) rotateY(-16deg);
-    opacity: 0.3;
-    box-shadow: -8px 14px 30px rgba(0, 0, 0, 0.45);
+  .banner .video-card-wrapper {
+    gap: 0.5rem;
+    transition: transform 0.3s ease, opacity 0.3s ease;
   }
 
-  /* 位置1 - 左侧卡片,向左倾斜9°*/
-  .video-card.position-1 {
-    transform: translateY(-12px) scale(0.75) rotateY(-9deg);
-    opacity: 0.55;
-    box-shadow: -4px 11px 25px rgba(0, 0, 0, 0.4);
-  }
+  @media (max-width: 767px) {
+    .banner-title {
+      white-space: normal;
+      max-width: 28ch;
+    }
 
-  /* 位置2 - 中间卡片 */
-  .video-card.position-2 {
-    transform: translateY(0px) scale(1.12) rotateY(0deg);
-    opacity: 1;
-    box-shadow: 0 20px 48px rgba(255, 255, 255, 0.25);
-  }
+    .banner .video-cards-grid {
+      flex-wrap: nowrap;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      width: 100%;
+      overflow-x: auto;
+    }
 
-  /* 位置3 - 右侧卡片,向右倾斜9°*/
-  .video-card.position-3 {
-    transform: translateY(-12px) scale(0.75) rotateY(9deg);
-    opacity: 0.55;
-    box-shadow: 4px 11px 25px rgba(0, 0, 0, 0.4);
-  }
+    .banner .video-card-wrapper {
+      flex: 0 0 auto;
+      transform: none !important;
+    }
 
-  /* 位置4 - 最右侧卡片,向右倾斜16°*/
-  .video-card.position-4 {
-    transform: translateY(-22px) scale(0.55) rotateY(16deg);
-    opacity: 0.3;
-    box-shadow: 8px 14px 30px rgba(0, 0, 0, 0.45);
-  }
+    .banner .video-card {
+      font-size: clamp(0.85rem, 3.5vw, 1.05rem);
+    }
 
-  /* 响应式样式 */
-  /* ≥992px：固定容器宽度以容纳 5 张卡片 */
-  @media (min-width: 992px) {
-    .video-cards-container {
-      width: min(calc(5 * var(--banner-card-width) + 4 * var(--banner-card-gap)), 90vw);
+    .banner .video-card-wrapper.is-active,
+    .banner .video-card-wrapper:hover {
+      transform: none !important;
+    }
+
+    .banner .video-card-wrapper:hover .video-card,
+    .banner .video-card-wrapper:focus-within .video-card {
+      transform: none;
+    }
+
+    .banner .video-cards-container {
+      margin: clamp(1rem, 4vh, 3rem) auto 0;
     }
   }
 
-  /* 平板端 (768px - 991px) */
+  /*  (768px - 991px) */
   @media (max-width: 991px) {
 
-    /* Banner 容器：高度自适应并允许卡片溢出 */
+    /* Banner  */
     .banner {
       min-height: auto;
       padding-top: calc(var(--nav-height) + var(--spacing-2xl));
@@ -1860,57 +1810,61 @@
       background-position: center center;
     }
 
-    /* 内容容器：纵向排列并居中 */
+    /*  */
     .banner-container {
       display: flex;
       flex-direction: column;
       align-items: center;
-      /* 所有子元素水平居中 */
+      /*  */
       gap: var(--spacing-xl);
       padding: 0 2rem;
     }
 
-    /* 左侧内容区：限宽并保持居中 */
+    /*  */
     .banner-left {
       width: 100%;
       max-width: min(640px, 100%);
       margin: var(--spacing-xl) auto 0;
       text-align: center;
-      /* 文本居中 */
+      /*  */
       display: flex;
       flex-direction: column;
       align-items: center;
-      /* 子元素保持竖直居中 */
+      /*  */
     }
 
-    /* 标题与副标题全部居中 */
+    /*  */
     .banner-title,
     .banner-subtitle {
       text-align: center;
       margin-left: auto;
-      margin-right: auto;
+      margin-right: auto;    white-space: nowrap;
     }
   }
 
-  /* 移动端 (< 768px) */
+  /*  (< 768px) */
   @media (max-width: 767px) {
 
-    /* Banner 瀹瑰櫒 */
-    .banner {
-      padding-top: calc(var(--nav-height) + var(--spacing-xl));
-      padding-bottom: var(--spacing-2xl);
-      min-height: auto;
-    }
+    /* Banner  */
+  .banner {
+    padding-top: calc(var(--nav-height) + var(--spacing-xl)); /* same as before = no move down */
+    padding-bottom: var(--spacing-2xl);                       /* same bottom padding */
+    min-height: 90vh; /* makes the section ~3x deeper, grows DOWN only */
+  }
 
-    /* 内容容器：缩窄左右边距保持居中 */
+  .banner-container {
+    min-height: inherit; /* lets the inner content stretch with the banner */
+  }
+
+    /*  */
     .banner-container {
       padding: 0 1.5rem;
       gap: var(--spacing-lg);
       align-items: center;
-      /* 强制所有子元素居中 */
+      /*  */
     }
 
-    /* 左侧内容：居中对齐 */
+    /*  */
     .banner-left {
       text-align: center;
       display: flex;
@@ -1918,75 +1872,55 @@
       align-items: center;
       width: 100%;
       max-width: min(640px, 100%);
-      margin: var(--spacing-lg) auto 0;
+      margin: calc(var(--spacing-3xl) + var(--spacing-lg)) auto 0;
     }
 
     .banner-title {
-      font-size: 2rem;
-      max-width: 100%;
+      display: block;
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      max-width: 28ch;
+      margin-left: auto;
+      margin-right: auto;
       text-align: center;
+      white-space: normal;
     }
 
-    .banner-subtitle {
-      font-size: 0.875rem;
-      max-width: 100%;
-      text-align: center;
-    }
-
-    /* 搜索框：居中显示 */
-    .search-box-container {
-      max-width: 100%;
-    }
-
-    .search-input {
-      padding: 12px 120px 12px 16px;
-      font-size: 8px;
-    }
-
-    .btn-run-engine {
-      padding: 10px 20px;
-      font-size: 0.9rem;
-      right: 4px;
-    }
-
-    /* 卡片标题 */
-    .card-title {
-      font-size: 0.55rem;
+    .banner .video-card,
+    .banner .video-card:not(.is-active):hover,
+    .banner .video-card.is-active {
+      box-shadow: none !important;
     }
   }
 
-  /* 小屏手机 (< 480px) */
+  /*  (< 480px) */
   @media (max-width: 479px) {
     .banner-container {
       padding: 0 var(--spacing-md);
       align-items: center;
-      /* 保持居中 */
+      /*  */
     }
 
     .banner-title {
-      font-size: clamp(1.5rem, 8vw, 1.75rem);
+      font-size: clamp(1.8rem, 4vw, 3.2rem);
+      font-weight: 900;
+      font-style: italic;
+      line-height: 1.1;
+      color: var(--color-text);
+      margin: 0;
+      margin-bottom: -0.5rem;
+      letter-spacing: 0.04em;
+      max-width: 28ch;
       text-align: center;
-    }
-
-    .banner-subtitle {
-      text-align: center;
-    }
-
-    .search-input {
-      padding: 12px 110px 12px 14px;
-    }
-
-    .btn-run-engine {
-      padding: 10px 16px;
-      font-size: 0.85rem;
-      right: 3px;
+      margin-left: auto;
+      margin-right: auto;
+      white-space: normal;
     }
   }
 
-  /* 瑙︽懜璁惧浼樺寲 */
+  /*  */
   @media (max-width: 991px) {
 
-    /* 瑙︽懜鍙嶉 */
+    /*  */
     .video-card:active {
       transform: scale(0.95);
       transition: transform 0.1s ease;
@@ -1997,7 +1931,7 @@
     }
   }
 
-  /* 性能优化：在减少动画模式下禁用动效 */
+  /*  */
   @media (prefers-reduced-motion: reduce) {
 
     .video-card,
@@ -2009,21 +1943,24 @@
       animation: none !important;
     }
   }
-</style>
-<!-- HTML 缁撴瀯 -->
+
+
+  </style>
+
+<!-- HTML  -->
 <section class="banner">
-  <!-- 瑙嗛鑳屾櫙瀹瑰櫒 -->
+  <!--  -->
   <div class="banner-video-bg">
-    <video class="banner-bg-video active" data-video-index="0" autoplay muted loop playsinline>
+    <video class="banner-bg-video" data-video-index="0" muted loop playsinline>
       <source src="assets/banner/videos/banner-video-01.mp4" type="video/mp4">
     </video>
     <video class="banner-bg-video" data-video-index="1" muted loop playsinline>
       <source src="assets/banner/videos/banner-video-02.mp4" type="video/mp4">
     </video>
-    <video class="banner-bg-video" data-video-index="2" muted loop playsinline>
+    <video class="banner-bg-video active" data-video-index="1" autoplay muted loop playsinline>
       <source src="assets/banner/videos/banner-video-03.mp4" type="video/mp4">
     </video>
-    <video class="banner-bg-video" data-video-index="3" muted loop playsinline>
+    <video class="banner-bg-video" data-video-index="2" muted loop playsinline>
       <source src="assets/banner/videos/banner-video-04.mp4" type="video/mp4">
     </video>
     <video class="banner-bg-video" data-video-index="4" muted loop playsinline>
@@ -2046,671 +1983,129 @@
     </video>
   </div>
   <div class="banner-container">
-    <!-- 左侧内容 -->
+    <!--  -->
     <div class="banner-left">
       <h1 class="banner-title">
-        WHERE IMAGINATION ECLIPSES REALITY
+        Imagination <span class="banner-title__accent">Eclipses</span> Reality
       </h1>
       <p class="banner-subtitle">
-        Built For Brands, Artists, And Creators.
+        AI Creative Suite Built For High Quality Creations
       </p>
       <div class="search-box-container" id="hero-search-box">
         <textarea class="search-input" rows="2"
-          placeholder="ultra-realistic close-up of an astronaut in a detailed white space suit, standing in the darkness of outer space..."></textarea>
-        <button class="btn-run-engine" type="button">Run Engine</button>
+          placeholder="A cinematic apocalyptic sci-fi story about a female astronaut racing to stop an eclipse."></textarea>
+        <button class="btn-run-engine" type="button">
+          <span class="btn-label">Run Engine</span>
+          <span class="btn-icon" aria-hidden="true">
+            <svg viewBox="0 0 64 32" xmlns="http://www.w3.org/2000/svg">
+              <path d="M20 14c1.2 0 2 0.8 2 2s-0.8 2-2 2-2-0.8-2-2 0.8-2 2-2zm12-8c2 0 4 2 4 4s-2 4-4 4-4-2-4-4 2-4 4-4zm12 4c3 0 6 3 6 6s-3 6-6 6-6-3-6-6 3-6 6-6zm-12 12c1.5 0 3 1.5 3 3s-1.5 3-3 3-3-1.5-3-3 1.5-3 3-3z" />
+            </svg>
+          </span>
+        </button>
       </div>
     </div>
-    <!-- 视频切换卡片：保持横向排列 -->
+    <!--  -->
     <div class="video-cards-container">
       <div class="video-cards-grid">
-        <!-- 视频卡片 1 -->
         <div class="video-card-wrapper">
-          <div class="video-card active" data-bg-index="0">
-            <img src="assets/banner/images/banner-image-01.png" alt="AI SCROLL Background">
-          </div>
-          <div class="card-title">AI SCROLL</div>
+          <button class="video-card" data-bg-index="0" type="button">Advertisers</button>
         </div>
-        <!-- 视频卡片 2 -->
-        <div class="video-card-wrapper">
-          <div class="video-card" data-bg-index="1">
-            <img src="assets/banner/images/banner-image-02.jpg" alt="AI SCROLL Background">
-          </div>
-          <div class="card-title">AI SCROLL</div>
+        <div class="video-card-wrapper is-active">
+          <button class="video-card is-active" data-bg-index="1" type="button">Filmmakers</button>
         </div>
-        <!-- 视频卡片 3 -->
         <div class="video-card-wrapper">
-          <div class="video-card" data-bg-index="2">
-            <img src="assets/banner/images/banner-image-03.png" alt="AI SCROLL Background">
-          </div>
-          <div class="card-title">AI SCROLL</div>
-        </div>
-        <!-- 视频卡片 4 -->
-        <div class="video-card-wrapper">
-          <div class="video-card" data-bg-index="3">
-            <img src="assets/banner/images/banner-image-04.png" alt="AI SCROLL Background">
-          </div>
-          <div class="card-title">AI SCROLL</div>
-        </div>
-        <!-- 视频卡片 5 -->
-        <div class="video-card-wrapper">
-          <div class="video-card" data-bg-index="4">
-            <img src="assets/banner/images/banner-image-05.png" alt="AI SCROLL Background">
-          </div>
-          <div class="card-title">AI SCROLL</div>
-        </div>
-        <!-- 视频卡片 6 -->
-        <div class="video-card-wrapper">
-          <div class="video-card" data-bg-index="5">
-            <img src="assets/banner/images/banner-image-06.png" alt="AI SCROLL Background">
-          </div>
-          <div class="card-title">AI SCROLL</div>
-        </div>
-        <!-- 视频卡片 7 -->
-        <div class="video-card-wrapper">
-          <div class="video-card" data-bg-index="6">
-            <img src="assets/banner/images/banner-image-07.png" alt="AI SCROLL Background">
-          </div>
-          <div class="card-title">AI SCROLL</div>
-        </div>
-        <!-- 视频卡片 8 -->
-        <div class="video-card-wrapper">
-          <div class="video-card" data-bg-index="7">
-            <img src="assets/banner/images/banner-image-08.png" alt="AI SCROLL Background">
-          </div>
-          <div class="card-title">AI SCROLL</div>
-        </div>
-        <!-- 视频卡片 9 -->
-        <div class="video-card-wrapper">
-          <div class="video-card" data-bg-index="8">
-            <img src="assets/banner/images/banner-image-09.png" alt="AI SCROLL Background">
-          </div>
-          <div class="card-title">AI SCROLL</div>
-        </div>
-        <!-- 视频卡片 10 -->
-        <div class="video-card-wrapper">
-          <div class="video-card" data-bg-index="9">
-            <img src="assets/banner/images/banner-image-10.png" alt="AI SCROLL Background">
-          </div>
-          <div class="card-title">AI SCROLL</div>
+          <button class="video-card" data-bg-index="2" type="button">Storytellers</button>
         </div>
       </div>
     </div>
   </div>
 </section>
-<!-- JavaScript 浜や簰閫昏緫 -->
 <script>
   (function () {
-    'use strict';
-    // 获取所有背景视频元素
+    const heroBox = document.getElementById('hero-search-box');
+    const searchInput = heroBox ? heroBox.querySelector('.search-input') : null;
+    const runBtn = heroBox ? heroBox.querySelector('.btn-run-engine') : null;
+    const cards = Array.from(document.querySelectorAll('.video-cards-grid .video-card'));
+    const wrappers = cards.map(card => card.closest('.video-card-wrapper'));
     const bgVideos = Array.from(document.querySelectorAll('.banner-bg-video'));
-    const DESKTOP_BREAKPOINT = 0;
-    const VISIBLE_COUNT = 5;
-    const CENTER_OFFSET = Math.floor(VISIBLE_COUNT / 2); // 2
-    const CLONE_COUNT = CENTER_OFFSET; // 2 张克隆卡片的缓冲区
-    const TRANSITION_MS = 500;
-    const TRANSITION_EASING = 'cubic-bezier(0.4, 0, 0.2, 1)';
-    const CARD_ASPECT_RATIO = 108 / 81;
-    const CARD_MIN_WIDTH = 52;
-    const CARD_MAX_WIDTH = 80;
-    const CONTAINER_MAX_WIDTH = 960;
-    const banner = document.querySelector('.banner');
-    const cardsContainer = document.querySelector('.video-cards-container');
-    const grid = document.querySelector('.video-cards-grid');
-    if (!grid) {
-      initSearchBox();
-      return;
+    const HERO_PROMPTS = [
+      'A luxurious furniture campaign showcasing craftsmanship and opulence through atmospheric, artfully composed scenes.',
+      'A cinematic apocalyptic sci-fi story about a female astronaut racing to stop an eclipse.',
+      'A stop-motion journey of a wooden figure chasing the moon through whimsical adventures until it finally reaches it.',
+    ];
+
+    const goWaitlist = () => { window.location.href = 'waitlist.html'; };
+
+    function updatePromptByIndex(index) {
+      if (!searchInput || !HERO_PROMPTS.length) return;
+      const prompt = HERO_PROMPTS[index % HERO_PROMPTS.length] || HERO_PROMPTS[0];
+      searchInput.placeholder = prompt;
+      searchInput.value = prompt;
     }
-    const originalWrappers = Array.from(grid.querySelectorAll('.video-card-wrapper'));
-    if (!originalWrappers.length) {
-      initSearchBox();
-      return;
-    }
-    const templates = originalWrappers.map((wrapper, index) => {
-      const clone = wrapper.cloneNode(true);
-      clone.dataset.cardIndex = index;
-      const card = clone.querySelector('.video-card');
-      if (card) {
-        card.dataset.cardIndex = index;
-        card.classList.remove('active', 'adjacent'); // 清除所有状态类
-      }
-      return clone;
-    });
-    const totalCards = templates.length;
-    let stepSize = 0;
-    let containerGap = 0;
-    let activeIndex = (() => {
-      const activeCard = grid.querySelector('.video-card.active');
-      if (activeCard) {
-        const idx = parseInt(activeCard.getAttribute('data-bg-index'), 10);
-        if (!Number.isNaN(idx)) return idx % totalCards;
-      }
-      return CENTER_OFFSET;
-    })();
-    let currentMode = null;
-    let isAnimating = false;
-    let isScrollHijacked = false;
-    let scrollHijackTimeout = null;
-    let backgroundUpdateTimeout = null; // 背景更新的延时句柄
-    const SCROLL_HIJACK_TIMEOUT = 500;
-    const BACKGROUND_UPDATE_DELAY = 300; // 滚动结束后延迟 300ms 再更新背景
-    const wheelBlockerOptions = { passive: false, capture: true };
-    let containerResizeObserver = null;
-    let pendingLayoutSync = false;
-    function applyPositionClass(card, positionIndex) {
-      const clamped = Math.max(0, Math.min(VISIBLE_COUNT - 1, positionIndex));
-      card.classList.add(`position-${clamped}`);
-    }
-    function preventPageScroll(event) {
-      if (!isScrollHijacked) return;
-      event.preventDefault();
-    }
-    function activateScrollHijack() {
-      if (isScrollHijacked) return;
-      isScrollHijacked = true;
-      window.addEventListener('wheel', preventPageScroll, wheelBlockerOptions);
-    }
-    function releaseScrollHijack() {
-      if (!isScrollHijacked) return;
-      window.removeEventListener('wheel', preventPageScroll, wheelBlockerOptions);
-      isScrollHijacked = false;
-    }
-    function scheduleScrollHijackRelease() {
-      clearTimeout(scrollHijackTimeout);
-      scrollHijackTimeout = setTimeout(() => {
-        if (!isAnimating) {
-          releaseScrollHijack();
-        }
-      }, SCROLL_HIJACK_TIMEOUT);
-    }
-    function applyBackgroundByIndex(index, immediate = false) {
-      if (!bgVideos.length) return;
-      // 娓呴櫎涔嬪墠鐨勫欢杩熷畾鏃跺櫒
-      if (backgroundUpdateTimeout) {
-        clearTimeout(backgroundUpdateTimeout);
-        backgroundUpdateTimeout = null;
-      }
-      // 实际执行背景切换的函数
-      const doApplyBackground = () => {
-        const targetIndex = index % bgVideos.length;
-        // 先隐藏全部视频
-        bgVideos.forEach((video, idx) => {
-          if (idx === targetIndex) {
-            video.classList.add('active');
-            // 纭繚瑙嗛姝ｅ湪鎾斁
-            if (video.paused) {
-              video.play().catch(err => console.log('Video play error:', err));
-            }
-          } else {
-            video.classList.remove('active');
-            // 鏆傚仠闈炴縺娲昏棰戜互鑺傜渷璧勬簮
-            if (!video.paused) {
-              video.pause();
-            }
-          }
-        });
-      };
-      // 点击或初始化等需要立即响应的场景直接执行
-      if (immediate) {
-        doApplyBackground();
-      } else {
-        // 其他情况延迟应用，避免滚动时频繁切换
-        backgroundUpdateTimeout = setTimeout(doApplyBackground, BACKGROUND_UPDATE_DELAY);
-      }
-    }
-    function measureStepSize() {
-      const sample = grid.querySelector('.video-card-wrapper');
-      if (!sample) return;
-      const gap = parseFloat(window.getComputedStyle(grid).gap) || 0;
-      stepSize = sample.getBoundingClientRect().width + gap;
-      containerGap = gap;
-    }
-    function updateCardDimensions() {
-      if (window.innerWidth < DESKTOP_BREAKPOINT) {
-        resetCardDimensions();
-        return;
-      }
-      if (!banner || !cardsContainer || !grid) return;
-      const gap = parseFloat(window.getComputedStyle(grid).gap) || 0;
-      const hostWidth = Math.min(banner.clientWidth || window.innerWidth, window.innerWidth * 0.95);
-      const containerParentWidth = cardsContainer.parentElement
-        ? cardsContainer.parentElement.getBoundingClientRect().width
-        : hostWidth;
-      const maxContainerWidth = Math.max(CARD_MIN_WIDTH * VISIBLE_COUNT + gap * (VISIBLE_COUNT - 1),
-        Math.min(CONTAINER_MAX_WIDTH, containerParentWidth, hostWidth));
-      const rawCardWidth = (maxContainerWidth - gap * (VISIBLE_COUNT - 1)) / VISIBLE_COUNT;
-      const clampedCardWidth = Math.max(CARD_MIN_WIDTH, Math.min(CARD_MAX_WIDTH, rawCardWidth));
-      const clampedCardHeight = clampedCardWidth * CARD_ASPECT_RATIO;
-      banner.style.setProperty('--banner-card-width', `${clampedCardWidth}px`);
-      banner.style.setProperty('--banner-card-height', `${clampedCardHeight}px`);
-    }
-    function resetCardDimensions() {
-      if (!banner) return;
-      banner.style.removeProperty('--banner-card-width');
-      banner.style.removeProperty('--banner-card-height');
-    }
-    function applyCarouselWidth() {
-      if (!cardsContainer || !stepSize) return;
-      const visibleWidth = Math.max((stepSize * VISIBLE_COUNT) - containerGap, 0);
-      cardsContainer.style.width = `${visibleWidth}px`;
-      cardsContainer.style.maxWidth = `${visibleWidth}px`;
-    }
-    function clearCarouselWidth() {
-      if (!cardsContainer) return;
-      // 清空内联样式，交给 CSS 媒体查询接管
-      cardsContainer.style.removeProperty('width');
-      cardsContainer.style.removeProperty('max-width');
-    }
-    async function syncCarouselLayout() {
-      pendingLayoutSync = false;
-      if (currentMode !== 'carousel' || isAnimating) return;
-      updateCardDimensions();
-      await scheduleMeasureStepSize();
-      applyCarouselWidth();
-      resetCarouselTransform();
-    }
-    function scheduleCarouselLayoutSync() {
-      if (pendingLayoutSync) return;
-      pendingLayoutSync = true;
-      setTimeout(syncCarouselLayout, 16);
-    }
-    function observeContainerResize() {
-      if (!window.ResizeObserver || !cardsContainer) return;
-      if (containerResizeObserver) return;
-      containerResizeObserver = new ResizeObserver(() => {
-        scheduleCarouselLayoutSync();
-      });
-      containerResizeObserver.observe(cardsContainer);
-    }
-    function disconnectContainerResize() {
-      if (!containerResizeObserver) return;
-      containerResizeObserver.disconnect();
-      containerResizeObserver = null;
-      pendingLayoutSync = false;
-    }
-    function scheduleMeasureStepSize() {
-      // 缩放时 requestAnimationFrame 可能不刷新，改用 setTimeout
-      return new Promise(resolve => {
-        setTimeout(() => {
-          measureStepSize();
-          resolve();
-        }, 16);
-      });
-    }
-    function buildCarouselGrid() {
-      grid.innerHTML = '';
-      const newCards = [];
-      for (let offset = -CLONE_COUNT; offset < totalCards + CLONE_COUNT; offset++) {
-        const idx = (activeIndex + offset + totalCards) % totalCards;
-        const node = templates[idx].cloneNode(true);
-        node.dataset.cardIndex = idx;
-        const card = node.querySelector('.video-card');
-        if (card) {
-          card.dataset.cardIndex = idx;
-          // 先移除旧状态再套用，避免闪烁
-          card.classList.remove('active', 'adjacent', 'position-0', 'position-1', 'position-2', 'position-3', 'position-4');
-          node.classList.remove('gap-small', 'gap-medium', 'gap-large');
-          // 计算克隆节点在可视区域中的位置
-          const visibleStart = CLONE_COUNT;
-          const visibleEnd = CLONE_COUNT + VISIBLE_COUNT - 1;
-          const centerPos = visibleStart + CENTER_OFFSET;
-          const position = CLONE_COUNT + offset;
-          const visiblePosition = position - visibleStart;
-          // 应用居中与邻近状态类
-          if (position === centerPos) {
-            card.classList.add('active');
-          } else if (position === centerPos - 1 || position === centerPos + 1) {
-            card.classList.add('adjacent');
-          }
-          // 根据可见位置应用对应的透视类，保持视觉对称
-          applyPositionClass(card, visiblePosition);
-          // 仅对可视区应用不同的间距类
-          if (position >= visibleStart && position <= visibleEnd) {
-            if (visiblePosition === 0 || visiblePosition === VISIBLE_COUNT - 1) {
-              node.classList.add('gap-small');
-            } else if (visiblePosition === 1 || visiblePosition === VISIBLE_COUNT - 2) {
-              node.classList.add('gap-medium');
-            } else if (visiblePosition === CENTER_OFFSET) {
-              node.classList.add('gap-large');
-            }
-          }
-          card.style.transition = 'none'; // 绂佺敤 transition
-          newCards.push(card);
-        }
-        grid.appendChild(node);
-      }
-      updateCardDimensions();
-      measureStepSize();
-      applyCarouselWidth();
-      // updateCarouselClasses(); // 若需调试可在此重新启用
-      resetCarouselTransform(); // 重置 transform
-      // 强制一次 reflow 之后恢复 transition
-      grid.offsetHeight;
-      requestAnimationFrame(() => {
-        newCards.forEach(card => {
-          card.style.transition = ''; // 恢复 CSS 定义的 transition
-        });
-      });
-      // 更新背景（滚动停止后再切换）
-      applyBackgroundByIndex(activeIndex, false);
-    }
-    function resetCarouselTransform() {
-      const base = -(CLONE_COUNT * stepSize);
-      grid.style.transition = 'none';
-      grid.style.transform = `translateX(${base}px)`;
-      grid.offsetHeight; // force reflow
-      grid.style.transition = `transform ${TRANSITION_MS}ms ${TRANSITION_EASING}`;
-    }
-    function updateCarouselClasses() {
-      const wrappers = Array.from(grid.children);
-      wrappers.forEach((wrapper, idx) => {
-        const card = wrapper.querySelector('.video-card');
-        if (!card) return;
-        card.classList.remove('active', 'adjacent');
-        wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
-        const visibleStart = CLONE_COUNT;
-        const visibleEnd = CLONE_COUNT + VISIBLE_COUNT - 1;
-        const centerPos = visibleStart + CENTER_OFFSET;
-        if (idx >= visibleStart && idx <= visibleEnd) {
-          // 根据位置设置卡片激活状态
-          if (idx === centerPos) {
-            card.classList.add('active');
-          } else if (idx === centerPos - 1 || idx === centerPos + 1) {
-            card.classList.add('adjacent');
-          }
-          const visiblePosition = idx - visibleStart;
-          if (visiblePosition === 0 || visiblePosition === VISIBLE_COUNT - 1) {
-            wrapper.classList.add('gap-small');
-          } else if (visiblePosition === 1 || visiblePosition === VISIBLE_COUNT - 2) {
-            wrapper.classList.add('gap-medium');
-          } else if (visiblePosition === CENTER_OFFSET) {
-            wrapper.classList.add('gap-large');
-          }
-        }
-      });
-      // 注意：目前未调用 updateCarouselClasses，若需启用可结合 immediate 参数控制
-      // applyBackgroundByIndex(activeIndex);
-    }
-    function previewClassesForDirection(direction) {
-      const wrappers = Array.from(grid.children);
-      const centerPos = CLONE_COUNT + CENTER_OFFSET;
-      const nextCenter = centerPos + (direction === 'left' ? 1 : -1);
-      wrappers.forEach((wrapper, idx) => {
-        const card = wrapper.querySelector('.video-card');
-        if (!card) return;
-        // 更新卡片状态类
-        card.classList.remove('active', 'adjacent', 'position-0', 'position-1', 'position-2', 'position-3', 'position-4');
-        if (idx === nextCenter) {
-          card.classList.add('active');
-        } else if (idx === nextCenter - 1 || idx === nextCenter + 1) {
-          card.classList.add('adjacent');
-        }
-        // 预先计算目标位置的间距与透视，实现左右滑动的过渡感
-        wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
-        // 计算动画后的可视位置
-        const currentVisiblePos = idx - CLONE_COUNT;
-        const targetVisiblePos = direction === 'left'
-          ? currentVisiblePos - 1  // 向左滑动时，每张卡片整体左移一格
-          : currentVisiblePos + 1; // 向右滑动时，每张卡片整体右移一格
-        // 先应用新的位置类，保持视觉对称
-        applyPositionClass(card, targetVisiblePos);
-        // 仅向可见区域添加对应的间距类
-        if (targetVisiblePos >= 0 && targetVisiblePos < VISIBLE_COUNT) {
-          if (targetVisiblePos === 0 || targetVisiblePos === VISIBLE_COUNT - 1) {
-            wrapper.classList.add('gap-small');
-          } else if (targetVisiblePos === 1 || targetVisiblePos === VISIBLE_COUNT - 2) {
-            wrapper.classList.add('gap-medium');
-          } else if (targetVisiblePos === CENTER_OFFSET) {
-            wrapper.classList.add('gap-large');
-          }
-        }
-      });
-    }
-    function animateSlide(direction) {
-      return new Promise((resolve) => {
-        if (!stepSize) {
-          resolve();
-          return;
-        }
-        const base = -(CLONE_COUNT * stepSize);
-        const target = direction === 'left'
-          ? base - stepSize
-          : base + stepSize;
-        previewClassesForDirection(direction);
-        const handleEnd = (event) => {
-          if (event.target !== grid) return;
-          grid.removeEventListener('transitionend', handleEnd);
-          resolve();
-        };
-        grid.addEventListener('transitionend', handleEnd);
-        requestAnimationFrame(() => {
-          grid.style.transform = `translateX(${target}px)`;
-        });
-      });
-    }
-    // 澶氭婊戝姩鍔ㄧ敾锛堜竴娆℃€у埌杈剧洰鏍囷紝涓嶆樉绀轰腑闂寸姸鎬侊級
-    function animateMultiStepSlide(direction, steps) {
-      return new Promise((resolve) => {
-        if (!stepSize || steps === 0) {
-          resolve();
-          return;
-        }
-        const base = -(CLONE_COUNT * stepSize);
-        const offset = stepSize * steps;
-        const target = direction === 'left' ? base - offset : base + offset;
-        // 鎻愬墠棰勮鏈€缁堢姸鎬佺殑绫诲悕
-        previewMultiStepClasses(direction, steps);
-        const handleEnd = (event) => {
-          if (event.target !== grid) return;
-          grid.removeEventListener('transitionend', handleEnd);
-          resolve();
-        };
-        grid.addEventListener('transitionend', handleEnd);
-        requestAnimationFrame(() => {
-          grid.style.transform = `translateX(${target}px)`;
-        });
-      });
-    }
-    // 预览多步平移后的最终状态
-    function previewMultiStepClasses(direction, steps) {
-      const wrappers = Array.from(grid.children);
-      const centerPos = CLONE_COUNT + CENTER_OFFSET;
-      const offset = direction === 'left' ? steps : -steps;
-      const nextCenter = centerPos + offset;
-      wrappers.forEach((wrapper, idx) => {
-        const card = wrapper.querySelector('.video-card');
-        if (!card) return;
-        // 淇敼鍗＄墖鐘舵€佺被
-        card.classList.remove('active', 'adjacent', 'position-0', 'position-1', 'position-2', 'position-3', 'position-4');
-        if (idx === nextCenter) {
-          card.classList.add('active');
-        } else if (idx === nextCenter - 1 || idx === nextCenter + 1) {
-          card.classList.add('adjacent');
-        }
-        // 预先移除间距类，稍后再套用目标样式
-        wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
-        const currentVisiblePos = idx - CLONE_COUNT;
-        const targetVisiblePos = currentVisiblePos - offset;
-        // 先应用目标位置的透视类
-        applyPositionClass(card, targetVisiblePos);
-        if (targetVisiblePos >= 0 && targetVisiblePos < VISIBLE_COUNT) {
-          if (targetVisiblePos === 0 || targetVisiblePos === VISIBLE_COUNT - 1) {
-            wrapper.classList.add('gap-small');
-          } else if (targetVisiblePos === 1 || targetVisiblePos === VISIBLE_COUNT - 2) {
-            wrapper.classList.add('gap-medium');
-          } else if (targetVisiblePos === CENTER_OFFSET) {
-            wrapper.classList.add('gap-large');
-          }
-        }
-      });
-    }
-    async function slide(direction, steps) {
-      if (isAnimating || steps === 0) return;
-      isAnimating = true;
-      // 计算最终目标索引
-      const indexChange = direction === 'left' ? steps : -steps;
-      const targetIndex = (activeIndex + indexChange + totalCards) % totalCards;
-      // 通过一次动画直接过渡到目标位置（不展示中间帧）
-      await animateMultiStepSlide(direction, steps);
-      // 更新索引并重新构建 DOM（仅一次）
-      activeIndex = targetIndex;
-      buildCarouselGrid();
-      isAnimating = false;
-    }
-    function handleCarouselClick(event) {
-      const card = event.target.closest('.video-card');
-      if (!card || isAnimating) return;
-      const wrapper = card.closest('.video-card-wrapper');
-      const wrappers = Array.from(grid.children);
-      const targetPos = wrappers.indexOf(wrapper);
-      const centerPos = CLONE_COUNT + CENTER_OFFSET;
-      if (targetPos === -1 || targetPos === centerPos) {
-        applyBackgroundByIndex(activeIndex, true); // 鐐瑰嚮宸查€変腑鍗＄墖,绔嬪嵆搴旂敤鑳屾櫙
-        return;
-      }
-      const direction = targetPos > centerPos ? 'left' : 'right';
-      const steps = Math.abs(targetPos - centerPos);
-      slide(direction, steps);
-    }
-    // 滚轮事件统一处理：无论横纵都转成左右切换
-    function handleCarouselWheel(event) {
-      if (isAnimating) {
-        event.preventDefault();
-        event.stopPropagation();
-        activateScrollHijack();
-        scheduleScrollHijackRelease();
-        return;
-      }
-      event.preventDefault();
-      event.stopPropagation();
-      activateScrollHijack();
-      const absDeltaX = Math.abs(event.deltaX);
-      const absDeltaY = Math.abs(event.deltaY);
-      const primaryDelta = absDeltaX > absDeltaY ? event.deltaX : event.deltaY;
-      if (Math.abs(primaryDelta) < 1) {
-        scheduleScrollHijackRelease();
-        return;
-      }
-      // 策略：每次滚轮触发只切换一张卡片，不看滚动距离
-      // 只要保持滚动就持续切换
-      const direction = primaryDelta > 0 ? 'left' : 'right';
-      slide(direction, 1).finally(scheduleScrollHijackRelease);
-    }
-    function buildStaticGrid() {
-      grid.innerHTML = '';
-      templates.forEach((template, index) => {
-        const node = template.cloneNode(true);
-        node.dataset.cardIndex = index;
-        const card = node.querySelector('.video-card');
-        if (card) card.dataset.cardIndex = index;
-        grid.appendChild(node);
-      });
-      updateStaticClasses();
-    }
-    function updateStaticClasses() {
-      const wrappers = Array.from(grid.children);
-      wrappers.forEach((wrapper, idx) => {
-        const card = wrapper.querySelector('.video-card');
-        if (!card) return;
-        card.classList.remove('active', 'adjacent');
-        wrapper.classList.remove('gap-small', 'gap-medium', 'gap-large');
-        const distance = Math.abs(idx - activeIndex);
-        if (distance === 0) {
-          card.classList.add('active');
-          wrapper.classList.add('gap-large');
-        } else if (distance === 1) {
-          card.classList.add('adjacent');
-          wrapper.classList.add('gap-medium');
-        } else if (distance === 2) {
-          wrapper.classList.add('gap-small');
-        }
-      });
-      applyBackgroundByIndex(activeIndex, true); // 移动端点击后立即切换背景
-    }
-    function handleStaticClick(event) {
-      const card = event.target.closest('.video-card');
-      if (!card) return;
-      const wrapper = card.closest('.video-card-wrapper');
-      const index = parseInt(wrapper.dataset.cardIndex, 10);
-      if (Number.isNaN(index)) return;
-      activeIndex = index;
-      updateStaticClasses();
-      if (cardsContainer) {
-        wrapper.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
-      }
-    }
-    function initCarouselMode() {
-      grid.removeEventListener('click', handleStaticClick);
-      grid.addEventListener('click', handleCarouselClick);
-      // 娣诲姞婊氳疆鐩戝惉锛堟敮鎸佹í鍚戞粴鍔ㄥ垏鎹㈠崱鐗囷級
-      if (cardsContainer) {
-        cardsContainer.addEventListener('wheel', handleCarouselWheel, { passive: false });
-      }
-      buildCarouselGrid();
-      observeContainerResize();
-    }
-    function initStaticMode() {
-      grid.removeEventListener('click', handleCarouselClick);
-      // 绉婚櫎婊氳疆鐩戝惉
-      if (cardsContainer) {
-        cardsContainer.removeEventListener('wheel', handleCarouselWheel);
-      }
-      grid.addEventListener('click', handleStaticClick);
-      resetCardDimensions();
-      clearCarouselWidth();
-      buildStaticGrid();
-      releaseScrollHijack();
-      disconnectContainerResize();
-    }
-    function handleResize() {
-      const nextMode = window.innerWidth >= DESKTOP_BREAKPOINT ? 'carousel' : 'static';
-      if (nextMode !== currentMode) {
-        currentMode = nextMode;
-        if (currentMode === 'carousel') {
-          initCarouselMode();
+
+    function updateBackgroundByCard(cardIndex) {
+      const targetCard = cards[cardIndex];
+      if (!targetCard) return;
+      const videoIndexAttr = targetCard.getAttribute('data-bg-index');
+      const videoIndex = videoIndexAttr ? parseInt(videoIndexAttr, 10) : cardIndex;
+      bgVideos.forEach((video, idx) => {
+        const isActive = idx === videoIndex;
+        video.classList.toggle('active', isActive);
+        if (isActive) {
+          video.play().catch(() => {});
         } else {
-          initStaticMode();
+          video.pause();
+          video.currentTime = 0;
         }
-        return;
-      }
-      if (currentMode === 'carousel') {
-        scheduleCarouselLayoutSync();
-      }
+      });
     }
-    function initSearchBox() {
-      const searchInput = document.querySelector('.search-input');
-      const runEngineBtn = document.querySelector('.btn-run-engine');
-      if (searchInput && runEngineBtn) {
-        runEngineBtn.addEventListener('click', () => {
-          const query = searchInput.value.trim();
-          if (!query) {
-            searchInput.focus();
-            return;
-          }
-          console.log('Search query:', query);
-        });
-        searchInput.addEventListener('keypress', (e) => {
-          if (e.key === 'Enter') {
-            runEngineBtn.click();
-          }
-        });
-      }
+
+    function setActiveCard(cardIndex, immediate = false) {
+      cards.forEach((card, idx) => {
+        const isActive = idx === cardIndex;
+        card.classList.toggle('is-active', isActive);
+        if (wrappers[idx]) {
+          wrappers[idx].classList.toggle('is-active', isActive);
+        }
+      });
+      updatePromptByIndex(cardIndex);
+      updateBackgroundByCard(cardIndex, immediate);
     }
-    function init() {
-      currentMode = window.innerWidth >= DESKTOP_BREAKPOINT ? 'carousel' : 'static';
-      if (currentMode === 'carousel') {
-        initCarouselMode();
-      } else {
-        initStaticMode();
-      }
-      window.addEventListener('resize', handleResize);
-      if (window.visualViewport && typeof window.visualViewport.addEventListener === 'function') {
-        window.visualViewport.addEventListener('resize', handleResize);
-      }
-      initSearchBox();
+
+    cards.forEach((card, idx) => {
+      card.setAttribute('role', 'button');
+      card.setAttribute('tabindex', '0');
+      card.addEventListener('click', () => setActiveCard(idx));
+      card.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter' || event.key === ' ') {
+          event.preventDefault();
+          setActiveCard(idx);
+        }
+      });
+    });
+
+    if (runBtn) {
+      runBtn.addEventListener('click', goWaitlist);
     }
-    init();
+
+    if (searchInput) {
+      searchInput.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          goWaitlist();
+        }
+      });
+    }
+
+    if (cards.length) {
+      const initialIndex = cards.findIndex(card => card.classList.contains('is-active'));
+      setActiveCard(initialIndex >= 0 ? initialIndex : 0, true);
+    } else {
+      updatePromptByIndex(0);
+    }
   })();
 </script>
+
 
   <!-- ===== LINKS SECTION ===== -->
 <!-- 社交媒体链接区域 -->
