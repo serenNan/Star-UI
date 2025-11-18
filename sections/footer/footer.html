@@ -3,6 +3,9 @@
 .footer-section {
   padding: 20px 0 20px;  /* 减少底部padding,与浏览器下方距离更近 */
   background: #0D0D0D;
+  --footer-heading-height: clamp(32px, 4vw, 48px);
+  --footer-heading-size: clamp(18px, 2vw, 22px);
+  --footer-body-size: clamp(12px, 1.5vw, 14px);
 }
 
 .footer-container {
@@ -101,29 +104,30 @@
 }
 
 .footer-logo {
-  width: 180px;
-  height: auto;
+  height: var(--footer-heading-height);
+  width: auto;
   margin-top: 0px;       /* logo 本身不需要边距，由 wrapper 控制 */
   margin-left: 0px;      /* logo 本身不需要边距，由 wrapper 控制 */
 }
 
 .footer-brand-name {
-  font-size: 20px;
+  font-size: var(--footer-heading-size);
   font-weight: 600;
   color: #FFFFFF;
-  line-height: 1.2;
+  line-height: var(--footer-heading-height);
+  min-height: var(--footer-heading-height);
 }
 
 .footer-brand-subtitle {
-  font-size: 20px;   
+  font-size: var(--footer-heading-size);   
   font-weight: 600;
   color: #FFFFFF;      
-  line-height: 1.2;   
+  line-height: var(--footer-heading-height);   
   margin-top: -4px;
 }
 
 .footer-description {
-  font-size: 14px;
+  font-size: var(--footer-body-size);
   line-height: 1.2;
   color: #FFFFFF;        /* 改为白色字体 */
   margin-bottom: 30px;
@@ -163,11 +167,13 @@
 }
 
 .footer-column-title {
-  font-size: 16px;       /* 增加主分类标题文字大小 */
+  font-size: var(--footer-heading-size);       /* 增加主分类标题文字大小 */
   font-weight: 600;
   color: #FFFFFF;
   margin-bottom: 20px;
   letter-spacing: 0.5px;
+  line-height: var(--footer-heading-height);
+  min-height: var(--footer-heading-height);
 }
 
 .footer-links-list {
@@ -182,7 +188,7 @@
 .footer-link {
   color: #999999;
   text-decoration: none;
-  font-size: 14px;
+  font-size: var(--footer-body-size);
   transition: color 0.3s ease;
 }
 
@@ -313,7 +319,8 @@
   }
 
   .footer-logo {
-    width: 150px;
+    height: var(--footer-heading-height);
+    width: auto;
   }
 
   .footer-links-column {
@@ -322,21 +329,21 @@
   }
 
   .footer-description {
-    font-size: 10px;
+    font-size: var(--footer-body-size);
   }
 
   .footer-brand-name,
   .footer-brand-subtitle {
-    font-size: 13px;
+    font-size: var(--footer-heading-size);
   }
 
   .footer-column-title {
-    font-size: 11px;
+    font-size: var(--footer-heading-size);
   }
 
   .footer-link,
   .footer-legal-link {
-    font-size: 9px;
+    font-size: var(--footer-body-size);
   }
 
   .footer-bottom-box {
@@ -371,13 +378,14 @@
   }
 
   .footer-logo {
-    width: 130px;
+    height: var(--footer-heading-height);
+    width: auto;
   }
 
   .footer-description {
     max-width: 100%;
     margin-left: 0;
-    font-size: 12px;
+    font-size: var(--footer-body-size);
     line-height: 1.4;
   }
 
@@ -407,17 +415,17 @@
   }
 
   .footer-column-title {
-    font-size: 13px;
+    font-size: var(--footer-heading-size);
     margin-bottom: 0.75rem;
   }
 
   .footer-link {
-    font-size: 12px;
+    font-size: var(--footer-body-size);
   }
 
   .footer-cta-button {
     padding: 8px 20px;
-    font-size: 9px;
+    font-size: var(--footer-body-size);
   }
 
   .footer-bottom-box {
@@ -442,7 +450,7 @@
 
   .footer-brand-name,
   .footer-brand-subtitle {
-    font-size: 12px;
+    font-size: var(--footer-heading-size);
   }
 }
 
@@ -458,21 +466,22 @@
   }
 
   .footer-logo {
-    width: 100px;
+    height: var(--footer-heading-height);
+    width: auto;
   }
 
   .footer-description {
-    font-size: 10px;
+    font-size: var(--footer-body-size);
     display: none;
   }
 
   .footer-brand-name,
   .footer-brand-subtitle {
-    font-size: 11px;
+    font-size: var(--footer-heading-size);
   }
 
   .footer-column-title {
-    font-size: 11px;
+    font-size: var(--footer-heading-size);
     margin-bottom: 0.5rem;
   }
 
@@ -482,7 +491,7 @@
 
   .footer-link,
   .footer-legal-link {
-    font-size: 9px;
+    font-size: var(--footer-body-size);
   }
 
   .footer-bottom {
