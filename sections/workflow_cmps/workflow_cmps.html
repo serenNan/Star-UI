@@ -356,8 +356,9 @@
         <!-- 卡片 1: Generative -->
         <div class="workflow-cmps-card">
           <div class="workflow-cmps-card-image-wrapper">
-            <video class="workflow-cmps-card-video" muted loop playsinline data-video-src="videos/video_1.mp4">
-              <source src="videos/video_1.mp4" type="video/mp4">
+            <video class="workflow-cmps-card-video" muted loop playsinline
+              data-video-src="assets/workflow_cmps/videos/workflow_cmps-video-01.mp4">
+              <source src="assets/workflow_cmps/videos/workflow_cmps-video-02.mp4" type="video/mp4">
             </video>
             <div class="workflow-cmps-card-overlay"></div>
           </div>
@@ -375,8 +376,9 @@
         <!-- 卡片 2: Storyboard -->
         <div class="workflow-cmps-card">
           <div class="workflow-cmps-card-image-wrapper">
-            <video class="workflow-cmps-card-video" muted loop playsinline data-video-src="videos/video_2.mp4">
-              <source src="videos/video_2.mp4" type="video/mp4">
+            <video class="workflow-cmps-card-video" muted loop playsinline
+              data-video-src="assets/workflow_cmps/videos/workflow_cmps-video-03.mp4">
+              <source src="assets/workflow_cmps/videos/workflow_cmps-video-04.mp4" type="video/mp4">
             </video>
             <div class="workflow-cmps-card-overlay"></div>
           </div>
@@ -394,8 +396,9 @@
         <!-- 卡片 3: Timeline -->
         <div class="workflow-cmps-card">
           <div class="workflow-cmps-card-image-wrapper">
-            <video class="workflow-cmps-card-video" muted loop playsinline data-video-src="videos/总设计.mp4">
-              <source src="videos/总设计.mp4" type="video/mp4">
+            <video class="workflow-cmps-card-video" muted loop playsinline
+              data-video-src="assets/workflow_cmps/videos/workflow_cmps-video-05.mp4">
+              <source src="assets/workflow_cmps/videos/workflow_cmps-video-06.mp4" type="video/mp4">
             </video>
             <div class="workflow-cmps-card-overlay"></div>
           </div>
@@ -413,7 +416,8 @@
         <!-- 卡片 4: Storyboard -->
         <div class="workflow-cmps-card">
           <div class="workflow-cmps-card-image-wrapper">
-            <img src="images/2.jpg" alt="Storyboard" class="workflow-cmps-card-image" loading="lazy">
+            <img src="assets/workflow_cmps/images/workflow_cmps-image-01.jpg" alt="Storyboard"
+              class="workflow-cmps-card-image" loading="lazy">
             <div class="workflow-cmps-card-overlay"></div>
           </div>
           <div class="workflow-cmps-card-content">
@@ -430,8 +434,9 @@
 
       <!-- 右侧大图区域 -->
       <div class="workflow-cmps-visual">
-        <video class="workflow-cmps-visual-video" muted loop playsinline data-video-src="videos/video_1.mp4">
-          <source src="videos/video_1.mp4" type="video/mp4">
+        <video class="workflow-cmps-visual-video" muted loop playsinline
+          data-video-src="assets/workflow_cmps/videos/workflow_cmps-video-07.mp4">
+          <source src="assets/workflow_cmps/videos/workflow_cmps-video-08.mp4" type="video/mp4">
         </video>
       </div>
     </div>
@@ -458,7 +463,7 @@
       // 获取所有左侧卡片和右侧主视频区域
       const cards = document.querySelectorAll('.workflow-cmps-card');
       const mainVideo = document.querySelector('.workflow-cmps-visual-video');
-      
+
       if (!mainVideo) return;
 
       // 视频加载错误处理
@@ -482,7 +487,7 @@
         card.addEventListener('click', function () {
           // 获取当前卡片的视频源
           const videoSrc = cardVideo.querySelector('source').src;
-          
+
           // 更新右侧主视频
           mainVideo.src = videoSrc;
           mainVideo.play().catch(err => {
