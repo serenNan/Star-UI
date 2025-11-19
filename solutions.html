@@ -985,10 +985,11 @@
 
   /* 移动端菜单项布局 */
   .nav-menu.active .nav-item-dropdown {
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-columns: 100px repeat(3, minmax(60px, auto));
     gap: var(--spacing-xs);
     padding: var(--spacing-xs) 0;
+    align-items: center;
   }
 
   /* 主菜单项 */
@@ -996,15 +997,11 @@
     font-size: 16px;
     font-weight: 600;
     white-space: nowrap;
-    flex-shrink: 0;
   }
 
   /* 子链接容器 */
   .nav-menu.active .mobile-sub-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--spacing-xs);
-    flex: 1;
+    display: contents;
   }
 
   /* 子链接样式 */
@@ -1018,6 +1015,16 @@
 
   .nav-menu.active .mobile-sub-links a:hover {
     color: var(--color-text);
+  }
+
+  /* Solutions 菜单项专属布局：2列子链接 */
+  .nav-menu.active .solutions-item {
+    grid-template-columns: 100px repeat(2, minmax(60px, auto));
+  }
+
+  /* Solutions 第3个子链接换行后与第一个子链接对齐,第4个自然流到第3列 */
+  .nav-menu.active .solutions-item .mobile-sub-links a:nth-child(3) {
+    grid-column-start: 2;
   }
 
   /* Eclipse Engine 按钮在移动端的样式 */
@@ -1101,7 +1108,7 @@
             </div>
           </div>
         </li>
-        <li class="nav-item-dropdown">
+        <li class="nav-item-dropdown solutions-item">
           <a href="solutions.html">Solutions</a>
           <!-- 移动端子链接 -->
           <div class="mobile-sub-links">
