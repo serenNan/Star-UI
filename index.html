@@ -1398,10 +1398,6 @@
     opacity: 1;
   }
 
-  .banner-nbg-video {
-    width: 120%;
-    height: 120%;
-  }
 
   /* 鏄熺┖鑳屾櫙鏁堟灉 */
   .banner::before {
@@ -2742,631 +2738,685 @@
      =================================== -->
 
 <style>
-/* ===== 模块容器样式 ===== */
-.tools-showcase {
-  position: relative;
-  padding: 120px 0;
-  background: var(--color-bg);
-  overflow: hidden;
-}
-
-/* ===== 标题区域 ===== */
-.tools-showcase__header {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.tools-showcase__title {
-  font-size: 2.625rem;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 0;
-  color: #FFFFFF;
-}
-
-.tools-showcase__subtitle {
-  font-size: 1.2rem;
-  color: var(--color-text-secondary);
-  max-width: 600px;
-  margin: 0 auto 16px;
-}
-
-/* ===== 工具标签栏 ===== */
-.tools-showcase__tabs {
-  display: flex;
-  justify-content: center;
-  gap: 34px;
-  margin-bottom: 80px;
-  flex-wrap: wrap;
-}
-
-.tools-showcase__tab {
-  padding: 20px 0;
-  width: 230px;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-radius: 50px;
-  color: #FFFFFF;
-  font-size: 1.25rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-  text-align: center;
-}
-
-.tools-showcase__tab:hover {
-  background: rgba(255, 255, 255, 0.18);
-  color: #FFFFFF;
-}
-
-.tools-showcase__tab--active {
-  background: white;
-  color: black;
-  border-color: transparent;
-}
-
-.tools-showcase__tab--active:hover {
-  background: rgba(255, 255, 255, 0.95);
-  color: black;
-}
-
-/* ===== 扑克牌堆叠容器 ===== */
-.tools-showcase__carousel-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto 60px;
-  padding: 0 20px;
-  transition: opacity 0.3s ease;
-}
-
-.tools-showcase__carousel {
-  display: flex;
-  align-items: center; /* 保持整体居中 */
-  justify-content: center;
-  gap: 2rem;
-  min-height: 500px;
-  position: relative;
-}
-
-/* ===== JS 控制的移动端保护样式（双保险） ===== */
-.tools-showcase--mobile .tools-showcase__side {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transform: none !important;
-}
-
-.tools-showcase--mobile .tools-showcase__carousel-wrapper {
-  padding: var(--spacing-xl) 0;
-  max-width: 480px;
-  margin: 0 auto 40px;
-  width: 100%;
-}
-
-.tools-showcase--mobile .tools-showcase__carousel {
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  min-height: auto;
-  padding: var(--spacing-xl) var(--spacing-md);
-}
-
-.tools-showcase--mobile .tools-showcase__center {
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-.tools-showcase--mobile .tools-showcase__card--main {
-  width: min(90vw, 400px);
-  max-width: 400px;
-  min-height: 260px;
-  margin: 0 auto;
-  aspect-ratio: 16 / 9;
-  height: auto;
-  display: block;
-}
-
-/* ===== 左右两侧堆叠容器 - 负边距实现重叠 ===== */
-.tools-showcase__side {
-  position: relative;
-  z-index: 1; /* 与中央卡片同层 */
-  /* 移除 transition，改用 JS 直接控制以实现平滑跟随 */
-  will-change: transform;
-}
-
-.tools-showcase__side.left {
-  margin-right: -3rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-  align-content: center;
-  position: relative; /* 改为相对定位，让子元素可以独立定位 */
-}
-
-.tools-showcase__side.right {
-  margin-left: 0.625rem; /* 10px = 0.625rem (假设根字体 16px) */
-  display: flex;
-  align-items: flex-start;
-  align-self: flex-start;
-  margin-top: -1.25rem; /* -20px = -1.25rem */
-}
-
-/* ===== 中央容器 ===== */
-.tools-showcase__center {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  z-index: 1; /* 与左右卡片同层 */
-}
-
-/* ===== 卡片样式 ===== */
-.tools-showcase__card {
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-  background: #1a1a1a;
-}
-
-.tools-showcase__card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  user-select: none;
-}
-
-/* 小卡片（左右两侧）*/
-.tools-showcase__card--small {
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-}
-
-/* 左侧第一个卡片 - 横向长方形（左上角）*/
-.tools-showcase__side.left .tools-showcase__card--small:nth-child(1) {
-  width: 260px;
-  height: 160px;
-  position: relative;
-  top: -8vh; /* 独立控制第一个卡片的垂直位置 */
-  left: -20px; /* 独立控制第一个卡片的水平位置 */
-}
-
-/* 左侧第二个卡片 - 正方形（左下角）*/
-.tools-showcase__side.left .tools-showcase__card--small:nth-child(2) {
-  width: 215px;
-  height: 215px;
-  position: relative;
-  top: 70px; /* 独立控制第二个卡片的垂直位置 */
-  left: 5px; /* 独立控制第二个卡片的水平位置 */
-}
-
-/* 右侧卡片 - 竖向长方形 */
-.tools-showcase__side.right .tools-showcase__card--small {
-  width: 180px;
-  height: 280px;
-  position: relative;
-  top: -1.25rem; /* 独立控制右侧卡片的垂直位置 */
-  left: 10px; /* 独立控制右侧卡片的水平位置 */
-}
-
-/* 主卡片容器 - Apple 式平滑缩放 */
-.tools-showcase__card--main {
-  width: 550px;
-  height: 300px;
-  border: none; /* 移除边框 */
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7); /* 保留阴影，移除橙色光晕 */
-  z-index: 1; /* 与左右卡片同层 */
-  position: relative;
-  overflow: hidden;
-  /* 移除 transition，改用 JS 直接控制以实现平滑跟随 */
-  will-change: transform;
-  transform: scale(1);
-}
-
-/* 主卡片视频 */
-.tools-showcase__card--main video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  user-select: none;
-  transition: opacity 0.4s ease;
-  opacity: 1;
-  cursor: pointer;
-}
-
-/* 视频暂停时的遮罩层提示 */
-.tools-showcase__card--main::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.tools-showcase__card--main.paused::after {
-  opacity: 1;
-}
-
-/* 主卡片图片 */
-.tools-showcase__card--main .tools-showcase__card-image {
-  transition: opacity 0.4s ease;
-  opacity: 1;
-}
-
-/* 图片切换时的模糊效果（快速切换时使用）*/
-.tools-showcase__card--main.switching {
-  transition: filter 0.3s ease;
-}
-
-.tools-showcase__card--main.switching .tools-showcase__card-image {
-  filter: blur(8px);
-  opacity: 0.5;
-}
-
-/* 小卡片淡入淡出过渡 */
-.tools-showcase__card--small .tools-showcase__card-image {
-  transition: opacity 0.5s ease;
-}
-
-/* ===== 行动号召按钮 - 白底黑字（参考 banner）===== */
-.tools-showcase__cta {
-  display: flex;
-  justify-content: center;
-  margin-top: -30px;
-}
-
-.tools-showcase__button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-sm) var(--spacing-md);
-  min-width: 200px;
-  background: white;
-  color: black;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 6px;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: all var(--transition);
-}
-
-.tools-showcase__button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.95);
-}
-
-/* ===== 响应式：平板 ===== */
-@media (max-width: 991px) {
+  /* ===== 模块容器样式 ===== */
   .tools-showcase {
-    padding: 80px 0;
+    position: relative;
+    padding: 120px 0;
+    background: var(--color-bg);
+    overflow: hidden;
   }
 
-  .tools-showcase__title {
-    font-size: 2.5rem;
-  }
-
-  .tools-showcase__tabs {
-    margin-bottom: 60px;
-  }
-
-  .tools-showcase__tab {
-    padding: 12px 24px;
-    font-size: 0.875rem;
-  }
-
-  .tools-showcase__carousel {
-    gap: 1.5rem;
-  }
-
-  /* 平板端缩小主卡片容器尺寸 */
-  .tools-showcase__card--main {
-    width: 500px;
-    height: 350px;
-  }
-
-  /* 左右小卡片也相应缩小 */
-  .tools-showcase__card--small {
-    width: 160px;
-    height: 200px;
-  }
-
-  /* 调整负边距以适应较小的卡片 */
-  .tools-showcase__side.left {
-    margin-right: -120px;
-  }
-
-  .tools-showcase__side.right {
-    margin-left: -120px;
-  }
-
-  /* 平板端扩散距离缩小 */
-  .tools-showcase__carousel.expanded .tools-showcase__side.left {
-    transform: translateX(-80px);
-  }
-
-  .tools-showcase__carousel.expanded .tools-showcase__side.right {
-    transform: translateX(80px);
-  }
-
-  /* 隐藏左右第二张小卡片，仅显示最近的一张 */
-  .tools-showcase__side .tools-showcase__card:first-child {
-    display: none;
-  }
-}
-
-/* ===== 响应式：移动端 ===== */
-@media (max-width: 990px) {
-  .tools-showcase {
-    padding: 60px 0;
-    overflow-x: hidden; /* 防止横向滚动 */
-    overflow-y: visible; /* 允许元素溢出(卡片缩放效果) */
-  }
-
-  /* 标题区域 - 居中对齐 */
+  /* ===== 标题区域 ===== */
   .tools-showcase__header {
     text-align: center;
-    margin-bottom: 30px;
-    padding: 0 var(--spacing-md);
-  }
-
-  .tools-showcase__title {
-    font-size: 2rem;
-    line-height: 1.2;
-  }
-
-  .tools-showcase__subtitle {
-    font-size: 1rem;
-    margin-bottom: 12px;
-  }
-
-  /* 标签栏 - 居中 + 增大触摸区域 */
-  .tools-showcase__tabs {
-    gap: 8px;
     margin-bottom: 40px;
-    padding: 0 var(--spacing-sm);
-    justify-content: center;
   }
 
-  .tools-showcase__tab {
-    padding: 12px 20px; /* 增大触摸区域 */
-    min-height: 44px; /* iOS 最小触摸标准 */
-    font-size: 0.8125rem;
-    width: auto; /* 自适应宽度 */
-    flex: 0 0 auto;
-  }
-
-  /* 标签栏触摸反馈 */
-  .tools-showcase__tab:active {
-    transform: scale(0.95);
-    transition: transform 0.1s ease;
-  }
-
-  /* 🔑 强制隐藏左右堆叠，仅显示中央卡片 */
-  .tools-showcase__side {
-    display: none !important; /* 强制隐藏 */
-    visibility: hidden !important; /* 双重保险 */
-    opacity: 0 !important;
-    pointer-events: none !important;
-    position: absolute !important; /* 完全脱离文档流 */
-    width: 0 !important;
-    height: 0 !important;
-    overflow: hidden !important;
-  }
-
-  .tools-showcase__side.left,
-  .tools-showcase__side.right {
-    display: none !important; /* 强制隐藏左右侧 */
-  }
-
-  /* 轮播容器 - 完美居中 + 留出缩放空间 */
-  .tools-showcase__carousel-wrapper {
-    padding: var(--spacing-xl) 0; /* 上下留出缩放空间 */
-    overflow: visible; /* 允许卡片缩放时溢出 */
-    width: 100%;
-    display: flex;
-    justify-content: center; /* 水平居中 */
-    align-items: center; /* 垂直居中 */
-  }
-
-  .tools-showcase__carousel {
-    gap: 0;
-    min-height: 500px; /* 增加最小高度,留出缩放空间 */
-    display: flex !important; /* 强制 flex 布局 */
-    flex-direction: column; /* 垂直布局 */
-    justify-content: center; /* 垂直居中 */
-    align-items: center; /* 水平居中 */
-    padding: var(--spacing-xl) var(--spacing-md); /* 四周留白 */
-    width: 100%;
-    max-width: 100%; /* 确保不会超出父容器 */
-    margin: 0 auto; /* 容器本身也居中 */
-  }
-
-  /* 中央容器 - 完美居中 */
-  .tools-showcase__center {
-    display: flex !important;
-    justify-content: center; /* 水平居中 */
-    align-items: center; /* 垂直居中 */
-    width: 100%;
-    max-width: 100%;
-    margin: 0 !important; /* 移除 margin,完全依赖 flex 居中 */
-    position: relative;
-  }
-
-  /* 主卡片 - 弹性尺寸 + 完美居中 + 保留缩放效果 */
-  .tools-showcase__card--main {
-    width: 90%; /* 留出10%边距 */
-    max-width: 400px;
-    height: auto; /* 自动高度 */
-    min-height: 300px;
-    aspect-ratio: 16 / 9; /* 保持宽高比 */
-    margin: 0 !important; /* 移除 margin,完全依赖父容器的 flex 居中 */
-    display: block;
-    transform-origin: center center; /* 🔑 缩放中心点 */
-    position: relative;
-  }
-
-  /* 主卡片图片 - 保持宽高比 */
-  .tools-showcase__card--main .tools-showcase__card-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  /* 🔑 移动端启用缩放动画(移除之前的禁用规则) */
-  /* 注意: 不再强制 scale(1),让 JavaScript 控制缩放 */
-
-  /* CTA 按钮 - 居中 + 增大触摸区域 */
-  .tools-showcase__cta {
-    margin-top: 0;
-    padding: 0 var(--spacing-md);
-  }
-
-  .tools-showcase__button {
-    padding: 16px 40px;
-    min-height: 48px; /* 增大触摸区域 */
-    font-size: 0.9375rem;
-    width: auto;
-    max-width: 100%;
-  }
-
-  /* 按钮触摸反馈 */
-  .tools-showcase__button:active {
-    transform: scale(0.95);
-    transition: transform 0.1s ease;
-  }
-}
-
-/* ===== 小屏手机优化 ===== */
-@media (max-width: 479px) {
-  /* 标题进一步缩小 */
   .tools-showcase__title {
-    font-size: 1.75rem;
-    padding: 0 var(--spacing-sm);
-  }
-
-  .tools-showcase__subtitle {
-    font-size: 0.9375rem;
-  }
-
-  /* 标签栏紧凑布局 */
-  .tools-showcase__tabs {
-    gap: 6px;
-    padding: 0 var(--spacing-xs);
-  }
-
-  .tools-showcase__tab {
-    padding: 10px 16px;
-    font-size: 0.75rem;
-    min-width: auto;
-  }
-
-  /* 🔑 小屏手机也强制隐藏左右卡片 */
-  .tools-showcase__side {
-    display: none !important;
-    visibility: hidden !important;
-    position: absolute !important; /* 完全脱离文档流 */
-    width: 0 !important;
-    height: 0 !important;
-    overflow: hidden !important;
-  }
-
-  /* 轮播容器紧凑间距 + 留出缩放空间 */
-  .tools-showcase__carousel-wrapper {
-    padding: var(--spacing-lg) 0;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-
-  .tools-showcase__carousel {
-    min-height: 450px; /* 增加高度,留出缩放空间 */
-    padding: var(--spacing-lg) var(--spacing-sm);
-    display: flex !important;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-  }
-
-  .tools-showcase__center {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin: 0 !important; /* 移除 margin,完全依赖 flex 居中 */
-  }
-
-  /* 主卡片进一步缩小 + 完美居中 */
-  .tools-showcase__card--main {
-    width: 90%; /* 留出10%边距 */
-    max-width: 320px;
-    min-height: 250px;
-    margin: 0 !important; /* 移除 margin,完全依赖父容器的 flex 居中 */
-    display: block;
-    transform-origin: center center;
-    position: relative;
-  }
-
-  /* 按钮全宽布局 */
-  .tools-showcase__button {
-    width: 100%;
-    max-width: 300px;
-    padding: 14px 32px;
-    font-size: 0.875rem;
-  }
-}
-
-/* ===== 禁用触摸设备的悬浮效果 ===== */
-@media (hover: none) {
-  /* 禁用标签按钮悬浮效果 */
-  .tools-showcase__tab:hover {
-    background: rgba(255, 255, 255, 0.1); /* 保持基础样式 */
+    font-size: 2.625rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0;
     color: #FFFFFF;
   }
 
-  .tools-showcase__tab--active:hover {
+  .tools-showcase__subtitle {
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto 16px;
+  }
+
+  /* ===== 工具标签栏 ===== */
+  .tools-showcase__tabs {
+    display: flex;
+    justify-content: center;
+    gap: 34px;
+    margin-bottom: 80px;
+    flex-wrap: wrap;
+  }
+
+  .tools-showcase__tab {
+    padding: 20px 0;
+    width: 230px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50px;
+    color: #FFFFFF;
+    font-size: 1.25rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .tools-showcase__tab:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #FFFFFF;
+  }
+
+  .tools-showcase__tab--active {
     background: white;
+    color: black;
+    border-color: transparent;
+  }
+
+  .tools-showcase__tab--active:hover {
+    background: rgba(255, 255, 255, 0.95);
     color: black;
   }
 
-  /* 禁用 CTA 按钮悬浮效果 */
-  .tools-showcase__button:hover {
-    transform: none;
-    box-shadow: none;
+  /* ===== 扑克牌堆叠容器 ===== */
+  .tools-showcase__carousel-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+    transition: opacity 0.3s ease;
+  }
+
+  .tools-showcase__carousel {
+    display: flex;
+    align-items: center;
+    /* 保持整体居中 */
+    justify-content: center;
+    gap: 2rem;
+    min-height: 500px;
+    position: relative;
+  }
+
+  /* ===== JS 控制的移动端保护样式（双保险） ===== */
+  .tools-showcase--mobile .tools-showcase__side {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    transform: none !important;
+  }
+
+  .tools-showcase--mobile .tools-showcase__carousel-wrapper {
+    padding: var(--spacing-lg) 0;
+    max-width: 480px;
+    margin: 0 auto 40px;
+    width: 100%;
+  }
+
+  .tools-showcase--mobile .tools-showcase__carousel {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    min-height: auto;
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  .tools-showcase--mobile .tools-showcase__center {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .tools-showcase--mobile .tools-showcase__card--main {
+    width: min(90vw, 400px);
+    max-width: 400px;
+    min-height: 260px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    display: block;
+  }
+
+  /* ===== 左右两侧堆叠容器 - 负边距实现重叠 ===== */
+  .tools-showcase__side {
+    position: relative;
+    z-index: 1;
+    /* 与中央卡片同层 */
+    /* 移除 transition，改用 JS 直接控制以实现平滑跟随 */
+    will-change: transform;
+  }
+
+  .tools-showcase__side.left {
+    margin-right: -3rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-content: center;
+    position: relative;
+    /* 改为相对定位，让子元素可以独立定位 */
+  }
+
+  .tools-showcase__side.right {
+    margin-left: 0.625rem;
+    /* 10px = 0.625rem (假设根字体 16px) */
+    display: flex;
+    align-items: flex-start;
+    align-self: flex-start;
+    margin-top: -1.25rem;
+    /* -20px = -1.25rem */
+  }
+
+  /* ===== 中央容器 ===== */
+  .tools-showcase__center {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 1;
+    /* 与左右卡片同层 */
+  }
+
+  /* ===== 卡片样式 ===== */
+  .tools-showcase__card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    background: #1a1a1a;
+  }
+
+  .tools-showcase__card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+  }
+
+  /* 小卡片（左右两侧）*/
+  .tools-showcase__card--small {
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+  }
+
+  /* 左侧第一个卡片 - 横向长方形（左上角）*/
+  .tools-showcase__side.left .tools-showcase__card--small:nth-child(1) {
+    width: 260px;
+    height: 160px;
+    position: relative;
+    top: -8vh;
+    /* 独立控制第一个卡片的垂直位置 */
+    left: -20px;
+    /* 独立控制第一个卡片的水平位置 */
+  }
+
+  /* 左侧第二个卡片 - 正方形（左下角）*/
+  .tools-showcase__side.left .tools-showcase__card--small:nth-child(2) {
+    width: 215px;
+    height: 215px;
+    position: relative;
+    top: 70px;
+    /* 独立控制第二个卡片的垂直位置 */
+    left: 5px;
+    /* 独立控制第二个卡片的水平位置 */
+  }
+
+  /* 右侧卡片 - 竖向长方形 */
+  .tools-showcase__side.right .tools-showcase__card--small {
+    width: 180px;
+    height: 280px;
+    position: relative;
+    top: -1.25rem;
+    /* 独立控制右侧卡片的垂直位置 */
+    left: 10px;
+    /* 独立控制右侧卡片的水平位置 */
+  }
+
+  /* 主卡片容器 - Apple 式平滑缩放 */
+  .tools-showcase__card--main {
+    width: 550px;
+    height: 300px;
+    border: none;
+    /* 移除边框 */
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    /* 保留阴影，移除橙色光晕 */
+    z-index: 1;
+    /* 与左右卡片同层 */
+    position: relative;
+    overflow: hidden;
+    /* 移除 transition，改用 JS 直接控制以实现平滑跟随 */
+    will-change: transform;
+    transform: scale(1);
+  }
+
+  /* 主卡片视频 */
+  .tools-showcase__card--main video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+    transition: opacity 0.4s ease;
+    opacity: 1;
+    cursor: pointer;
+  }
+
+  /* 视频暂停时的遮罩层提示 */
+  .tools-showcase__card--main::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .tools-showcase__card--main.paused::after {
+    opacity: 1;
+  }
+
+  /* 主卡片图片 */
+  .tools-showcase__card--main .tools-showcase__card-image {
+    transition: opacity 0.4s ease;
+    opacity: 1;
+  }
+
+  /* 图片切换时的模糊效果（快速切换时使用）*/
+  .tools-showcase__card--main.switching {
+    transition: filter 0.3s ease;
+  }
+
+  .tools-showcase__card--main.switching .tools-showcase__card-image {
+    filter: blur(8px);
+    opacity: 0.5;
+  }
+
+  /* 小卡片淡入淡出过渡 */
+  .tools-showcase__card--small .tools-showcase__card-image {
+    transition: opacity 0.5s ease;
+  }
+
+  /* ===== 行动号召按钮 - 白底黑字（参考 banner）===== */
+  .tools-showcase__cta {
+    display: flex;
+    justify-content: center;
+    margin-top: -30px;
+  }
+
+  .tools-showcase__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    min-width: 200px;
     background: white;
+    color: black;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition);
   }
 
-  /* 增强触摸激活状态 */
-  .tools-showcase__tab:active {
-    background: rgba(255, 255, 255, 0.15);
+  .tools-showcase__button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.95);
   }
 
-  .tools-showcase__tab--active:active {
-    background: rgba(255, 255, 255, 0.9);
+  /* ===== 响应式：平板 ===== */
+  @media (max-width: 991px) {
+    .tools-showcase {
+      padding: 80px 0;
+    }
+
+    .tools-showcase__title {
+      font-size: 2.5rem;
+    }
+
+    .tools-showcase__tabs {
+      margin-bottom: 60px;
+    }
+
+    .tools-showcase__tab {
+      padding: 12px 24px;
+      font-size: 0.875rem;
+    }
+
+    .tools-showcase__carousel {
+      gap: 1.5rem;
+    }
+
+    /* 平板端缩小主卡片容器尺寸 */
+    .tools-showcase__card--main {
+      width: 500px;
+      height: 350px;
+    }
+
+    /* 左右小卡片也相应缩小 */
+    .tools-showcase__card--small {
+      width: 160px;
+      height: 200px;
+    }
+
+    /* 调整负边距以适应较小的卡片 */
+    .tools-showcase__side.left {
+      margin-right: -120px;
+    }
+
+    .tools-showcase__side.right {
+      margin-left: -120px;
+    }
+
+    /* 平板端扩散距离缩小 */
+    .tools-showcase__carousel.expanded .tools-showcase__side.left {
+      transform: translateX(-80px);
+    }
+
+    .tools-showcase__carousel.expanded .tools-showcase__side.right {
+      transform: translateX(80px);
+    }
+
+    /* 隐藏左右第二张小卡片，仅显示最近的一张 */
+    .tools-showcase__side .tools-showcase__card:first-child {
+      display: none;
+    }
   }
 
-  .tools-showcase__button:active {
-    background: rgba(255, 255, 255, 0.9);
+  /* ===== 响应式：移动端 ===== */
+  @media (max-width: 990px) {
+    .tools-showcase {
+      padding: 60px 0;
+      overflow-x: hidden;
+      /* 防止横向滚动 */
+      overflow-y: visible;
+      /* 允许元素溢出(卡片缩放效果) */
+    }
+
+    /* 标题区域 - 居中对齐 */
+    .tools-showcase__header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 0 var(--spacing-md);
+    }
+
+    .tools-showcase__title {
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+
+    .tools-showcase__subtitle {
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+
+    /* 标签栏 - 居中 + 增大触摸区域 */
+    .tools-showcase__tabs {
+      gap: 8px;
+      margin-bottom: 0;
+      padding: 0 var(--spacing-sm);
+      justify-content: center;
+    }
+
+    .tools-showcase__tab {
+      padding: 12px 20px;
+      /* 增大触摸区域 */
+      min-height: 44px;
+      /* iOS 最小触摸标准 */
+      font-size: 0.8125rem;
+      width: auto;
+      /* 自适应宽度 */
+      flex: 0 0 auto;
+    }
+
+    /* 标签栏触摸反馈 */
+    .tools-showcase__tab:active {
+      transform: scale(0.95);
+      transition: transform 0.1s ease;
+    }
+
+    /* 🔑 强制隐藏左右堆叠，仅显示中央卡片 */
+    .tools-showcase__side {
+      display: none !important;
+      /* 强制隐藏 */
+      visibility: hidden !important;
+      /* 双重保险 */
+      opacity: 0 !important;
+      pointer-events: none !important;
+      position: absolute !important;
+      /* 完全脱离文档流 */
+      width: 0 !important;
+      height: 0 !important;
+      overflow: hidden !important;
+    }
+
+    .tools-showcase__side.left,
+    .tools-showcase__side.right {
+      display: none !important;
+      /* 强制隐藏左右侧 */
+    }
+
+    /* 轮播容器 - 完美居中 + 留出缩放空间 */
+    .tools-showcase__carousel-wrapper {
+      padding: var(--spacing-md) var(--spacing-md);
+      /* 上下左右留出缩放空间 */
+      overflow: visible;
+      /* 允许卡片缩放时溢出 */
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      /* 水平居中 */
+      align-items: center;
+      /* 垂直居中 */
+    }
+
+    .tools-showcase__carousel {
+      gap: 0;
+      min-height: 400px;
+      /* 增加最小高度,留出缩放空间 */
+      display: flex !important;
+      /* 强制 flex 布局 */
+      flex-direction: column;
+      /* 垂直布局 */
+      justify-content: center;
+      /* 垂直居中 */
+      align-items: center;
+      /* 水平居中 */
+      padding: var(--spacing-sm) 0;
+      /* 四周留白 */
+      width: 100%;
+      max-width: 100%;
+      /* 确保不会超出父容器 */
+      margin: 0 auto;
+      /* 容器本身也居中 */
+    }
+
+    /* 中央容器 - 完美居中 */
+    .tools-showcase__center {
+      display: flex !important;
+      justify-content: center;
+      /* 水平居中 */
+      align-items: center;
+      /* 垂直居中 */
+      width: 100%;
+      max-width: 100%;
+      margin: 0 !important;
+      /* 移除 margin,完全依赖 flex 居中 */
+      position: relative;
+    }
+
+    /* 主卡片 - 弹性尺寸 + 完美居中 + 保留缩放效果 */
+    .tools-showcase__card--main {
+      width: 85%;
+      /* 留出15%边距 */
+      max-width: 360px;
+      height: auto;
+      /* 自动高度 */
+      min-height: 240px;
+      aspect-ratio: 16 / 9;
+      /* 保持宽高比 */
+      margin: 0 !important;
+      /* 移除 margin,完全依赖父容器的 flex 居中 */
+      display: block;
+      transform-origin: center center;
+      /* 🔑 缩放中心点 */
+      position: relative;
+    }
+
+    /* 主卡片图片 - 保持宽高比 */
+    .tools-showcase__card--main .tools-showcase__card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* 🔑 移动端启用缩放动画(移除之前的禁用规则) */
+    /* 注意: 不再强制 scale(1),让 JavaScript 控制缩放 */
+
+    /* CTA 按钮 - 居中 + 增大触摸区域 */
+    .tools-showcase__cta {
+      margin-top: 0;
+      padding: 0 var(--spacing-md);
+    }
+
+    .tools-showcase__button {
+      padding: 16px 40px;
+      min-height: 48px;
+      /* 增大触摸区域 */
+      font-size: 0.9375rem;
+      width: auto;
+      max-width: 100%;
+    }
+
+    /* 按钮触摸反馈 */
+    .tools-showcase__button:active {
+      transform: scale(0.95);
+      transition: transform 0.1s ease;
+    }
   }
-}
+
+  /* ===== 小屏手机优化 ===== */
+  @media (max-width: 479px) {
+
+    /* 标题进一步缩小 */
+    .tools-showcase__title {
+      font-size: 1.75rem;
+      padding: 0 var(--spacing-sm);
+    }
+
+    .tools-showcase__subtitle {
+      font-size: 0.9375rem;
+    }
+
+    /* 标签栏紧凑布局 */
+    .tools-showcase__tabs {
+      gap: 6px;
+      padding: 0 var(--spacing-xs);
+    }
+
+    .tools-showcase__tab {
+      padding: 10px 16px;
+      font-size: 0.75rem;
+      min-width: auto;
+    }
+
+    /* 🔑 小屏手机也强制隐藏左右卡片 */
+    .tools-showcase__side {
+      display: none !important;
+      visibility: hidden !important;
+      position: absolute !important;
+      /* 完全脱离文档流 */
+      width: 0 !important;
+      height: 0 !important;
+      overflow: hidden !important;
+    }
+
+    /* 轮播容器紧凑间距 + 留出缩放空间 */
+    .tools-showcase__carousel-wrapper {
+      padding: var(--spacing-md) var(--spacing-md);
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .tools-showcase__carousel {
+      min-height: 400px;
+      /* 增加高度,留出缩放空间 */
+      padding: var(--spacing-md) 0;
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    .tools-showcase__center {
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      margin: 0 !important;
+      /* 移除 margin,完全依赖 flex 居中 */
+    }
+
+    /* 主卡片进一步缩小 + 完美居中 */
+    .tools-showcase__card--main {
+      width: 85%;
+      /* 留出15%边距 */
+      max-width: 320px;
+      min-height: 220px;
+      margin: 0 !important;
+      /* 移除 margin,完全依赖父容器的 flex 居中 */
+      display: block;
+      transform-origin: center center;
+      position: relative;
+    }
+
+    /* 按钮全宽布局 */
+    .tools-showcase__button {
+      width: 100%;
+      max-width: 300px;
+      padding: 14px 32px;
+      font-size: 0.875rem;
+      margin-top: -3rem;
+    }
+  }
+
+  /* ===== 禁用触摸设备的悬浮效果 ===== */
+  @media (hover: none) {
+
+    /* 禁用标签按钮悬浮效果 */
+    .tools-showcase__tab:hover {
+      background: rgba(255, 255, 255, 0.1);
+      /* 保持基础样式 */
+      color: #FFFFFF;
+    }
+
+    .tools-showcase__tab--active:hover {
+      background: white;
+      color: black;
+    }
+
+    /* 禁用 CTA 按钮悬浮效果 */
+    .tools-showcase__button:hover {
+      transform: none;
+      box-shadow: none;
+      background: white;
+    }
+
+    /* 增强触摸激活状态 */
+    .tools-showcase__tab:active {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .tools-showcase__tab--active:active {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .tools-showcase__button:active {
+      background: rgba(255, 255, 255, 0.9);
+    }
+  }
 </style>
 
 <!-- ===== HTML 结构 ===== -->
@@ -3444,463 +3494,468 @@
 
 <!-- ===== JavaScript 交互逻辑 ===== -->
 <script>
-(function() {
-  'use strict';
+  (function () {
+    'use strict';
 
-  // ===== 工具数据配置 =====
-  // 每个分类包含:
-  // - mainVideo: 中央大卡片的视频路径
-  // - sideVideos: 周围3个小卡片的视频路径 (左侧2个 + 右侧1个)
-  const toolsData = {
-    'image-generator': {
-      mainVideo: { url: 'assets/eclipses-engine/videos/eclipses-engine-video-001.mp4', alt: 'Image Generator' },
-      sideVideos: [
-        { url: 'assets/eclipses-engine/videos/eclipses-engine-video-002.mp4', alt: 'Image Generator 1' },
-        { url: 'assets/eclipses-engine/videos/eclipses-engine-video-003.mp4', alt: 'Image Generator 2' },
-        { url: 'assets/eclipses-engine/videos/eclipses-engine-video-004.mp4', alt: 'Image Generator 3' }
-      ]
-    },
-    'video-generator': {
-      mainVideo: { url: 'assets/eclipses-engine/videos/eclipses-engine-video-005.mp4', alt: 'Video Generator' },
-      sideVideos: [
-        { url: 'assets/eclipses-engine/videos/eclipses-engine-video-006.mp4', alt: 'Video Generator 1' },
-        { url: 'assets/eclipses-engine/videos/eclipses-engine-video-007.mp4', alt: 'Video Generator 2' },
-        { url: 'assets/eclipses-engine/videos/eclipses-engine-video-008.mp4', alt: 'Video Generator 3' }
-      ]
-    },
-    'timeline-editor': {
-      mainVideo: { url: 'assets/eclipses-engine/videos/eclipses-engine-video-009.mp4', alt: 'Timeline Editor' },
-      sideVideos: [
-        { url: 'assets/eclipses-engine/videos/eclipses-engine-video-010.mp4', alt: 'Timeline Editor 1' },
-        { url: 'assets/eclipses-engine/videos/eclipses-engine-video-011.mp4', alt: 'Timeline Editor 2' },
-        { url: 'assets/eclipses-engine/videos/eclipses-engine-video-012.mp4', alt: 'Timeline Editor 3' }
-      ]
-    },
-    'avatar': {
-      mainVideo: { url: 'assets/eclipses-engine/videos/eclipses-engine-video-013.mp4', alt: 'Avatar' },
-      sideVideos: [
-        { url: 'assets/eclipses-engine/videos/eclipses-engine-video-014.mp4', alt: 'Avatar 1' },
-        { url: 'assets/eclipses-engine/videos/eclipses-engine-video-015.mp4', alt: 'Avatar 2' },
-        { url: 'assets/eclipses-engine/videos/eclipses-engine-video-016.mp4', alt: 'Avatar 3' }
-      ]
-    }
-  };
-
-  // ===== 状态管理 =====
-  let currentTool = 'image-generator';
-  let isAnimating = false;
-  let currentData = toolsData[currentTool];
-
-  // ===== Apple 风格滚动劫持参数 =====
-  let scrollAccumulator = 0; // 滚动累积器
-  const scrollThreshold = 400; // 需要累积 400px 完成一次完整缩放
-  const minScale = 1.0; // 最小缩放值
-  const maxScale = 1.5; // 最大缩放值
-  const maxPushDistance = 100; // 左右卡片最大推开距离（px）
-
-  let rafId = null; // requestAnimationFrame ID
-  let currentScale = minScale; // 当前缩放值
-  let targetScale = minScale; // 目标缩放值
-
-  let consecutiveScrollCount = 0; // 连续滚动计数器（用于释放滚动）
-  let lastScrollDirection = 0; // 上次滚动方向（1=向下, -1=向上）
-
-  // 动态检测是否为移动设备（支持窗口大小变化）
-  function isMobileDevice() {
-    return window.innerWidth < 991;
-  }
-
-  // ===== DOM 元素 =====
-  const showcaseSection = document.querySelector('.tools-showcase'); // 模块容器
-  const carousel = document.getElementById('toolsCarousel'); // 轮播容器
-  const mainCardContainer = document.getElementById('mainCard'); // 主卡片容器
-  const mainVideo = document.getElementById('mainVideo'); // 主卡片视频
-  const leftSide = document.querySelector('#leftStack'); // 左侧容器
-  const rightSide = document.querySelector('#rightStack'); // 右侧容器
-  const leftStackVideos = document.querySelectorAll('#leftStack video'); // 左侧视频
-  const rightStackVideos = document.querySelectorAll('#rightStack video'); // 右侧视频
-  const tabs = document.querySelectorAll('.tools-showcase__tab');
-  const runBtn = document.getElementById('runGenerator');
-
-  if (!showcaseSection || !carousel || !mainCardContainer || !mainVideo || !runBtn) {
-    console.warn('[tools-showcase] 必要的 DOM 节点缺失，已跳过脚本初始化。');
-    return;
-  }
-
-  let wheelListenerAttached = false;
-  let resizeRaf = null;
-
-  // ===== 初始化 =====
-  function init() {
-    updateCardsDisplay();
-    updateResponsiveLayout();
-    attachEventListeners();
-    initHoverVideoControl(); // 初始化悬浮播放控制
-    updateScaleBasedOnScroll();
-  }
-
-  // ===== 更新卡片显示 =====
-  function updateCardsDisplay() {
-    const data = currentData;
-
-    // 更新左侧堆叠(2个视频) - 悬浮播放,不自动播放
-    const leftVideo1Source = leftStackVideos[0].querySelector('source');
-    leftVideo1Source.src = data.sideVideos[0].url;
-    leftStackVideos[0].load();
-    // 不自动播放,等待悬浮触发
-
-    const leftVideo2Source = leftStackVideos[1].querySelector('source');
-    leftVideo2Source.src = data.sideVideos[1].url;
-    leftStackVideos[1].load();
-    // 不自动播放,等待悬浮触发
-
-    // 更新中央视频（悬浮播放，不自动播放）
-    const mainVideoSource = mainVideo.querySelector('source');
-    mainVideoSource.src = data.mainVideo.url;
-    mainVideo.load();
-    mainCardContainer.classList.add('paused'); // 添加暂停状态
-
-    // 更新右侧卡片(1个视频) - 悬浮播放,不自动播放
-    const rightVideoSource = rightStackVideos[0].querySelector('source');
-    rightVideoSource.src = data.sideVideos[2].url;
-    rightStackVideos[0].load();
-    // 不自动播放,等待悬浮触发
-  }
-
-  // ===== 悬浮播放控制 =====
-  function initHoverVideoControl() {
-    // 中央大卡片悬浮播放
-    if (mainCardContainer && mainVideo) {
-      // 鼠标进入 - 播放视频
-      mainCardContainer.addEventListener('mouseenter', () => {
-        mainCardContainer.classList.remove('paused');
-        mainVideo.play().catch(err => console.log('Main video play error:', err));
-      });
-
-      // 鼠标离开 - 暂停并重置到开头
-      mainCardContainer.addEventListener('mouseleave', () => {
-        mainCardContainer.classList.add('paused');
-        mainVideo.pause();
-        mainVideo.currentTime = 0; // 重置到开头
-      });
-    }
-
-    // 左侧小卡片悬浮播放
-    leftStackVideos.forEach((video, index) => {
-      const cardElement = video.closest('.tools-showcase__card');
-      if (cardElement) {
-        cardElement.addEventListener('mouseenter', () => {
-          video.play().catch(err => console.log(`Left video ${index + 1} play error:`, err));
-        });
-
-        cardElement.addEventListener('mouseleave', () => {
-          video.pause();
-          video.currentTime = 0; // 重置到开头
-        });
+    // ===== 工具数据配置 =====
+    // 每个分类包含:
+    // - mainVideo: 中央大卡片的视频路径
+    // - sideVideos: 周围3个小卡片的视频路径 (左侧2个 + 右侧1个)
+    const toolsData = {
+      'image-generator': {
+        mainVideo: { url: 'assets/eclipses-engine/videos/eclipses-engine-video-001.mp4', alt: 'Image Generator' },
+        sideVideos: [
+          { url: 'assets/eclipses-engine/videos/eclipses-engine-video-002.mp4', alt: 'Image Generator 1' },
+          { url: 'assets/eclipses-engine/videos/eclipses-engine-video-003.mp4', alt: 'Image Generator 2' },
+          { url: 'assets/eclipses-engine/videos/eclipses-engine-video-004.mp4', alt: 'Image Generator 3' }
+        ]
+      },
+      'video-generator': {
+        mainVideo: { url: 'assets/eclipses-engine/videos/eclipses-engine-video-005.mp4', alt: 'Video Generator' },
+        sideVideos: [
+          { url: 'assets/eclipses-engine/videos/eclipses-engine-video-006.mp4', alt: 'Video Generator 1' },
+          { url: 'assets/eclipses-engine/videos/eclipses-engine-video-007.mp4', alt: 'Video Generator 2' },
+          { url: 'assets/eclipses-engine/videos/eclipses-engine-video-008.mp4', alt: 'Video Generator 3' }
+        ]
+      },
+      'timeline-editor': {
+        mainVideo: { url: 'assets/eclipses-engine/videos/eclipses-engine-video-009.mp4', alt: 'Timeline Editor' },
+        sideVideos: [
+          { url: 'assets/eclipses-engine/videos/eclipses-engine-video-010.mp4', alt: 'Timeline Editor 1' },
+          { url: 'assets/eclipses-engine/videos/eclipses-engine-video-011.mp4', alt: 'Timeline Editor 2' },
+          { url: 'assets/eclipses-engine/videos/eclipses-engine-video-012.mp4', alt: 'Timeline Editor 3' }
+        ]
+      },
+      'avatar': {
+        mainVideo: { url: 'assets/eclipses-engine/videos/eclipses-engine-video-013.mp4', alt: 'Avatar' },
+        sideVideos: [
+          { url: 'assets/eclipses-engine/videos/eclipses-engine-video-014.mp4', alt: 'Avatar 1' },
+          { url: 'assets/eclipses-engine/videos/eclipses-engine-video-015.mp4', alt: 'Avatar 2' },
+          { url: 'assets/eclipses-engine/videos/eclipses-engine-video-016.mp4', alt: 'Avatar 3' }
+        ]
       }
-    });
+    };
 
-    // 右侧小卡片悬浮播放
-    rightStackVideos.forEach((video, index) => {
-      const cardElement = video.closest('.tools-showcase__card');
-      if (cardElement) {
-        cardElement.addEventListener('mouseenter', () => {
-          video.play().catch(err => console.log(`Right video ${index + 1} play error:`, err));
-        });
+    // ===== 状态管理 =====
+    let currentTool = 'image-generator';
+    let isAnimating = false;
+    let currentData = toolsData[currentTool];
 
-        cardElement.addEventListener('mouseleave', () => {
-          video.pause();
-          video.currentTime = 0; // 重置到开头
-        });
-      }
-    });
-  }
+    // ===== Apple 风格滚动劫持参数 =====
+    let scrollAccumulator = 0; // 滚动累积器
+    const scrollThreshold = 400; // 需要累积 400px 完成一次完整缩放
+    const minScale = 1.0; // 最小缩放值
+    const maxScale = 1.5; // 最大缩放值
+    const maxPushDistance = 100; // 左右卡片最大推开距离（px）
 
-  // ===== 根据屏幕宽度切换布局（JS + CSS 双保险）=====
-  function updateResponsiveLayout() {
-    if (!showcaseSection) return;
+    let rafId = null; // requestAnimationFrame ID
+    let currentScale = minScale; // 当前缩放值
+    let targetScale = minScale; // 目标缩放值
 
-    const mobile = isMobileDevice();
-    showcaseSection.classList.toggle('tools-showcase--mobile', mobile);
+    let consecutiveScrollCount = 0; // 连续滚动计数器（用于释放滚动）
+    let lastScrollDirection = 0; // 上次滚动方向（1=向下, -1=向上）
 
-    if (leftSide) {
-      leftSide.hidden = mobile;
-      if (mobile) {
-        leftSide.setAttribute('aria-hidden', 'true');
-      } else {
-        leftSide.removeAttribute('aria-hidden');
-        leftSide.style.transform = '';
-      }
+    // 动态检测是否为移动设备（支持窗口大小变化）
+    function isMobileDevice() {
+      return window.innerWidth < 991;
     }
 
-    if (rightSide) {
-      rightSide.hidden = mobile;
-      if (mobile) {
-        rightSide.setAttribute('aria-hidden', 'true');
-      } else {
-        rightSide.removeAttribute('aria-hidden');
-        rightSide.style.transform = '';
-      }
-    }
+    // ===== DOM 元素 =====
+    const showcaseSection = document.querySelector('.tools-showcase'); // 模块容器
+    const carousel = document.getElementById('toolsCarousel'); // 轮播容器
+    const mainCardContainer = document.getElementById('mainCard'); // 主卡片容器
+    const mainVideo = document.getElementById('mainVideo'); // 主卡片视频
+    const leftSide = document.querySelector('#leftStack'); // 左侧容器
+    const rightSide = document.querySelector('#rightStack'); // 右侧容器
+    const leftStackVideos = document.querySelectorAll('#leftStack video'); // 左侧视频
+    const rightStackVideos = document.querySelectorAll('#rightStack video'); // 右侧视频
+    const tabs = document.querySelectorAll('.tools-showcase__tab');
+    const runBtn = document.getElementById('runGenerator');
 
-    // 🔧 修复: 移除手机端滚动时自动切换照片的逻辑
-    // 手机端保留:
-    // ✅ 缩放动画 (通过 updateScaleBasedOnScroll)
-    // ✅ 触摸滑动切换 (通过 handleTouchStart/End)
-    // ❌ 滚动切换照片 (已移除)
-
-    // 如果之前附加过 wheel 监听器,清理它
-    if (wheelListenerAttached) {
-      showcaseSection.removeEventListener('wheel', handleWheelMobile);
-      wheelListenerAttached = false;
-    }
-  }
-
-  // ===== 应用缩放效果（平滑跟随滚动）=====
-  function applyScaleTransform(scale) {
-    // 调试日志（生产环境可移除）
-    console.log('applyScaleTransform:', { scale, isMobile: isMobileDevice(), width: window.innerWidth });
-
-    // 更新中央卡片缩放
-    mainCardContainer.style.transform = `scale(${scale})`;
-
-    // 桌面端才处理左右卡片的推开动画
-    if (!isMobileDevice() && leftSide && rightSide) {
-      // 计算左右卡片的推开距离（线性映射）
-      // scale 1.0 → 0px, scale 1.5 → maxPushDistance
-      const progress = (scale - minScale) / (maxScale - minScale);
-      const pushDistance = progress * maxPushDistance;
-
-      // 应用视差效果
-      leftSide.style.transform = `translateX(-${pushDistance}px)`;
-      rightSide.style.transform = `translateX(${pushDistance}px)`;
-    }
-  }
-
-  // ===== 使用 RAF 平滑更新缩放（性能优化）=====
-  function updateScaleAnimation() {
-    // 平滑插值（Lerp），避免突变
-    currentScale += (targetScale - currentScale) * 0.15;
-
-    // 应用变换
-    applyScaleTransform(currentScale);
-
-    // 如果还有差距，继续下一帧
-    if (Math.abs(targetScale - currentScale) > 0.001) {
-      rafId = requestAnimationFrame(updateScaleAnimation);
-    } else {
-      currentScale = targetScale;
-      rafId = null;
-    }
-  }
-
-  // ===== 切换到下一张/上一张卡片 =====
-  // 注: 由于每个分类只有一个视频,这个函数已不再需要
-  // 保留空函数以兼容触摸事件调用
-  function switchToCard(direction) {
-    // 不执行任何操作
-    return;
-  }
-
-  // ===== 基于滚动位置计算缩放（不劫持滚动）=====
-  function updateScaleBasedOnScroll() {
-    if (!showcaseSection) return;
-    const rect = showcaseSection.getBoundingClientRect();
-    const viewportHeight = window.innerHeight;
-
-    // 计算区域相对于视口的位置
-    const sectionTop = rect.top;
-    const sectionBottom = rect.bottom;
-    const viewportCenter = viewportHeight / 2;
-
-    // 如果区域还未进入视口，保持初始缩放
-    if (sectionBottom < 0 || sectionTop > viewportHeight) {
-      targetScale = minScale;
-      if (!rafId) {
-        rafId = requestAnimationFrame(updateScaleAnimation);
-      }
+    if (!showcaseSection || !carousel || !mainCardContainer || !mainVideo || !runBtn) {
+      console.warn('[tools-showcase] 必要的 DOM 节点缺失，已跳过脚本初始化。');
       return;
     }
 
-    // 计算区域中心相对于视口中心的偏移
-    const sectionCenter = sectionTop + rect.height / 2;
-    const offset = sectionCenter - viewportCenter;
+    let wheelListenerAttached = false;
+    let resizeRaf = null;
 
-    // 定义缩放触发区域
-    const scaleRange = viewportHeight * 0.8; // 缩放过渡范围
-
-    // 计算缩放进度
-    let progress = 0;
-
-    if (offset > 0) {
-      // 区域中心在视口中心下方（尚未滚动到居中位置）
-      // 从下方进入，逐渐放大
-      progress = Math.max(0, 1 - offset / scaleRange);
-    } else {
-      // 区域中心在视口中心上方或对齐（已经滚动到居中或更上方）
-      // 保持最大缩放，不缩小
-      progress = 1;
-    }
-
-    // 映射到缩放值 (1.0 ~ 1.5)
-    targetScale = minScale + (maxScale - minScale) * progress;
-
-    // 启动平滑动画
-    if (!rafId) {
-      rafId = requestAnimationFrame(updateScaleAnimation);
-    }
-  }
-
-  // ===== 监听页面滚动 =====
-  function handleScroll() {
-    updateScaleBasedOnScroll();
-  }
-
-  // ===== 移动端滚轮事件（离散切换）=====
-  let wheelTimeout = null;
-  function handleWheelMobile(event) {
-    if (isAnimating || wheelTimeout) return;
-
-    event.preventDefault();
-
-    // 离散切换
-    if (event.deltaY > 0) {
-      switchToCard(1);
-    } else {
-      switchToCard(-1);
-    }
-
-    // 节流
-    wheelTimeout = setTimeout(() => {
-      wheelTimeout = null;
-    }, 500);
-  }
-
-  // ===== 监听窗口尺寸变化，保持布局状态同步 =====
-  function handleResize() {
-    if (resizeRaf) return;
-
-    resizeRaf = requestAnimationFrame(() => {
-      resizeRaf = null;
-      updateResponsiveLayout();
-      updateScaleBasedOnScroll();
-    });
-  }
-
-  // ===== 标签切换 =====
-  function handleTabClick(event) {
-    const clickedTab = event.target.closest('.tools-showcase__tab');
-    if (!clickedTab || isAnimating) return;
-
-    const toolName = clickedTab.dataset.tool;
-    if (toolName === currentTool) return;
-
-    // 更新标签激活状态
-    tabs.forEach(tab => tab.classList.remove('tools-showcase__tab--active'));
-    clickedTab.classList.add('tools-showcase__tab--active');
-
-    // 切换工具数据
-    currentTool = toolName;
-    currentData = toolsData[currentTool];
-
-    // 重置滚动状态（但保持当前缩放）
-    scrollAccumulator = 0;
-    consecutiveScrollCount = 0;
-
-    // 使用淡入淡出切换（避免闪烁）
-    isAnimating = true;
-
-    // 先将所有视频淡出
-    const allVideos = carousel.querySelectorAll('video');
-    allVideos.forEach(video => {
-      video.style.transition = 'opacity 0.2s ease';
-      video.style.opacity = '0';
-    });
-
-    // 在内容淡出后切换
-    setTimeout(() => {
+    // ===== 初始化 =====
+    function init() {
       updateCardsDisplay();
-      // 保持当前缩放状态，不重置为 minScale
-      applyScaleTransform(currentScale);
+      updateResponsiveLayout();
+      attachEventListeners();
+      initHoverVideoControl(); // 初始化悬浮播放控制
+      updateScaleBasedOnScroll();
+    }
 
-      // 立即淡入新视频
-      setTimeout(() => {
-        allVideos.forEach(video => {
-          video.style.opacity = '1';
+    // ===== 更新卡片显示 =====
+    function updateCardsDisplay() {
+      const data = currentData;
+
+      // 更新左侧堆叠(2个视频) - 悬浮播放,不自动播放
+      const leftVideo1Source = leftStackVideos[0].querySelector('source');
+      leftVideo1Source.src = data.sideVideos[0].url;
+      leftStackVideos[0].load();
+      // 不自动播放,等待悬浮触发
+
+      const leftVideo2Source = leftStackVideos[1].querySelector('source');
+      leftVideo2Source.src = data.sideVideos[1].url;
+      leftStackVideos[1].load();
+      // 不自动播放,等待悬浮触发
+
+      // 更新中央视频（悬浮播放，不自动播放）
+      const mainVideoSource = mainVideo.querySelector('source');
+      mainVideoSource.src = data.mainVideo.url;
+      mainVideo.load();
+      mainCardContainer.classList.add('paused'); // 添加暂停状态
+
+      // 更新右侧卡片(1个视频) - 悬浮播放,不自动播放
+      const rightVideoSource = rightStackVideos[0].querySelector('source');
+      rightVideoSource.src = data.sideVideos[2].url;
+      rightStackVideos[0].load();
+      // 不自动播放,等待悬浮触发
+    }
+
+    // ===== 悬浮播放控制 =====
+    function initHoverVideoControl() {
+      // 中央大卡片悬浮播放
+      if (mainCardContainer && mainVideo) {
+        // 鼠标进入 - 播放视频
+        mainCardContainer.addEventListener('mouseenter', () => {
+          mainCardContainer.classList.remove('paused');
+          mainVideo.play().catch(err => console.log('Main video play error:', err));
         });
 
-        // 重新计算基于当前滚动位置的缩放
-        updateScaleBasedOnScroll();
+        // 鼠标离开 - 暂停并重置到开头
+        mainCardContainer.addEventListener('mouseleave', () => {
+          mainCardContainer.classList.add('paused');
+          mainVideo.pause();
+          mainVideo.currentTime = 0; // 重置到开头
+        });
+      }
 
-        // 动画完成后清理
-        setTimeout(() => {
-          allVideos.forEach(video => {
-            video.style.transition = '';
+      // 左侧小卡片悬浮播放
+      leftStackVideos.forEach((video, index) => {
+        const cardElement = video.closest('.tools-showcase__card');
+        if (cardElement) {
+          cardElement.addEventListener('mouseenter', () => {
+            video.play().catch(err => console.log(`Left video ${index + 1} play error:`, err));
           });
-          isAnimating = false;
-        }, 200);
-      }, 50);
-    }, 200);
-  }
 
-  // ===== 触摸事件支持（移动端）=====
-  let touchStartX = 0;
-  let touchEndX = 0;
+          cardElement.addEventListener('mouseleave', () => {
+            video.pause();
+            video.currentTime = 0; // 重置到开头
+          });
+        }
+      });
 
-  function handleTouchStart(event) {
-    touchStartX = event.touches[0].clientX;
-  }
+      // 右侧小卡片悬浮播放
+      rightStackVideos.forEach((video, index) => {
+        const cardElement = video.closest('.tools-showcase__card');
+        if (cardElement) {
+          cardElement.addEventListener('mouseenter', () => {
+            video.play().catch(err => console.log(`Right video ${index + 1} play error:`, err));
+          });
 
-  function handleTouchEnd(event) {
-    if (isAnimating) return;
+          cardElement.addEventListener('mouseleave', () => {
+            video.pause();
+            video.currentTime = 0; // 重置到开头
+          });
+        }
+      });
+    }
 
-    touchEndX = event.changedTouches[0].clientX;
-    const diff = touchStartX - touchEndX;
+    // ===== 根据屏幕宽度切换布局（JS + CSS 双保险）=====
+    function updateResponsiveLayout() {
+      if (!showcaseSection) return;
 
-    // 滑动距离超过 50px 才触发切换
-    if (Math.abs(diff) > 50) {
-      if (diff > 0) {
-        switchToCard(1); // 左滑 → 下一张
-      } else {
-        switchToCard(-1); // 右滑 → 上一张
+      const mobile = isMobileDevice();
+      showcaseSection.classList.toggle('tools-showcase--mobile', mobile);
+
+      if (leftSide) {
+        leftSide.hidden = mobile;
+        if (mobile) {
+          leftSide.setAttribute('aria-hidden', 'true');
+        } else {
+          leftSide.removeAttribute('aria-hidden');
+          leftSide.style.transform = '';
+        }
+      }
+
+      if (rightSide) {
+        rightSide.hidden = mobile;
+        if (mobile) {
+          rightSide.setAttribute('aria-hidden', 'true');
+        } else {
+          rightSide.removeAttribute('aria-hidden');
+          rightSide.style.transform = '';
+        }
+      }
+
+      // 🔧 修复: 移除手机端滚动时自动切换照片的逻辑
+      // 手机端保留:
+      // ✅ 缩放动画 (通过 updateScaleBasedOnScroll)
+      // ✅ 触摸滑动切换 (通过 handleTouchStart/End)
+      // ❌ 滚动切换照片 (已移除)
+
+      // 如果之前附加过 wheel 监听器,清理它
+      if (wheelListenerAttached) {
+        showcaseSection.removeEventListener('wheel', handleWheelMobile);
+        wheelListenerAttached = false;
       }
     }
-  }
 
-  // ===== 按钮点击事件 =====
-  function handleRunGenerator() {
-    console.log('Run Generator clicked for:', currentTool);
-    // TODO: 实现跳转或打开模态框逻辑
-    alert(`Starting ${currentTool.replace('-', ' ')}...`);
-  }
+    // ===== 应用缩放效果（平滑跟随滚动）=====
+    function applyScaleTransform(scale) {
+      // 调试日志（生产环境可移除）
+      console.log('applyScaleTransform:', { scale, isMobile: isMobileDevice(), width: window.innerWidth });
 
-  // ===== 绑定事件监听器 =====
-  function attachEventListeners() {
-    // 监听页面滚动（被动式，不劫持）
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleResize);
+      // 移动端禁用缩放，保持原始尺寸
+      if (isMobileDevice()) {
+        mainCardContainer.style.transform = 'scale(1)';
+        return;
+      }
 
-    // 标签切换
-    tabs.forEach(tab => {
-      tab.addEventListener('click', handleTabClick);
-    });
+      // 桌面端更新中央卡片缩放
+      mainCardContainer.style.transform = `scale(${scale})`;
 
-    // 行动号召按钮
-    runBtn.addEventListener('click', handleRunGenerator);
+      // 桌面端才处理左右卡片的推开动画
+      if (leftSide && rightSide) {
+        // 计算左右卡片的推开距离（线性映射）
+        // scale 1.0 → 0px, scale 1.5 → maxPushDistance
+        const progress = (scale - minScale) / (maxScale - minScale);
+        const pushDistance = progress * maxPushDistance;
 
-  }
+        // 应用视差效果
+        leftSide.style.transform = `translateX(-${pushDistance}px)`;
+        rightSide.style.transform = `translateX(${pushDistance}px)`;
+      }
+    }
 
-  // ===== 启动模块 =====
-  // 等待 DOM 完全加载后初始化
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+    // ===== 使用 RAF 平滑更新缩放（性能优化）=====
+    function updateScaleAnimation() {
+      // 平滑插值（Lerp），避免突变
+      currentScale += (targetScale - currentScale) * 0.15;
 
-})();
+      // 应用变换
+      applyScaleTransform(currentScale);
+
+      // 如果还有差距，继续下一帧
+      if (Math.abs(targetScale - currentScale) > 0.001) {
+        rafId = requestAnimationFrame(updateScaleAnimation);
+      } else {
+        currentScale = targetScale;
+        rafId = null;
+      }
+    }
+
+    // ===== 切换到下一张/上一张卡片 =====
+    // 注: 由于每个分类只有一个视频,这个函数已不再需要
+    // 保留空函数以兼容触摸事件调用
+    function switchToCard(direction) {
+      // 不执行任何操作
+      return;
+    }
+
+    // ===== 基于滚动位置计算缩放（不劫持滚动）=====
+    function updateScaleBasedOnScroll() {
+      if (!showcaseSection) return;
+      const rect = showcaseSection.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      // 计算区域相对于视口的位置
+      const sectionTop = rect.top;
+      const sectionBottom = rect.bottom;
+      const viewportCenter = viewportHeight / 2;
+
+      // 如果区域还未进入视口，保持初始缩放
+      if (sectionBottom < 0 || sectionTop > viewportHeight) {
+        targetScale = minScale;
+        if (!rafId) {
+          rafId = requestAnimationFrame(updateScaleAnimation);
+        }
+        return;
+      }
+
+      // 计算区域中心相对于视口中心的偏移
+      const sectionCenter = sectionTop + rect.height / 2;
+      const offset = sectionCenter - viewportCenter;
+
+      // 定义缩放触发区域
+      const scaleRange = viewportHeight * 0.8; // 缩放过渡范围
+
+      // 计算缩放进度
+      let progress = 0;
+
+      if (offset > 0) {
+        // 区域中心在视口中心下方（尚未滚动到居中位置）
+        // 从下方进入，逐渐放大
+        progress = Math.max(0, 1 - offset / scaleRange);
+      } else {
+        // 区域中心在视口中心上方或对齐（已经滚动到居中或更上方）
+        // 保持最大缩放，不缩小
+        progress = 1;
+      }
+
+      // 映射到缩放值 (1.0 ~ 1.5)
+      targetScale = minScale + (maxScale - minScale) * progress;
+
+      // 启动平滑动画
+      if (!rafId) {
+        rafId = requestAnimationFrame(updateScaleAnimation);
+      }
+    }
+
+    // ===== 监听页面滚动 =====
+    function handleScroll() {
+      updateScaleBasedOnScroll();
+    }
+
+    // ===== 移动端滚轮事件（离散切换）=====
+    let wheelTimeout = null;
+    function handleWheelMobile(event) {
+      if (isAnimating || wheelTimeout) return;
+
+      event.preventDefault();
+
+      // 离散切换
+      if (event.deltaY > 0) {
+        switchToCard(1);
+      } else {
+        switchToCard(-1);
+      }
+
+      // 节流
+      wheelTimeout = setTimeout(() => {
+        wheelTimeout = null;
+      }, 500);
+    }
+
+    // ===== 监听窗口尺寸变化，保持布局状态同步 =====
+    function handleResize() {
+      if (resizeRaf) return;
+
+      resizeRaf = requestAnimationFrame(() => {
+        resizeRaf = null;
+        updateResponsiveLayout();
+        updateScaleBasedOnScroll();
+      });
+    }
+
+    // ===== 标签切换 =====
+    function handleTabClick(event) {
+      const clickedTab = event.target.closest('.tools-showcase__tab');
+      if (!clickedTab || isAnimating) return;
+
+      const toolName = clickedTab.dataset.tool;
+      if (toolName === currentTool) return;
+
+      // 更新标签激活状态
+      tabs.forEach(tab => tab.classList.remove('tools-showcase__tab--active'));
+      clickedTab.classList.add('tools-showcase__tab--active');
+
+      // 切换工具数据
+      currentTool = toolName;
+      currentData = toolsData[currentTool];
+
+      // 重置滚动状态（但保持当前缩放）
+      scrollAccumulator = 0;
+      consecutiveScrollCount = 0;
+
+      // 使用淡入淡出切换（避免闪烁）
+      isAnimating = true;
+
+      // 先将所有视频淡出
+      const allVideos = carousel.querySelectorAll('video');
+      allVideos.forEach(video => {
+        video.style.transition = 'opacity 0.2s ease';
+        video.style.opacity = '0';
+      });
+
+      // 在内容淡出后切换
+      setTimeout(() => {
+        updateCardsDisplay();
+        // 保持当前缩放状态，不重置为 minScale
+        applyScaleTransform(currentScale);
+
+        // 立即淡入新视频
+        setTimeout(() => {
+          allVideos.forEach(video => {
+            video.style.opacity = '1';
+          });
+
+          // 重新计算基于当前滚动位置的缩放
+          updateScaleBasedOnScroll();
+
+          // 动画完成后清理
+          setTimeout(() => {
+            allVideos.forEach(video => {
+              video.style.transition = '';
+            });
+            isAnimating = false;
+          }, 200);
+        }, 50);
+      }, 200);
+    }
+
+    // ===== 触摸事件支持（移动端）=====
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    function handleTouchStart(event) {
+      touchStartX = event.touches[0].clientX;
+    }
+
+    function handleTouchEnd(event) {
+      if (isAnimating) return;
+
+      touchEndX = event.changedTouches[0].clientX;
+      const diff = touchStartX - touchEndX;
+
+      // 滑动距离超过 50px 才触发切换
+      if (Math.abs(diff) > 50) {
+        if (diff > 0) {
+          switchToCard(1); // 左滑 → 下一张
+        } else {
+          switchToCard(-1); // 右滑 → 上一张
+        }
+      }
+    }
+
+    // ===== 按钮点击事件 =====
+    function handleRunGenerator() {
+      console.log('Run Generator clicked for:', currentTool);
+      // TODO: 实现跳转或打开模态框逻辑
+      alert(`Starting ${currentTool.replace('-', ' ')}...`);
+    }
+
+    // ===== 绑定事件监听器 =====
+    function attachEventListeners() {
+      // 监听页面滚动（被动式，不劫持）
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      window.addEventListener('resize', handleResize);
+
+      // 标签切换
+      tabs.forEach(tab => {
+        tab.addEventListener('click', handleTabClick);
+      });
+
+      // 行动号召按钮
+      runBtn.addEventListener('click', handleRunGenerator);
+
+    }
+
+    // ===== 启动模块 =====
+    // 等待 DOM 完全加载后初始化
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+
+  })();
 </script>
-
 
   <!-- ===== COMPARE SECTION ===== -->
 <!-- ===================================
@@ -3909,592 +3964,593 @@
      =================================== -->
 
 <style>
-/* ===== 模块容器样式 ===== */
-.compare-showcase {
-  position: relative;
-  padding: 120px 0;
-  background: var(--color-bg);
-  overflow: hidden;
-}
-
-/* ===== 标题区域 ===== */
-.compare-showcase__header {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.compare-showcase__title {
-  font-size: 2.625rem;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 0;
-  color: #FFFFFF;
-}
-
-.compare-showcase__subtitle {
-  font-size: 1.2rem;
-  color: var(--color-text-secondary);
-  max-width: 600px;
-  margin: 0 auto 16px;
-}
-
-/* ===== 工具标签栏 ===== */
-.compare-showcase__tabs {
-  display: flex;
-  justify-content: center;
-  gap: 34px;
-  margin-bottom: 80px;
-  flex-wrap: wrap;
-}
-
-.compare-showcase__tab {
-  padding: 20px 0;
-  width: 230px;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-radius: 50px;
-  color: #FFFFFF;
-  font-size: 1.25rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-  text-align: center;
-}
-
-.compare-showcase__tab:hover {
-  background: rgba(255, 255, 255, 0.18);
-  color: #FFFFFF;
-}
-
-.compare-showcase__tab--active {
-  background: white;
-  color: black;
-  border-color: transparent;
-}
-
-.compare-showcase__tab--active:hover {
-  background: rgba(255, 255, 255, 0.95);
-  color: black;
-}
-
-/* ===== 扑克牌堆叠容器 ===== */
-.compare-showcase__carousel-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto 60px;
-  padding: 0 20px;
-  transition: opacity 0.3s ease;
-}
-
-.compare-showcase__carousel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  min-height: 500px;
-  position: relative;
-}
-
-/* ===== JS 控制的移动端保护样式（双保险） ===== */
-.compare-showcase--mobile .compare-showcase__side {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transform: none !important;
-}
-
-.compare-showcase--mobile .compare-showcase__carousel-wrapper {
-  padding: var(--spacing-xl) 0;
-  max-width: 480px;
-  margin: 0 auto 40px;
-  width: 100%;
-}
-
-.compare-showcase--mobile .compare-showcase__carousel {
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  min-height: auto;
-  padding: var(--spacing-xl) var(--spacing-md);
-}
-
-.compare-showcase--mobile .compare-showcase__center {
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-.compare-showcase--mobile .compare-showcase__card--main {
-  width: min(90vw, 400px);
-  max-width: 400px;
-  min-height: 260px;
-  margin: 0 auto;
-  aspect-ratio: 16 / 9;
-  height: auto;
-  display: block;
-}
-
-/* ===== 左右两侧堆叠容器 - 负边距实现重叠 ===== */
-.compare-showcase__side {
-  position: relative;
-  z-index: 1;
-  will-change: transform;
-}
-
-.compare-showcase__side.left {
-  margin-right: -3rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-  align-content: center;
-  position: relative;
-}
-
-.compare-showcase__side.right {
-  margin-left: 0.625rem;
-  display: flex;
-  align-items: flex-start;
-  align-self: flex-start;
-  margin-top: -1.25rem;
-}
-
-/* ===== 中央容器 ===== */
-.compare-showcase__center {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  z-index: 1;
-}
-
-/* ===== 卡片样式 ===== */
-.compare-showcase__card {
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-  background: #1a1a1a;
-}
-
-.compare-showcase__card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  user-select: none;
-}
-
-/* 小卡片（左右两侧）- 显示图片 */
-.compare-showcase__card--small {
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-}
-
-/* 左侧第一个卡片 - 横向长方形（左上角）*/
-.compare-showcase__side.left .compare-showcase__card--small:nth-child(1) {
-  width: 260px;
-  height: 160px;
-  position: relative;
-  top: -8vh;
-  left: -20px;
-}
-
-/* 左侧第二个卡片 - 正方形（左下角）*/
-.compare-showcase__side.left .compare-showcase__card--small:nth-child(2) {
-  width: 215px;
-  height: 215px;
-  position: relative;
-  top: 70px;
-  left: 5px;
-}
-
-/* 右侧卡片 - 竖向长方形 */
-.compare-showcase__side.right .compare-showcase__card--small {
-  width: 180px;
-  height: 280px;
-  position: relative;
-  top: -1.25rem;
-  left: 10px;
-}
-
-/* 主卡片容器 - 中央视频对比容器 */
-.compare-showcase__card--main {
-  width: 550px;
-  height: 300px;
-  border: none;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
-  z-index: 1;
-  position: relative;
-  overflow: hidden;
-  will-change: transform;
-  transform: scale(1);
-}
-
-/* ===== 视频对比容器样式 ===== */
-.compare-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  cursor: grab;
-}
-
-.compare-container:active {
-  cursor: grabbing;
-}
-
-/* 背景视频 (After) */
-.compare-video--after {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  user-select: none;
-  pointer-events: none;
-}
-
-/* 前景视频 (Before) - 通过 clip-path 裁剪 */
-.compare-video--before {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  user-select: none;
-  pointer-events: none;
-  /* 默认显示左侧 50% */
-  clip-path: inset(0 50% 0 0);
-  transition: clip-path 0.05s ease-out;
-}
-
-/* ===== 对比滑块样式 ===== */
-.compare-slider {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 2px;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  transform: translateX(-50%);
-  pointer-events: none;
-  z-index: 10;
-  transition: left 0.05s ease-out;
-}
-
-/* 垂直线条 */
-.compare-slider__line {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-}
-
-/* 箭头容器 - 放在偏上方 */
-.compare-slider__handle {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* 左右箭头 */
-.compare-slider__arrow {
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-  flex-shrink: 0;
-}
-
-/* 小卡片图片淡入淡出过渡 */
-.compare-showcase__card--small .compare-showcase__card-image {
-  transition: opacity 0.5s ease;
-}
-
-/* ===== 行动号召按钮 ===== */
-.compare-showcase__cta {
-  display: flex;
-  justify-content: center;
-  margin-top: -30px;
-}
-
-.compare-showcase__button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-sm) var(--spacing-md);
-  min-width: 200px;
-  background: white;
-  color: black;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 6px;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: all var(--transition);
-}
-
-.compare-showcase__button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.95);
-}
-
-/* ===== 响应式：平板 ===== */
-@media (max-width: 991px) {
+  /* ===== 模块容器样式 ===== */
   .compare-showcase {
-    padding: 80px 0;
+    position: relative;
+    padding: 120px 0;
+    background: var(--color-bg);
+    overflow: hidden;
   }
 
-  .compare-showcase__title {
-    font-size: 2.5rem;
-  }
-
-  .compare-showcase__tabs {
-    margin-bottom: 60px;
-  }
-
-  .compare-showcase__tab {
-    padding: 12px 24px;
-    font-size: 0.875rem;
-  }
-
-  .compare-showcase__carousel {
-    gap: 1.5rem;
-  }
-
-  .compare-showcase__card--main {
-    width: 500px;
-    height: 350px;
-  }
-
-  .compare-showcase__card--small {
-    width: 160px;
-    height: 200px;
-  }
-
-  .compare-showcase__side.left {
-    margin-right: -120px;
-  }
-
-  .compare-showcase__side.right {
-    margin-left: -120px;
-  }
-
-  .compare-showcase__side .compare-showcase__card:first-child {
-    display: none;
-  }
-}
-
-/* ===== 响应式：移动端 ===== */
-@media (max-width: 990px) {
-  .compare-showcase {
-    padding: 60px 0;
-    overflow-x: hidden;
-    overflow-y: visible;
-  }
-
+  /* ===== 标题区域 ===== */
   .compare-showcase__header {
     text-align: center;
-    margin-bottom: 30px;
-    padding: 0 var(--spacing-md);
+    margin-bottom: 40px;
   }
 
   .compare-showcase__title {
-    font-size: 2rem;
+    font-size: 2.625rem;
+    font-weight: 700;
     line-height: 1.2;
+    margin-bottom: 0;
+    color: #FFFFFF;
   }
 
   .compare-showcase__subtitle {
-    font-size: 1rem;
-    margin-bottom: 12px;
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto 16px;
   }
 
+  /* ===== 工具标签栏 ===== */
   .compare-showcase__tabs {
-    gap: 8px;
-    margin-bottom: 40px;
-    padding: 0 var(--spacing-sm);
+    display: flex;
     justify-content: center;
+    gap: 34px;
+    margin-bottom: 80px;
+    flex-wrap: wrap;
   }
 
   .compare-showcase__tab {
-    padding: 12px 20px;
-    min-height: 44px;
-    font-size: 0.8125rem;
-    width: auto;
-    flex: 0 0 auto;
+    padding: 20px 0;
+    width: 230px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50px;
+    color: #FFFFFF;
+    font-size: 1.25rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    text-align: center;
   }
 
-  .compare-showcase__tab:active {
-    transform: scale(0.95);
-    transition: transform 0.1s ease;
+  .compare-showcase__tab:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #FFFFFF;
   }
 
-  .compare-showcase__side {
+  .compare-showcase__tab--active {
+    background: white;
+    color: black;
+    border-color: transparent;
+  }
+
+  .compare-showcase__tab--active:hover {
+    background: rgba(255, 255, 255, 0.95);
+    color: black;
+  }
+
+  /* ===== 扑克牌堆叠容器 ===== */
+  .compare-showcase__carousel-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+    transition: opacity 0.3s ease;
+  }
+
+  .compare-showcase__carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    min-height: 500px;
+    position: relative;
+  }
+
+  /* ===== JS 控制的移动端保护样式（双保险） ===== */
+  .compare-showcase--mobile .compare-showcase__side {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
     pointer-events: none !important;
-    position: absolute !important;
-    width: 0 !important;
-    height: 0 !important;
-    overflow: hidden !important;
+    transform: none !important;
   }
 
-  .compare-showcase__carousel-wrapper {
-    padding: var(--spacing-xl) 0;
-    overflow: visible;
+  .compare-showcase--mobile .compare-showcase__carousel-wrapper {
+    padding: var(--spacing-lg) 0;
+    max-width: 480px;
+    margin: 0 auto 40px;
     width: 100%;
+  }
+
+  .compare-showcase--mobile .compare-showcase__carousel {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    min-height: auto;
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  .compare-showcase--mobile .compare-showcase__center {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .compare-showcase--mobile .compare-showcase__card--main {
+    width: min(90vw, 400px);
+    max-width: 400px;
+    min-height: 260px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    display: block;
+  }
+
+  /* ===== 左右两侧堆叠容器 - 负边距实现重叠 ===== */
+  .compare-showcase__side {
+    position: relative;
+    z-index: 1;
+    will-change: transform;
+  }
+
+  .compare-showcase__side.left {
+    margin-right: -3rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-content: center;
+    position: relative;
+  }
+
+  .compare-showcase__side.right {
+    margin-left: 0.625rem;
+    display: flex;
+    align-items: flex-start;
+    align-self: flex-start;
+    margin-top: -1.25rem;
+  }
+
+  /* ===== 中央容器 ===== */
+  .compare-showcase__center {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 1;
+  }
+
+  /* ===== 卡片样式 ===== */
+  .compare-showcase__card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    background: #1a1a1a;
+  }
+
+  .compare-showcase__card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+  }
+
+  /* 小卡片（左右两侧）- 显示图片 */
+  .compare-showcase__card--small {
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+  }
+
+  /* 左侧第一个卡片 - 横向长方形（左上角）*/
+  .compare-showcase__side.left .compare-showcase__card--small:nth-child(1) {
+    width: 260px;
+    height: 160px;
+    position: relative;
+    top: -8vh;
+    left: -20px;
+  }
+
+  /* 左侧第二个卡片 - 正方形（左下角）*/
+  .compare-showcase__side.left .compare-showcase__card--small:nth-child(2) {
+    width: 215px;
+    height: 215px;
+    position: relative;
+    top: 70px;
+    left: 5px;
+  }
+
+  /* 右侧卡片 - 竖向长方形 */
+  .compare-showcase__side.right .compare-showcase__card--small {
+    width: 180px;
+    height: 280px;
+    position: relative;
+    top: -1.25rem;
+    left: 10px;
+  }
+
+  /* 主卡片容器 - 中央视频对比容器 */
+  .compare-showcase__card--main {
+    width: 550px;
+    height: 300px;
+    border: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    position: relative;
+    overflow: hidden;
+    will-change: transform;
+    transform: scale(1);
+  }
+
+  /* ===== 视频对比容器样式 ===== */
+  .compare-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: grab;
+  }
+
+  .compare-container:active {
+    cursor: grabbing;
+  }
+
+  /* 背景视频 (After) */
+  .compare-video--after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* 前景视频 (Before) - 通过 clip-path 裁剪 */
+  .compare-video--before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+    pointer-events: none;
+    /* 默认显示左侧 50% */
+    clip-path: inset(0 50% 0 0);
+    transition: clip-path 0.05s ease-out;
+  }
+
+  /* ===== 对比滑块样式 ===== */
+  .compare-slider {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 10;
+    transition: left 0.05s ease-out;
+  }
+
+  /* 垂直线条 */
+  .compare-slider__line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  }
+
+  /* 箭头容器 - 放在偏上方 */
+  .compare-slider__handle {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* 左右箭头 */
+  .compare-slider__arrow {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    flex-shrink: 0;
+  }
+
+  /* 小卡片图片淡入淡出过渡 */
+  .compare-showcase__card--small .compare-showcase__card-image {
+    transition: opacity 0.5s ease;
+  }
+
+  /* ===== 行动号召按钮 ===== */
+  .compare-showcase__cta {
     display: flex;
     justify-content: center;
-    align-items: center;
-  }
-
-  .compare-showcase__carousel {
-    gap: 0;
-    min-height: 500px;
-    display: flex !important;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: var(--spacing-xl) var(--spacing-md);
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-  }
-
-  .compare-showcase__center {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 !important;
-    position: relative;
-  }
-
-  .compare-showcase__card--main {
-    width: 90%;
-    max-width: 400px;
-    height: auto;
-    min-height: 300px;
-    aspect-ratio: 16 / 9;
-    margin: 0 !important;
-    display: block;
-    transform-origin: center center;
-    position: relative;
-  }
-
-  .compare-showcase__cta {
-    margin-top: 0;
-    padding: 0 var(--spacing-md);
+    margin-top: -30px;
   }
 
   .compare-showcase__button {
-    padding: 16px 40px;
-    min-height: 48px;
-    font-size: 0.9375rem;
-    width: auto;
-    max-width: 100%;
-  }
-
-  .compare-showcase__button:active {
-    transform: scale(0.95);
-    transition: transform 0.1s ease;
-  }
-}
-
-/* ===== 小屏手机优化 ===== */
-@media (max-width: 479px) {
-  .compare-showcase__title {
-    font-size: 1.75rem;
-    padding: 0 var(--spacing-sm);
-  }
-
-  .compare-showcase__subtitle {
-    font-size: 0.9375rem;
-  }
-
-  .compare-showcase__tabs {
-    gap: 6px;
-    padding: 0 var(--spacing-xs);
-  }
-
-  .compare-showcase__tab {
-    padding: 10px 16px;
-    font-size: 0.75rem;
-    min-width: auto;
-  }
-
-  .compare-showcase__carousel-wrapper {
-    padding: var(--spacing-lg) 0;
-  }
-
-  .compare-showcase__carousel {
-    min-height: 450px;
-    padding: var(--spacing-lg) var(--spacing-sm);
-  }
-
-  .compare-showcase__card--main {
-    width: 90%;
-    max-width: 320px;
-    min-height: 250px;
-  }
-
-  .compare-showcase__button {
-    width: 100%;
-    max-width: 300px;
-    padding: 14px 32px;
-    font-size: 0.875rem;
-  }
-}
-
-/* ===== 禁用触摸设备的悬浮效果 ===== */
-@media (hover: none) {
-  .compare-showcase__tab:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #FFFFFF;
-  }
-
-  .compare-showcase__tab--active:hover {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    min-width: 200px;
     background: white;
     color: black;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition);
   }
 
   .compare-showcase__button:hover {
-    transform: none;
-    box-shadow: none;
-    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.95);
   }
 
-  .compare-showcase__tab:active {
-    background: rgba(255, 255, 255, 0.15);
+  /* ===== 响应式：平板 ===== */
+  @media (max-width: 991px) {
+    .compare-showcase {
+      padding: 80px 0;
+    }
+
+    .compare-showcase__title {
+      font-size: 2.5rem;
+    }
+
+    .compare-showcase__tabs {
+      margin-bottom: 60px;
+    }
+
+    .compare-showcase__tab {
+      padding: 12px 24px;
+      font-size: 0.875rem;
+    }
+
+    .compare-showcase__carousel {
+      gap: 1.5rem;
+    }
+
+    .compare-showcase__card--main {
+      width: 500px;
+      height: 350px;
+    }
+
+    .compare-showcase__card--small {
+      width: 160px;
+      height: 200px;
+    }
+
+    .compare-showcase__side.left {
+      margin-right: -120px;
+    }
+
+    .compare-showcase__side.right {
+      margin-left: -120px;
+    }
+
+    .compare-showcase__side .compare-showcase__card:first-child {
+      display: none;
+    }
   }
 
-  .compare-showcase__tab--active:active {
-    background: rgba(255, 255, 255, 0.9);
+  /* ===== 响应式：移动端 ===== */
+  @media (max-width: 990px) {
+    .compare-showcase {
+      padding: 60px 0;
+      overflow-x: hidden;
+      overflow-y: visible;
+    }
+
+    .compare-showcase__header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 0 var(--spacing-md);
+    }
+
+    .compare-showcase__title {
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+
+    .compare-showcase__subtitle {
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+
+    .compare-showcase__tabs {
+      gap: 8px;
+      margin-bottom: 0;
+      padding: 0 var(--spacing-sm);
+      justify-content: center;
+    }
+
+    .compare-showcase__tab {
+      padding: 12px 20px;
+      min-height: 44px;
+      font-size: 0.8125rem;
+      width: auto;
+      flex: 0 0 auto;
+    }
+
+    .compare-showcase__tab:active {
+      transform: scale(0.95);
+      transition: transform 0.1s ease;
+    }
+
+    .compare-showcase__side {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      position: absolute !important;
+      width: 0 !important;
+      height: 0 !important;
+      overflow: hidden !important;
+    }
+
+    .compare-showcase__carousel-wrapper {
+      padding: var(--spacing-md) var(--spacing-md);
+      overflow: visible;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .compare-showcase__carousel {
+      gap: 0;
+      min-height: 400px;
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: var(--spacing-sm) 0;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    .compare-showcase__center {
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 !important;
+      position: relative;
+    }
+
+    .compare-showcase__card--main {
+      width: 85%;
+      max-width: 360px;
+      height: auto;
+      min-height: 240px;
+      aspect-ratio: 16 / 9;
+      margin: 0 !important;
+      display: block;
+      transform-origin: center center;
+      position: relative;
+    }
+
+    .compare-showcase__cta {
+      margin-top: var(--spacing-sm);
+      padding: 0 var(--spacing-md);
+    }
+
+    .compare-showcase__button {
+      padding: 16px 40px;
+      min-height: 48px;
+      font-size: 0.9375rem;
+      width: auto;
+      max-width: 100%;
+    }
+
+    .compare-showcase__button:active {
+      transform: scale(0.95);
+      transition: transform 0.1s ease;
+    }
   }
 
-  .compare-showcase__button:active {
-    background: rgba(255, 255, 255, 0.9);
+  /* ===== 小屏手机优化 ===== */
+  @media (max-width: 479px) {
+    .compare-showcase__title {
+      font-size: 1.75rem;
+      padding: 0 var(--spacing-sm);
+    }
+
+    .compare-showcase__subtitle {
+      font-size: 0.9375rem;
+    }
+
+    .compare-showcase__tabs {
+      gap: 6px;
+      padding: 0 var(--spacing-xs);
+    }
+
+    .compare-showcase__tab {
+      padding: 10px 16px;
+      font-size: 0.75rem;
+      min-width: auto;
+    }
+
+    .compare-showcase__carousel-wrapper {
+      padding: var(--spacing-lg) var(--spacing-md);
+    }
+
+    .compare-showcase__carousel {
+      min-height: 400px;
+      padding: var(--spacing-md) 0;
+    }
+
+    .compare-showcase__card--main {
+      width: 85%;
+      max-width: 320px;
+      min-height: 220px;
+    }
+
+    .compare-showcase__button {
+      width: 100%;
+      max-width: 300px;
+      padding: 14px 32px;
+      font-size: 0.875rem;
+      margin-top: -3rem;
+    }
   }
-}
+
+  /* ===== 禁用触摸设备的悬浮效果 ===== */
+  @media (hover: none) {
+    .compare-showcase__tab:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #FFFFFF;
+    }
+
+    .compare-showcase__tab--active:hover {
+      background: white;
+      color: black;
+    }
+
+    .compare-showcase__button:hover {
+      transform: none;
+      box-shadow: none;
+      background: white;
+    }
+
+    .compare-showcase__tab:active {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .compare-showcase__tab--active:active {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .compare-showcase__button:active {
+      background: rgba(255, 255, 255, 0.9);
+    }
+  }
 </style>
 
 <!-- ===== HTML 结构 ===== -->
@@ -4581,445 +4637,450 @@
 
 <!-- ===== JavaScript 交互逻辑 ===== -->
 <script>
-(function() {
-  'use strict';
+  (function () {
+    'use strict';
 
-  // ===== 工具数据配置 =====
-  // 每个分类包含:
-  // - sideImages: 周围3个小卡片的图片路径 (左上、左下、右侧)
-  // - mainVideos: 中央卡片的对比视频 { before, after }
-  const toolsData = {
-    'image-generator': {
-      sideImages: [
-        { url: 'assets/compare/images/compare-image-001.jpg', alt: 'Image Generator 1' },
-        { url: 'assets/compare/images/compare-image-002.jpg', alt: 'Image Generator 2' },
-        { url: 'assets/compare/images/compare-image-003.jpg', alt: 'Image Generator 3' }
-      ],
-      mainVideos: {
-        before: { url: 'assets/compare/videos/compare-video-001.mp4', alt: 'Before' },
-        after: { url: 'assets/compare/videos/compare-video-002.mp4', alt: 'After' }
+    // ===== 工具数据配置 =====
+    // 每个分类包含:
+    // - sideImages: 周围3个小卡片的图片路径 (左上、左下、右侧)
+    // - mainVideos: 中央卡片的对比视频 { before, after }
+    const toolsData = {
+      'image-generator': {
+        sideImages: [
+          { url: 'assets/compare/images/compare-image-001.jpg', alt: 'Image Generator 1' },
+          { url: 'assets/compare/images/compare-image-002.jpg', alt: 'Image Generator 2' },
+          { url: 'assets/compare/images/compare-image-003.jpg', alt: 'Image Generator 3' }
+        ],
+        mainVideos: {
+          before: { url: 'assets/compare/videos/compare-video-001.mp4', alt: 'Before' },
+          after: { url: 'assets/compare/videos/compare-video-002.mp4', alt: 'After' }
+        }
+      },
+      'video-generator': {
+        sideImages: [
+          { url: 'assets/compare/images/compare-image-004.jpg', alt: 'Video Generator 1' },
+          { url: 'assets/compare/images/compare-image-005.jpg', alt: 'Video Generator 2' },
+          { url: 'assets/compare/images/compare-image-006.jpg', alt: 'Video Generator 3' }
+        ],
+        mainVideos: {
+          before: { url: 'assets/compare/videos/compare-video-003.mp4', alt: 'Before' },
+          after: { url: 'assets/compare/videos/compare-video-004.mp4', alt: 'After' }
+        }
+      },
+      'timeline-editor': {
+        sideImages: [
+          { url: 'assets/compare/images/compare-image-007.jpg', alt: 'Timeline Editor 1' },
+          { url: 'assets/compare/images/compare-image-008.jpg', alt: 'Timeline Editor 2' },
+          { url: 'assets/compare/images/compare-image-009.jpg', alt: 'Timeline Editor 3' }
+        ],
+        mainVideos: {
+          before: { url: 'assets/compare/videos/compare-video-005.mp4', alt: 'Before' },
+          after: { url: 'assets/compare/videos/compare-video-006.mp4', alt: 'After' }
+        }
+      },
+      'avatar': {
+        sideImages: [
+          { url: 'assets/compare/images/compare-image-010.jpg', alt: 'Avatar 1' },
+          { url: 'assets/compare/images/compare-image-011.jpg', alt: 'Avatar 2' },
+          { url: 'assets/compare/images/compare-image-012.jpg', alt: 'Avatar 3' }
+        ],
+        mainVideos: {
+          before: { url: 'assets/compare/videos/compare-video-007.mp4', alt: 'Before' },
+          after: { url: 'assets/compare/videos/compare-video-008.mp4', alt: 'After' }
+        }
       }
-    },
-    'video-generator': {
-      sideImages: [
-        { url: 'assets/compare/images/compare-image-004.jpg', alt: 'Video Generator 1' },
-        { url: 'assets/compare/images/compare-image-005.jpg', alt: 'Video Generator 2' },
-        { url: 'assets/compare/images/compare-image-006.jpg', alt: 'Video Generator 3' }
-      ],
-      mainVideos: {
-        before: { url: 'assets/compare/videos/compare-video-003.mp4', alt: 'Before' },
-        after: { url: 'assets/compare/videos/compare-video-004.mp4', alt: 'After' }
-      }
-    },
-    'timeline-editor': {
-      sideImages: [
-        { url: 'assets/compare/images/compare-image-007.jpg', alt: 'Timeline Editor 1' },
-        { url: 'assets/compare/images/compare-image-008.jpg', alt: 'Timeline Editor 2' },
-        { url: 'assets/compare/images/compare-image-009.jpg', alt: 'Timeline Editor 3' }
-      ],
-      mainVideos: {
-        before: { url: 'assets/compare/videos/compare-video-005.mp4', alt: 'Before' },
-        after: { url: 'assets/compare/videos/compare-video-006.mp4', alt: 'After' }
-      }
-    },
-    'avatar': {
-      sideImages: [
-        { url: 'assets/compare/images/compare-image-010.jpg', alt: 'Avatar 1' },
-        { url: 'assets/compare/images/compare-image-011.jpg', alt: 'Avatar 2' },
-        { url: 'assets/compare/images/compare-image-012.jpg', alt: 'Avatar 3' }
-      ],
-      mainVideos: {
-        before: { url: 'assets/compare/videos/compare-video-007.mp4', alt: 'Before' },
-        after: { url: 'assets/compare/videos/compare-video-008.mp4', alt: 'After' }
-      }
-    }
-  };
+    };
 
-  // ===== 状态管理 =====
-  let currentTool = 'image-generator';
-  let isAnimating = false;
-  let currentData = toolsData[currentTool];
+    // ===== 状态管理 =====
+    let currentTool = 'image-generator';
+    let isAnimating = false;
+    let currentData = toolsData[currentTool];
 
-  // ===== 滚动缩放参数 =====
-  const minScale = 1.0; // 最小缩放值
-  const maxScale = 1.5; // 最大缩放值
-  const maxPushDistance = 100; // 左右卡片最大推开距离（px）
+    // ===== 滚动缩放参数 =====
+    const minScale = 1.0; // 最小缩放值
+    const maxScale = 1.5; // 最大缩放值
+    const maxPushDistance = 100; // 左右卡片最大推开距离（px）
 
-  let rafId = null; // requestAnimationFrame ID
-  let currentScale = minScale; // 当前缩放值
-  let targetScale = minScale; // 目标缩放值
+    let rafId = null; // requestAnimationFrame ID
+    let currentScale = minScale; // 当前缩放值
+    let targetScale = minScale; // 目标缩放值
 
-  // 动态检测是否为移动设备
-  function isMobileDevice() {
-    return window.innerWidth < 991;
-  }
-
-  // ===== DOM 元素 =====
-  const showcaseSection = document.getElementById('compareShowcase');
-  const carousel = showcaseSection ? showcaseSection.querySelector('#compareCarousel') : null;
-  const mainCard = showcaseSection ? showcaseSection.querySelector('#compareMainCard') : null;
-  const compareContainer = mainCard ? mainCard.querySelector('.compare-container') : null;
-  const tabs = showcaseSection ? showcaseSection.querySelectorAll('.compare-showcase__tab') : [];
-  const runBtn = showcaseSection ? showcaseSection.querySelector('#compareRunBtn') : null;
-
-  if (!showcaseSection || !carousel || !mainCard || !compareContainer) {
-    console.warn('[compare] 必要的 DOM 节点缺失，已跳过脚本初始化。');
-    return;
-  }
-
-  const leftSide = showcaseSection.querySelector('#compareLeftStack');
-  const rightSide = showcaseSection.querySelector('#compareRightStack');
-  const leftImages = leftSide ? leftSide.querySelectorAll('.compare-showcase__card-image') : [];
-  const rightImages = rightSide ? rightSide.querySelectorAll('.compare-showcase__card-image') : [];
-  const beforeVideo = compareContainer.querySelector('.compare-video--before');
-  const afterVideo = compareContainer.querySelector('.compare-video--after');
-  const slider = compareContainer.querySelector('.compare-slider');
-
-  let resizeRaf = null;
-
-  // ===== 初始化 =====
-  function init() {
-    updateCardsDisplay();
-    updateResponsiveLayout();
-    attachEventListeners();
-    initCompareSlider();
-    initHoverVideoControl();
-    updateScaleBasedOnScroll();
-  }
-
-  // ===== 更新卡片显示 =====
-  function updateCardsDisplay() {
-    const data = currentData;
-
-    // 更新左侧图片（2张）
-    if (leftImages.length >= 2) {
-      leftImages[0].src = data.sideImages[0].url;
-      leftImages[0].alt = data.sideImages[0].alt;
-      leftImages[1].src = data.sideImages[1].url;
-      leftImages[1].alt = data.sideImages[1].alt;
+    // 动态检测是否为移动设备
+    function isMobileDevice() {
+      return window.innerWidth < 991;
     }
 
-    // 更新右侧图片（1张）
-    if (rightImages.length >= 1) {
-      rightImages[0].src = data.sideImages[2].url;
-      rightImages[0].alt = data.sideImages[2].alt;
-    }
+    // ===== DOM 元素 =====
+    const showcaseSection = document.getElementById('compareShowcase');
+    const carousel = showcaseSection ? showcaseSection.querySelector('#compareCarousel') : null;
+    const mainCard = showcaseSection ? showcaseSection.querySelector('#compareMainCard') : null;
+    const compareContainer = mainCard ? mainCard.querySelector('.compare-container') : null;
+    const tabs = showcaseSection ? showcaseSection.querySelectorAll('.compare-showcase__tab') : [];
+    const runBtn = showcaseSection ? showcaseSection.querySelector('#compareRunBtn') : null;
 
-    // 更新中央对比视频
-    if (beforeVideo && afterVideo) {
-      const beforeSource = beforeVideo.querySelector('source');
-      const afterSource = afterVideo.querySelector('source');
-
-      beforeSource.src = data.mainVideos.before.url;
-      afterSource.src = data.mainVideos.after.url;
-
-      beforeVideo.load();
-      afterVideo.load();
-    }
-  }
-
-  // ===== 悬浮播放控制 =====
-  function initHoverVideoControl() {
-    if (!mainCard || !beforeVideo || !afterVideo) return;
-
-    // 鼠标进入 - 播放视频
-    mainCard.addEventListener('mouseenter', () => {
-      beforeVideo.play().catch(err => console.log('Before video play error:', err));
-      afterVideo.play().catch(err => console.log('After video play error:', err));
-    });
-
-    // 鼠标离开 - 暂停并重置
-    mainCard.addEventListener('mouseleave', () => {
-      beforeVideo.pause();
-      afterVideo.pause();
-      beforeVideo.currentTime = 0;
-      afterVideo.currentTime = 0;
-    });
-  }
-
-  // ===== 应用缩放效果（平滑跟随滚动）=====
-  function applyScaleTransform(scale) {
-    // 更新中央卡片缩放
-    mainCard.style.transform = `scale(${scale})`;
-
-    // 桌面端才处理左右卡片的推开动画
-    if (!isMobileDevice() && leftSide && rightSide) {
-      // 计算左右卡片的推开距离（线性映射）
-      // scale 1.0 → 0px, scale 1.5 → maxPushDistance
-      const progress = (scale - minScale) / (maxScale - minScale);
-      const pushDistance = progress * maxPushDistance;
-
-      // 应用视差效果
-      leftSide.style.transform = `translateX(-${pushDistance}px)`;
-      rightSide.style.transform = `translateX(${pushDistance}px)`;
-    }
-  }
-
-  // ===== 使用 RAF 平滑更新缩放（性能优化）=====
-  function updateScaleAnimation() {
-    // 平滑插值（Lerp），避免突变
-    currentScale += (targetScale - currentScale) * 0.15;
-
-    // 应用变换
-    applyScaleTransform(currentScale);
-
-    // 如果还有差距，继续下一帧
-    if (Math.abs(targetScale - currentScale) > 0.001) {
-      rafId = requestAnimationFrame(updateScaleAnimation);
-    } else {
-      currentScale = targetScale;
-      rafId = null;
-    }
-  }
-
-  // ===== 基于滚动位置计算缩放（不劫持滚动）=====
-  function updateScaleBasedOnScroll() {
-    if (!showcaseSection) return;
-    const rect = showcaseSection.getBoundingClientRect();
-    const viewportHeight = window.innerHeight;
-
-    // 计算区域相对于视口的位置
-    const sectionTop = rect.top;
-    const sectionBottom = rect.bottom;
-    const viewportCenter = viewportHeight / 2;
-
-    // 如果区域还未进入视口，保持初始缩放
-    if (sectionBottom < 0 || sectionTop > viewportHeight) {
-      targetScale = minScale;
-      if (!rafId) {
-        rafId = requestAnimationFrame(updateScaleAnimation);
-      }
+    if (!showcaseSection || !carousel || !mainCard || !compareContainer) {
+      console.warn('[compare] 必要的 DOM 节点缺失，已跳过脚本初始化。');
       return;
     }
 
-    // 计算区域中心相对于视口中心的偏移
-    const sectionCenter = sectionTop + rect.height / 2;
-    const offset = sectionCenter - viewportCenter;
+    const leftSide = showcaseSection.querySelector('#compareLeftStack');
+    const rightSide = showcaseSection.querySelector('#compareRightStack');
+    const leftImages = leftSide ? leftSide.querySelectorAll('.compare-showcase__card-image') : [];
+    const rightImages = rightSide ? rightSide.querySelectorAll('.compare-showcase__card-image') : [];
+    const beforeVideo = compareContainer.querySelector('.compare-video--before');
+    const afterVideo = compareContainer.querySelector('.compare-video--after');
+    const slider = compareContainer.querySelector('.compare-slider');
 
-    // 定义缩放触发区域
-    const scaleRange = viewportHeight * 0.8; // 缩放过渡范围
+    let resizeRaf = null;
 
-    // 计算缩放进度
-    let progress = 0;
-
-    if (offset > 0) {
-      // 区域中心在视口中心下方（尚未滚动到居中位置）
-      // 从下方进入，逐渐放大
-      progress = Math.max(0, 1 - offset / scaleRange);
-    } else {
-      // 区域中心在视口中心上方或对齐（已经滚动到居中或更上方）
-      // 保持最大缩放，不缩小
-      progress = 1;
-    }
-
-    // 映射到缩放值 (1.0 ~ 1.5)
-    targetScale = minScale + (maxScale - minScale) * progress;
-
-    // 启动平滑动画
-    if (!rafId) {
-      rafId = requestAnimationFrame(updateScaleAnimation);
-    }
-  }
-
-  // ===== 监听页面滚动 =====
-  function handleScroll() {
-    updateScaleBasedOnScroll();
-  }
-
-  // ===== 对比滑块交互逻辑 =====
-  function initCompareSlider() {
-    if (!compareContainer || !slider || !beforeVideo) return;
-
-    const defaultPosition = 50; // 默认 50% 位置
-    let isDragging = false;
-
-    // 更新滑块位置和视频裁剪
-    function updateSliderPosition(percentage) {
-      percentage = Math.max(0, Math.min(100, percentage));
-
-      // 更新滑块位置
-      slider.style.left = `${percentage}%`;
-
-      // 更新前景视频裁剪
-      beforeVideo.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
-    }
-
-    // 从鼠标/触摸事件计算百分比
-    function getPercentageFromEvent(e) {
-      const rect = compareContainer.getBoundingClientRect();
-      const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-      const x = clientX - rect.left;
-      return (x / rect.width) * 100;
-    }
-
-    // 开始拖动
-    function startDrag(e) {
-      isDragging = true;
-      compareContainer.style.cursor = 'ew-resize';
-      e.preventDefault();
-    }
-
-    // 拖动中
-    function onDrag(e) {
-      if (!isDragging) return;
-      const percentage = getPercentageFromEvent(e);
-      updateSliderPosition(percentage);
-    }
-
-    // 结束拖动
-    function stopDrag() {
-      if (isDragging) {
-        isDragging = false;
-        compareContainer.style.cursor = 'grab';
-      }
-    }
-
-    // 桌面端: 鼠标拖动
-    compareContainer.addEventListener('mousedown', startDrag);
-    document.addEventListener('mousemove', onDrag);
-    document.addEventListener('mouseup', stopDrag);
-
-    // 移动端: 触摸拖动
-    compareContainer.addEventListener('touchstart', (e) => {
-      startDrag(e);
-    });
-
-    compareContainer.addEventListener('touchmove', (e) => {
-      if (isDragging) {
-        e.preventDefault();
-        onDrag(e);
-      }
-    }, { passive: false });
-
-    document.addEventListener('touchend', stopDrag);
-
-    // 初始化默认位置
-    updateSliderPosition(defaultPosition);
-  }
-
-  // ===== 根据屏幕宽度切换布局 =====
-  function updateResponsiveLayout() {
-    if (!showcaseSection) return;
-
-    const mobile = isMobileDevice();
-    showcaseSection.classList.toggle('compare-showcase--mobile', mobile);
-
-    if (leftSide) {
-      leftSide.hidden = mobile;
-      if (mobile) {
-        leftSide.setAttribute('aria-hidden', 'true');
-      } else {
-        leftSide.removeAttribute('aria-hidden');
-      }
-    }
-
-    if (rightSide) {
-      rightSide.hidden = mobile;
-      if (mobile) {
-        rightSide.setAttribute('aria-hidden', 'true');
-      } else {
-        rightSide.removeAttribute('aria-hidden');
-      }
-    }
-  }
-
-  // ===== 监听窗口尺寸变化 =====
-  function handleResize() {
-    if (resizeRaf) return;
-
-    resizeRaf = requestAnimationFrame(() => {
-      resizeRaf = null;
-      updateResponsiveLayout();
-      updateScaleBasedOnScroll();
-    });
-  }
-
-  // ===== 标签切换 =====
-  function handleTabClick(event) {
-    const clickedTab = event.target.closest('.compare-showcase__tab');
-    if (!clickedTab || isAnimating) return;
-
-    const toolName = clickedTab.dataset.tool;
-    if (toolName === currentTool) return;
-
-    // 更新标签激活状态
-    tabs.forEach(tab => tab.classList.remove('compare-showcase__tab--active'));
-    clickedTab.classList.add('compare-showcase__tab--active');
-
-    // 切换工具数据
-    currentTool = toolName;
-    currentData = toolsData[currentTool];
-
-    // 使用淡入淡出切换
-    isAnimating = true;
-
-    // 先将所有内容淡出
-    const allImages = carousel.querySelectorAll('.compare-showcase__card-image');
-    const allVideos = carousel.querySelectorAll('.compare-video');
-    [...allImages, ...allVideos].forEach(el => {
-      el.style.transition = 'opacity 0.2s ease';
-      el.style.opacity = '0';
-    });
-
-    // 在内容淡出后切换
-    setTimeout(() => {
+    // ===== 初始化 =====
+    function init() {
       updateCardsDisplay();
-      // 保持当前缩放状态，不重置为 minScale
+      updateResponsiveLayout();
+      attachEventListeners();
+      initCompareSlider();
+      initHoverVideoControl();
+      updateScaleBasedOnScroll();
+    }
+
+    // ===== 更新卡片显示 =====
+    function updateCardsDisplay() {
+      const data = currentData;
+
+      // 更新左侧图片（2张）
+      if (leftImages.length >= 2) {
+        leftImages[0].src = data.sideImages[0].url;
+        leftImages[0].alt = data.sideImages[0].alt;
+        leftImages[1].src = data.sideImages[1].url;
+        leftImages[1].alt = data.sideImages[1].alt;
+      }
+
+      // 更新右侧图片（1张）
+      if (rightImages.length >= 1) {
+        rightImages[0].src = data.sideImages[2].url;
+        rightImages[0].alt = data.sideImages[2].alt;
+      }
+
+      // 更新中央对比视频
+      if (beforeVideo && afterVideo) {
+        const beforeSource = beforeVideo.querySelector('source');
+        const afterSource = afterVideo.querySelector('source');
+
+        beforeSource.src = data.mainVideos.before.url;
+        afterSource.src = data.mainVideos.after.url;
+
+        beforeVideo.load();
+        afterVideo.load();
+      }
+    }
+
+    // ===== 悬浮播放控制 =====
+    function initHoverVideoControl() {
+      if (!mainCard || !beforeVideo || !afterVideo) return;
+
+      // 鼠标进入 - 播放视频
+      mainCard.addEventListener('mouseenter', () => {
+        beforeVideo.play().catch(err => console.log('Before video play error:', err));
+        afterVideo.play().catch(err => console.log('After video play error:', err));
+      });
+
+      // 鼠标离开 - 暂停并重置
+      mainCard.addEventListener('mouseleave', () => {
+        beforeVideo.pause();
+        afterVideo.pause();
+        beforeVideo.currentTime = 0;
+        afterVideo.currentTime = 0;
+      });
+    }
+
+    // ===== 应用缩放效果（平滑跟随滚动）=====
+    function applyScaleTransform(scale) {
+      // 移动端禁用缩放，保持原始尺寸
+      if (isMobileDevice()) {
+        mainCard.style.transform = 'scale(1)';
+        return;
+      }
+
+      // 桌面端更新中央卡片缩放
+      mainCard.style.transform = `scale(${scale})`;
+
+      // 桌面端才处理左右卡片的推开动画
+      if (leftSide && rightSide) {
+        // 计算左右卡片的推开距离（线性映射）
+        // scale 1.0 → 0px, scale 1.5 → maxPushDistance
+        const progress = (scale - minScale) / (maxScale - minScale);
+        const pushDistance = progress * maxPushDistance;
+
+        // 应用视差效果
+        leftSide.style.transform = `translateX(-${pushDistance}px)`;
+        rightSide.style.transform = `translateX(${pushDistance}px)`;
+      }
+    }
+
+    // ===== 使用 RAF 平滑更新缩放（性能优化）=====
+    function updateScaleAnimation() {
+      // 平滑插值（Lerp），避免突变
+      currentScale += (targetScale - currentScale) * 0.15;
+
+      // 应用变换
       applyScaleTransform(currentScale);
 
-      // 立即淡入新内容
-      setTimeout(() => {
-        [...allImages, ...allVideos].forEach(el => {
-          el.style.opacity = '1';
-        });
+      // 如果还有差距，继续下一帧
+      if (Math.abs(targetScale - currentScale) > 0.001) {
+        rafId = requestAnimationFrame(updateScaleAnimation);
+      } else {
+        currentScale = targetScale;
+        rafId = null;
+      }
+    }
 
-        // 重新计算基于当前滚动位置的缩放
+    // ===== 基于滚动位置计算缩放（不劫持滚动）=====
+    function updateScaleBasedOnScroll() {
+      if (!showcaseSection) return;
+      const rect = showcaseSection.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      // 计算区域相对于视口的位置
+      const sectionTop = rect.top;
+      const sectionBottom = rect.bottom;
+      const viewportCenter = viewportHeight / 2;
+
+      // 如果区域还未进入视口，保持初始缩放
+      if (sectionBottom < 0 || sectionTop > viewportHeight) {
+        targetScale = minScale;
+        if (!rafId) {
+          rafId = requestAnimationFrame(updateScaleAnimation);
+        }
+        return;
+      }
+
+      // 计算区域中心相对于视口中心的偏移
+      const sectionCenter = sectionTop + rect.height / 2;
+      const offset = sectionCenter - viewportCenter;
+
+      // 定义缩放触发区域
+      const scaleRange = viewportHeight * 0.8; // 缩放过渡范围
+
+      // 计算缩放进度
+      let progress = 0;
+
+      if (offset > 0) {
+        // 区域中心在视口中心下方（尚未滚动到居中位置）
+        // 从下方进入，逐渐放大
+        progress = Math.max(0, 1 - offset / scaleRange);
+      } else {
+        // 区域中心在视口中心上方或对齐（已经滚动到居中或更上方）
+        // 保持最大缩放，不缩小
+        progress = 1;
+      }
+
+      // 映射到缩放值 (1.0 ~ 1.5)
+      targetScale = minScale + (maxScale - minScale) * progress;
+
+      // 启动平滑动画
+      if (!rafId) {
+        rafId = requestAnimationFrame(updateScaleAnimation);
+      }
+    }
+
+    // ===== 监听页面滚动 =====
+    function handleScroll() {
+      updateScaleBasedOnScroll();
+    }
+
+    // ===== 对比滑块交互逻辑 =====
+    function initCompareSlider() {
+      if (!compareContainer || !slider || !beforeVideo) return;
+
+      const defaultPosition = 50; // 默认 50% 位置
+      let isDragging = false;
+
+      // 更新滑块位置和视频裁剪
+      function updateSliderPosition(percentage) {
+        percentage = Math.max(0, Math.min(100, percentage));
+
+        // 更新滑块位置
+        slider.style.left = `${percentage}%`;
+
+        // 更新前景视频裁剪
+        beforeVideo.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+      }
+
+      // 从鼠标/触摸事件计算百分比
+      function getPercentageFromEvent(e) {
+        const rect = compareContainer.getBoundingClientRect();
+        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        const x = clientX - rect.left;
+        return (x / rect.width) * 100;
+      }
+
+      // 开始拖动
+      function startDrag(e) {
+        isDragging = true;
+        compareContainer.style.cursor = 'ew-resize';
+        e.preventDefault();
+      }
+
+      // 拖动中
+      function onDrag(e) {
+        if (!isDragging) return;
+        const percentage = getPercentageFromEvent(e);
+        updateSliderPosition(percentage);
+      }
+
+      // 结束拖动
+      function stopDrag() {
+        if (isDragging) {
+          isDragging = false;
+          compareContainer.style.cursor = 'grab';
+        }
+      }
+
+      // 桌面端: 鼠标拖动
+      compareContainer.addEventListener('mousedown', startDrag);
+      document.addEventListener('mousemove', onDrag);
+      document.addEventListener('mouseup', stopDrag);
+
+      // 移动端: 触摸拖动
+      compareContainer.addEventListener('touchstart', (e) => {
+        startDrag(e);
+      });
+
+      compareContainer.addEventListener('touchmove', (e) => {
+        if (isDragging) {
+          e.preventDefault();
+          onDrag(e);
+        }
+      }, { passive: false });
+
+      document.addEventListener('touchend', stopDrag);
+
+      // 初始化默认位置
+      updateSliderPosition(defaultPosition);
+    }
+
+    // ===== 根据屏幕宽度切换布局 =====
+    function updateResponsiveLayout() {
+      if (!showcaseSection) return;
+
+      const mobile = isMobileDevice();
+      showcaseSection.classList.toggle('compare-showcase--mobile', mobile);
+
+      if (leftSide) {
+        leftSide.hidden = mobile;
+        if (mobile) {
+          leftSide.setAttribute('aria-hidden', 'true');
+        } else {
+          leftSide.removeAttribute('aria-hidden');
+        }
+      }
+
+      if (rightSide) {
+        rightSide.hidden = mobile;
+        if (mobile) {
+          rightSide.setAttribute('aria-hidden', 'true');
+        } else {
+          rightSide.removeAttribute('aria-hidden');
+        }
+      }
+    }
+
+    // ===== 监听窗口尺寸变化 =====
+    function handleResize() {
+      if (resizeRaf) return;
+
+      resizeRaf = requestAnimationFrame(() => {
+        resizeRaf = null;
+        updateResponsiveLayout();
         updateScaleBasedOnScroll();
+      });
+    }
 
-        // 动画完成后清理
+    // ===== 标签切换 =====
+    function handleTabClick(event) {
+      const clickedTab = event.target.closest('.compare-showcase__tab');
+      if (!clickedTab || isAnimating) return;
+
+      const toolName = clickedTab.dataset.tool;
+      if (toolName === currentTool) return;
+
+      // 更新标签激活状态
+      tabs.forEach(tab => tab.classList.remove('compare-showcase__tab--active'));
+      clickedTab.classList.add('compare-showcase__tab--active');
+
+      // 切换工具数据
+      currentTool = toolName;
+      currentData = toolsData[currentTool];
+
+      // 使用淡入淡出切换
+      isAnimating = true;
+
+      // 先将所有内容淡出
+      const allImages = carousel.querySelectorAll('.compare-showcase__card-image');
+      const allVideos = carousel.querySelectorAll('.compare-video');
+      [...allImages, ...allVideos].forEach(el => {
+        el.style.transition = 'opacity 0.2s ease';
+        el.style.opacity = '0';
+      });
+
+      // 在内容淡出后切换
+      setTimeout(() => {
+        updateCardsDisplay();
+        // 保持当前缩放状态，不重置为 minScale
+        applyScaleTransform(currentScale);
+
+        // 立即淡入新内容
         setTimeout(() => {
           [...allImages, ...allVideos].forEach(el => {
-            el.style.transition = '';
+            el.style.opacity = '1';
           });
-          isAnimating = false;
-        }, 200);
-      }, 50);
-    }, 200);
-  }
 
-  // ===== 按钮点击事件 =====
-  function handleRunGenerator() {
-    console.log('Try Comparison clicked for:', currentTool);
-    alert(`Starting ${currentTool.replace('-', ' ')} comparison...`);
-  }
+          // 重新计算基于当前滚动位置的缩放
+          updateScaleBasedOnScroll();
 
-  // ===== 绑定事件监听器 =====
-  function attachEventListeners() {
-    // 监听页面滚动（被动式，不劫持）
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleResize);
-
-    // 标签切换
-    tabs.forEach(tab => {
-      tab.addEventListener('click', handleTabClick);
-    });
-
-    // 行动号召按钮
-    if (runBtn) {
-      runBtn.addEventListener('click', handleRunGenerator);
+          // 动画完成后清理
+          setTimeout(() => {
+            [...allImages, ...allVideos].forEach(el => {
+              el.style.transition = '';
+            });
+            isAnimating = false;
+          }, 200);
+        }, 50);
+      }, 200);
     }
-  }
 
-  // ===== 启动模块 =====
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+    // ===== 按钮点击事件 =====
+    function handleRunGenerator() {
+      console.log('Try Comparison clicked for:', currentTool);
+      alert(`Starting ${currentTool.replace('-', ' ')} comparison...`);
+    }
 
-})();
+    // ===== 绑定事件监听器 =====
+    function attachEventListeners() {
+      // 监听页面滚动（被动式，不劫持）
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      window.addEventListener('resize', handleResize);
+
+      // 标签切换
+      tabs.forEach(tab => {
+        tab.addEventListener('click', handleTabClick);
+      });
+
+      // 行动号召按钮
+      if (runBtn) {
+        runBtn.addEventListener('click', handleRunGenerator);
+      }
+    }
+
+    // ===== 启动模块 =====
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+
+  })();
 </script>
-
 
   <!-- ===== USE-CASES SECTION ===== -->
 <!-- ===== USE CASES 模块 ===== -->
@@ -7946,7 +8007,7 @@
     grid-row: 1;
     width: 235px;
     height: 195px;
-    transform: translate(-325px, 170px);
+    transform: translate(-380px, 170px);
   }
 
   .styles-card:nth-child(1).animate-in {
@@ -7957,13 +8018,13 @@
   @keyframes fadeInUp1 {
     0% {
       opacity: 0;
-      transform: translate(-325px, 240px);
+      transform: translate(-380px, 240px);
       /* 从下方70px开始 (170 + 70) */
     }
 
     100% {
       opacity: 1;
-      transform: translate(-325px, 170px);
+      transform: translate(-380px, 170px);
       /* 最终位置 */
     }
   }
@@ -7974,7 +8035,7 @@
     grid-row: 1;
     width: 235px;
     height: 195px;
-    transform: translate(-380px, 170px);
+    transform: translate(-505px, 170px);
   }
 
   .styles-card:nth-child(2).animate-in {
@@ -7985,13 +8046,13 @@
   @keyframes fadeInUp2 {
     0% {
       opacity: 0;
-      transform: translate(-380px, 240px);
+      transform: translate(-505px, 240px);
     }
 
     /* 170 + 70 */
     100% {
       opacity: 1;
-      transform: translate(-380px, 170px);
+      transform: translate(-505px, 170px);
     }
   }
 
@@ -8001,7 +8062,7 @@
     grid-row: 2;
     width: 220px;
     height: 290px;
-    transform: translate(-335px, 70px);
+    transform: translate(-410px, 70px);
   }
 
   .styles-card:nth-child(3).animate-in {
@@ -8012,13 +8073,13 @@
   @keyframes fadeInUp3 {
     0% {
       opacity: 0;
-      transform: translate(-335px, 140px);
+      transform: translate(-410px, 140px);
     }
 
     /* 70 + 70 */
     100% {
       opacity: 1;
-      transform: translate(-335px, 70px);
+      transform: translate(-410px, 70px);
     }
   }
 
@@ -8029,7 +8090,7 @@
     width: 367px;
     height: 315px;
     z-index: 2;
-    transform: translate(-325px, 170px);
+    transform: translate(-400px, 170px);
   }
 
   .styles-card:nth-child(4).animate-in {
@@ -8040,13 +8101,13 @@
   @keyframes fadeInUp4 {
     0% {
       opacity: 0;
-      transform: translate(-325px, 240px);
+      transform: translate(-400px, 240px);
     }
 
     /* 170 + 70 */
     100% {
       opacity: 1;
-      transform: translate(-325px, 170px);
+      transform: translate(-400px, 170px);
     }
   }
 
@@ -8057,7 +8118,7 @@
     width: 240px;
     height: 395px;
     z-index: 3;
-    transform: translate(-80px, 170px);
+    transform: translate(-205px, 170px);
   }
 
   .styles-card:nth-child(5).animate-in {
@@ -8068,13 +8129,13 @@
   @keyframes fadeInUp5 {
     0% {
       opacity: 0;
-      transform: translate(-80px, 240px);
+      transform: translate(-205px, 240px);
     }
 
     /* 170 + 70 */
     100% {
       opacity: 1;
-      transform: translate(-80px, 170px);
+      transform: translate(-205px, 170px);
     }
   }
 
@@ -8082,9 +8143,9 @@
   .styles-card:nth-child(6) {
     grid-column: 3 / 5;
     grid-row: 3;
-    width: 295px;
+    width: 367px;
     height: 400px;
-    transform: translate(-250px, 170px);
+    transform: translate(-400px, 170px);
   }
 
   .styles-card:nth-child(6).animate-in {
@@ -8095,13 +8156,40 @@
   @keyframes fadeInUp6 {
     0% {
       opacity: 0;
-      transform: translate(-250px, 240px);
+      transform: translate(-400px, 240px);
     }
 
     /* 170 + 70 */
     100% {
       opacity: 1;
-      transform: translate(-250px, 170px);
+      transform: translate(-400px, 170px);
+    }
+  }
+
+  /* 卡片 7：左下角 */
+  .styles-card:nth-child(7) {
+    grid-column: 1 / 3;
+    grid-row: 3;
+    width: 220px;
+    height: 486px;
+    transform: translate(-410px, 60px);
+  }
+
+  .styles-card:nth-child(7).animate-in {
+    animation: fadeInUp7 0.8s ease forwards;
+    animation-delay: 0.9s;
+  }
+
+  @keyframes fadeInUp7 {
+    0% {
+      opacity: 0;
+      transform: translate(-410px, 130px);
+    }
+
+    /* 60 + 70 */
+    100% {
+      opacity: 1;
+      transform: translate(-410px, 60px);
     }
   }
 
@@ -8294,13 +8382,9 @@
       order: 1;
     }
 
-    /* 平板端：保持交错布局 */
+    /* 平板端：隐藏左侧卡片 */
     .styles-gallery {
-      grid-template-columns: repeat(3, 1fr);
-      gap: var(--spacing-sm);
-      order: 2;
-      padding: var(--spacing-md);
-      transform: rotate(35deg);
+      display: none;
     }
 
     .styles-title {
@@ -8327,79 +8411,9 @@
       /* 所有内容居中 */
     }
 
-    /* 移动端：简化为2列网格，保留旋转效果 */
+    /* 移动端：隐藏左侧卡片 */
     .styles-gallery {
-      grid-template-columns: repeat(2, 1fr);
-      gap: var(--spacing-sm);
-      transform: rotate(35deg);
-      padding: var(--spacing-md);
-      max-width: 500px;
-      /* 限制最大宽度 */
-      margin: 0 auto;
-      /* 居中 */
-    }
-
-    /* 移动端：重置交错布局，改为简单的2列排列 */
-    .styles-card:nth-child(1) {
-      grid-column: 1 / 2;
-      grid-row: 1;
-      transform: translate(0, 0);
-      /* 重置transform */
-      width: 100%;
-      height: auto;
-    }
-
-    .styles-card:nth-child(2) {
-      grid-column: 2 / 3;
-      grid-row: 1;
-      transform: translate(0, 0);
-      width: 100%;
-      height: auto;
-    }
-
-    .styles-card:nth-child(3) {
-      grid-column: 1 / 2;
-      grid-row: 2;
-      transform: translate(0, 0);
-      width: 100%;
-      height: auto;
-    }
-
-    .styles-card:nth-child(4) {
-      grid-column: 2 / 3;
-      grid-row: 2;
-      transform: translate(0, 0);
-      width: 100%;
-      height: auto;
-    }
-
-    .styles-card:nth-child(5) {
-      grid-column: 1 / 2;
-      grid-row: 3;
-      transform: translate(0, 0);
-      width: 100%;
-      height: auto;
-    }
-
-    .styles-card:nth-child(6) {
-      grid-column: 2 / 3;
-      grid-row: 3;
-      transform: translate(0, 0);
-      width: 100%;
-      height: auto;
-    }
-
-    /* 移除单个卡片的动画，但保持显示 */
-    .styles-card {
-      opacity: 1 !important;
-      /* 强制显示卡片 */
-      animation: none !important;
-      /* 移除动画 */
-    }
-
-    .styles-card.animate-in {
-      animation: none;
-      opacity: 1;
+      display: none;
     }
 
     /* 右侧内容区域 */
@@ -8484,15 +8498,9 @@
       font-size: 0.9rem;
     }
 
+    /* 小屏移动端：隐藏左侧卡片 */
     .styles-gallery {
-      gap: 0.5rem;
-      padding: var(--spacing-sm);
-      max-width: 400px;
-    }
-
-    .styles-card {
-      opacity: 1 !important;
-      /* 确保卡片可见 */
+      display: none;
     }
 
     .styles-features {
@@ -8567,6 +8575,12 @@
         <img src="assets/styles/images/styles-image-06.png" alt="Style 6" loading="lazy">
         <video muted loop preload="none">
           <source src="assets/styles/videos/styles-video-06.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="styles-card" data-hover-video>
+        <img src="assets/styles/images/styles-image-07.png" alt="Style 7" loading="lazy">
+        <video muted loop preload="none">
+          <source src="assets/styles/videos/styles-video-07.mp4" type="video/mp4">
         </video>
       </div>
     </div>
@@ -10946,692 +10960,930 @@
 </script>
 
   <!-- ===== FOOTER SECTION ===== -->
+﻿<!-- ===== FOOTER SECTION ===== -->
 <style>
-/* Footer 样式 */
-.footer-section {
-  padding: 20px 0 20px;  /* 减少底部padding,与浏览器下方距离更近 */
-  background: #0D0D0D;
-}
-
-.footer-container {
-  position: relative;
-  width: 100%;
-  padding: 0 3rem;
-  margin: 0;
-  box-sizing: border-box;
-}
-
-/* 上方大框 */
-.footer-main-box {
-  position: relative;
-  background-color: rgba(20, 20, 20, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 110px 60px;
-  margin-top: 3rem;      /* 整体下移 */
-  margin-bottom: 20px;
-  overflow: hidden;
-  width: 100%;           /* 宽度：可调整（100% 表示容器宽度）*/
-  height: 475px;          /* 高度：可调整（auto 或具体数值如 600px）*/
-  min-height: 400px;     /* 最小高度：可调整 */
-}
-
-.footer-main-box img.footer-logo {
-  object-fit: contain;
-  max-width: 100%;
-  height: auto;
-  display: block;
-}
-
-/* 背景封面图 */
-.footer-background-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: -20px;
-  width: 100%;
-  height: calc(100% + 20px);
-  object-fit: cover;
-  object-position: top left;
-  opacity: 0.5;
-  z-index: 0;
-  transition: opacity 0.3s ease;
-}
-
-/* 背景视频 */
-.footer-background-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: -20px;
-  width: 100%;
-  height: calc(100% + 20px);
-  object-fit: cover;
-  object-position: top left;
-  opacity: 0;
-  z-index: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-/* 悬浮时显示视频，隐藏图片（上方大框）*/
-.footer-main-box.active .footer-background-image {
-  opacity: 0;
-}
-
-.footer-main-box.active .footer-background-video {
-  opacity: 0.5;
-}
-
-.footer-main {
-  position: relative;
-  z-index: 1;
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;  /* 左侧占2份，右侧4列各占1份 */
-  gap: 90px;
-}
-
-/* 左侧品牌区域 */
-.footer-brand {
-  grid-column: span 1;   /* 只占1列，但这1列宽度是2fr */
-}
-
-.footer-logo-wrapper {
-  display: flex;
-  align-items: center;
-  gap: 0px;
-  margin-bottom: -10px;    /* 减少 logo 和描述文字的间距 */
-  margin-top: -145px;    /* 与 logo 的 margin-top 保持一致 */
-  margin-left: -43px;    /* 与 logo 的 margin-left 保持一致 */
-  overflow: hidden;      /* 避免 logo 溢出容器 */
-}
-
-.footer-logo {
-  width: 180px;
-  height: auto;
-  margin-top: 0px;       /* logo 本身不需要边距，由 wrapper 控制 */
-  margin-left: 0px;      /* logo 本身不需要边距，由 wrapper 控制 */
-}
-
-.footer-brand-name {
-  font-size: 20px;
-  font-weight: 600;
-  color: #FFFFFF;
-  line-height: 1.2;
-}
-
-.footer-brand-subtitle {
-  font-size: 20px;   
-  font-weight: 600;
-  color: #FFFFFF;      
-  line-height: 1.2;   
-  margin-top: -4px;
-}
-
-.footer-description {
-  font-size: 14px;
-  line-height: 1.2;
-  color: #FFFFFF;        /* 改为白色字体 */
-  margin-bottom: 30px;
-  max-width: 800px;      /* 大幅增加容器宽度，减少换行 */
-  margin-left: 0px;      /* 与 logo 左对齐 */
-}
-
-.footer-cta-button {
-  display: inline-block;
-  padding: 10px 22px;    /* 增加左右内边距，让按钮变宽 */
-  background: #2A2A2A;   /* 暗灰色背景 */
-  color: #FFFFFF;
-  text-decoration: none;
-  border-radius: 5px;    /* 调整按钮圆角 */
-  font-size: 13px;
-  font-weight: 500;
-  border: 1px solid rgba(255, 255, 255, 0.2);  /* 边框 */
-  transition: all 0.3s ease;
-  margin-left: 0px;
-}
-
-.footer-cta-button:hover {
-  background: #3A3A3A;   /* hover 时稍亮的暗灰色 */
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-/* 链接列 */
-.footer-links-grid {
-  display: contents;
-}
-
-.footer-links-column {
-  display: flex;
-  flex-direction: column;
-  margin-right: -50px;   /* 右移：负值向右移动 */
-  margin-top: -60px;    /* 与 logo 上边距保持一致 */
-}
-
-.footer-column-title {
-  font-size: 16px;       /* 增加主分类标题文字大小 */
-  font-weight: 600;
-  color: #FFFFFF;
-  margin-bottom: 20px;
-  letter-spacing: 0.5px;
-}
-
-.footer-links-list {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;             /* 增加小分类项之间的间距 */
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footer-link {
-  color: #999999;
-  text-decoration: none;
-  font-size: 14px;
-  transition: color 0.3s ease;
-}
-
-.footer-link:hover {
-  color: #FFFFFF;
-}
-
-/* 下方小框（版权区域）*/
-.footer-bottom-box {
-  position: relative;
-  background-color: rgba(20, 20, 20, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 16px;
-  padding: 23px 60px;
-  overflow: hidden;
-  width: 100%;
-  height: auto;
-  min-height: 70px;      /* 最小高度：可调整 */
-}
-
-/* 下方小框背景封面图 */
-.footer-bottom-background-image {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: left calc(-1 * (var(--footer-main-height) + 20px));
-  opacity: 0.5;
-  z-index: 0;
-  transition: opacity 0.3s ease;
-}
-
-/* 下方小框背景视频 */
-.footer-bottom-background-video {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: left calc(-1 * (var(--footer-main-height) + 20px));
-  opacity: 0;
-  z-index: 0;
-  pointer-events: none;
-  transition: opacity 0.3s ease;
-}
-
-/* 悬浮时显示视频，隐藏图片（下方小框）*/
-.footer-bottom-box.active .footer-bottom-background-image {
-  opacity: 0;
-}
-
-.footer-bottom-box.active .footer-bottom-background-video {
-  opacity: 0.5;
-}
-
-.footer-bottom {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.footer-copyright {
-  font-size: 14px;
-  color: #FFFFFF;        /* 改为白色 */
-}
-
-.footer-legal-links {
-  display: flex;
-  gap: 0;                /* 移除 gap，使用分隔符间距 */
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.footer-legal-links li {
-  display: flex;
-  align-items: center;
-}
-
-.footer-legal-links li:not(:last-child)::after {
-  content: '|';
-  color: #FFFFFF;
-  margin: 0 15px;        /* 分隔符左右间距 */
-}
-
-.footer-legal-link {
-  color: #FFFFFF;        /* 改为白色 */
-  text-decoration: none;
-  font-size: 14px;
-  transition: color 0.3s ease;
-}
-
-.footer-legal-link:hover {
-  color: #FFFFFF;
-}
-
-/* 响应式设计 */
-@media (max-width: 991px) {
-  .footer-main {
-    grid-template-columns: 1.4fr repeat(4, minmax(120px, 1fr));
-    gap: 2rem;
-    align-items: flex-start;
-  }
-
-  .footer-brand {
-    grid-column: span 1;
-  }
-
-  .footer-main-box {
-    padding: 60px 30px;
-    height: 380px;
-    min-height: 380px;
-  }
-
-  .footer-logo-wrapper {
-    margin-top: -80px;
-    margin-left: -20px;
-    margin-bottom: 0;
-  }
-
-  .footer-logo {
-    width: 150px;
-  }
-
-  .footer-links-column {
-    margin-top: -40px;
-    margin-right: -30px;
-  }
-
-  .footer-description {
-    font-size: 10px;
-  }
-
-  .footer-brand-name,
-  .footer-brand-subtitle {
-    font-size: 13px;
-  }
-
-  .footer-column-title {
-    font-size: 11px;
-  }
-
-  .footer-link,
-  .footer-legal-link {
-    font-size: 9px;
-  }
-
-  .footer-bottom-box {
-    padding: 20px 30px;
-  }
-}
-
-@media (max-width: 767px) {
+  /* Footer  */
   .footer-section {
-    padding: 3rem 0 0;
+    padding: 20px 0 20px;
+    --footer-heading-height: clamp(60px, 6vw, 80px);
+    --footer-heading-size: clamp(16px, 2vw, 20px);
+    --footer-body-size: clamp(12px, 1.6vw, 14px);
   }
 
   .footer-container {
-    padding: 0 1.5rem;
+    position: relative;
+    width: 100%;
+    padding: 0 3rem;
+    margin: 0;
+    box-sizing: border-box;
+  }
+
+  /*  */
+  .footer-main-box {
+    position: relative;
+    background-color: rgba(20, 20, 20, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 40px 60px 140px;
+    margin-top: 3rem;
+    /*  */
+    margin-bottom: 20px;
+    overflow: hidden;
+    width: 100%;
+    /* 100% */
+    height: 475px;
+    /* auto  600px*/
+    min-height: 400px;
+    /*  */
+  }
+
+  .footer-main-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: -20px;
+    width: 100%;
+    height: calc(100% + 20px);
+    object-fit: cover;
+    object-position: top left;
+    opacity: 0.5;
+    z-index: 0;
+  }
+
+  .footer-main-background-video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: calc(var(--footer-main-height) + var(--footer-bottom-height) + 20px);
+    object-fit: cover;
+    object-position: center top;
+    opacity: 0.5;
+    z-index: 0;
   }
 
   .footer-main {
-    grid-template-columns: 0.8fr 1.2fr;
-    gap: 1.5rem;
-    align-items: flex-start;
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+    /* 241 */
+    gap: 60px;
   }
 
+  /*  */
   .footer-brand {
-    grid-column: 1 / 2;
+    grid-column: span 1;
+    /* 112fr */
   }
 
   .footer-logo-wrapper {
-    margin: 0;
-    gap: 0.5rem;
-    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    min-height: var(--footer-heading-height);
+    gap: 0px;
+    margin-bottom: 0px;
+    /* 与 footer-column-title 保持一致的间距 */
+    margin-top: 0px;
+    /* 与其他标题元素对齐 */
+    margin-left: 0px;
+    /* 与下方元素左边对齐 */
+  }
+
+  .footer-logo-wrapper>div {
+    display: flex;
+    flex-direction: column;
     align-items: flex-start;
+    gap: 0px;
+    line-height: 1;
   }
 
   .footer-logo {
-    width: 130px;
+    height: var(--footer-heading-height);
+    max-height: var(--footer-heading-height);
+    width: auto;
+    object-fit: contain;
+    flex-shrink: 0;
+    margin-top: 0px;
+    margin-right: 1rem;
+    margin-left: 0px;
+  }
+
+  .footer-brand-name {
+    display: flex;
+    align-items: center;
+    font-size: var(--footer-heading-size);
+    font-weight: 600;
+    color: #FFFFFF;
+    line-height: 1;
+  }
+
+  .footer-brand-subtitle {
+    font-size: var(--footer-heading-size);
+    font-weight: 600;
+    color: #FFFFFF;
+    line-height: 1;
+    margin-top: 0px;
   }
 
   .footer-description {
-    max-width: 100%;
-    margin-left: 0;
-    font-size: 12px;
-    line-height: 1.4;
-  }
-
-  .footer-main-box {
-    padding: 30px 20px;
-    margin-bottom: 15px;
-    height: 350px;
-    min-height: 350px;
-  }
-
-  .footer-links-column {
-    margin-top: 0;
-    margin-right: 0;
-    gap: 0.5rem;
-  }
-
-  .footer-links-grid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0.55rem;
-    grid-column: 2 / 3;
-    grid-row: 1;
-  }
-
-  .footer-links-list {
-    gap: 1px;
-  }
-
-  .footer-column-title {
-    font-size: 13px;
-    margin-bottom: 0.75rem;
-  }
-
-  .footer-link {
-    font-size: 12px;
+    font-size: var(--footer-body-size);
+    line-height: 1.2;
+    color: #FFFFFF;
+    /*  */
+    margin-top: 12px;
+    margin-bottom: 30px;
+    max-width: 800px;
+    /*  */
+    margin-left: 0px;
+    /*  logo  */
   }
 
   .footer-cta-button {
-    padding: 8px 20px;
-    font-size: 9px;
+    display: inline-block;
+    padding: 10px 22px;
+    /*  */
+    background: #2A2A2A;
+    /*  */
+    color: #FFFFFF;
+    text-decoration: none;
+    border-radius: 5px;
+    /*  */
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    /*  */
+    transition: all 0.3s ease;
+    margin-left: 0px;
   }
 
-  .footer-bottom-box {
-    padding: 20px;
-    margin-bottom: 3rem;
+  .footer-cta-button:hover {
+    background: #3A3A3A;
+    /* hover  */
+    border-color: rgba(255, 255, 255, 0.3);
   }
 
-  .footer-bottom {
-    flex-direction: column;
-    gap: 20px;
-    text-align: center;
-  }
-
-  .footer-legal-links {
-    flex-direction: column;
-    gap: 0.75rem;
-  }
-
-  .footer-legal-links li:not(:last-child)::after {
-    display: none;
-  }
-
-  .footer-brand-name,
-  .footer-brand-subtitle {
-    font-size: 12px;
-  }
-}
-
-@media (max-width: 479px) {
+  /*  */
   .footer-links-grid {
-    gap: 0.2rem;
+    display: contents;
   }
 
-  .footer-main-box {
-    padding: 25px 15px;
-    height: 350px;
-    min-height: 350px;
+  .footer-run-button {
+    margin-top: var(--spacing-sm);
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+    margin-left: 0;
   }
 
-  .footer-logo {
-    width: 100px;
+  .footer-run-button .footer-cta-button {
+    width: fit-content;
   }
 
-  .footer-description {
-    font-size: 10px;
-    display: none;
+  .footer-social-links {
+    margin-top: var(--spacing-xl);
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
   }
 
-  .footer-brand-name,
-  .footer-brand-subtitle {
-    font-size: 11px;
+  .footer-social-link {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: #FFFFFF;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
+  }
+
+  .footer-social-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .footer-social-link svg {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+  }
+
+  .footer-links-column {
+    display: flex;
+    flex-direction: column;
+    margin-right: -50px;
+    /*  */
+    margin-top: 0px;
+    /*  logo wrapper  footer-brand-name  footer-column-title  */
   }
 
   .footer-column-title {
-    font-size: 11px;
-    margin-bottom: 0.5rem;
+    font-size: var(--footer-heading-size);
+    /* 增加主分类标题文字大小 */
+    font-weight: 600;
+    color: #FFFFFF;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    line-height: var(--footer-heading-height);
+    min-height: var(--footer-heading-height);
+    word-break: break-word;
   }
 
   .footer-links-list {
-    gap: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /*  */
+    list-style: none;
+    padding: 0;
+    margin: 0;
   }
 
-  .footer-link,
-  .footer-legal-link {
-    font-size: 9px;
+  .footer-link {
+    color: #999999;
+    text-decoration: none;
+    font-size: var(--footer-body-size);
+    transition: color 0.3s ease;
+  }
+
+  .footer-link:hover {
+    color: #FFFFFF;
+  }
+
+  /* */
+  .footer-bottom-box {
+    position: relative;
+    background-color: rgba(20, 20, 20, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 23px 60px;
+    overflow: hidden;
+    width: 100%;
+    height: auto;
+    min-height: 70px;
+    /* 最小高度：可调整 */
+  }
+
+  .footer-bottom-box::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('sections/footer/background.png');
+    background-size: 100% calc(var(--footer-main-height) + 100% + 20px);
+    background-position-x: left;
+    background-position-y: calc(-1 * (var(--footer-main-height) + 20px));
+    background-repeat: no-repeat;
+    opacity: 0.5;
+    z-index: 0;
+  }
+
+  .footer-bottom-background-video {
+    position: absolute;
+    top: calc(-1 * (var(--footer-main-height) + 20px));
+    left: 0;
+    width: 100%;
+    height: calc(var(--footer-main-height) + var(--footer-bottom-height) + 20px);
+    object-fit: cover;
+    object-position: center top;
+    opacity: 0.5;
+    z-index: 0;
   }
 
   .footer-bottom {
-    gap: 15px;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
-}
+
+  .footer-copyright {
+    font-size: 14px;
+    color: #FFFFFF;
+    /*  */
+  }
+
+  .footer-legal-links {
+    display: flex;
+    gap: 0;
+    /*  gap */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .footer-legal-links li {
+    display: flex;
+    align-items: center;
+  }
+
+  .footer-legal-links li:not(:last-child)::after {
+    content: '|';
+    color: #FFFFFF;
+    margin: 0 15px;
+    /*  */
+  }
+
+  .footer-legal-link {
+    color: #FFFFFF;
+    /*  */
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s ease;
+  }
+
+  .footer-legal-link:hover {
+    color: #FFFFFF;
+  }
+
+  /*  */
+  @media (max-width: 991px) {
+    .footer-section {
+      --footer-heading-height: 54px;
+      --footer-heading-size: 15px;
+      --footer-body-size: 12px;
+    }
+
+    .footer-main {
+      grid-template-columns: 1.4fr repeat(4, minmax(120px, 1fr));
+      gap: 2rem;
+      align-items: flex-start;
+    }
+
+    .footer-brand {
+      grid-column: span 1;
+    }
+
+    .footer-main-box {
+      padding: 30px 30px 90px;
+      height: 380px;
+      min-height: 380px;
+    }
+
+    .footer-logo-wrapper {
+      display: flex;
+      align-items: center;
+      min-height: var(--footer-heading-height);
+      gap: 0px;
+      margin-bottom: 0px;
+      margin-top: 0px;
+      margin-left: 0px;
+      margin-right: 8px;
+      overflow: hidden;
+    }
+
+    .footer-logo-wrapper>div {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0px;
+      line-height: 1;
+    }
+
+    .footer-logo {
+      height: var(--footer-heading-height);
+      width: auto;
+    }
+
+    .footer-links-column {
+      margin-top: 0px;
+      margin-right: -30px;
+    }
+
+    .footer-description {
+      font-size: var(--footer-body-size);
+    }
+
+    .footer-brand-name,
+    .footer-brand-subtitle {
+      font-size: var(--footer-heading-size);
+    }
+
+    .footer-column-title {
+      font-size: var(--footer-heading-size);
+    }
+
+    .footer-link,
+    .footer-legal-link {
+      font-size: var(--footer-body-size);
+    }
+
+    .footer-bottom-box {
+      padding: 20px 30px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .footer-section {
+      --footer-heading-height: 64px;
+      --footer-heading-size: 14px;
+      --footer-body-size: 12px;
+    }
+
+    .footer-section {
+      padding: 3rem 0 0;
+    }
+
+    .footer-container {
+      padding: 0 1.5rem;
+    }
+
+    .footer-main {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      align-items: center;
+    }
+
+    .footer-brand {
+      width: 100%;
+      text-align: center;
+      align-items: center;
+    }
+
+    .footer-logo-wrapper {
+      justify-content: center;
+      display: flex;
+      align-items: center;
+      min-height: var(--footer-heading-height);
+      flex-direction: column;
+      gap: 0.25rem;
+      margin: 0;
+      overflow: hidden;
+    }
+
+    .footer-logo-wrapper>div {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .footer-logo {
+      height: var(--footer-heading-height);
+      max-height: var(--footer-heading-height);
+      width: auto;
+      object-fit: contain;
+    }
+
+    .footer-description {
+      max-width: 100%;
+      margin-left: 0;
+      font-size: 12px;
+      line-height: 1.4;
+      text-align: center;
+    }
+
+    .footer-main-box {
+      padding: 16px 16px 36px;
+      margin-bottom: 15px;
+      height: auto;
+      min-height: 0;
+    }
+
+    .footer-links-column {
+      margin-top: 0;
+      margin-right: 0;
+      gap: 0.5rem;
+      align-items: center;
+      text-align: center;
+    }
+
+    .footer-links-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(140px, 1fr));
+      gap: 0.8rem;
+      width: 100%;
+    }
+
+    .footer-links-list {
+      gap: 6px;
+      align-items: center;
+    }
+
+    .footer-column-title {
+      font-size: var(--footer-heading-size);
+      margin-bottom: 8px;
+      min-height: auto;
+      line-height: 1.4;
+    }
+
+    .footer-link {
+      font-size: var(--footer-body-size);
+      line-height: 1.3;
+    }
+
+    .footer-cta-button {
+      padding: 8px 20px;
+      font-size: var(--footer-body-size);
+      width: 100%;
+      text-align: center;
+    }
+
+    .footer-run-button {
+      margin-top: var(--spacing-sm);
+      width: 100%;
+    }
+
+    .footer-run-button .footer-cta-button {
+      width: 100%;
+    }
+
+    .footer-bottom-box {
+      padding: 16px;
+      margin-bottom: 3rem;
+      min-height: 120px;
+    }
+
+    .footer-bottom {
+      flex-direction: column;
+      gap: 20px;
+      text-align: center;
+    }
+
+    .footer-legal-links {
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .footer-legal-links li:not(:last-child)::after {
+      display: none;
+    }
+
+    .footer-brand-name,
+    .footer-brand-subtitle {
+      font-size: var(--footer-heading-size);
+      margin-bottom: 1rem;
+    }
+
+    .footer-bottom-background-image,
+    .footer-bottom-background-video {
+      object-position: center center;
+      transform: scale(1.15);
+    }
+  }
+
+  @media (max-width: 479px) {
+    .footer-section {
+      --footer-heading-height: 56px;
+      --footer-heading-size: 13px;
+      --footer-body-size: 11px;
+    }
+
+    .footer-brand {
+      text-align: center;
+      align-items: center;
+    }
+
+    .footer-logo-wrapper {
+      justify-content: center;
+      flex-direction: column;
+      min-height: var(--footer-heading-height);
+    }
+
+    .footer-logo-wrapper>div {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .footer-links-grid {
+      gap: 0.4rem;
+      grid-template-columns: 1fr;
+    }
+
+    .footer-main-box {
+      padding: 12px 12px 30px;
+      height: auto;
+      min-height: 0;
+    }
+
+    .footer-logo {
+      height: var(--footer-heading-height);
+      max-height: var(--footer-heading-height);
+      width: auto;
+      object-fit: contain;
+    }
+
+    .footer-description {
+      font-size: var(--footer-body-size);
+      display: none;
+      text-align: center;
+    }
+
+    .footer-brand-name,
+    .footer-brand-subtitle {
+      font-size: var(--footer-heading-size);
+    }
+
+    .footer-column-title {
+      font-size: var(--footer-heading-size);
+      margin-bottom: 6px;
+      min-height: auto;
+      line-height: 1.4;
+    }
+
+    .footer-links-list {
+      gap: 6px;
+    }
+
+    .footer-link,
+    .footer-legal-link {
+      font-size: var(--footer-body-size);
+      line-height: 1.3;
+    }
+
+    .footer-cta-button {
+      width: 100%;
+      text-align: center;
+    }
+
+    .footer-run-button {
+      margin-top: var(--spacing-sm);
+      width: 100%;
+    }
+
+    .footer-run-button .footer-cta-button {
+      width: 100%;
+    }
+
+    .footer-bottom {
+      gap: 15px;
+    }
+
+    .footer-bottom-background-image,
+    .footer-bottom-background-video {
+      object-position: center center;
+      transform: scale(1.08);
+    }
+  }
 </style>
 
 <footer class="footer-section">
   <div class="footer-container">
     <!-- 上方大框：主要内容区域 -->
-    <div class="footer-main-box" data-hover-video>
-      <!-- 背景封面图 -->
-      <img class="footer-background-image" src="assets/footer/images/footer-image-02.png" alt="Footer Background">
-      <!-- 背景视频 -->
-      <video class="footer-background-video" muted loop preload="none">
+    <div class="footer-main-box">
+      <video id="footer-main-video" class="footer-main-background-video" autoplay muted loop playsinline>
         <source src="assets/footer/video/footer-video-01.mp4" type="video/mp4">
       </video>
       <div class="footer-main">
-      <!-- 品牌区域 -->
-      <div class="footer-brand">
-        <div class="footer-logo-wrapper">
-          <img src="assets/footer/images/footer-image-01.png" alt="TreClip Studio Logo" class="footer-logo">
-          <div>
-            <div class="footer-brand-name">Treclipse</div>
-            <div class="footer-brand-subtitle">Studio</div>
+        <!--  -->
+        <div class="footer-brand">
+          <div class="footer-logo-wrapper">
+            <img src="assets\footer\images\footer-image-01.png" alt="TreClip Studio Logo" class="footer-logo">
+            <div>
+              <div class="footer-brand-name">Treclipse</div>
+              <div class="footer-brand-subtitle">Studio</div>
+            </div>
+          </div>
+          <p class="footer-description">
+            Premium AI for content generation <br>crafted for creators, brands,<br> and storytellers who demand
+            <br>uncompromising quality.
+          </p>
+          <a href="mailto:support@treclipse.ai" class="footer-cta-button">Contact us</a>
+          <div class="footer-run-button">
+            <a href="waitlist.html" class="footer-cta-button">Run AI Engine</a>
+          </div>
+          <div class="footer-social-links">
+            <a href="#linkedin" class="footer-social-link" aria-label="LinkedIn" target="_blank"
+              rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452z" />
+              </svg>
+            </a>
+            <a href="#youtube" class="footer-social-link" aria-label="YouTube" target="_blank"
+              rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+              </svg>
+            </a>
+            <a href="https://www.instagram.com/treclipse.ai/" class="footer-social-link" aria-label="Instagram"
+              target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z" />
+              </svg>
+            </a>
+            <a href="#tiktok" class="footer-social-link" aria-label="TikTok" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z" />
+              </svg>
+            </a>
+            <a href="#X" class="footer-social-link" aria-label="X" target="_blank" rel="noopener noreferrer">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path
+                  d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+              </svg>
+            </a>
           </div>
         </div>
-        <p class="footer-description">
-          Premium AI for branded short-<br>form: content generation, editing,<br> AI avatars, and product shots — <br>crafted to your visual identity.
-        </p>
-        <a href="#contact" class="footer-cta-button">Contact us</a>
-      </div>
 
-      <div class="footer-links-grid">
-        <!-- EXPLORE 列 -->
-        <div class="footer-links-column">
-          <h3 class="footer-column-title">EXPLORE</h3>
-          <ul class="footer-links-list">
-            <li><a href="#explore" class="footer-link">Explore</a></li>
-            <li><a href="#about" class="footer-link">About</a></li>
-            <li><a href="#contact" class="footer-link">Contact</a></li>
-          </ul>
-        </div>
+        <div class="footer-links-grid">
+          <!-- FEATURES  -->
+          <div class="footer-links-column">
+            <h3 class="footer-column-title">FEATURES</h3>
+            <ul class="footer-links-list">
+              <li><a href="create.html" class="footer-link">Create</a></li>
+              <li><a href="compose.html" class="footer-link">Compose</a></li>
+              <li><a href="studio.html" class="footer-link">Studio</a></li>
+            </ul>
+          </div>
 
-        <!-- FEATURES 列 -->
-        <div class="footer-links-column">
-          <h3 class="footer-column-title">FEATURES</h3>
-          <ul class="footer-links-list">
-            <li><a href="#create" class="footer-link">Create</a></li>
-            <li><a href="#edit" class="footer-link">Edit</a></li>
-            <li><a href="#avatar" class="footer-link">Avatar</a></li>
-          </ul>
-        </div>
+          <!-- SOLUTIONS  -->
+          <div class="footer-links-column">
+            <h3 class="footer-column-title">SOLUTIONS</h3>
+            <ul class="footer-links-list">
+              <li><a href="solutions_brands.html" class="footer-link">Brands &amp; Marketers</a></li>
+              <li><a href="solutions_agency.html" class="footer-link">Agencies &amp; Enterprise</a></li>
+              <li><a href="solutions_creator.html" class="footer-link">Creators &amp; Filmmakers</a></li>
+              <li><a href="solutions_artist.html" class="footer-link">Artists &amp; Designers</a></li>
+            </ul>
+          </div>
 
-        <!-- SOLUTIONS 列 -->
-        <div class="footer-links-column">
-          <h3 class="footer-column-title">SOLUTIONS</h3>
-          <ul class="footer-links-list">
-            <li><a href="#brand-marketing" class="footer-link">Brand Marketing</a></li>
-            <li><a href="#storytelling" class="footer-link">Storytelling</a></li>
-            <li><a href="#sales" class="footer-link">Sales & Advertisment</a></li>
-            <li><a href="#media" class="footer-link">Media</a></li>
-          </ul>
-        </div>
+          <!-- RESOURCES  -->
+          <div class="footer-links-column">
+            <h3 class="footer-column-title">RESOURCES</h3>
+            <ul class="footer-links-list">
+              <li><a href="explore.html" class="footer-link">Explore</a></li>
+              <li><a href="about.html" class="footer-link">About</a></li>
+              <li><a href="learn.html" class="footer-link">Learning Center</a></li>
+              <li><a href="affiliate.html" class="footer-link">Affiliate Program</a></li>
+            </ul>
+          </div>
 
-        <!-- AI SUITE 列 -->
-        <div class="footer-links-column">
-          <h3 class="footer-column-title">AI SUITE</h3>
-          <ul class="footer-links-list">
-            <li><a href="#content-generator" class="footer-link">Content generator</a></li>
-            <li><a href="#ai-avatar" class="footer-link">AI avatar.</a></li>
-            <li><a href="#product-shots" class="footer-link">Product shots</a></li>
-            <li><a href="#clipmaker" class="footer-link">Clipmaker</a></li>
-          </ul>
+          <!-- PRICING  -->
+          <div class="footer-links-column">
+            <h3 class="footer-column-title">GET STARTED</h3>
+            <ul class="footer-links-list">
+              <li><a href="pricing.html" class="footer-link">Pricing Plans</a></li>
+              <li><a href="#enterprise" class="footer-link">Enterprise</a></li>
+              <li><a href="waitlist.html" class="footer-link">Sign-in</a></li>
+              <li><a href="waitlist.html" class="footer-link">Sign-up</a></li>
+            </ul>
+          </div>
         </div>
-      </div>
       </div>
     </div>
 
     <!-- 下方小框：版权区域 -->
-    <div class="footer-bottom-box" data-hover-video>
-      <!-- 背景封面图 -->
-      <img class="footer-bottom-background-image" src="assets/footer/images/footer-image-03.png" alt="Footer Bottom Background">
-      <!-- 背景视频 -->
-      <video class="footer-bottom-background-video" muted loop preload="none">
-        <source src="assets/footer/video/footer-video-02.mp4" type="video/mp4">
+    <div class="footer-bottom-box">
+      <video id="footer-bottom-video" class="footer-bottom-background-video" autoplay muted loop playsinline>
+        <source src="assets/footer/video/footer-video-01.mp4" type="video/mp4">
       </video>
       <div class="footer-bottom">
-      <p class="footer-copyright">© TreClip Studio. All rights reserved.</p>
-      <ul class="footer-legal-links">
-        <li><a href="#privacy" class="footer-legal-link">Privacy</a></li>
-        <li><a href="#terms" class="footer-legal-link">Terms</a></li>
-      </ul>
+        <p class="footer-copyright">&copy; Treclipse Studio. All rights reserved.</p>
+        <ul class="footer-legal-links">
+          <li><a href="privacy.html" class="footer-legal-link">Privacy</a></li>
+          <li><a href="terms.html" class="footer-legal-link">Terms</a></li>
+          <li><a href="prohibited.html" class="footer-legal-link">Prohibited</a></li>
+        </ul>
       </div>
     </div>
   </div>
 </footer>
 
 <script>
-(function() {
-  'use strict';
+  (function () {
+    'use strict';
 
-  /**
-   * 初始化 Footer 模块
-   * 功能：
-   * 1. 设置 footer 背景图的尺寸
-   * 2. 鼠标悬浮在任意一个框上时，两个视频同时播放
-   */
-  function initFooter() {
     // 设置 footer 背景图的尺寸，确保两个框拼接成完整图片
-    const mainBox = document.querySelector('.footer-main-box');
-    const bottomBox = document.querySelector('.footer-bottom-box');
-
-    if (mainBox && bottomBox) {
-      const mainHeight = mainBox.offsetHeight;
-      const bottomHeight = bottomBox.offsetHeight;
-
-      // 设置 CSS 变量
-      document.documentElement.style.setProperty('--footer-main-height', mainHeight + 'px');
-      document.documentElement.style.setProperty('--footer-bottom-height', bottomHeight + 'px');
-    }
-
-    // 悬浮视频播放逻辑 - 两个框联动
-    const mainVideo = mainBox ? mainBox.querySelector('.footer-background-video') : null;
-    const bottomVideo = bottomBox ? bottomBox.querySelector('.footer-bottom-background-video') : null;
-
-    // 播放所有视频
-    function playAllVideos() {
-      // 添加 active 类显示视频
-      if (mainBox) mainBox.classList.add('active');
-      if (bottomBox) bottomBox.classList.add('active');
-
-      // 播放视频
-      if (mainVideo) {
-        mainVideo.currentTime = 0;
-        mainVideo.play().catch(err => console.warn('Main video play failed:', err));
-      }
-      if (bottomVideo) {
-        bottomVideo.currentTime = 0;
-        bottomVideo.play().catch(err => console.warn('Bottom video play failed:', err));
-      }
-    }
-
-    // 暂停所有视频
-    function pauseAllVideos() {
-      // 移除 active 类隐藏视频
-      if (mainBox) mainBox.classList.remove('active');
-      if (bottomBox) bottomBox.classList.remove('active');
-
-      // 暂停并重置视频
-      if (mainVideo) {
-        mainVideo.pause();
-        mainVideo.currentTime = 0;
-      }
-      if (bottomVideo) {
-        bottomVideo.pause();
-        bottomVideo.currentTime = 0;
-      }
-    }
-
-    // 为上方大框添加事件监听
-    if (mainBox) {
-      mainBox.addEventListener('mouseenter', playAllVideos);
-      mainBox.addEventListener('mouseleave', pauseAllVideos);
-    }
-
-    // 为下方小框添加事件监听
-    if (bottomBox) {
-      bottomBox.addEventListener('mouseenter', playAllVideos);
-      bottomBox.addEventListener('mouseleave', pauseAllVideos);
-    }
-
-    console.log('✅ Footer synchronized hover videos initialized');
-  }
-
-  // 页面加载时设置
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initFooter);
-  } else {
-    initFooter();
-  }
-
-  // 窗口大小改变时重新计算背景尺寸
-  let resizeTimer;
-  window.addEventListener('resize', function() {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(function() {
+    function setFooterBackgroundSize() {
       const mainBox = document.querySelector('.footer-main-box');
       const bottomBox = document.querySelector('.footer-bottom-box');
+
       if (mainBox && bottomBox) {
         const mainHeight = mainBox.offsetHeight;
         const bottomHeight = bottomBox.offsetHeight;
+
+        //  CSS
         document.documentElement.style.setProperty('--footer-main-height', mainHeight + 'px');
         document.documentElement.style.setProperty('--footer-bottom-height', bottomHeight + 'px');
       }
-    }, 100);
-  });
-})();
+    }
+
+    // 同步两个视频播放
+    function syncFooterVideos() {
+      const mainVideo = document.getElementById('footer-main-video');
+      const bottomVideo = document.getElementById('footer-bottom-video');
+
+      if (mainVideo && bottomVideo) {
+        // 同步播放时间
+        mainVideo.addEventListener('timeupdate', function () {
+          if (Math.abs(mainVideo.currentTime - bottomVideo.currentTime) > 0.1) {
+            bottomVideo.currentTime = mainVideo.currentTime;
+          }
+        });
+
+        // 同步播放/暂停状态
+        mainVideo.addEventListener('play', function () {
+          bottomVideo.play();
+        });
+
+        mainVideo.addEventListener('pause', function () {
+          bottomVideo.pause();
+        });
+      }
+    }
+
+    // 初始化 footer
+    function initFooter() {
+      setFooterBackgroundSize();
+      syncFooterVideos();
+    }
+
+    // 页面加载时设置
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initFooter);
+    } else {
+      initFooter();
+    }
+
+    // 窗口大小改变时重新计算
+    let resizeTimer;
+    window.addEventListener('resize', function () {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function () {
+        const mainBox = document.querySelector('.footer-main-box');
+        const bottomBox = document.querySelector('.footer-bottom-box');
+        if (mainBox && bottomBox) {
+          const mainHeight = mainBox.offsetHeight;
+          const bottomHeight = bottomBox.offsetHeight;
+          document.documentElement.style.setProperty('--footer-main-height', mainHeight + 'px');
+          document.documentElement.style.setProperty('--footer-bottom-height', bottomHeight + 'px');
+        }
+      }, 100);
+    });
+  })();
 </script>
 
+
+<!-- ===== GLOBAL SCRIPTS ===== -->
+<!-- Global Scripts -->
+<script src="js/webflow.js"></script>
+
+<!-- Global Initialization -->
+<script>
+  // Utility: Throttle function
+  function throttle(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
+
+  // Initialize Lenis Smooth Scroll
+  if (typeof Lenis !== 'undefined') {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      smooth: true,
+    });
+
+    function raf(time) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        const targetId = this.getAttribute('href');
+        if (targetId !== '#') {
+          e.preventDefault();
+          const target = document.querySelector(targetId);
+          if (target) {
+            lenis.scrollTo(target, { offset: -80 });
+          }
+        }
+      });
+    });
+  }
+
+  console.log(' Star-UI Initialized');
+</script>
+
+</body>
+
+</html>
 
   <!-- ===== GLOBAL SCRIPTS ===== -->
   <!-- Global Scripts -->

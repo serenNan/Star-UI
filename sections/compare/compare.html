@@ -4,592 +4,593 @@
      =================================== -->
 
 <style>
-/* ===== 模块容器样式 ===== */
-.compare-showcase {
-  position: relative;
-  padding: 120px 0;
-  background: var(--color-bg);
-  overflow: hidden;
-}
-
-/* ===== 标题区域 ===== */
-.compare-showcase__header {
-  text-align: center;
-  margin-bottom: 40px;
-}
-
-.compare-showcase__title {
-  font-size: 2.625rem;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 0;
-  color: #FFFFFF;
-}
-
-.compare-showcase__subtitle {
-  font-size: 1.2rem;
-  color: var(--color-text-secondary);
-  max-width: 600px;
-  margin: 0 auto 16px;
-}
-
-/* ===== 工具标签栏 ===== */
-.compare-showcase__tabs {
-  display: flex;
-  justify-content: center;
-  gap: 34px;
-  margin-bottom: 80px;
-  flex-wrap: wrap;
-}
-
-.compare-showcase__tab {
-  padding: 20px 0;
-  width: 230px;
-  background: rgba(255, 255, 255, 0.1);
-  border: none;
-  border-radius: 50px;
-  color: #FFFFFF;
-  font-size: 1.25rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-  text-align: center;
-}
-
-.compare-showcase__tab:hover {
-  background: rgba(255, 255, 255, 0.18);
-  color: #FFFFFF;
-}
-
-.compare-showcase__tab--active {
-  background: white;
-  color: black;
-  border-color: transparent;
-}
-
-.compare-showcase__tab--active:hover {
-  background: rgba(255, 255, 255, 0.95);
-  color: black;
-}
-
-/* ===== 扑克牌堆叠容器 ===== */
-.compare-showcase__carousel-wrapper {
-  position: relative;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto 60px;
-  padding: 0 20px;
-  transition: opacity 0.3s ease;
-}
-
-.compare-showcase__carousel {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 2rem;
-  min-height: 500px;
-  position: relative;
-}
-
-/* ===== JS 控制的移动端保护样式（双保险） ===== */
-.compare-showcase--mobile .compare-showcase__side {
-  display: none !important;
-  visibility: hidden !important;
-  opacity: 0 !important;
-  pointer-events: none !important;
-  transform: none !important;
-}
-
-.compare-showcase--mobile .compare-showcase__carousel-wrapper {
-  padding: var(--spacing-lg) 0;
-  max-width: 480px;
-  margin: 0 auto 40px;
-  width: 100%;
-}
-
-.compare-showcase--mobile .compare-showcase__carousel {
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  min-height: auto;
-  padding: var(--spacing-lg) var(--spacing-md);
-}
-
-.compare-showcase--mobile .compare-showcase__center {
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-}
-
-.compare-showcase--mobile .compare-showcase__card--main {
-  width: min(90vw, 400px);
-  max-width: 400px;
-  min-height: 260px;
-  margin: 0 auto;
-  aspect-ratio: 16 / 9;
-  height: auto;
-  display: block;
-}
-
-/* ===== 左右两侧堆叠容器 - 负边距实现重叠 ===== */
-.compare-showcase__side {
-  position: relative;
-  z-index: 1;
-  will-change: transform;
-}
-
-.compare-showcase__side.left {
-  margin-right: -3rem;
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 2rem;
-  align-content: center;
-  position: relative;
-}
-
-.compare-showcase__side.right {
-  margin-left: 0.625rem;
-  display: flex;
-  align-items: flex-start;
-  align-self: flex-start;
-  margin-top: -1.25rem;
-}
-
-/* ===== 中央容器 ===== */
-.compare-showcase__center {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  z-index: 1;
-}
-
-/* ===== 卡片样式 ===== */
-.compare-showcase__card {
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
-  background: #1a1a1a;
-}
-
-.compare-showcase__card-image {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  user-select: none;
-}
-
-/* 小卡片（左右两侧）- 显示图片 */
-.compare-showcase__card--small {
-  opacity: 0.6;
-  transition: opacity 0.3s ease;
-}
-
-/* 左侧第一个卡片 - 横向长方形（左上角）*/
-.compare-showcase__side.left .compare-showcase__card--small:nth-child(1) {
-  width: 260px;
-  height: 160px;
-  position: relative;
-  top: -8vh;
-  left: -20px;
-}
-
-/* 左侧第二个卡片 - 正方形（左下角）*/
-.compare-showcase__side.left .compare-showcase__card--small:nth-child(2) {
-  width: 215px;
-  height: 215px;
-  position: relative;
-  top: 70px;
-  left: 5px;
-}
-
-/* 右侧卡片 - 竖向长方形 */
-.compare-showcase__side.right .compare-showcase__card--small {
-  width: 180px;
-  height: 280px;
-  position: relative;
-  top: -1.25rem;
-  left: 10px;
-}
-
-/* 主卡片容器 - 中央视频对比容器 */
-.compare-showcase__card--main {
-  width: 550px;
-  height: 300px;
-  border: none;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
-  z-index: 1;
-  position: relative;
-  overflow: hidden;
-  will-change: transform;
-  transform: scale(1);
-}
-
-/* ===== 视频对比容器样式 ===== */
-.compare-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  cursor: grab;
-}
-
-.compare-container:active {
-  cursor: grabbing;
-}
-
-/* 背景视频 (After) */
-.compare-video--after {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  user-select: none;
-  pointer-events: none;
-}
-
-/* 前景视频 (Before) - 通过 clip-path 裁剪 */
-.compare-video--before {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  user-select: none;
-  pointer-events: none;
-  /* 默认显示左侧 50% */
-  clip-path: inset(0 50% 0 0);
-  transition: clip-path 0.05s ease-out;
-}
-
-/* ===== 对比滑块样式 ===== */
-.compare-slider {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  width: 2px;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  transform: translateX(-50%);
-  pointer-events: none;
-  z-index: 10;
-  transition: left 0.05s ease-out;
-}
-
-/* 垂直线条 */
-.compare-slider__line {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
-}
-
-/* 箭头容器 - 放在偏上方 */
-.compare-slider__handle {
-  position: absolute;
-  top: 30%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* 左右箭头 */
-.compare-slider__arrow {
-  color: white;
-  font-size: 16px;
-  font-weight: bold;
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
-  flex-shrink: 0;
-}
-
-/* 小卡片图片淡入淡出过渡 */
-.compare-showcase__card--small .compare-showcase__card-image {
-  transition: opacity 0.5s ease;
-}
-
-/* ===== 行动号召按钮 ===== */
-.compare-showcase__cta {
-  display: flex;
-  justify-content: center;
-  margin-top: -30px;
-}
-
-.compare-showcase__button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--spacing-sm) var(--spacing-md);
-  min-width: 200px;
-  background: white;
-  color: black;
-  font-size: 1rem;
-  font-weight: 600;
-  border-radius: 6px;
-  text-decoration: none;
-  border: none;
-  cursor: pointer;
-  transition: all var(--transition);
-}
-
-.compare-showcase__button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
-  background: rgba(255, 255, 255, 0.95);
-}
-
-/* ===== 响应式：平板 ===== */
-@media (max-width: 991px) {
+  /* ===== 模块容器样式 ===== */
   .compare-showcase {
-    padding: 80px 0;
+    position: relative;
+    padding: 120px 0;
+    background: var(--color-bg);
+    overflow: hidden;
   }
 
-  .compare-showcase__title {
-    font-size: 2.5rem;
-  }
-
-  .compare-showcase__tabs {
-    margin-bottom: 60px;
-  }
-
-  .compare-showcase__tab {
-    padding: 12px 24px;
-    font-size: 0.875rem;
-  }
-
-  .compare-showcase__carousel {
-    gap: 1.5rem;
-  }
-
-  .compare-showcase__card--main {
-    width: 500px;
-    height: 350px;
-  }
-
-  .compare-showcase__card--small {
-    width: 160px;
-    height: 200px;
-  }
-
-  .compare-showcase__side.left {
-    margin-right: -120px;
-  }
-
-  .compare-showcase__side.right {
-    margin-left: -120px;
-  }
-
-  .compare-showcase__side .compare-showcase__card:first-child {
-    display: none;
-  }
-}
-
-/* ===== 响应式：移动端 ===== */
-@media (max-width: 990px) {
-  .compare-showcase {
-    padding: 60px 0;
-    overflow-x: hidden;
-    overflow-y: visible;
-  }
-
+  /* ===== 标题区域 ===== */
   .compare-showcase__header {
     text-align: center;
-    margin-bottom: 30px;
-    padding: 0 var(--spacing-md);
+    margin-bottom: 40px;
   }
 
   .compare-showcase__title {
-    font-size: 2rem;
+    font-size: 2.625rem;
+    font-weight: 700;
     line-height: 1.2;
+    margin-bottom: 0;
+    color: #FFFFFF;
   }
 
   .compare-showcase__subtitle {
-    font-size: 1rem;
-    margin-bottom: 12px;
+    font-size: 1.2rem;
+    color: var(--color-text-secondary);
+    max-width: 600px;
+    margin: 0 auto 16px;
   }
 
+  /* ===== 工具标签栏 ===== */
   .compare-showcase__tabs {
-    gap: 8px;
-    margin-bottom: 40px;
-    padding: 0 var(--spacing-sm);
+    display: flex;
     justify-content: center;
+    gap: 34px;
+    margin-bottom: 80px;
+    flex-wrap: wrap;
   }
 
   .compare-showcase__tab {
-    padding: 12px 20px;
-    min-height: 44px;
-    font-size: 0.8125rem;
-    width: auto;
-    flex: 0 0 auto;
+    padding: 20px 0;
+    width: 230px;
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 50px;
+    color: #FFFFFF;
+    font-size: 1.25rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    text-align: center;
   }
 
-  .compare-showcase__tab:active {
-    transform: scale(0.95);
-    transition: transform 0.1s ease;
+  .compare-showcase__tab:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #FFFFFF;
   }
 
-  .compare-showcase__side {
+  .compare-showcase__tab--active {
+    background: white;
+    color: black;
+    border-color: transparent;
+  }
+
+  .compare-showcase__tab--active:hover {
+    background: rgba(255, 255, 255, 0.95);
+    color: black;
+  }
+
+  /* ===== 扑克牌堆叠容器 ===== */
+  .compare-showcase__carousel-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto 60px;
+    padding: 0 20px;
+    transition: opacity 0.3s ease;
+  }
+
+  .compare-showcase__carousel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    min-height: 500px;
+    position: relative;
+  }
+
+  /* ===== JS 控制的移动端保护样式（双保险） ===== */
+  .compare-showcase--mobile .compare-showcase__side {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
     pointer-events: none !important;
-    position: absolute !important;
-    width: 0 !important;
-    height: 0 !important;
-    overflow: hidden !important;
+    transform: none !important;
   }
 
-  .compare-showcase__carousel-wrapper {
+  .compare-showcase--mobile .compare-showcase__carousel-wrapper {
     padding: var(--spacing-lg) 0;
-    overflow: visible;
+    max-width: 480px;
+    margin: 0 auto 40px;
     width: 100%;
+  }
+
+  .compare-showcase--mobile .compare-showcase__carousel {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    min-height: auto;
+    padding: var(--spacing-lg) var(--spacing-md);
+  }
+
+  .compare-showcase--mobile .compare-showcase__center {
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .compare-showcase--mobile .compare-showcase__card--main {
+    width: min(90vw, 400px);
+    max-width: 400px;
+    min-height: 260px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    height: auto;
+    display: block;
+  }
+
+  /* ===== 左右两侧堆叠容器 - 负边距实现重叠 ===== */
+  .compare-showcase__side {
+    position: relative;
+    z-index: 1;
+    will-change: transform;
+  }
+
+  .compare-showcase__side.left {
+    margin-right: -3rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    align-content: center;
+    position: relative;
+  }
+
+  .compare-showcase__side.right {
+    margin-left: 0.625rem;
+    display: flex;
+    align-items: flex-start;
+    align-self: flex-start;
+    margin-top: -1.25rem;
+  }
+
+  /* ===== 中央容器 ===== */
+  .compare-showcase__center {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 1;
+  }
+
+  /* ===== 卡片样式 ===== */
+  .compare-showcase__card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+    background: #1a1a1a;
+  }
+
+  .compare-showcase__card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+  }
+
+  /* 小卡片（左右两侧）- 显示图片 */
+  .compare-showcase__card--small {
+    opacity: 0.6;
+    transition: opacity 0.3s ease;
+  }
+
+  /* 左侧第一个卡片 - 横向长方形（左上角）*/
+  .compare-showcase__side.left .compare-showcase__card--small:nth-child(1) {
+    width: 260px;
+    height: 160px;
+    position: relative;
+    top: -8vh;
+    left: -20px;
+  }
+
+  /* 左侧第二个卡片 - 正方形（左下角）*/
+  .compare-showcase__side.left .compare-showcase__card--small:nth-child(2) {
+    width: 215px;
+    height: 215px;
+    position: relative;
+    top: 70px;
+    left: 5px;
+  }
+
+  /* 右侧卡片 - 竖向长方形 */
+  .compare-showcase__side.right .compare-showcase__card--small {
+    width: 180px;
+    height: 280px;
+    position: relative;
+    top: -1.25rem;
+    left: 10px;
+  }
+
+  /* 主卡片容器 - 中央视频对比容器 */
+  .compare-showcase__card--main {
+    width: 550px;
+    height: 300px;
+    border: none;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    z-index: 1;
+    position: relative;
+    overflow: hidden;
+    will-change: transform;
+    transform: scale(1);
+  }
+
+  /* ===== 视频对比容器样式 ===== */
+  .compare-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: grab;
+  }
+
+  .compare-container:active {
+    cursor: grabbing;
+  }
+
+  /* 背景视频 (After) */
+  .compare-video--after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* 前景视频 (Before) - 通过 clip-path 裁剪 */
+  .compare-video--before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    user-select: none;
+    pointer-events: none;
+    /* 默认显示左侧 50% */
+    clip-path: inset(0 50% 0 0);
+    transition: clip-path 0.05s ease-out;
+  }
+
+  /* ===== 对比滑块样式 ===== */
+  .compare-slider {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 2px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    transform: translateX(-50%);
+    pointer-events: none;
+    z-index: 10;
+    transition: left 0.05s ease-out;
+  }
+
+  /* 垂直线条 */
+  .compare-slider__line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.8);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+  }
+
+  /* 箭头容器 - 放在偏上方 */
+  .compare-slider__handle {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  /* 左右箭头 */
+  .compare-slider__arrow {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+    flex-shrink: 0;
+  }
+
+  /* 小卡片图片淡入淡出过渡 */
+  .compare-showcase__card--small .compare-showcase__card-image {
+    transition: opacity 0.5s ease;
+  }
+
+  /* ===== 行动号召按钮 ===== */
+  .compare-showcase__cta {
     display: flex;
     justify-content: center;
-    align-items: center;
-  }
-
-  .compare-showcase__carousel {
-    gap: 0;
-    min-height: 440px;
-    display: flex !important;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: var(--spacing-lg) var(--spacing-md);
-    width: 100%;
-    max-width: 100%;
-    margin: 0 auto;
-  }
-
-  .compare-showcase__center {
-    display: flex !important;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 100%;
-    margin: 0 !important;
-    position: relative;
-  }
-
-  .compare-showcase__card--main {
-    width: 90%;
-    max-width: 400px;
-    height: auto;
-    min-height: 300px;
-    aspect-ratio: 16 / 9;
-    margin: 0 !important;
-    display: block;
-    transform-origin: center center;
-    position: relative;
-  }
-
-  .compare-showcase__cta {
-    margin-top: 0;
-    padding: 0 var(--spacing-md);
+    margin-top: -30px;
   }
 
   .compare-showcase__button {
-    padding: 16px 40px;
-    min-height: 48px;
-    font-size: 0.9375rem;
-    width: auto;
-    max-width: 100%;
-  }
-
-  .compare-showcase__button:active {
-    transform: scale(0.95);
-    transition: transform 0.1s ease;
-  }
-}
-
-/* ===== 小屏手机优化 ===== */
-@media (max-width: 479px) {
-  .compare-showcase__title {
-    font-size: 1.75rem;
-    padding: 0 var(--spacing-sm);
-  }
-
-  .compare-showcase__subtitle {
-    font-size: 0.9375rem;
-  }
-
-  .compare-showcase__tabs {
-    gap: 6px;
-    padding: 0 var(--spacing-xs);
-  }
-
-  .compare-showcase__tab {
-    padding: 10px 16px;
-    font-size: 0.75rem;
-    min-width: auto;
-  }
-
-  .compare-showcase__carousel-wrapper {
-    padding: var(--spacing-md) 0;
-  }
-
-  .compare-showcase__carousel {
-    min-height: 400px;
-    padding: var(--spacing-md) var(--spacing-sm);
-  }
-
-  .compare-showcase__card--main {
-    width: 90%;
-    max-width: 320px;
-    min-height: 250px;
-  }
-
-  .compare-showcase__button {
-    width: 100%;
-    max-width: 300px;
-    padding: 14px 32px;
-    font-size: 0.875rem;
-  }
-}
-
-/* ===== 禁用触摸设备的悬浮效果 ===== */
-@media (hover: none) {
-  .compare-showcase__tab:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #FFFFFF;
-  }
-
-  .compare-showcase__tab--active:hover {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    min-width: 200px;
     background: white;
     color: black;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition);
   }
 
   .compare-showcase__button:hover {
-    transform: none;
-    box-shadow: none;
-    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.95);
   }
 
-  .compare-showcase__tab:active {
-    background: rgba(255, 255, 255, 0.15);
+  /* ===== 响应式：平板 ===== */
+  @media (max-width: 991px) {
+    .compare-showcase {
+      padding: 80px 0;
+    }
+
+    .compare-showcase__title {
+      font-size: 2.5rem;
+    }
+
+    .compare-showcase__tabs {
+      margin-bottom: 60px;
+    }
+
+    .compare-showcase__tab {
+      padding: 12px 24px;
+      font-size: 0.875rem;
+    }
+
+    .compare-showcase__carousel {
+      gap: 1.5rem;
+    }
+
+    .compare-showcase__card--main {
+      width: 500px;
+      height: 350px;
+    }
+
+    .compare-showcase__card--small {
+      width: 160px;
+      height: 200px;
+    }
+
+    .compare-showcase__side.left {
+      margin-right: -120px;
+    }
+
+    .compare-showcase__side.right {
+      margin-left: -120px;
+    }
+
+    .compare-showcase__side .compare-showcase__card:first-child {
+      display: none;
+    }
   }
 
-  .compare-showcase__tab--active:active {
-    background: rgba(255, 255, 255, 0.9);
+  /* ===== 响应式：移动端 ===== */
+  @media (max-width: 990px) {
+    .compare-showcase {
+      padding: 60px 0;
+      overflow-x: hidden;
+      overflow-y: visible;
+    }
+
+    .compare-showcase__header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 0 var(--spacing-md);
+    }
+
+    .compare-showcase__title {
+      font-size: 2rem;
+      line-height: 1.2;
+    }
+
+    .compare-showcase__subtitle {
+      font-size: 1rem;
+      margin-bottom: 12px;
+    }
+
+    .compare-showcase__tabs {
+      gap: 8px;
+      margin-bottom: 0;
+      padding: 0 var(--spacing-sm);
+      justify-content: center;
+    }
+
+    .compare-showcase__tab {
+      padding: 12px 20px;
+      min-height: 44px;
+      font-size: 0.8125rem;
+      width: auto;
+      flex: 0 0 auto;
+    }
+
+    .compare-showcase__tab:active {
+      transform: scale(0.95);
+      transition: transform 0.1s ease;
+    }
+
+    .compare-showcase__side {
+      display: none !important;
+      visibility: hidden !important;
+      opacity: 0 !important;
+      pointer-events: none !important;
+      position: absolute !important;
+      width: 0 !important;
+      height: 0 !important;
+      overflow: hidden !important;
+    }
+
+    .compare-showcase__carousel-wrapper {
+      padding: var(--spacing-md) var(--spacing-md);
+      overflow: visible;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .compare-showcase__carousel {
+      gap: 0;
+      min-height: 400px;
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: var(--spacing-sm) 0;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 auto;
+    }
+
+    .compare-showcase__center {
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      max-width: 100%;
+      margin: 0 !important;
+      position: relative;
+    }
+
+    .compare-showcase__card--main {
+      width: 85%;
+      max-width: 360px;
+      height: auto;
+      min-height: 240px;
+      aspect-ratio: 16 / 9;
+      margin: 0 !important;
+      display: block;
+      transform-origin: center center;
+      position: relative;
+    }
+
+    .compare-showcase__cta {
+      margin-top: var(--spacing-sm);
+      padding: 0 var(--spacing-md);
+    }
+
+    .compare-showcase__button {
+      padding: 16px 40px;
+      min-height: 48px;
+      font-size: 0.9375rem;
+      width: auto;
+      max-width: 100%;
+    }
+
+    .compare-showcase__button:active {
+      transform: scale(0.95);
+      transition: transform 0.1s ease;
+    }
   }
 
-  .compare-showcase__button:active {
-    background: rgba(255, 255, 255, 0.9);
+  /* ===== 小屏手机优化 ===== */
+  @media (max-width: 479px) {
+    .compare-showcase__title {
+      font-size: 1.75rem;
+      padding: 0 var(--spacing-sm);
+    }
+
+    .compare-showcase__subtitle {
+      font-size: 0.9375rem;
+    }
+
+    .compare-showcase__tabs {
+      gap: 6px;
+      padding: 0 var(--spacing-xs);
+    }
+
+    .compare-showcase__tab {
+      padding: 10px 16px;
+      font-size: 0.75rem;
+      min-width: auto;
+    }
+
+    .compare-showcase__carousel-wrapper {
+      padding: var(--spacing-lg) var(--spacing-md);
+    }
+
+    .compare-showcase__carousel {
+      min-height: 400px;
+      padding: var(--spacing-md) 0;
+    }
+
+    .compare-showcase__card--main {
+      width: 85%;
+      max-width: 320px;
+      min-height: 220px;
+    }
+
+    .compare-showcase__button {
+      width: 100%;
+      max-width: 300px;
+      padding: 14px 32px;
+      font-size: 0.875rem;
+      margin-top: -3rem;
+    }
   }
-}
+
+  /* ===== 禁用触摸设备的悬浮效果 ===== */
+  @media (hover: none) {
+    .compare-showcase__tab:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #FFFFFF;
+    }
+
+    .compare-showcase__tab--active:hover {
+      background: white;
+      color: black;
+    }
+
+    .compare-showcase__button:hover {
+      transform: none;
+      box-shadow: none;
+      background: white;
+    }
+
+    .compare-showcase__tab:active {
+      background: rgba(255, 255, 255, 0.15);
+    }
+
+    .compare-showcase__tab--active:active {
+      background: rgba(255, 255, 255, 0.9);
+    }
+
+    .compare-showcase__button:active {
+      background: rgba(255, 255, 255, 0.9);
+    }
+  }
 </style>
 
 <!-- ===== HTML 结构 ===== -->
@@ -676,441 +677,447 @@
 
 <!-- ===== JavaScript 交互逻辑 ===== -->
 <script>
-(function() {
-  'use strict';
+  (function () {
+    'use strict';
 
-  // ===== 工具数据配置 =====
-  // 每个分类包含:
-  // - sideImages: 周围3个小卡片的图片路径 (左上、左下、右侧)
-  // - mainVideos: 中央卡片的对比视频 { before, after }
-  const toolsData = {
-    'image-generator': {
-      sideImages: [
-        { url: 'assets/compare/images/compare-image-001.jpg', alt: 'Image Generator 1' },
-        { url: 'assets/compare/images/compare-image-002.jpg', alt: 'Image Generator 2' },
-        { url: 'assets/compare/images/compare-image-003.jpg', alt: 'Image Generator 3' }
-      ],
-      mainVideos: {
-        before: { url: 'assets/compare/videos/compare-video-001.mp4', alt: 'Before' },
-        after: { url: 'assets/compare/videos/compare-video-002.mp4', alt: 'After' }
+    // ===== 工具数据配置 =====
+    // 每个分类包含:
+    // - sideImages: 周围3个小卡片的图片路径 (左上、左下、右侧)
+    // - mainVideos: 中央卡片的对比视频 { before, after }
+    const toolsData = {
+      'image-generator': {
+        sideImages: [
+          { url: 'assets/compare/images/compare-image-001.jpg', alt: 'Image Generator 1' },
+          { url: 'assets/compare/images/compare-image-002.jpg', alt: 'Image Generator 2' },
+          { url: 'assets/compare/images/compare-image-003.jpg', alt: 'Image Generator 3' }
+        ],
+        mainVideos: {
+          before: { url: 'assets/compare/videos/compare-video-001.mp4', alt: 'Before' },
+          after: { url: 'assets/compare/videos/compare-video-002.mp4', alt: 'After' }
+        }
+      },
+      'video-generator': {
+        sideImages: [
+          { url: 'assets/compare/images/compare-image-004.jpg', alt: 'Video Generator 1' },
+          { url: 'assets/compare/images/compare-image-005.jpg', alt: 'Video Generator 2' },
+          { url: 'assets/compare/images/compare-image-006.jpg', alt: 'Video Generator 3' }
+        ],
+        mainVideos: {
+          before: { url: 'assets/compare/videos/compare-video-003.mp4', alt: 'Before' },
+          after: { url: 'assets/compare/videos/compare-video-004.mp4', alt: 'After' }
+        }
+      },
+      'timeline-editor': {
+        sideImages: [
+          { url: 'assets/compare/images/compare-image-007.jpg', alt: 'Timeline Editor 1' },
+          { url: 'assets/compare/images/compare-image-008.jpg', alt: 'Timeline Editor 2' },
+          { url: 'assets/compare/images/compare-image-009.jpg', alt: 'Timeline Editor 3' }
+        ],
+        mainVideos: {
+          before: { url: 'assets/compare/videos/compare-video-005.mp4', alt: 'Before' },
+          after: { url: 'assets/compare/videos/compare-video-006.mp4', alt: 'After' }
+        }
+      },
+      'avatar': {
+        sideImages: [
+          { url: 'assets/compare/images/compare-image-010.jpg', alt: 'Avatar 1' },
+          { url: 'assets/compare/images/compare-image-011.jpg', alt: 'Avatar 2' },
+          { url: 'assets/compare/images/compare-image-012.jpg', alt: 'Avatar 3' }
+        ],
+        mainVideos: {
+          before: { url: 'assets/compare/videos/compare-video-007.mp4', alt: 'Before' },
+          after: { url: 'assets/compare/videos/compare-video-008.mp4', alt: 'After' }
+        }
       }
-    },
-    'video-generator': {
-      sideImages: [
-        { url: 'assets/compare/images/compare-image-004.jpg', alt: 'Video Generator 1' },
-        { url: 'assets/compare/images/compare-image-005.jpg', alt: 'Video Generator 2' },
-        { url: 'assets/compare/images/compare-image-006.jpg', alt: 'Video Generator 3' }
-      ],
-      mainVideos: {
-        before: { url: 'assets/compare/videos/compare-video-003.mp4', alt: 'Before' },
-        after: { url: 'assets/compare/videos/compare-video-004.mp4', alt: 'After' }
-      }
-    },
-    'timeline-editor': {
-      sideImages: [
-        { url: 'assets/compare/images/compare-image-007.jpg', alt: 'Timeline Editor 1' },
-        { url: 'assets/compare/images/compare-image-008.jpg', alt: 'Timeline Editor 2' },
-        { url: 'assets/compare/images/compare-image-009.jpg', alt: 'Timeline Editor 3' }
-      ],
-      mainVideos: {
-        before: { url: 'assets/compare/videos/compare-video-005.mp4', alt: 'Before' },
-        after: { url: 'assets/compare/videos/compare-video-006.mp4', alt: 'After' }
-      }
-    },
-    'avatar': {
-      sideImages: [
-        { url: 'assets/compare/images/compare-image-010.jpg', alt: 'Avatar 1' },
-        { url: 'assets/compare/images/compare-image-011.jpg', alt: 'Avatar 2' },
-        { url: 'assets/compare/images/compare-image-012.jpg', alt: 'Avatar 3' }
-      ],
-      mainVideos: {
-        before: { url: 'assets/compare/videos/compare-video-007.mp4', alt: 'Before' },
-        after: { url: 'assets/compare/videos/compare-video-008.mp4', alt: 'After' }
-      }
-    }
-  };
+    };
 
-  // ===== 状态管理 =====
-  let currentTool = 'image-generator';
-  let isAnimating = false;
-  let currentData = toolsData[currentTool];
+    // ===== 状态管理 =====
+    let currentTool = 'image-generator';
+    let isAnimating = false;
+    let currentData = toolsData[currentTool];
 
-  // ===== 滚动缩放参数 =====
-  const minScale = 1.0; // 最小缩放值
-  const maxScale = 1.5; // 最大缩放值
-  const maxPushDistance = 100; // 左右卡片最大推开距离（px）
+    // ===== 滚动缩放参数 =====
+    const minScale = 1.0; // 最小缩放值
+    const maxScale = 1.5; // 最大缩放值
+    const maxPushDistance = 100; // 左右卡片最大推开距离（px）
 
-  let rafId = null; // requestAnimationFrame ID
-  let currentScale = minScale; // 当前缩放值
-  let targetScale = minScale; // 目标缩放值
+    let rafId = null; // requestAnimationFrame ID
+    let currentScale = minScale; // 当前缩放值
+    let targetScale = minScale; // 目标缩放值
 
-  // 动态检测是否为移动设备
-  function isMobileDevice() {
-    return window.innerWidth < 991;
-  }
-
-  // ===== DOM 元素 =====
-  const showcaseSection = document.getElementById('compareShowcase');
-  const carousel = showcaseSection ? showcaseSection.querySelector('#compareCarousel') : null;
-  const mainCard = showcaseSection ? showcaseSection.querySelector('#compareMainCard') : null;
-  const compareContainer = mainCard ? mainCard.querySelector('.compare-container') : null;
-  const tabs = showcaseSection ? showcaseSection.querySelectorAll('.compare-showcase__tab') : [];
-  const runBtn = showcaseSection ? showcaseSection.querySelector('#compareRunBtn') : null;
-
-  if (!showcaseSection || !carousel || !mainCard || !compareContainer) {
-    console.warn('[compare] 必要的 DOM 节点缺失，已跳过脚本初始化。');
-    return;
-  }
-
-  const leftSide = showcaseSection.querySelector('#compareLeftStack');
-  const rightSide = showcaseSection.querySelector('#compareRightStack');
-  const leftImages = leftSide ? leftSide.querySelectorAll('.compare-showcase__card-image') : [];
-  const rightImages = rightSide ? rightSide.querySelectorAll('.compare-showcase__card-image') : [];
-  const beforeVideo = compareContainer.querySelector('.compare-video--before');
-  const afterVideo = compareContainer.querySelector('.compare-video--after');
-  const slider = compareContainer.querySelector('.compare-slider');
-
-  let resizeRaf = null;
-
-  // ===== 初始化 =====
-  function init() {
-    updateCardsDisplay();
-    updateResponsiveLayout();
-    attachEventListeners();
-    initCompareSlider();
-    initHoverVideoControl();
-    updateScaleBasedOnScroll();
-  }
-
-  // ===== 更新卡片显示 =====
-  function updateCardsDisplay() {
-    const data = currentData;
-
-    // 更新左侧图片（2张）
-    if (leftImages.length >= 2) {
-      leftImages[0].src = data.sideImages[0].url;
-      leftImages[0].alt = data.sideImages[0].alt;
-      leftImages[1].src = data.sideImages[1].url;
-      leftImages[1].alt = data.sideImages[1].alt;
+    // 动态检测是否为移动设备
+    function isMobileDevice() {
+      return window.innerWidth < 991;
     }
 
-    // 更新右侧图片（1张）
-    if (rightImages.length >= 1) {
-      rightImages[0].src = data.sideImages[2].url;
-      rightImages[0].alt = data.sideImages[2].alt;
-    }
+    // ===== DOM 元素 =====
+    const showcaseSection = document.getElementById('compareShowcase');
+    const carousel = showcaseSection ? showcaseSection.querySelector('#compareCarousel') : null;
+    const mainCard = showcaseSection ? showcaseSection.querySelector('#compareMainCard') : null;
+    const compareContainer = mainCard ? mainCard.querySelector('.compare-container') : null;
+    const tabs = showcaseSection ? showcaseSection.querySelectorAll('.compare-showcase__tab') : [];
+    const runBtn = showcaseSection ? showcaseSection.querySelector('#compareRunBtn') : null;
 
-    // 更新中央对比视频
-    if (beforeVideo && afterVideo) {
-      const beforeSource = beforeVideo.querySelector('source');
-      const afterSource = afterVideo.querySelector('source');
-
-      beforeSource.src = data.mainVideos.before.url;
-      afterSource.src = data.mainVideos.after.url;
-
-      beforeVideo.load();
-      afterVideo.load();
-    }
-  }
-
-  // ===== 悬浮播放控制 =====
-  function initHoverVideoControl() {
-    if (!mainCard || !beforeVideo || !afterVideo) return;
-
-    // 鼠标进入 - 播放视频
-    mainCard.addEventListener('mouseenter', () => {
-      beforeVideo.play().catch(err => console.log('Before video play error:', err));
-      afterVideo.play().catch(err => console.log('After video play error:', err));
-    });
-
-    // 鼠标离开 - 暂停并重置
-    mainCard.addEventListener('mouseleave', () => {
-      beforeVideo.pause();
-      afterVideo.pause();
-      beforeVideo.currentTime = 0;
-      afterVideo.currentTime = 0;
-    });
-  }
-
-  // ===== 应用缩放效果（平滑跟随滚动）=====
-  function applyScaleTransform(scale) {
-    // 更新中央卡片缩放
-    mainCard.style.transform = `scale(${scale})`;
-
-    // 桌面端才处理左右卡片的推开动画
-    if (!isMobileDevice() && leftSide && rightSide) {
-      // 计算左右卡片的推开距离（线性映射）
-      // scale 1.0 → 0px, scale 1.5 → maxPushDistance
-      const progress = (scale - minScale) / (maxScale - minScale);
-      const pushDistance = progress * maxPushDistance;
-
-      // 应用视差效果
-      leftSide.style.transform = `translateX(-${pushDistance}px)`;
-      rightSide.style.transform = `translateX(${pushDistance}px)`;
-    }
-  }
-
-  // ===== 使用 RAF 平滑更新缩放（性能优化）=====
-  function updateScaleAnimation() {
-    // 平滑插值（Lerp），避免突变
-    currentScale += (targetScale - currentScale) * 0.15;
-
-    // 应用变换
-    applyScaleTransform(currentScale);
-
-    // 如果还有差距，继续下一帧
-    if (Math.abs(targetScale - currentScale) > 0.001) {
-      rafId = requestAnimationFrame(updateScaleAnimation);
-    } else {
-      currentScale = targetScale;
-      rafId = null;
-    }
-  }
-
-  // ===== 基于滚动位置计算缩放（不劫持滚动）=====
-  function updateScaleBasedOnScroll() {
-    if (!showcaseSection) return;
-    const rect = showcaseSection.getBoundingClientRect();
-    const viewportHeight = window.innerHeight;
-
-    // 计算区域相对于视口的位置
-    const sectionTop = rect.top;
-    const sectionBottom = rect.bottom;
-    const viewportCenter = viewportHeight / 2;
-
-    // 如果区域还未进入视口，保持初始缩放
-    if (sectionBottom < 0 || sectionTop > viewportHeight) {
-      targetScale = minScale;
-      if (!rafId) {
-        rafId = requestAnimationFrame(updateScaleAnimation);
-      }
+    if (!showcaseSection || !carousel || !mainCard || !compareContainer) {
+      console.warn('[compare] 必要的 DOM 节点缺失，已跳过脚本初始化。');
       return;
     }
 
-    // 计算区域中心相对于视口中心的偏移
-    const sectionCenter = sectionTop + rect.height / 2;
-    const offset = sectionCenter - viewportCenter;
+    const leftSide = showcaseSection.querySelector('#compareLeftStack');
+    const rightSide = showcaseSection.querySelector('#compareRightStack');
+    const leftImages = leftSide ? leftSide.querySelectorAll('.compare-showcase__card-image') : [];
+    const rightImages = rightSide ? rightSide.querySelectorAll('.compare-showcase__card-image') : [];
+    const beforeVideo = compareContainer.querySelector('.compare-video--before');
+    const afterVideo = compareContainer.querySelector('.compare-video--after');
+    const slider = compareContainer.querySelector('.compare-slider');
 
-    // 定义缩放触发区域
-    const scaleRange = viewportHeight * 0.8; // 缩放过渡范围
+    let resizeRaf = null;
 
-    // 计算缩放进度
-    let progress = 0;
-
-    if (offset > 0) {
-      // 区域中心在视口中心下方（尚未滚动到居中位置）
-      // 从下方进入，逐渐放大
-      progress = Math.max(0, 1 - offset / scaleRange);
-    } else {
-      // 区域中心在视口中心上方或对齐（已经滚动到居中或更上方）
-      // 保持最大缩放，不缩小
-      progress = 1;
-    }
-
-    // 映射到缩放值 (1.0 ~ 1.5)
-    targetScale = minScale + (maxScale - minScale) * progress;
-
-    // 启动平滑动画
-    if (!rafId) {
-      rafId = requestAnimationFrame(updateScaleAnimation);
-    }
-  }
-
-  // ===== 监听页面滚动 =====
-  function handleScroll() {
-    updateScaleBasedOnScroll();
-  }
-
-  // ===== 对比滑块交互逻辑 =====
-  function initCompareSlider() {
-    if (!compareContainer || !slider || !beforeVideo) return;
-
-    const defaultPosition = 50; // 默认 50% 位置
-    let isDragging = false;
-
-    // 更新滑块位置和视频裁剪
-    function updateSliderPosition(percentage) {
-      percentage = Math.max(0, Math.min(100, percentage));
-
-      // 更新滑块位置
-      slider.style.left = `${percentage}%`;
-
-      // 更新前景视频裁剪
-      beforeVideo.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
-    }
-
-    // 从鼠标/触摸事件计算百分比
-    function getPercentageFromEvent(e) {
-      const rect = compareContainer.getBoundingClientRect();
-      const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-      const x = clientX - rect.left;
-      return (x / rect.width) * 100;
-    }
-
-    // 开始拖动
-    function startDrag(e) {
-      isDragging = true;
-      compareContainer.style.cursor = 'ew-resize';
-      e.preventDefault();
-    }
-
-    // 拖动中
-    function onDrag(e) {
-      if (!isDragging) return;
-      const percentage = getPercentageFromEvent(e);
-      updateSliderPosition(percentage);
-    }
-
-    // 结束拖动
-    function stopDrag() {
-      if (isDragging) {
-        isDragging = false;
-        compareContainer.style.cursor = 'grab';
-      }
-    }
-
-    // 桌面端: 鼠标拖动
-    compareContainer.addEventListener('mousedown', startDrag);
-    document.addEventListener('mousemove', onDrag);
-    document.addEventListener('mouseup', stopDrag);
-
-    // 移动端: 触摸拖动
-    compareContainer.addEventListener('touchstart', (e) => {
-      startDrag(e);
-    });
-
-    compareContainer.addEventListener('touchmove', (e) => {
-      if (isDragging) {
-        e.preventDefault();
-        onDrag(e);
-      }
-    }, { passive: false });
-
-    document.addEventListener('touchend', stopDrag);
-
-    // 初始化默认位置
-    updateSliderPosition(defaultPosition);
-  }
-
-  // ===== 根据屏幕宽度切换布局 =====
-  function updateResponsiveLayout() {
-    if (!showcaseSection) return;
-
-    const mobile = isMobileDevice();
-    showcaseSection.classList.toggle('compare-showcase--mobile', mobile);
-
-    if (leftSide) {
-      leftSide.hidden = mobile;
-      if (mobile) {
-        leftSide.setAttribute('aria-hidden', 'true');
-      } else {
-        leftSide.removeAttribute('aria-hidden');
-      }
-    }
-
-    if (rightSide) {
-      rightSide.hidden = mobile;
-      if (mobile) {
-        rightSide.setAttribute('aria-hidden', 'true');
-      } else {
-        rightSide.removeAttribute('aria-hidden');
-      }
-    }
-  }
-
-  // ===== 监听窗口尺寸变化 =====
-  function handleResize() {
-    if (resizeRaf) return;
-
-    resizeRaf = requestAnimationFrame(() => {
-      resizeRaf = null;
-      updateResponsiveLayout();
-      updateScaleBasedOnScroll();
-    });
-  }
-
-  // ===== 标签切换 =====
-  function handleTabClick(event) {
-    const clickedTab = event.target.closest('.compare-showcase__tab');
-    if (!clickedTab || isAnimating) return;
-
-    const toolName = clickedTab.dataset.tool;
-    if (toolName === currentTool) return;
-
-    // 更新标签激活状态
-    tabs.forEach(tab => tab.classList.remove('compare-showcase__tab--active'));
-    clickedTab.classList.add('compare-showcase__tab--active');
-
-    // 切换工具数据
-    currentTool = toolName;
-    currentData = toolsData[currentTool];
-
-    // 使用淡入淡出切换
-    isAnimating = true;
-
-    // 先将所有内容淡出
-    const allImages = carousel.querySelectorAll('.compare-showcase__card-image');
-    const allVideos = carousel.querySelectorAll('.compare-video');
-    [...allImages, ...allVideos].forEach(el => {
-      el.style.transition = 'opacity 0.2s ease';
-      el.style.opacity = '0';
-    });
-
-    // 在内容淡出后切换
-    setTimeout(() => {
+    // ===== 初始化 =====
+    function init() {
       updateCardsDisplay();
-      // 保持当前缩放状态，不重置为 minScale
+      updateResponsiveLayout();
+      attachEventListeners();
+      initCompareSlider();
+      initHoverVideoControl();
+      updateScaleBasedOnScroll();
+    }
+
+    // ===== 更新卡片显示 =====
+    function updateCardsDisplay() {
+      const data = currentData;
+
+      // 更新左侧图片（2张）
+      if (leftImages.length >= 2) {
+        leftImages[0].src = data.sideImages[0].url;
+        leftImages[0].alt = data.sideImages[0].alt;
+        leftImages[1].src = data.sideImages[1].url;
+        leftImages[1].alt = data.sideImages[1].alt;
+      }
+
+      // 更新右侧图片（1张）
+      if (rightImages.length >= 1) {
+        rightImages[0].src = data.sideImages[2].url;
+        rightImages[0].alt = data.sideImages[2].alt;
+      }
+
+      // 更新中央对比视频
+      if (beforeVideo && afterVideo) {
+        const beforeSource = beforeVideo.querySelector('source');
+        const afterSource = afterVideo.querySelector('source');
+
+        beforeSource.src = data.mainVideos.before.url;
+        afterSource.src = data.mainVideos.after.url;
+
+        beforeVideo.load();
+        afterVideo.load();
+      }
+    }
+
+    // ===== 悬浮播放控制 =====
+    function initHoverVideoControl() {
+      if (!mainCard || !beforeVideo || !afterVideo) return;
+
+      // 鼠标进入 - 播放视频
+      mainCard.addEventListener('mouseenter', () => {
+        beforeVideo.play().catch(err => console.log('Before video play error:', err));
+        afterVideo.play().catch(err => console.log('After video play error:', err));
+      });
+
+      // 鼠标离开 - 暂停并重置
+      mainCard.addEventListener('mouseleave', () => {
+        beforeVideo.pause();
+        afterVideo.pause();
+        beforeVideo.currentTime = 0;
+        afterVideo.currentTime = 0;
+      });
+    }
+
+    // ===== 应用缩放效果（平滑跟随滚动）=====
+    function applyScaleTransform(scale) {
+      // 移动端禁用缩放，保持原始尺寸
+      if (isMobileDevice()) {
+        mainCard.style.transform = 'scale(1)';
+        return;
+      }
+
+      // 桌面端更新中央卡片缩放
+      mainCard.style.transform = `scale(${scale})`;
+
+      // 桌面端才处理左右卡片的推开动画
+      if (leftSide && rightSide) {
+        // 计算左右卡片的推开距离（线性映射）
+        // scale 1.0 → 0px, scale 1.5 → maxPushDistance
+        const progress = (scale - minScale) / (maxScale - minScale);
+        const pushDistance = progress * maxPushDistance;
+
+        // 应用视差效果
+        leftSide.style.transform = `translateX(-${pushDistance}px)`;
+        rightSide.style.transform = `translateX(${pushDistance}px)`;
+      }
+    }
+
+    // ===== 使用 RAF 平滑更新缩放（性能优化）=====
+    function updateScaleAnimation() {
+      // 平滑插值（Lerp），避免突变
+      currentScale += (targetScale - currentScale) * 0.15;
+
+      // 应用变换
       applyScaleTransform(currentScale);
 
-      // 立即淡入新内容
-      setTimeout(() => {
-        [...allImages, ...allVideos].forEach(el => {
-          el.style.opacity = '1';
-        });
+      // 如果还有差距，继续下一帧
+      if (Math.abs(targetScale - currentScale) > 0.001) {
+        rafId = requestAnimationFrame(updateScaleAnimation);
+      } else {
+        currentScale = targetScale;
+        rafId = null;
+      }
+    }
 
-        // 重新计算基于当前滚动位置的缩放
+    // ===== 基于滚动位置计算缩放（不劫持滚动）=====
+    function updateScaleBasedOnScroll() {
+      if (!showcaseSection) return;
+      const rect = showcaseSection.getBoundingClientRect();
+      const viewportHeight = window.innerHeight;
+
+      // 计算区域相对于视口的位置
+      const sectionTop = rect.top;
+      const sectionBottom = rect.bottom;
+      const viewportCenter = viewportHeight / 2;
+
+      // 如果区域还未进入视口，保持初始缩放
+      if (sectionBottom < 0 || sectionTop > viewportHeight) {
+        targetScale = minScale;
+        if (!rafId) {
+          rafId = requestAnimationFrame(updateScaleAnimation);
+        }
+        return;
+      }
+
+      // 计算区域中心相对于视口中心的偏移
+      const sectionCenter = sectionTop + rect.height / 2;
+      const offset = sectionCenter - viewportCenter;
+
+      // 定义缩放触发区域
+      const scaleRange = viewportHeight * 0.8; // 缩放过渡范围
+
+      // 计算缩放进度
+      let progress = 0;
+
+      if (offset > 0) {
+        // 区域中心在视口中心下方（尚未滚动到居中位置）
+        // 从下方进入，逐渐放大
+        progress = Math.max(0, 1 - offset / scaleRange);
+      } else {
+        // 区域中心在视口中心上方或对齐（已经滚动到居中或更上方）
+        // 保持最大缩放，不缩小
+        progress = 1;
+      }
+
+      // 映射到缩放值 (1.0 ~ 1.5)
+      targetScale = minScale + (maxScale - minScale) * progress;
+
+      // 启动平滑动画
+      if (!rafId) {
+        rafId = requestAnimationFrame(updateScaleAnimation);
+      }
+    }
+
+    // ===== 监听页面滚动 =====
+    function handleScroll() {
+      updateScaleBasedOnScroll();
+    }
+
+    // ===== 对比滑块交互逻辑 =====
+    function initCompareSlider() {
+      if (!compareContainer || !slider || !beforeVideo) return;
+
+      const defaultPosition = 50; // 默认 50% 位置
+      let isDragging = false;
+
+      // 更新滑块位置和视频裁剪
+      function updateSliderPosition(percentage) {
+        percentage = Math.max(0, Math.min(100, percentage));
+
+        // 更新滑块位置
+        slider.style.left = `${percentage}%`;
+
+        // 更新前景视频裁剪
+        beforeVideo.style.clipPath = `inset(0 ${100 - percentage}% 0 0)`;
+      }
+
+      // 从鼠标/触摸事件计算百分比
+      function getPercentageFromEvent(e) {
+        const rect = compareContainer.getBoundingClientRect();
+        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        const x = clientX - rect.left;
+        return (x / rect.width) * 100;
+      }
+
+      // 开始拖动
+      function startDrag(e) {
+        isDragging = true;
+        compareContainer.style.cursor = 'ew-resize';
+        e.preventDefault();
+      }
+
+      // 拖动中
+      function onDrag(e) {
+        if (!isDragging) return;
+        const percentage = getPercentageFromEvent(e);
+        updateSliderPosition(percentage);
+      }
+
+      // 结束拖动
+      function stopDrag() {
+        if (isDragging) {
+          isDragging = false;
+          compareContainer.style.cursor = 'grab';
+        }
+      }
+
+      // 桌面端: 鼠标拖动
+      compareContainer.addEventListener('mousedown', startDrag);
+      document.addEventListener('mousemove', onDrag);
+      document.addEventListener('mouseup', stopDrag);
+
+      // 移动端: 触摸拖动
+      compareContainer.addEventListener('touchstart', (e) => {
+        startDrag(e);
+      });
+
+      compareContainer.addEventListener('touchmove', (e) => {
+        if (isDragging) {
+          e.preventDefault();
+          onDrag(e);
+        }
+      }, { passive: false });
+
+      document.addEventListener('touchend', stopDrag);
+
+      // 初始化默认位置
+      updateSliderPosition(defaultPosition);
+    }
+
+    // ===== 根据屏幕宽度切换布局 =====
+    function updateResponsiveLayout() {
+      if (!showcaseSection) return;
+
+      const mobile = isMobileDevice();
+      showcaseSection.classList.toggle('compare-showcase--mobile', mobile);
+
+      if (leftSide) {
+        leftSide.hidden = mobile;
+        if (mobile) {
+          leftSide.setAttribute('aria-hidden', 'true');
+        } else {
+          leftSide.removeAttribute('aria-hidden');
+        }
+      }
+
+      if (rightSide) {
+        rightSide.hidden = mobile;
+        if (mobile) {
+          rightSide.setAttribute('aria-hidden', 'true');
+        } else {
+          rightSide.removeAttribute('aria-hidden');
+        }
+      }
+    }
+
+    // ===== 监听窗口尺寸变化 =====
+    function handleResize() {
+      if (resizeRaf) return;
+
+      resizeRaf = requestAnimationFrame(() => {
+        resizeRaf = null;
+        updateResponsiveLayout();
         updateScaleBasedOnScroll();
+      });
+    }
 
-        // 动画完成后清理
+    // ===== 标签切换 =====
+    function handleTabClick(event) {
+      const clickedTab = event.target.closest('.compare-showcase__tab');
+      if (!clickedTab || isAnimating) return;
+
+      const toolName = clickedTab.dataset.tool;
+      if (toolName === currentTool) return;
+
+      // 更新标签激活状态
+      tabs.forEach(tab => tab.classList.remove('compare-showcase__tab--active'));
+      clickedTab.classList.add('compare-showcase__tab--active');
+
+      // 切换工具数据
+      currentTool = toolName;
+      currentData = toolsData[currentTool];
+
+      // 使用淡入淡出切换
+      isAnimating = true;
+
+      // 先将所有内容淡出
+      const allImages = carousel.querySelectorAll('.compare-showcase__card-image');
+      const allVideos = carousel.querySelectorAll('.compare-video');
+      [...allImages, ...allVideos].forEach(el => {
+        el.style.transition = 'opacity 0.2s ease';
+        el.style.opacity = '0';
+      });
+
+      // 在内容淡出后切换
+      setTimeout(() => {
+        updateCardsDisplay();
+        // 保持当前缩放状态，不重置为 minScale
+        applyScaleTransform(currentScale);
+
+        // 立即淡入新内容
         setTimeout(() => {
           [...allImages, ...allVideos].forEach(el => {
-            el.style.transition = '';
+            el.style.opacity = '1';
           });
-          isAnimating = false;
-        }, 200);
-      }, 50);
-    }, 200);
-  }
 
-  // ===== 按钮点击事件 =====
-  function handleRunGenerator() {
-    console.log('Try Comparison clicked for:', currentTool);
-    alert(`Starting ${currentTool.replace('-', ' ')} comparison...`);
-  }
+          // 重新计算基于当前滚动位置的缩放
+          updateScaleBasedOnScroll();
 
-  // ===== 绑定事件监听器 =====
-  function attachEventListeners() {
-    // 监听页面滚动（被动式，不劫持）
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    window.addEventListener('resize', handleResize);
-
-    // 标签切换
-    tabs.forEach(tab => {
-      tab.addEventListener('click', handleTabClick);
-    });
-
-    // 行动号召按钮
-    if (runBtn) {
-      runBtn.addEventListener('click', handleRunGenerator);
+          // 动画完成后清理
+          setTimeout(() => {
+            [...allImages, ...allVideos].forEach(el => {
+              el.style.transition = '';
+            });
+            isAnimating = false;
+          }, 200);
+        }, 50);
+      }, 200);
     }
-  }
 
-  // ===== 启动模块 =====
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
-  }
+    // ===== 按钮点击事件 =====
+    function handleRunGenerator() {
+      console.log('Try Comparison clicked for:', currentTool);
+      alert(`Starting ${currentTool.replace('-', ' ')} comparison...`);
+    }
 
-})();
+    // ===== 绑定事件监听器 =====
+    function attachEventListeners() {
+      // 监听页面滚动（被动式，不劫持）
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      window.addEventListener('resize', handleResize);
+
+      // 标签切换
+      tabs.forEach(tab => {
+        tab.addEventListener('click', handleTabClick);
+      });
+
+      // 行动号召按钮
+      if (runBtn) {
+        runBtn.addEventListener('click', handleRunGenerator);
+      }
+    }
+
+    // ===== 启动模块 =====
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+
+  })();
 </script>
